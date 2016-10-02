@@ -83,7 +83,7 @@ planet = ColumnDataSource(data=dict(lam=lam, cratio=Cratio*1e9, spec=spec*1e9, d
 # BOKEH PLOTTING
 ################################
 
-snr_plot = Figure(plot_height=400, plot_width=800, 
+snr_plot = Figure(plot_height=400, plot_width=750, 
               tools="crosshair,pan,reset,resize,save,box_zoom,wheel_zoom",
               x_range=[0.3, 2.7], y_range=[0, 1], toolbar_location='right')
 snr_plot.x_range = Range1d(0.3, 2.7, bounds=(0.3, 2.7)) 
@@ -101,9 +101,13 @@ def change_filename(attrname, old, new):
    format_button_group.active = None 
 
 
-text_input = TextInput(value="filename", title="File Rootname:", width=100)
+instruction0 = Div(text="""Choose a file rootname here 
+                           (no special characters):""", width=300, height=15)
+text_input = TextInput(value="filename", title=" ", width=100)
+instruction1 = Div(text="""Then choose a format here:""", width=300, height=15)
 format_button_group = RadioButtonGroup(labels=["txt", "fits"])
-link_box  = Div(text="""Your file is <a href='http://www.stsci.edu'>here</a>.""", width=300, height=100)
+instruction2 = Div(text="""Your file will be linked here:""", width=300, height=15)
+link_box  = Div(text=""" """, width=300, height=15)
 
 
 def i_clicked_a_button(new): 
@@ -120,10 +124,10 @@ def i_clicked_a_button(new):
     if (format_button_group.active == 0): ascii.write(t, filename)
  
     os.system('gzip -f ' +filename) 
-    os.system('cp -rp '+filename+'.gz /grp/webpages/tumlinso/')
-    print    """Your file is <a href='http://www.stsci.edu/~tumlinso/"""+filename+""".gz'>"""+filename+""".gz</a>. """
+    os.system('cp -rp '+filename+'.gz /home/jtastro/jt-astro.science/outputs') 
+    print    """Your file is <a href='http://jt-astro.science/outputs/"""+filename+""".gz'>"""+filename+""".gz</a>. """
 
-    link_box.text = """Your file is <a href='http://www.stsci.edu/~tumlinso/"""+filename+""".gz'>"""+filename+""".gz</a>. """
+    link_box.text = """Your file is <a href='http://jt-astro.science/outputs/"""+filename+""".gz'>"""+filename+""".gz</a>. """
 
 
 
@@ -147,6 +151,8 @@ def update_data(attrname, old, new):
     spec = Cratio + np.random.randn(len(Cratio))*sig
     
     planet.data = dict(lam=lam, cratio=Cratio*1e9, spec=spec*1e9, downerr=(spec-sig)*1e9, uperr=(spec+sig)*1e9) 
+
+    format_button_group.active = None 
 
 ######################################
 # SET UP ALL THE WIDGETS AND CALLBACKS 
@@ -181,7 +187,7 @@ exozodi.callback = CustomJS(args=dict(source=source), code="""
 
 oo = column(children=[exptime]) 
 pp = column(children=[distance, radius, semimajor, exozodi]) 
-qq = column(children=[text_input, format_button_group, link_box]) 
+qq = column(children=[instruction0, text_input, instruction1, format_button_group, instruction2, link_box]) 
 
 observation_tab = Panel(child=oo, title='Observation')
 planet_tab = Panel(child=pp, title='Planet')
@@ -192,7 +198,6 @@ for w in [text_input]:
 format_button_group.on_click(i_clicked_a_button) 
 
 
-#inputs = WidgetBox(children=[exptime, distance, radius, semimajor, exozodi]) 
 inputs = Tabs(tabs=[ planet_tab, observation_tab, download_tab ])
 curdoc().add_root(row(children=[inputs, snr_plot])) 
 

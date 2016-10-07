@@ -15,23 +15,17 @@ from bokeh.models.widgets import Slider
 from bokeh.io import hplot, vplot, curdoc
 from bokeh.embed import file_html
 
-# create a new plot
-x = list(range(11))
-y0 = x
-y1 = [10 - i for i in x]
-y2 = [abs(i - 5) for i in x]
-counts_plot = Figure(plot_width=400, plot_height=400, title=None)
-counts_plot.background_fill_color = "beige"
-counts_plot.background_fill_alpha = 0.5
-counts_plot.circle(x, y0, size=10, color="navy", alpha=0.5)
+import Telescope as T 
 
-# Set up data
-# crude numbers taken from Postman's excel spreadsheet 
-wave = np.array([155., 228., 360., 440., 550., 640., 790., 1260., 1600., 2220.]) 
-snr = phot_etc.compute_snr(12., 1., 32.)
-source = ColumnDataSource(data=dict(x=wave[2:-3], y=snr[2:-3], desc=['U','B','V','R','I']))
-source2 = ColumnDataSource(data=dict(x=[155., 228.], y=snr[0:2], desc=['FUV', 'NUV']))
-source3 = ColumnDataSource(data=dict(x=[1260., 1600., 2220.], y=snr[-3:], desc=['J', 'H', 'K']))
+luvoir = T.Telescope(10., 280., 500.) # set up LUVOIR with 10 meters, T = 280, and diff limit at 500 nm 
+hdi = T.Camera()                     # and HDI camera with default bandpasses 
+hdi.set_pixel_sizes(luvoir) 
+
+# set up ColumnDataSources for main SNR plot 
+snr = phot_etc.compute_snr(luvoir, hdi, 1., 32.)
+source = ColumnDataSource(data=dict(x=hdi.pivotwave[2:-3], y=snr[2:-3], desc=hdi.bandnames[2:-3] ))
+source2 = ColumnDataSource(data=dict(x=hdi.pivotwave[0:2], y=snr[0:2], desc=hdi.bandnames[0:2]))
+source3 = ColumnDataSource(data=dict(x=hdi.pivotwave[-3:], y=snr[-3:], desc=hdi.bandnames[-3:]))
 
 hover = HoverTool(point_policy="snap_to_data", 
         tooltips="""
@@ -46,6 +40,7 @@ hover = HoverTool(point_policy="snap_to_data",
         </div>
         """
     )
+
 
 # Set up plot
 snr_plot = Figure(plot_height=400, plot_width=800, 
@@ -75,15 +70,19 @@ magnitude = Slider(title="Magnitude (AB)", value=32.0, start=10.0, end=35.)
 
 def update_data(attrname, old, new):
 
-    a = aperture.value 
+    #a = aperture.value 
     m = magnitude.value
     e = exptime.value
 
-    wave = np.array([155., 228., 360., 440., 550., 640., 790., 1260., 1600., 2220.]) 
-    snr = phot_etc.compute_snr(a, e, m) 
-    source.data = dict(x=wave[2:-3], y=snr[2:-3], size=np.array([0.01,0.02,0.03,0.04,0.05]) * a,  desc=['U','B','V','R','I']) 
-    source2.data = dict(x=[155., 228.], y=snr[0:2], desc=['FUV','NUV']) 
-    source3.data = dict(x=[1260., 1600., 2220.], y=snr[-3:], desc=['J','H','K']) 
+    luvoir.aperture = aperture.value 
+    hdi.set_pixel_sizes(luvoir) # adaptively set the pixel sizes 
+
+    wave = hdi.pivotwave 
+    snr = phot_etc.compute_snr(luvoir, hdi, e, m) 
+    source.data = dict(x=wave[2:-3], y=snr[2:-3], desc=hdi.bandnames[2:-3]) 
+    source2.data = dict(x=hdi.pivotwave[0:2], y=snr[0:2], desc=hdi.bandnames[0:2]) 
+    source3.data = dict(x=hdi.pivotwave[-3:], y=snr[-3:], desc=hdi.bandnames[-3:]) 
+
 
 for w in [aperture, exptime, magnitude]: # iterate on changes to parameters 
     w.on_change('value', update_data)
@@ -91,11 +90,5 @@ for w in [aperture, exptime, magnitude]: # iterate on changes to parameters
 # Set up layouts and add to document
 inputs = WidgetBox(children=[aperture, exptime, magnitude]) 
 curdoc().add_root(row(children=[inputs, snr_plot])) 
-
 script = autoload_server(model=None, app_path="/simple_etc", url="pancho.local:5006")
 #print(script)
-
-
-
-
-

@@ -49,12 +49,15 @@
 
       <div class="row marketing">
         <div class="col-lg-6">
-          <p>This is the basic ETC for photometry in multiband images. <br> Choose your telescope aperture, exposure time, and magnitude. </p>
+          <p>This is the basic ETC for photometry in multiband images. Choose your telescope aperture, exposure time, and magnitude. Given an aperture and magnitude (AB in all bands), choose the exposure time that reaches your desired S/N. To obtain limiting magnitudes given exposure time, set that time and then tune the magnitude to reach your desired limiting S/N.</p>
         </div>
         <div class="col-lg-6">
-          <p>Given an aperture and magnitude (AB in all bands), choose the exposure time that reaches your desired S/N. To obtain limiting magnitudes given exposure time, set that time and then tune the magnitude to reach your desired limiting S/N. </p>
+          <p>The details of these calculations are <a href="SNR_equation.pdf"> here</a>. We assume that the pixel size in each band critically samples the telescope's diffraction limited PSF at the shortest wavelength in that channel. Thermal backgrounds are included for T = 280 K, which substantially affects the K band.</p>
         </div>
       </div>
+
+
+
 
 
       <div class="bk-root"> 

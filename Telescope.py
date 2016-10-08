@@ -6,6 +6,7 @@ import numpy as np
 class Telescope: 
 
     def __init__(self, aperture,temperature,diff_limit_wavelength):
+        self.name = 'LUVOIR' 
         self.aperture = 10. # aperture in meters 
         self.temperature = 270. # temperature in Kelvin 
         self.ota_emissivity = 0.09 # emissivity factor for a TMA 

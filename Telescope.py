@@ -2,6 +2,7 @@
 # define a telescope class 
 
 import numpy as np 
+from astropy.io import ascii 
 
 class Telescope: 
 
@@ -44,5 +45,20 @@ class Camera():
 
 class Spectrograph(): 
 
+    def __init__(self): 
+
         self.name = 'LUMOS' 
+   
+        lumos = ascii.read('LUMOS_vals.dat') 
+        R = 30000. 
+        self.wave = lumos['Wave']
+        self.aeff = lumos['A_eff']
+        self.delta_lambda = self.wave / 30000. #  EXTREMELY ROUGH resel width 
+
+   
+
+
+
+
+
    

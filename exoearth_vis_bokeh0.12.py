@@ -51,6 +51,13 @@ hover = HoverTool(names=["star_points_to_hover"], mode='mouse', point_policy="sn
      tooltips = """ 
         <div>
             <div>
+                <img
+                    src="http://www.stsci.edu/~tumlinso/earth_spec.jpg" height="150" alt="@imgs" width="271"
+                    style="float: left; margin: 0px 15px 15px 0px;"
+                    border="2"
+                ></img>
+            </div>
+            <div>
                 <span style="font-size: 15px; font-weight: bold; color: #696">HIP</span>
                 <span style="font-size: 17px; font-weight: bold; color: #696">@hip</span>
             </div>

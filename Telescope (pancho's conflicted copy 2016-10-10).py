@@ -53,7 +53,7 @@ class Spectrograph():
         R = 30000. 
         self.wave = lumos['Wave']
         self.aeff = lumos['A_eff']
-        self.bef_med = lumos['Med_Res_BEF'] 
+        self.bef_med = lumos['Med_Res_BEF']	# medium resolution background equivalent-flux 
         self.delta_lambda = self.wave / 30000. #  EXTREMELY ROUGH resel width 
 
    

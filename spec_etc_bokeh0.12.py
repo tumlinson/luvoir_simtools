@@ -24,14 +24,17 @@ lumos = T.Spectrograph() # set up LUVOIR with 10 meters, T = 280, and diff limit
 def simulate_exposure(telescope, spectrograph, wave, flux, exptime): 
     print "Attempting to create an exposure for Telescope: ", telescope.name, telescope.aperture, ' m' 
     print "                                 and Spectrograph: ", spectrograph.name
-    #sn1 = ( np.array(flux) * (1.e16) * 100. * (exptime / 0.1) * (telescope.aperture / 12.)**2 ) ** 0.5
 
     # obtain the interpolated effective areas for the input spectrum 
     aeff_interp = np.interp(wave, spectrograph.wave, spectrograph.aeff, left=0., right=0.) * (telescope.aperture/12.)**2 
+    bef_interp = np.interp(wave, spectrograph.wave, spectrograph.bef_med, left=0., right=0.) # background to use 
     phot_energy = const.h.to('erg s').value * const.c.to('cm/s').value / (wave * 1e-8) # now convert from erg cm^-2 s^-1 A^-1  
-    counts = flux / phot_energy * aeff_interp * (exptime*3600.) * (wave / 30000.) 
-    sn2 = counts ** 0.5 # NO BACKGROUND!!!! 
+    source_counts = flux / phot_energy * aeff_interp * (exptime*3600.) * (wave / 30000.) 
+    background_counts = bef_interp / phot_energy * aeff_interp * (exptime*3600.) * (wave / 30000.) 
+    sn2 = source_counts / (source_counts + background_counts)** 0.5 # NO BACKGROUND!!!! 
     return sn2 
+
+
 
 ##### START FOR NEW WAY TO GET TEMPLATE SPECTRA 
 spec_dict = get_pysynphot_spectra.add_spectrum_to_library() 
@@ -46,6 +49,7 @@ signal_to_noise = simulate_exposure(luvoir, lumos, spec_dict[template_to_start_w
 flux_cut = spec_dict[template_to_start_with].flux 
 flux_cut[spec_dict[template_to_start_with].wave < 1100.] = -999.  
 flux_cut[spec_dict[template_to_start_with].wave > 1800.] = -999.  
+
 spectrum_template = ColumnDataSource(data=dict(w=spec_dict[template_to_start_with].wave, f=spec_dict[template_to_start_with].flux, \
                                    w0=spec_dict[template_to_start_with].wave, f0=spec_dict[template_to_start_with].flux, \
                                    flux_cut=flux_cut, sn=signal_to_noise)) 
@@ -53,19 +57,21 @@ spectrum_template = ColumnDataSource(data=dict(w=spec_dict[template_to_start_wit
 # set up the flux plot 
 flux_plot = Figure(plot_height=400, plot_width=800, 
               tools="crosshair,hover,pan,reset,resize,save,box_zoom,wheel_zoom", outline_line_color='black', 
-              x_range=[900, 2000], y_range=[0, 4e-16], toolbar_location='above') 
+              x_range=[900, 2000], y_range=[0, 4e-16], toolbar_location='right') 
 flux_plot.x_range=Range1d(900,2000,bounds=(900,2000)) 
 flux_plot.y_range=Range1d(0,4e-16,bounds=(0,None)) 
 flux_plot.background_fill_color = "beige"
 flux_plot.background_fill_alpha = 0.5 
 flux_plot.yaxis.axis_label = 'Flux' 
 flux_plot.xaxis.axis_label = 'Wavelength' 
-flux_plot.line('w', 'f', source=spectrum_template, line_width=3, line_color='blue', line_alpha=0.3)
+flux_plot.line('w', 'f', source=spectrum_template, line_width=3, line_color='firebrick', line_alpha=0.7, legend='Source Flux')
+flux_plot.line(lumos.wave, lumos.bef_med, line_width=3, line_color='darksalmon', line_alpha=0.7, legend='Background')
+
 
 # set up the flux plot 
 sn_plot = Figure(plot_height=400, plot_width=800, 
               tools="crosshair,hover,pan,reset,resize,save,box_zoom,wheel_zoom", outline_line_color='black', 
-              x_range=[900, 2000], y_range=[0, 40], toolbar_location='above')
+              x_range=[900, 2000], y_range=[0, 40], toolbar_location='right')
 sn_plot.x_range=Range1d(900,2000,bounds=(900,2000)) 
 sn_plot.y_range=Range1d(0,40,bounds=(0,None)) 
 sn_plot.line('w', 'sn', source=spectrum_template, line_width=3, line_color='orange', line_alpha=0.6)
@@ -108,7 +114,7 @@ magnitude = Slider(title="Magnitude", value=21., start=15., end=25.0, step=0.1, 
 magnitude.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-grating = Select(title="Grating", value="G130M", options=["G130M", "G160M"])
+grating = Select(title="Grating", value="G130M (R = 30,000)", options=["G130M (R = 30,000)", "G160M"])
 aperture= Slider(title="Aperture (meters)", value=12., start=2., end=20.0, step=1.0, callback_policy='mouseup')
 aperture.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }

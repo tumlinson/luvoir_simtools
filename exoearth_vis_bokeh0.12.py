@@ -20,7 +20,7 @@ from bokeh.plotting import Figure
 from bokeh.resources import CDN
 from bokeh.client import push_session
 from bokeh.embed import components, file_html
-from bokeh.models import ColumnDataSource, HoverTool, Range1d 
+from bokeh.models import ColumnDataSource, HoverTool, Range1d, Square, Circle 
 from bokeh.layouts import Column, Row, WidgetBox
 from bokeh.models.glyphs import Text 
 from bokeh.models.widgets import Slider, TextInput
@@ -45,7 +45,7 @@ rad_circles = ColumnDataSource(data=dict(x=np.array([0., 0., 0., 0.]), y=np.arra
 
 # Set up plot
 plot1 = Figure(plot_height=800, plot_width=800, x_axis_type = None, y_axis_type = None,
-              tools="pan,reset,resize,save,box_zoom,wheel_zoom", outline_line_color='black', 
+              tools="pan,reset,resize,save,tap,box_zoom,wheel_zoom", outline_line_color='black', 
               x_range=[-50, 50], y_range=[-50, 50], toolbar_location='right')
 hover = HoverTool(names=["star_points_to_hover"], mode='mouse', point_policy="snap_to_data",
      tooltips = """ 
@@ -93,8 +93,9 @@ plot1.border_fill_color = "black"
 plot1.min_border_left = 80
 
 # main glyphs for planet circles  
-plot1.circle('x', 'y', source=star_points, name="star_points_to_hover", \
+star_syms = plot1.circle('x', 'y', source=star_points, name="star_points_to_hover", \
       fill_color='color', line_color='color', radius=0.5, line_alpha=0.5, fill_alpha=0.7)
+star_syms.selection_glyph = Circle(fill_alpha=0.8, fill_color="purple", radius=1.5, line_color='purple', line_width=3)
 
 plot1.text(0.95*0.707*np.array([10., 20., 30., 40.]), 0.707*np.array([10., 20., 30., 40.]), \
      text=['10 pc', '20 pc', '30 pc', '40 pc'], text_color="white", text_font_style='bold', text_font_size='12pt', text_alpha=0.8) 

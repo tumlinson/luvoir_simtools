@@ -87,7 +87,6 @@ cluster_errors.nonselection_glyph = Segment(line_alpha=0.1, line_color='grey', l
 # Set up control widgets
 aperture = Slider(title="Aperture (meters)", value=12., start=4., end=20.0, step=1.0)
 exposure = Slider(title="Exposure Time (hr)", value=1, start=1.0, end=10., step=1.0)
-
 power_law_slider = Slider(title="Power Law Slope", value=0.15, start=0.0, end=1., step=0.05)
 
 

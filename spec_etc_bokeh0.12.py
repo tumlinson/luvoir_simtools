@@ -74,7 +74,7 @@ sn_plot = Figure(plot_height=400, plot_width=800,
               x_range=[900, 2000], y_range=[0, 40], toolbar_location='right')
 sn_plot.x_range=Range1d(900,2000,bounds=(900,2000)) 
 sn_plot.y_range=Range1d(0,40,bounds=(0,None)) 
-sn_plot.line('w', 'sn', source=spectrum_template, line_width=3, line_color='orange', line_alpha=0.6)
+sn_plot.line('w', 'sn', source=spectrum_template, line_width=3, line_color='orange', line_alpha=0.7, legend='S/N per resel')
 sn_plot.background_fill_color = "beige"
 sn_plot.background_fill_alpha = 0.5 
 sn_plot.xaxis.axis_label = 'Wavelength' 

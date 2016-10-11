@@ -49,7 +49,6 @@ class Spectrograph():
 
         self.name = 'LUMOS' 
         lumos = ascii.read('LUMOS_vals.dat') 
-        R = 30000. 
         self.wave = lumos['Wave']
         self.aeff = lumos['A_eff']
         self.bef = lumos['Med_Res_BEF'] 
@@ -57,6 +56,8 @@ class Spectrograph():
         self.low_bef = lumos['Low_Res_BEF'] 
         self.delta_lambda = self.wave / 30000. #  EXTREMELY ROUGH resel width 
         self.lumos_table = lumos 
+        self.mode_name = 'G150M' 
+        self.R = 30000. 
 
     def set_mode(self, mode_name): 
 
@@ -66,28 +67,38 @@ class Spectrograph():
             self.bef = self.lumos_table['Med_Res_BEF'] 
             self.delta_lambda = self.wave / 30000. 
             self.lambda_range = np.array([1000., 1425.]) 
+            self.mode_name = 'G120M' 
+            self.R = 30000. 
           
         if 'G150M' in mode_name: 
             print 'Setting the spectrograph to mode: ', mode_name 
             self.bef = self.lumos_table['Med_Res_BEF'] 
             self.delta_lambda = self.wave / 30000. 
             self.lambda_range = np.array([1225., 1600.]) 
+            self.mode_name = 'G150M' 
+            self.R = 30000. 
           
         if 'G180M' in mode_name: 
             print 'Setting the spectrograph to mode: ', mode_name 
             self.bef = self.lumos_table['Med_Res_BEF'] 
             self.delta_lambda = self.wave / 30000. 
             self.lambda_range = np.array([1550., 1900.]) 
+            self.mode_name = 'G180M' 
+            self.R = 30000. 
           
         if 'G155L' in mode_name: 
             print 'Setting the spectrograph to mode: ', mode_name 
             self.bef = self.lumos_table['Low_Res_BEF'] 
             self.delta_lambda = self.wave / 5000. 
             self.lambda_range = np.array([1000., 2000.]) 
+            self.mode_name = 'G155L' 
+            self.R = 5000.  
 
         if 'G145LL' in mode_name: 
             print 'Setting the spectrograph to mode: ', mode_name 
-            self.bef = self.lumos_table['LL_Res_BEF'] 
+            self.bef = self.lumos_table['LL_mode_BEF'] 
             self.delta_lambda = self.wave / 500. 
             self.lambda_range = np.array([900., 2000.]) 
+            self.mode_name = 'G145LL' 
+            self.R = 500. 
 

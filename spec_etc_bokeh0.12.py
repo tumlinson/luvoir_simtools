@@ -20,20 +20,25 @@ import Telescope as T
 
 luvoir = T.Telescope(10., 280., 500.) # set up LUVOIR with 10 meters, T = 280, and diff limit at 500 nm 
 lumos = T.Spectrograph() # set up LUVOIR with 10 meters, T = 280, and diff limit at 500 nm 
+lumos.set_mode('G120M') 
+
 
 def simulate_exposure(telescope, spectrograph, wave, flux, exptime): 
     print "Attempting to create an exposure for Telescope: ", telescope.name, telescope.aperture, ' m' 
-    print "                                 and Spectrograph: ", spectrograph.name
+    print "                                 and Spectrograph: ", spectrograph.name, " in mode ", spectrograph.mode_name 
 
     # obtain the interpolated effective areas for the input spectrum 
     aeff_interp = np.interp(wave, spectrograph.wave, spectrograph.aeff, left=0., right=0.) * (telescope.aperture/12.)**2 
-    bef_interp = np.interp(wave, spectrograph.wave, spectrograph.bef_med, left=0., right=0.) # background to use 
+    bef_interp = np.interp(wave, spectrograph.wave, spectrograph.bef, left=0., right=0.) # background to use 
     phot_energy = const.h.to('erg s').value * const.c.to('cm/s').value / (wave * 1e-8) # now convert from erg cm^-2 s^-1 A^-1  
-    source_counts = flux / phot_energy * aeff_interp * (exptime*3600.) * (wave / 30000.) 
-    background_counts = bef_interp / phot_energy * aeff_interp * (exptime*3600.) * (wave / 30000.) 
-    sn2 = source_counts / (source_counts + background_counts)** 0.5 # NO BACKGROUND!!!! 
-    return sn2 
+    source_counts = flux / phot_energy * aeff_interp * (exptime*3600.) * (wave / lumos.R) 
 
+    source_counts[(wave < spectrograph.lambda_range[0])] = 0. 
+    source_counts[(wave > spectrograph.lambda_range[1])] = 0. 
+
+    background_counts = bef_interp / phot_energy * aeff_interp * (exptime*3600.) * (wave / lumos.R) 
+    signal_to_noise = source_counts / (source_counts + background_counts)** 0.5 
+    return signal_to_noise 
 
 
 ##### START FOR NEW WAY TO GET TEMPLATE SPECTRA 
@@ -47,8 +52,8 @@ spec_dict[template_to_start_with].flux # <---- these are the variables you need
 signal_to_noise = simulate_exposure(luvoir, lumos, spec_dict[template_to_start_with].wave, spec_dict[template_to_start_with].flux, 1.0) 
 
 flux_cut = spec_dict[template_to_start_with].flux 
-flux_cut[spec_dict[template_to_start_with].wave < 1100.] = -999.  
-flux_cut[spec_dict[template_to_start_with].wave > 1800.] = -999.  
+flux_cut[spec_dict[template_to_start_with].wave < lumos.lambda_range[0]] = -999.  
+flux_cut[spec_dict[template_to_start_with].wave > lumos.lambda_range[0]] = -999.  
 
 spectrum_template = ColumnDataSource(data=dict(w=spec_dict[template_to_start_with].wave, f=spec_dict[template_to_start_with].flux, \
                                    w0=spec_dict[template_to_start_with].wave, f0=spec_dict[template_to_start_with].flux, \
@@ -65,7 +70,9 @@ flux_plot.background_fill_alpha = 0.5
 flux_plot.yaxis.axis_label = 'Flux' 
 flux_plot.xaxis.axis_label = 'Wavelength' 
 flux_plot.line('w', 'f', source=spectrum_template, line_width=3, line_color='firebrick', line_alpha=0.7, legend='Source Flux')
-flux_plot.line(lumos.wave, lumos.bef_med, line_width=3, line_color='darksalmon', line_alpha=0.7, legend='Background')
+flux_plot.line(lumos.wave, lumos.bef, line_width=3, line_color='darksalmon', line_alpha=0.7, legend='Background')
+
+
 
 
 # set up the flux plot 
@@ -80,9 +87,13 @@ sn_plot.background_fill_alpha = 0.5
 sn_plot.xaxis.axis_label = 'Wavelength' 
 sn_plot.yaxis.axis_label = 'S/N per resel' 
 
+
+
 def update_data(attrname, old, new): # use this one for updating pysynphot tempaltes 
    
     print "You have chosen template ", template.value, np.size(spec_dict[template.value].wave) 
+    print 'Selected grating = ', grating.value 
+    lumos.set_mode(grating.value) 
 
     spectrum_template.data['w0'] = spec_dict[template.value].wave 
     spectrum_template.data['f0'] = spec_dict[template.value].flux 
@@ -90,14 +101,14 @@ def update_data(attrname, old, new): # use this one for updating pysynphot tempa
     spectrum_template.data['w'] = np.array(spectrum_template.data['w0']) * (1. + redshift.value)
     spectrum_template.data['f'] = np.array(spectrum_template.data['f0']) * 10.**( (21.-magnitude.value) / 2.5)
 
-    # THIS IS THE ENTIRE S/N CALCULATION 
     luvoir.aperture = aperture.value 
-    signal_to_noise = simulate_exposure(luvoir, lumos,spectrum_template.data['w'], spectrum_template.data['f'], exptime.value) 
+    # THIS IS THE ENTIRE S/N CALCULATION 
+    spectrum_template.data['sn'] = simulate_exposure(luvoir, lumos, spectrum_template.data['w'], spectrum_template.data['f'], exptime.value) 
 
-    spectrum_template.data['sn'] = signal_to_noise 
-    spectrum_template.data['flux_cut'] = (spectrum_template.data['f']) 
-    spectrum_template.data['flux_cut'][np.where(np.array(spectrum_template.data['w']) < 1200.)] = -999.
-    spectrum_template.data['flux_cut'][np.where(np.array(spectrum_template.data['w']) > 1700.)] = -999. 
+    # WANT TO DO THESE CUTS IN THE SUBROUTINE 
+    #spectrum_template.data['flux_cut'] = (spectrum_template.data['f']) 
+    #spectrum_template.data['flux_cut'][np.where(np.array(spectrum_template.data['w']) < 1200.)] = -999.
+    #spectrum_template.data['flux_cut'][np.where(np.array(spectrum_template.data['w']) > 1700.)] = -999. 
 
 # fake source for managing callbacks 
 source = ColumnDataSource(data=dict(value=[]))

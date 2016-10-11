@@ -64,7 +64,7 @@ snr_plot.line('x', 'y', source=source3, line_width=3, line_color='red', line_alp
 snr_plot.circle('x', 'y', source=source3, fill_color='white', line_color='red', size=8) 
 
 # Set up widgets
-aperture= Slider(title="Aperture (meters)", value=12., start=2., end=20.0, step=1.0)
+aperture= Slider(title="Aperture (meters)", value=12., start=2., end=20.0, step=1.0) 
 exptime = Slider(title="Exptime (hours)", value=1., start=0., end=10.0, step=0.1)
 magnitude = Slider(title="Magnitude (AB)", value=32.0, start=10.0, end=35.)
 

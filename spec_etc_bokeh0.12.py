@@ -110,19 +110,21 @@ redshift = Slider(title="Redshift", value=0.0, start=0., end=1.0, step=0.02, cal
 redshift.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-magnitude = Slider(title="Magnitude", value=21., start=15., end=25.0, step=0.1, callback_policy='mouseup')
+magnitude = Slider(title="Magnitude [AB]", value=21., start=15., end=25.0, step=0.1, callback_policy='mouseup')
 magnitude.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-grating = Select(title="Grating", value="G130M (R = 30,000)", options=["G130M (R = 30,000)", "G160M"])
+grating = Select(title="Grating / Setting", value="G150M (R = 30,000)", \
+                 options=["G120M (R = 30,000)", "G150M (R = 30,000)", "G180M (R = 30,000)", "G155L (R = 5,000)", "G145LL (R = 500)"])
 aperture= Slider(title="Aperture (meters)", value=12., start=2., end=20.0, step=1.0, callback_policy='mouseup')
 aperture.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-exptime = Slider(title="exptime", value=1.0, start=0.1, end=10.0, step=0.1, callback_policy='mouseup')
+exptime = Slider(title="Exposure Time [hr]", value=1.0, start=0.1, end=10.0, step=0.1, callback_policy='mouseup')
 exptime.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
+
 
 # iterate on changes to parameters 
 for w in [template, grating]:  w.on_change('value', update_data)

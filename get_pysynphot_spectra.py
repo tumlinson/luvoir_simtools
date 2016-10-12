@@ -1,9 +1,17 @@
 import pysynphot as S 
 import os 
+from astropy.io import ascii
 
 def add_spectrum_to_library(): 
 
    spec_dict = {} 
+
+   tab = ascii.read('10Myr_Starburst_nodust.dat', names=['wave', 'flux'])
+   wave = tab['wave']
+   flux = tab['flux']      
+   sp = S.ArraySpectrum(wave=wave, flux=flux, waveunits='Angstrom', fluxunits='flam')
+   s99 = sp.renorm(21., 'abmag', S.ObsBandpass('galex,fuv'))
+   spec_dict['10 Myr Starburst'] = s99 
 
    filename_qso = os.path.join(os.environ['PYSYN_CDBS'], 'grid', 'agn', 'qso_template.fits')
    qso = S.FileSpectrum(filename_qso)

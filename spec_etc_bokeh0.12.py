@@ -115,7 +115,7 @@ source = ColumnDataSource(data=dict(value=[]))
 source.on_change('data', update_data)
 
 # Set up widgets and their callbacks (faking the mouseup policy via "source" b/c functional callback doesn't do that. 
-template = Select(title="Template Spectrum", value="QSO", options=["QSO", "O5V Star", "G2V Star", "Orion Nebula", \
+template = Select(title="Template Spectrum", value="QSO", options=["QSO", "10 Myr Starburst", "O5V Star", "G2V Star", "Orion Nebula", \
                             "Starburst, No Dust", "Starburst, E(B-V) = 0.6"])
 redshift = Slider(title="Redshift", value=0.0, start=0., end=1.0, step=0.02, callback_policy='mouseup')
 redshift.callback = CustomJS(args=dict(source=source), code="""

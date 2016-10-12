@@ -6,10 +6,18 @@ def add_spectrum_to_library():
 
    spec_dict = {} 
 
+   tab = ascii.read('CTTS_etc_d140pc_101116.txt', names=['wave','flux']) 
+   sp = S.ArraySpectrum(wave=tab['wave'], flux=tab['flux'], waveunits='Angstrom', fluxunits='flam')
+   ctts = sp.renorm(21., 'abmag', S.ObsBandpass('galex,fuv'))
+   spec_dict['Classical T Tauri'] = ctts 
+
+   tab = ascii.read('dM1_etc_d5pc_101116.txt', names=['wave','flux']) 
+   sp = S.ArraySpectrum(wave=tab['wave'], flux=tab['flux'], waveunits='Angstrom', fluxunits='flam')
+   Mdwarf = sp.renorm(21., 'abmag', S.ObsBandpass('galex,fuv'))
+   spec_dict['M1 Dwarf'] = Mdwarf 
+
    tab = ascii.read('10Myr_Starburst_nodust.dat', names=['wave', 'flux'])
-   wave = tab['wave']
-   flux = tab['flux']      
-   sp = S.ArraySpectrum(wave=wave, flux=flux, waveunits='Angstrom', fluxunits='flam')
+   sp = S.ArraySpectrum(wave=tab['wave'], flux=tab['flux'], waveunits='Angstrom', fluxunits='flam')
    s99 = sp.renorm(21., 'abmag', S.ObsBandpass('galex,fuv'))
    spec_dict['10 Myr Starburst'] = s99 
 

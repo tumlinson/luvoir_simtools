@@ -1,4 +1,12 @@
-''' 
+''' Present an interactive function explorer with slider widgets.
+Scrub the sliders to change the properties of the ``sin`` curve, or
+type into the title text box to update the title of the plot.
+Use the ``bokeh serve`` command to run the example by executing:
+    bokeh serve sliders.py
+at your command prompt. Then navigate to the URL
+    http://localhost:5006/sliders
+in your browser.
+ 
 this is run by typing "bokeh serve --show myapp.py" on the command line 
 '''
 import numpy as np
@@ -21,6 +29,7 @@ from bokeh.models.callbacks import CustomJS
 
 
 targets = Table.read('data/stark_yields/run_12.0_1.00E-10_1.5_0.10_3.0.fits') 
+targets['TESTCOLOR'] = 'red' 
 col = copy.deepcopy(targets['TYPE'][0]) 
 col[:] = 'black' 
 col[np.where(targets['COMPLETENESS'][0] > 0.2)] = 'red' 
@@ -30,11 +39,7 @@ col[np.where(targets['COMPLETENESS'][0] > 0.8)] = 'lightgreen'
 totyield = np.sum(targets['COMPLETENESS'][0] * 0.1) 
 
 
-# x0,y0 = original positons, will not be changed 
-# x,y = positions that will be modified to hide C = 0 stars in view 
-print 'LKJSDFLKJ', np.size(targets['Y'][0]) 
-print 'LKJSDFLKJ', np.size(targets['X'][0]) 
-star_points = ColumnDataSource(data=dict(x0=targets['X'][0], y0=targets['Y'][0], x=targets['X'][0], y=targets['Y'][0], r=targets['DISTANCE'][0], \
+star_points = ColumnDataSource(data=dict(x=targets['X'][0], y=targets['Y'][0], r=targets['DISTANCE'][0], \
          stype=targets['TYPE'][0], hip=targets['HIP'][0], color=col, complete=targets['COMPLETENESS'][0]))
 rad_circles = ColumnDataSource(data=dict(x=np.array([0., 0., 0., 0.]), y=np.array([0., 0., 0., 0.]), cfrac=[0., 0., 0., 0.], fillcolor=['black', 'black','black','0.342']))
 
@@ -108,7 +113,7 @@ sym = plot1.circle('x', 'y', source=rad_circles, fill_color='fillcolor', line_co
            line_width=4, radius=[40,30,20,10], line_alpha=0.8, fill_alpha=0.0) 
 sym.glyph.line_dash = [6, 6]
 
-junk_points = ColumnDataSource(data=dict(x=np.arange(21), y=np.zeros(21))) 
+junk_points = ColumnDataSource(data=dict(x=np.array([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]), y=np.array([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])))
 plot2 = Figure(plot_height=400, plot_width=450, tools="pan,resize, reset,save", outline_line_color='black', 
               x_range=[0, 20], y_range=[0, 1], toolbar_location='right', title='Detections of 10% Phenomena') 
 plot2.title.text_font_size = '14pt' 
@@ -127,24 +132,25 @@ plot2.circle('x', 'y', source=junk_points, \
 plot2.line('x', 'y', source=junk_points, line_color='purple', line_alpha=0.5) 
 
 
-rect_points = ColumnDataSource(data=dict(top=[totyield/2.-50., 9000, 9000], bottom=[-49.8, 8800, 8800], left=[-49.8, 8800, 9000], strbag=' ', right=[-45, 8800, 9200])) 
+#rect_points = ColumnDataSource(data=dict(top=[totyield/2.-50., 9000, 9000], bottom=[-49.8, 8800, 8800], left=[-49.8, 8800, 9000], strbag=' ', right=[-45, 8800, 9200])) 
        
-plot1.quad(top="top", bottom="bottom", left="left", right="right", source=rect_points, color="lightgreen", fill_alpha=0.5, line_alpha=0.) 
-plot1.quad(top=49.9, bottom=-49.9, left=-49.8, right=-45, line_color="lightgreen", line_width=3, fill_alpha=0.0) # open box 
-plot1.circle([-47.4], 'top',source=rect_points, radius=1.8, fill_alpha=0.5, fill_color='lightgreen')
-plot1.text([-47.5], [-50], ['0'], text_color="white", text_align="center") 
-plot1.text([-47.5], [-25], ['50'], text_color="white", text_align="center") 
-plot1.text([-47.5], [0], ['100'], text_color="white", text_align="center") 
-plot1.text([-47.5], [25], ['150'], text_color="white", text_align="center") 
-plot1.text([-47.5], [47], ['200'], text_color="white", text_align="center") 
-plot1.text([-42.5], [47], ['ExoEarth Yield'], text_color="white", text_align="left") 
+#plot1.quad(top="top", bottom="bottom", left="left", right="right", source=rect_points, color="lightgreen", fill_alpha=0.5, line_alpha=0.) 
+#plot1.quad(top=49.9, bottom=-49.9, left=-49.8, right=-45, line_color="lightgreen", line_width=3, fill_alpha=0.0) # open box 
+#plot1.circle([-47.4], 'top',source=rect_points, radius=1.8, fill_alpha=0.5, fill_color='lightgreen')
+#plot1.text([-47.5], [-50], ['0'], text_color="white", text_align="center") 
+#plot1.text([-47.5], [-25], ['50'], text_color="white", text_align="center") 
+#plot1.text([-47.5], [0], ['100'], text_color="white", text_align="center") 
+#plot1.text([-47.5], [25], ['150'], text_color="white", text_align="center") 
+#plot1.text([-47.5], [47], ['200'], text_color="white", text_align="center") 
+#plot1.text([-42.5], [47], ['ExoEarth Yield'], text_color="white", text_align="left") 
 
       
 def update_data(attrname, old, new):
-
+ 
+    # Get the current slider values
     a = aperture.value 
-    c = contrast.value 
-    i = iwa.value 
+    c = contrast.value
+    i = iwa.value
 
     print 'APERTURE A = ', a, ' CONTRAST C = ', c, ' IWA I = ', i 
     apertures = {'4.0':'4.0','4':'4.0','8':'8.0','12':'12.0','12.0':'12.0','16':'16.0', '20':'20.0'} 
@@ -152,27 +158,21 @@ def update_data(attrname, old, new):
     targets = Table.read('data/stark_yields/'+'run_'+apertures[str(a)]+'_'+contrasts[str(c)]+'_1.5_0.10_3.0.fits') 
     star_points.data['complete'] = np.array(targets['COMPLETENESS'][0]) 
 
-    # colors corresponding to yields are updated here 
+# total yields updated here 
+
     col = copy.deepcopy(targets['TYPE'][0]) 
     col[:] = 'black' 
-    col[np.where(targets['COMPLETENESS'][0] < 0.2)] = 'black' 
     col[np.where(targets['COMPLETENESS'][0] > 0.2)] = 'red' 
     col[np.where(targets['COMPLETENESS'][0] > 0.5)] = 'yellow' 
     col[np.where(targets['COMPLETENESS'][0] > 0.8)] = 'lightgreen' 
     star_points.data['color'] = col
 
-    # reset the positions and hide the low completion stars by shifting their X 
-    star_points.data['x'] = star_points.data['x0'] 
-    star_points.data['y'] = star_points.data['y0'] 
-    x = copy.deepcopy(targets['X'][0]) 
-    x[col == 'black'] = x[col == 'black'] + 2000. 
-    star_points.data['x'] = x 
-    
     yield_now = np.sum(targets['COMPLETENESS'][0]) * 0.1 
     rect_points.data['top'] = np.array([yield_now,a,a])/2. - 50. 
     rect_points.data['strbag'] = str(np.sum(np.array(targets['COMPLETENESS'][0]))) 
 
-    # this is the binomial yield stuff 
+    # can simply modify star_points, no need to regenerate it from scratch 
+
     d = np.random.binomial(yield_now, 0.1, 10000)
     d0 = np.size(np.where(d == 0)) / 10000. 
     d1 = np.size(np.where(d == 1)) / 10000. 
@@ -197,8 +197,6 @@ def update_data(attrname, old, new):
     d20= np.size(np.where(d == 20)) / 10000. 
       
     junk_points.data['y'] = np.array([d0,d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,d12,d13,d14,d15,d16,d17,d18,d19,d20]) 
-
-
 
 source = ColumnDataSource(data=dict(value=[]))
 source.on_change('data', update_data)

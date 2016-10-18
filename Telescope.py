@@ -48,7 +48,7 @@ class Spectrograph():
     def __init__(self): 
 
         self.name = 'LUMOS' 
-        lumos = ascii.read('LUMOS_vals.dat') 
+        lumos = ascii.read('data/LUMOS_vals.dat') 
         self.wave = lumos['Wave']
         self.aeff = lumos['A_eff']
         self.bef = lumos['Med_Res_BEF'] 

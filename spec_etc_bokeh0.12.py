@@ -121,7 +121,7 @@ redshift = Slider(title="Redshift", value=0.0, start=0., end=1.0, step=0.02, cal
 redshift.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-magnitude = Slider(title="Magnitude [AB]", value=21., start=15., end=25.0, step=0.1, callback_policy='mouseup')
+magnitude = Slider(title="Magnitude [AB]", value=21., start=15., end=30.0, step=0.1, callback_policy='mouseup')
 magnitude.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)

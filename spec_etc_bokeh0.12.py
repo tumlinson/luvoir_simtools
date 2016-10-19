@@ -103,12 +103,14 @@ def update_data(attrname, old, new): # use this one for updating pysynphot tempa
 
     luvoir.aperture = aperture.value 
     # THIS IS THE ENTIRE S/N CALCULATION 
-    spectrum_template.data['sn'] = simulate_exposure(luvoir, lumos, spectrum_template.data['w'], spectrum_template.data['f'], exptime.value) 
+    sn = np.nan_to_num(simulate_exposure(luvoir, lumos, spectrum_template.data['w'], spectrum_template.data['f'], exptime.value)) 
+    spectrum_template.data['sn'] = sn
 
-    # WANT TO DO THESE CUTS IN THE SUBROUTINE 
-    #spectrum_template.data['flux_cut'] = (spectrum_template.data['f']) 
-    #spectrum_template.data['flux_cut'][np.where(np.array(spectrum_template.data['w']) < 1200.)] = -999.
-    #spectrum_template.data['flux_cut'][np.where(np.array(spectrum_template.data['w']) > 1700.)] = -999. 
+    # set the axes to autoscale appropriately 
+    flux_plot.y_range.start = 0 
+    flux_plot.y_range.end = 1.5*np.max(spectrum_template.data['f'])
+    sn_plot.y_range.start = 0 
+    sn_plot.y_range.end = 1.3*np.max(sn) 
 
 # fake source for managing callbacks 
 source = ColumnDataSource(data=dict(value=[]))

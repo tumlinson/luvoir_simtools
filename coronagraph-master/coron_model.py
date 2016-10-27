@@ -78,7 +78,7 @@ global Ts
 # Read-in Earth spectrum file to start 
 whichplanet = 'Earth'
 if whichplanet == 'Earth':
-   fn = 'coronagraph-master/planets/earth_quadrature_radiance_refl.dat'
+   fn = 'planets/earth_quadrature_radiance_refl.dat'
    model = np.loadtxt(fn, skiprows=8)
    lamhr = model[:,0]
    radhr = model[:,1]

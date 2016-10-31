@@ -12,7 +12,7 @@ from bokeh.plotting import Figure
 from bokeh.resources import CDN
 from bokeh.client import push_session
 from bokeh.embed import components, file_html
-from bokeh.models import ColumnDataSource, HoverTool, Range1d, Square, Circle 
+from bokeh.models import ColumnDataSource, HoverTool, Range1d, Square, Circle, LabelSet, FixedTicker 
 from bokeh.layouts import Column, Row, WidgetBox
 from bokeh.models.glyphs import Text 
 from bokeh.models.widgets import Slider, TextInput
@@ -20,7 +20,7 @@ from bokeh.io import hplot, vplot, curdoc
 from bokeh.models.callbacks import CustomJS
 
 
-targets = Table.read('data/stark_multiplanet/run_12.0_1.00E-10_3.6_0.1_3.0.fits')  
+targets = Table.read('data/stark_multiplanet/run_4.0_1.00E-10_3.6_0.1_3.0.fits')  
 col = copy.deepcopy(targets['TYPE'][0]) 
 col[:] = 'black' 
 col[np.where(targets['COMPLETENESS'][0] > 0.2*0.1)] = 'red' 
@@ -31,33 +31,38 @@ totyield = np.sum(targets['COMPLETENESS'][0] * 0.1)
 
 # x0,y0 = original positons, will not be changed 
 # x,y = positions that will be modified to hide C = 0 stars in view 
-star_points = ColumnDataSource(data=dict(x0=targets['X'][0], \
-                                         y0=targets['Y'][0], \
-                                         x =targets['X'][0], \
-                                         y =targets['Y'][0], \
-                                         r =targets['DISTANCE'][0], \
+star_points = ColumnDataSource(data=dict(x0 = targets['X'][0], \
+                                         y0 = targets['Y'][0], \
+                                         x  = targets['X'][0], \
+                                         y  = targets['Y'][0], \
+                                         r  = targets['DISTANCE'][0], \
                                          stype=targets['TYPE'][0], \
                                          hip=targets['HIP'][0], \
                                          color=col, \
                                          complete=targets['COMPLETENESS'][0], \
-                                         complete0=targets['MPCOMPLETENESS'][0][0], \
-                                         complete1=targets['MPCOMPLETENESS'][0][1], \
-                                         complete2=targets['MPCOMPLETENESS'][0][2], \
-                                         complete3=targets['MPCOMPLETENESS'][0][3], \
-                                         complete4=targets['MPCOMPLETENESS'][0][4], \
-                                         complete5=targets['MPCOMPLETENESS'][0][5], \
-                                         complete6=targets['MPCOMPLETENESS'][0][6], \
-                                         complete7=targets['MPCOMPLETENESS'][0][7], \
-                                         complete8=targets['MPCOMPLETENESS'][0][8]  \
+                                         complete0=targets['COMPLETE0'][0], \
+                                         complete1=targets['COMPLETE1'][0], \
+                                         complete2=targets['COMPLETE2'][0], \
+                                         complete3=targets['COMPLETE3'][0], \
+                                         complete4=targets['COMPLETE4'][0], \
+                                         complete5=targets['COMPLETE5'][0], \
+                                         complete6=targets['COMPLETE6'][0], \
+                                         complete7=targets['COMPLETE7'][0], \
+                                         complete8=targets['COMPLETE8'][0]  \
                                          )) # end of the stars CDS 
 
-rad_circles = ColumnDataSource(data=dict(x=np.array([0., 0., 0., 0.]), y=np.array([0., 0., 0., 0.]), cfrac=[0., 0., 0., 0.], fillcolor=['black', 'black','black','0.342']))
+
+
+rad_circles = ColumnDataSource(data=dict(x=np.array([0., 0., 0., 0.]), \
+                  y=np.array([0., 0., 0., 0.]), cfrac=[0., 0., 0., 0.], \
+                  fillcolor=['black', 'black','black','0.342']))
 
 # Set up plot
 plot1 = Figure(plot_height=800, plot_width=800, x_axis_type = None, y_axis_type = None,
               tools="pan,reset,resize,save,tap,box_zoom,wheel_zoom", outline_line_color='black', 
               x_range=[-50, 50], y_range=[-50, 50], toolbar_location='right')
-hover = HoverTool(names=["star_points_to_hover"], mode='mouse', point_policy="snap_to_data",
+
+hover = HoverTool(names=["star_points_to_hover"], mode='mouse', # point_policy="snap_to_data",
      tooltips = """ 
         <div>
             <div>
@@ -84,7 +89,7 @@ hover = HoverTool(names=["star_points_to_hover"], mode='mouse', point_policy="sn
                 <span style="font-size: 20px; font-weight: bold; color: #696">C = </span>
                 <span style="font-size: 20px; font-weight: bold; color: #696;">@complete</span>
             </div>
-            <span style="font-size: 25px; font-weight: bold; color: #696">-----Rocky-----</span>
+            <span style="font-size: 25px; font-weight: bold; color: #696">_____Rocky_____</span>
             <div>
                 <span style="font-size: 20px; font-weight: bold; color: #696">Hot = </span>
                 <span style="font-size: 20px; font-weight: bold; color: #696;">@complete0</span>
@@ -97,7 +102,7 @@ hover = HoverTool(names=["star_points_to_hover"], mode='mouse', point_policy="sn
                 <span style="font-size: 20px; font-weight: bold; color: #696">Cold = </span>
                 <span style="font-size: 20px; font-weight: bold; color: #696;">@complete2</span>
             </div>
-            <span style="font-size: 25px; font-weight: bold; color: #696">-----Neptunes-----</span>
+            <span style="font-size: 25px; font-weight: bold; color: #696">_____Neptunes_____</span>
             <div>
                 <span style="font-size: 20px; font-weight: bold; color: #696">Hot = </span>
                 <span style="font-size: 20px; font-weight: bold; color: #696;">@complete3</span>
@@ -110,7 +115,7 @@ hover = HoverTool(names=["star_points_to_hover"], mode='mouse', point_policy="sn
                 <span style="font-size: 20px; font-weight: bold; color: #696">Cold = </span>
                 <span style="font-size: 20px; font-weight: bold; color: #696;">@complete5</span>
             </div>
-            <span style="font-size: 25px; font-weight: bold; color: #696">-----Jupiters-----</span>
+            <span style="font-size: 25px; font-weight: bold; color: #696">_____Jupiters_____</span>
             <div>
                 <span style="font-size: 20px; font-weight: bold; color: #696">Hot = </span>
                 <span style="font-size: 20px; font-weight: bold; color: #696;">@complete6</span>
@@ -131,7 +136,7 @@ hover = plot1.select(dict(type=HoverTool))
 plot1.x_range=Range1d(-50,50,bounds=(-50,50)) 
 plot1.y_range=Range1d(-50,50,bounds=(-50,50)) 
 plot1.background_fill_color = "black"
-plot1.background_fill_alpha = 1.0
+plot1.background_fill_alpha = 0.9
 plot1.yaxis.axis_label = 'Yield' 
 plot1.xaxis.axis_label = ' ' 
 plot1.xaxis.axis_line_width = 0
@@ -162,38 +167,33 @@ sym = plot1.circle('x', 'y', source=rad_circles, fill_color='fillcolor', line_co
            line_width=4, radius=[40,30,20,10], line_alpha=0.8, fill_alpha=0.0) 
 sym.glyph.line_dash = [6, 6]
 
+
+
+
+
 junk_points = ColumnDataSource(data=dict(x=np.arange(21), y=np.zeros(21))) 
-plot2 = Figure(plot_height=400, plot_width=450, tools="pan,resize, reset,save", outline_line_color='black', 
-              x_range=[0, 20], y_range=[0, 1], toolbar_location='right', title='Detections of 10% Phenomena') 
+plot2 = Figure(plot_height=400, plot_width=450, tools=" ", outline_line_color='black', \
+              x_range=[0, 4], y_range=[0, 4], toolbar_location='left', x_axis_type=None, y_axis_type=None, \
+              title='                        Multiplanet Yields') 
+#plot2.xaxis[0].ticker = FixedTicker(ticks=[0.5,2.,3.5], labels=['Hot','Warm','Cold']) 
 plot2.title.text_font_size = '14pt' 
-plot2.background_fill_color = "beige"
+plot2.background_fill_color = "white"
 plot2.background_fill_alpha = 0.5 
-plot2.yaxis.axis_label = 'Probability' 
-plot2.xaxis.axis_label = 'Number of Detections' 
-plot2.xaxis.axis_line_width = 2
-plot2.yaxis.axis_line_width = 2 
-plot2.xaxis.axis_line_color = 'black' 
-plot2.yaxis.axis_line_color = 'black' 
+plot2.yaxis.axis_label = ' ' 
+plot2.xaxis.axis_label = ' ' 
+plot2.xaxis.axis_line_width = 0
+plot2.yaxis.axis_line_width = 0 
+plot2.xaxis.axis_line_color = 'white' 
+plot2.yaxis.axis_line_color = 'white' 
 plot2.border_fill_color = "white"
 plot2.min_border_left = 0
-plot2.circle('x', 'y', source=junk_points, \
-      fill_color='purple', radius=0.1, line_alpha=0.5, fill_alpha=1.0)
-plot2.line('x', 'y', source=junk_points, line_color='purple', line_alpha=0.5) 
 
 
-#rect_points = ColumnDataSource(data=dict(top=[totyield/2.-50., 9000, 9000], bottom=[-49.8, 8800, 8800], left=[-49.8, 8800, 9000], strbag=' ', right=[-45, 8800, 9200])) 
-       
-#plot1.quad(top="top", bottom="bottom", left="left", right="right", source=rect_points, color="lightgreen", fill_alpha=0.5, line_alpha=0.) 
-#plot1.quad(top=49.9, bottom=-49.9, left=-49.8, right=-45, line_color="lightgreen", line_width=3, fill_alpha=0.0) # open box 
-#plot1.circle([-47.4], 'top',source=rect_points, radius=1.8, fill_alpha=0.5, fill_color='lightgreen')
-#plot1.text([-47.5], [-50], ['0'], text_color="white", text_align="center") 
-#plot1.text([-47.5], [-25], ['50'], text_color="white", text_align="center") 
-#plot1.text([-47.5], [0], ['100'], text_color="white", text_align="center") 
-#plot1.text([-47.5], [25], ['150'], text_color="white", text_align="center") 
-#plot1.text([-47.5], [47], ['200'], text_color="white", text_align="center") 
-#plot1.text([-42.5], [47], ['ExoEarth Yield'], text_color="white", text_align="left") 
+# this will place labels in the small plot  
+yield_label = ColumnDataSource(data=dict(labels=["0","0","0","0","0","0","0","0","0"], \
+                                         xvals =[0.5,2.0,3.5,0.5,2.,3.5,0.5,2.,3.5], yvals =[3.,3.,3.,2.,2.,2.,1.,1.,1.,])) 
+plot2.add_glyph(yield_label, Text(x="xvals", y="yvals", text="labels", text_align='center', text_font_size='16pt'))
 
-      
 def update_data(attrname, old, new):
 
     a = aperture.value 
@@ -203,8 +203,23 @@ def update_data(attrname, old, new):
     print 'APERTURE A = ', a, ' CONTRAST C = ', c, ' IWA I = ', i 
     apertures = {'4.0':'4.0','4':'4.0','6':'6.0','6.0':'6.0','8':'8.0','8.0':'8.0','10':'10.0','10.0':'10.0','12':'12.0','12.0':'12.0','14':'14.0','14.0':'14.0','16':'16.0'} 
     contrasts = {'-11':'1.00E-11','-10':'1.00E-10','-9':'1.00E-09'} 
-    targets = Table.read('data/stark_multiplanet/'+'run_'+apertures[str(a)]+'_'+contrasts[str(c)]+'_3.6_0.1_3.0.fits') 
+    filename = 'data/stark_multiplanet/'+'run_'+apertures[str(a)]+'_'+contrasts[str(c)]+'_3.6_0.1_3.0.fits' 
+    targets = Table.read(filename) 
     star_points.data['complete'] = np.array(targets['COMPLETENESS'][0]) 
+
+    print 'data/stark_multiplanet/'+'run_'+apertures[str(a)]+'_'+contrasts[str(c)]+'_3.6_0.1_3.0.fits' 
+    print 'that star', targets['HIP'][0][832], targets['COMPLETE0'][0][832] 
+
+    yield_label.data['labels'] = [str(targets['COMPLETE0'][0][832])[0:5], \
+                                  str(targets['COMPLETE1'][0][832])[0:5], \
+                                  str(targets['COMPLETE2'][0][832])[0:5], \
+                                  str(targets['COMPLETE3'][0][832])[0:5], \
+                                  str(targets['COMPLETE4'][0][832])[0:5], \
+                                  str(targets['COMPLETE5'][0][832])[0:5], \
+                                  str(targets['COMPLETE6'][0][832])[0:5], \
+                                  str(targets['COMPLETE7'][0][832])[0:5], \
+                                  str(targets['COMPLETE8'][0][832])[0:5]] 
+
 
     # colors corresponding to yields are updated here 
     col = copy.deepcopy(targets['TYPE'][0]) 
@@ -223,9 +238,19 @@ def update_data(attrname, old, new):
     star_points.data['x'] = x 
     
     yield_now = np.sum(targets['COMPLETENESS'][0]) * 0.1 
-    rect_points.data['top'] = np.array([yield_now,a,a])/2. - 50. 
-    rect_points.data['strbag'] = str(np.sum(np.array(targets['COMPLETENESS'][0]))) 
+    #rect_points.data['top'] = np.array([yield_now,a,a])/2. - 50. 
+    #rect_points.data['strbag'] = str(np.sum(np.array(targets['COMPLETENESS'][0]))) 
 
+    star_points.data['COMPLETE0'] = np.array(targets['COMPLETE0'][0]) 
+    star_points.data['COMPLETE1'] = np.array(targets['COMPLETE1'][0]) 
+    star_points.data['COMPLETE2'] = np.array(targets['COMPLETE2'][0]) 
+    star_points.data['COMPLETE3'] = np.array(targets['COMPLETE3'][0]) 
+    star_points.data['COMPLETE4'] = np.array(targets['COMPLETE4'][0]) 
+    star_points.data['COMPLETE5'] = np.array(targets['COMPLETE5'][0]) 
+    star_points.data['COMPLETE6'] = np.array(targets['COMPLETE6'][0]) 
+    star_points.data['COMPLETE7'] = np.array(targets['COMPLETE7'][0]) 
+    star_points.data['COMPLETE8'] = np.array(targets['COMPLETE8'][0]) 
+    
     # this is the binomial yield stuff 
     d = np.random.binomial(yield_now, 0.1, 10000)
     d0 = np.size(np.where(d == 0)) / 10000. 
@@ -253,12 +278,11 @@ def update_data(attrname, old, new):
     junk_points.data['y'] = np.array([d0,d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,d12,d13,d14,d15,d16,d17,d18,d19,d20]) 
 
 
-
 source = ColumnDataSource(data=dict(value=[]))
 source.on_change('data', update_data)
     
 # Set up widgets
-aperture= Slider(title="Aperture (meters)", value=12., start=4., end=16.0, step=2.0, callback_policy='mouseup')
+aperture= Slider(title="Aperture (meters)", value=4., start=4., end=16.0, step=2.0, callback_policy='mouseup')
 aperture.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)

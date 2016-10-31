@@ -52,6 +52,9 @@ star_points = ColumnDataSource(data=dict(x0 = targets['X'][0], \
                                          )) # end of the stars CDS 
 
 
+black_points = [star_points.data['color'] == 'black'] 
+star_points.data['x'][black_points] += 2000. 
+
 
 rad_circles = ColumnDataSource(data=dict(x=np.array([0., 0., 0., 0.]), \
                   y=np.array([0., 0., 0., 0.]), cfrac=[0., 0., 0., 0.], \
@@ -89,45 +92,6 @@ hover = HoverTool(names=["star_points_to_hover"], mode='mouse', # point_policy="
                 <span style="font-size: 20px; font-weight: bold; color: #696">C = </span>
                 <span style="font-size: 20px; font-weight: bold; color: #696;">@complete</span>
             </div>
-            <span style="font-size: 25px; font-weight: bold; color: #696">_____Rocky_____</span>
-            <div>
-                <span style="font-size: 20px; font-weight: bold; color: #696">Hot = </span>
-                <span style="font-size: 20px; font-weight: bold; color: #696;">@complete0</span>
-            </div>
-            <div>
-                <span style="font-size: 20px; font-weight: bold; color: #696">Warm = </span>
-                <span style="font-size: 20px; font-weight: bold; color: #696;">@complete1</span>
-            </div>
-            <div>
-                <span style="font-size: 20px; font-weight: bold; color: #696">Cold = </span>
-                <span style="font-size: 20px; font-weight: bold; color: #696;">@complete2</span>
-            </div>
-            <span style="font-size: 25px; font-weight: bold; color: #696">_____Neptunes_____</span>
-            <div>
-                <span style="font-size: 20px; font-weight: bold; color: #696">Hot = </span>
-                <span style="font-size: 20px; font-weight: bold; color: #696;">@complete3</span>
-            </div>
-            <div>
-                <span style="font-size: 20px; font-weight: bold; color: #696">Warm = </span>
-                <span style="font-size: 20px; font-weight: bold; color: #696;">@complete4</span>
-            </div>
-            <div>
-                <span style="font-size: 20px; font-weight: bold; color: #696">Cold = </span>
-                <span style="font-size: 20px; font-weight: bold; color: #696;">@complete5</span>
-            </div>
-            <span style="font-size: 25px; font-weight: bold; color: #696">_____Jupiters_____</span>
-            <div>
-                <span style="font-size: 20px; font-weight: bold; color: #696">Hot = </span>
-                <span style="font-size: 20px; font-weight: bold; color: #696;">@complete6</span>
-            </div>
-            <div>
-                <span style="font-size: 20px; font-weight: bold; color: #696">Warm = </span>
-                <span style="font-size: 20px; font-weight: bold; color: #696;">@complete7</span>
-            </div>
-            <div>
-                <span style="font-size: 20px; font-weight: bold; color: #696">Cold = </span>
-                <span style="font-size: 20px; font-weight: bold; color: #696;">@complete8</span>
-            </div>
         </div>
         """
     )
@@ -136,7 +100,7 @@ hover = plot1.select(dict(type=HoverTool))
 plot1.x_range=Range1d(-50,50,bounds=(-50,50)) 
 plot1.y_range=Range1d(-50,50,bounds=(-50,50)) 
 plot1.background_fill_color = "black"
-plot1.background_fill_alpha = 0.9
+plot1.background_fill_alpha = 1.0
 plot1.yaxis.axis_label = 'Yield' 
 plot1.xaxis.axis_label = ' ' 
 plot1.xaxis.axis_line_width = 0
@@ -169,13 +133,19 @@ sym.glyph.line_dash = [6, 6]
 
 
 
-
-
-junk_points = ColumnDataSource(data=dict(x=np.arange(21), y=np.zeros(21))) 
+# second plot, the "table" of Yields 
 plot2 = Figure(plot_height=400, plot_width=450, tools=" ", outline_line_color='black', \
               x_range=[0, 4], y_range=[0, 4], toolbar_location='left', x_axis_type=None, y_axis_type=None, \
               title='                        Multiplanet Yields') 
-#plot2.xaxis[0].ticker = FixedTicker(ticks=[0.5,2.,3.5], labels=['Hot','Warm','Cold']) 
+plot2.text([2.0], [3.0], ['Earth-like'], text_color="black", text_align="center", text_alpha=1.0) 
+plot2.text([2.0], [3.0], ['____________________________________________'], text_color="black", text_align="center", text_alpha=1.0) 
+plot2.text([2.0], [2.0], ['Neptune-like'], text_color="black", text_align="center", text_alpha=1.0) 
+plot2.text([2.0], [2.0], ['____________________________________________'], text_color="black", text_align="center", text_alpha=1.0) 
+plot2.text([2.0], [1.0], ['Jupiter-like'], text_color="black", text_align="center", text_alpha=1.0) 
+plot2.text([2.0], [1.0], ['____________________________________________'], text_color="black", text_align="center", text_alpha=1.0) 
+plot2.text([0.5], [3.4], ['Cool'], text_color="black", text_align="center", text_alpha=1.0) 
+plot2.text([2.0], [3.4], ['Warm'], text_color="black", text_align="center", text_alpha=1.0) 
+plot2.text([3.5], [3.4], ['Hot'], text_color="black", text_align="center", text_alpha=1.0) 
 plot2.title.text_font_size = '14pt' 
 plot2.background_fill_color = "white"
 plot2.background_fill_alpha = 0.5 
@@ -189,10 +159,15 @@ plot2.border_fill_color = "white"
 plot2.min_border_left = 0
 
 
-# this will place labels in the small plot  
-yield_label = ColumnDataSource(data=dict(labels=["0","0","0","0","0","0","0","0","0"], \
-                                         xvals =[0.5,2.0,3.5,0.5,2.,3.5,0.5,2.,3.5], yvals =[3.,3.,3.,2.,2.,2.,1.,1.,1.,])) 
-plot2.add_glyph(yield_label, Text(x="xvals", y="yvals", text="labels", text_align='center', text_font_size='16pt'))
+# this will place labels in the small plot for the *selected star* - not implemented yet 
+star_yield_label = ColumnDataSource(data=dict(labels=["0","0","0","0","0","0","0","0","0"], \
+                                         xvals =[0.5,2.0,3.5,0.5,2.,3.5,0.5,2.,3.5], yvals =[2.7,2.7,2.7,1.7,1.7,1.7,0.7,0.7,0.7,])) 
+plot2.add_glyph(star_yield_label, Text(x="xvals", y="yvals", text="labels", text_align='center', text_font_size='14pt'))
+
+total_yield_label = ColumnDataSource(data=dict(labels=["0","0","0","0","0","0","0","0","0"], \
+                                         xvals =[0.5,2.0,3.5,0.5,2.,3.5,0.5,2.,3.5], yvals =[2.3,2.3,2.3,1.3,1.3,1.3,0.3,0.3,0.3,])) 
+plot2.add_glyph(total_yield_label, Text(x="xvals", y="yvals", text="labels", text_align='center', text_color='red', text_font_size='16pt'))
+
 
 def update_data(attrname, old, new):
 
@@ -201,16 +176,15 @@ def update_data(attrname, old, new):
     i = iwa.value 
 
     print 'APERTURE A = ', a, ' CONTRAST C = ', c, ' IWA I = ', i 
-    apertures = {'4.0':'4.0','4':'4.0','6':'6.0','6.0':'6.0','8':'8.0','8.0':'8.0','10':'10.0','10.0':'10.0','12':'12.0','12.0':'12.0','14':'14.0','14.0':'14.0','16':'16.0'} 
+    apertures = {'4.0':'4.0','4':'4.0','6':'6.0','6.0':'6.0','8':'8.0','8.0':'8.0',\
+                 '10':'10.0','10.0':'10.0','12':'12.0','12.0':'12.0','14':'14.0',\
+                 '14.0':'14.0','16':'16.0'} 
     contrasts = {'-11':'1.00E-11','-10':'1.00E-10','-9':'1.00E-09'} 
     filename = 'data/stark_multiplanet/'+'run_'+apertures[str(a)]+'_'+contrasts[str(c)]+'_3.6_0.1_3.0.fits' 
     targets = Table.read(filename) 
     star_points.data['complete'] = np.array(targets['COMPLETENESS'][0]) 
 
-    print 'data/stark_multiplanet/'+'run_'+apertures[str(a)]+'_'+contrasts[str(c)]+'_3.6_0.1_3.0.fits' 
-    print 'that star', targets['HIP'][0][832], targets['COMPLETE0'][0][832] 
-
-    yield_label.data['labels'] = [str(targets['COMPLETE0'][0][832])[0:5], \
+    star_yield_label.data['labels'] = [str(targets['COMPLETE0'][0][832])[0:5], \
                                   str(targets['COMPLETE1'][0][832])[0:5], \
                                   str(targets['COMPLETE2'][0][832])[0:5], \
                                   str(targets['COMPLETE3'][0][832])[0:5], \
@@ -220,7 +194,16 @@ def update_data(attrname, old, new):
                                   str(targets['COMPLETE7'][0][832])[0:5], \
                                   str(targets['COMPLETE8'][0][832])[0:5]] 
 
-
+    total_yield_label.data['labels'] = [str(np.sum(targets['COMPLETE0'][0][:]))[0:5], \
+                                        str(np.sum(targets['COMPLETE1'][0][:]))[0:5], \
+                                        str(np.sum(targets['COMPLETE2'][0][:]))[0:5], \
+                                        str(np.sum(targets['COMPLETE3'][0][:]))[0:5], \
+                                        str(np.sum(targets['COMPLETE4'][0][:]))[0:5], \
+                                        str(np.sum(targets['COMPLETE5'][0][:]))[0:5], \
+                                        str(np.sum(targets['COMPLETE6'][0][:]))[0:5], \
+                                        str(np.sum(targets['COMPLETE7'][0][:]))[0:5], \
+                                        str(np.sum(targets['COMPLETE8'][0][:]))[0:5]] 
+ 
     # colors corresponding to yields are updated here 
     col = copy.deepcopy(targets['TYPE'][0]) 
     col[:] = 'black' 
@@ -250,33 +233,6 @@ def update_data(attrname, old, new):
     star_points.data['COMPLETE6'] = np.array(targets['COMPLETE6'][0]) 
     star_points.data['COMPLETE7'] = np.array(targets['COMPLETE7'][0]) 
     star_points.data['COMPLETE8'] = np.array(targets['COMPLETE8'][0]) 
-    
-    # this is the binomial yield stuff 
-    d = np.random.binomial(yield_now, 0.1, 10000)
-    d0 = np.size(np.where(d == 0)) / 10000. 
-    d1 = np.size(np.where(d == 1)) / 10000. 
-    d2 = np.size(np.where(d == 2)) / 10000. 
-    d3 = np.size(np.where(d == 3)) / 10000. 
-    d4 = np.size(np.where(d == 4)) / 10000. 
-    d5 = np.size(np.where(d == 5)) / 10000. 
-    d6 = np.size(np.where(d == 6)) / 10000. 
-    d7 = np.size(np.where(d == 7)) / 10000. 
-    d8 = np.size(np.where(d == 8)) / 10000. 
-    d9 = np.size(np.where(d == 9)) / 10000. 
-    d10= np.size(np.where(d == 10)) / 10000. 
-    d11= np.size(np.where(d == 11)) / 10000. 
-    d12= np.size(np.where(d == 12)) / 10000. 
-    d13= np.size(np.where(d == 13)) / 10000. 
-    d14= np.size(np.where(d == 14)) / 10000. 
-    d15= np.size(np.where(d == 15)) / 10000. 
-    d16= np.size(np.where(d == 16)) / 10000. 
-    d17= np.size(np.where(d == 17)) / 10000. 
-    d18= np.size(np.where(d == 18)) / 10000. 
-    d19= np.size(np.where(d == 19)) / 10000. 
-    d20= np.size(np.where(d == 20)) / 10000. 
-      
-    junk_points.data['y'] = np.array([d0,d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,d12,d13,d14,d15,d16,d17,d18,d19,d20]) 
-
 
 source = ColumnDataSource(data=dict(value=[]))
 source.on_change('data', update_data)

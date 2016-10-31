@@ -6,6 +6,7 @@ import math
 
 from astropy.table import Table 
 import copy  
+import os 
 
 from bokeh.io import output_file, gridplot 
 from bokeh.plotting import Figure
@@ -19,8 +20,9 @@ from bokeh.models.widgets import Slider, TextInput
 from bokeh.io import hplot, vplot, curdoc
 from bokeh.models.callbacks import CustomJS
 
+cwd = os.getenv('LUVOIR_SIMTOOLS_DIR')
 
-targets = Table.read('data/stark_multiplanet/run_4.0_1.00E-10_3.6_0.1_3.0.fits')  
+targets = Table.read(cwd+'data/stark_multiplanet/run_4.0_1.00E-10_3.6_0.1_3.0.fits')  
 col = copy.deepcopy(targets['TYPE'][0]) 
 col[:] = 'black' 
 col[np.where(targets['COMPLETENESS'][0] > 0.2*0.1)] = 'red' 
@@ -180,7 +182,7 @@ def update_data(attrname, old, new):
                  '10':'10.0','10.0':'10.0','12':'12.0','12.0':'12.0','14':'14.0',\
                  '14.0':'14.0','16':'16.0'} 
     contrasts = {'-11':'1.00E-11','-10':'1.00E-10','-9':'1.00E-09'} 
-    filename = 'data/stark_multiplanet/'+'run_'+apertures[str(a)]+'_'+contrasts[str(c)]+'_3.6_0.1_3.0.fits' 
+    filename = cwd+'data/stark_multiplanet/'+'run_'+apertures[str(a)]+'_'+contrasts[str(c)]+'_3.6_0.1_3.0.fits' 
     targets = Table.read(filename) 
     star_points.data['complete'] = np.array(targets['COMPLETENESS'][0]) 
 

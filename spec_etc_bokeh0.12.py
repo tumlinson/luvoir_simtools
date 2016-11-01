@@ -59,6 +59,8 @@ spectrum_template = ColumnDataSource(data=dict(w=spec_dict[template_to_start_wit
                                    w0=spec_dict[template_to_start_with].wave, f0=spec_dict[template_to_start_with].flux, \
                                    flux_cut=flux_cut, sn=signal_to_noise)) 
 
+instrument_info = ColumnDataSource(data=dict(wave=lumos.wave, bef=lumos.bef))
+
 # set up the flux plot 
 flux_plot = Figure(plot_height=400, plot_width=800, 
               tools="crosshair,hover,pan,reset,resize,save,box_zoom,wheel_zoom", outline_line_color='black', 
@@ -70,7 +72,7 @@ flux_plot.background_fill_alpha = 0.5
 flux_plot.yaxis.axis_label = 'Flux' 
 flux_plot.xaxis.axis_label = 'Wavelength' 
 flux_plot.line('w', 'f', source=spectrum_template, line_width=3, line_color='firebrick', line_alpha=0.7, legend='Source Flux')
-flux_plot.line(lumos.wave, lumos.bef, line_width=3, line_color='darksalmon', line_alpha=0.7, legend='Background')
+flux_plot.line('wave', 'bef', source=instrument_info, line_width=3, line_color='darksalmon', line_alpha=0.7, legend='Background')
 
 
 
@@ -95,6 +97,8 @@ def update_data(attrname, old, new): # use this one for updating pysynphot tempa
     print 'Selected grating = ', grating.value 
     lumos.set_mode(grating.value) 
 
+    print 'BEF = ', lumos.wave[20], lumos.bef[20] 
+
     spectrum_template.data['w0'] = spec_dict[template.value].wave 
     spectrum_template.data['f0'] = spec_dict[template.value].flux 
 
@@ -111,6 +115,10 @@ def update_data(attrname, old, new): # use this one for updating pysynphot tempa
     flux_plot.y_range.end = 1.5*np.max(spectrum_template.data['f'])
     sn_plot.y_range.start = 0 
     sn_plot.y_range.end = 1.3*np.max(sn) 
+
+    instrument_info.data['wave'] = lumos.wave 
+    instrument_info.data['bef'] = lumos.bef  
+
 
 # fake source for managing callbacks 
 source = ColumnDataSource(data=dict(value=[]))

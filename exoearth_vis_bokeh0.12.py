@@ -1,5 +1,5 @@
 ''' 
-this is run by typing "bokeh serve --show myapp.py" on the command line 
+this is run by typing "bokeh serve --show exoearth_vis_bokeh0.12.py" on the command line
 '''
 import numpy as np
 import math 
@@ -19,8 +19,7 @@ from bokeh.models.widgets import Slider, TextInput
 from bokeh.io import hplot, vplot, curdoc
 from bokeh.models.callbacks import CustomJS
 
-
-targets = Table.read('data/stark_yields/run_12.0_1.00E-10_1.5_0.10_3.0.fits') 
+targets = Table.read('data/stark_yields/run_12.0_1.00E-10_1.5_0.10_3.0.fits')
 col = copy.deepcopy(targets['TYPE'][0]) 
 col[:] = 'black' 
 col[np.where(targets['COMPLETENESS'][0] > 0.2)] = 'red' 
@@ -29,14 +28,12 @@ col[np.where(targets['COMPLETENESS'][0] > 0.8)] = 'lightgreen'
 
 totyield = 0.1 * np.sum(targets['COMPLETENESS'][0])
 
-
-# x0,y0 = original positons, will not be changed 
+# x0,y0 = original positons, will not be changed
 # x,y = positions that will be modified to hide C = 0 stars in view 
-star_points = ColumnDataSource(data=dict(x0=targets['X'][0], y0=targets['Y'][0], x=targets['X'][0], y=targets['Y'][0],
-                                         r=targets['DISTANCE'][0], stype=targets['TYPE'][0], hip=targets['HIP'][0],
-                                         color=col, complete=targets['COMPLETENESS'][0]))
-rad_circles = ColumnDataSource(data=dict(x=np.array([0., 0., 0., 0.]), y=np.array([0., 0., 0., 0.]),
-                                         cfrac=[0., 0., 0., 0.], fillcolor=['black', 'black', 'black', 'black']))
+star_points = ColumnDataSource(data={'x0': targets['X'][0], 'y0': targets['Y'][0], 'x': targets['X'][0],
+                                         'y': targets['Y'][0], 'r': targets['DISTANCE'][0], 'stype': targets['TYPE'][0],
+                                         'hip': targets['HIP'][0], 'color': col,
+                                         'complete': targets['COMPLETENESS'][0]})
 
 # Set up plot
 plot1 = Figure(plot_height=800, plot_width=800, x_axis_type = None, y_axis_type = None,
@@ -77,39 +74,32 @@ hover = plot1.select(dict(type=HoverTool))
 plot1.x_range=Range1d(-50,50,bounds=(-50,50)) 
 plot1.y_range=Range1d(-50,50,bounds=(-50,50)) 
 plot1.background_fill_color = "black"
-plot1.background_fill_alpha = 1.0
+#plot1.background_fill_alpha = 1.0
 plot1.yaxis.axis_label = 'Yield' 
 plot1.xaxis.axis_label = ' ' 
 plot1.xaxis.axis_line_width = 0
-plot1.yaxis.axis_line_width = 0 
-plot1.xaxis.axis_line_color = 'black' 
-plot1.yaxis.axis_line_color = 'black' 
-plot1.border_fill_color = "black"
-plot1.min_border_left = 80
+plot1.yaxis.axis_line_width = 0
 
 # main glyphs for planet circles  
 star_syms = plot1.circle('x', 'y', source=star_points, name="star_points_to_hover",
       fill_color='color', line_color='color', radius=0.5, line_alpha=0.5, fill_alpha=0.7)
 star_syms.selection_glyph = Circle(fill_alpha=0.8, fill_color="purple", radius=1.5, line_color='purple', line_width=3)
 
+# niceties and labeling for the main plot
 plot1.text(0.95*0.707*np.array([10., 20., 30., 40.]), 0.707*np.array([10., 20., 30., 40.]),
      text=['10 pc', '20 pc', '30 pc', '40 pc'], text_color="white", text_font_style='bold', text_font_size='12pt', text_alpha=0.8)
-plot1.text([48.5], [47], ['Chance Of Detecting'], text_color="white", text_align="right", text_alpha=1.0) 
-plot1.text([48.5], [44.5], ['an Earth Twin if Present'], text_color="white", text_align="right", text_alpha=1.0) 
-plot1.text([48.5], [44.5], ['___________________'], text_color="white", text_align="right", text_alpha=1.0) 
-plot1.text(np.array([48.5]), np.array([41.5]), ["80-100%"], text_color='lightgreen', text_align="right") 
-plot1.text(np.array([48.5]), np.array([41.5-1*2.4]), ["50-80%"], text_color='yellow', text_align="right") 
-plot1.text(np.array([48.5]), np.array([41.5-2*2.4]), ["20-50%"], text_color='red', text_align="right") 
-plot1.text(np.array([48.5]), np.array([41.5-3*2.4]), ["Not Observed"], text_color='black', text_align="right") 
-plot1.circle([0], [0], radius=0.1, fill_alpha=1.0, line_color='white', fill_color='white') 
+plot1.text([48.5, 48.5, 48.5], [47, 44.5, 44.5], ['Chance Of Detecting', 'an Earth Twin if Present', '___________________'],
+           text_color="white", text_align="right", text_alpha=1.0)
+plot1.text([48.5, 48.5, 48.5], [41.5, 41.5-1*2.4, 41.5-2*2.4, 41.5-3*2.4],
+           ["80-100%", "50-80%", "20-50%", "Not Observed"], text_color=['lightgreen', 'yellow', 'red', 'black'], text_align="right")
+plot1.circle([0], [0], radius=0.1, fill_alpha=1.0, line_color='white', fill_color='white') # sun symbol
 plot1.circle([0], [0], radius=0.5, fill_alpha=0.0, line_color='white') 
-
-sym = plot1.circle('x', 'y', source=rad_circles, fill_color='fillcolor', line_color='white', 
-           line_width=4, radius=[40,30,20,10], line_alpha=0.8, fill_alpha=0.0) 
+sym = plot1.circle(np.array([0., 0., 0., 0.]), np.array([0., 0., 0., 0.]), fill_color='black', line_color='white',
+                   line_width=4, radius=[40,30,20,10], line_alpha=0.8, fill_alpha=0.0)
 sym.glyph.line_dash = [6, 6]
 
 junk_points = ColumnDataSource(data=dict(x=np.arange(21), y=np.zeros(21))) 
-plot2 = Figure(plot_height=400, plot_width=450, tools="pan,resize, reset,save", outline_line_color='black', 
+plot2 = Figure(plot_height=400, plot_width=450, tools="pan,resize,reset,save", outline_line_color='black',
               x_range=[0, 20], y_range=[0, 1], toolbar_location='right', title='Detections of 10% Phenomena') 
 plot2.title.text_font_size = '14pt' 
 plot2.background_fill_color = "beige"
@@ -138,7 +128,6 @@ plot1.text([-47.5], [25], ['150'], text_color="white", text_align="center")
 plot1.text([-47.5], [47], ['200'], text_color="white", text_align="center") 
 plot1.text([-42.5], [47], ['ExoEarth Yield'], text_color="white", text_align="left") 
 
-      
 def update_data(attrname, old, new):
 
     a = aperture.value 
@@ -149,9 +138,10 @@ def update_data(attrname, old, new):
     apertures = {'4.0':'4.0','4':'4.0','8':'8.0','12':'12.0','12.0':'12.0','16':'16.0', '20':'20.0'} 
     contrasts = {'-11':'1.00E-11','-10':'1.00E-10','-9':'1.00E-09'} 
     targets = Table.read('data/stark_yields/'+'run_'+apertures[str(a)]+'_'+contrasts[str(c)]+'_1.5_0.10_3.0.fits') 
-    star_points.data['complete'] = np.array(targets['COMPLETENESS'][0]) 
 
-    # colors corresponding to yields are updated here 
+    star_points.data['complete'] = np.array(targets['COMPLETENESS'][0])
+
+    # colors corresponding to yields are updated here
     col = copy.deepcopy(targets['TYPE'][0]) 
     col[:] = 'black' 
     col[np.where(targets['COMPLETENESS'][0] < 0.2)] = 'black' 
@@ -160,14 +150,12 @@ def update_data(attrname, old, new):
     col[np.where(targets['COMPLETENESS'][0] > 0.8)] = 'lightgreen' 
     star_points.data['color'] = col
 
-    # reset the positions and hide the low completion stars by shifting their X 
-    star_points.data['x'] = star_points.data['x0'] 
-    star_points.data['y'] = star_points.data['y0'] 
-    x = copy.deepcopy(targets['X'][0]) 
-    x[col == 'black'] = x[col == 'black'] + 2000. 
-    star_points.data['x'] = x 
-    
-    yield_now = np.sum(targets['COMPLETENESS'][0]) * 0.1 
+    # reset the positions and hide the low completion stars by shifting their X
+    x = copy.deepcopy(targets['X'][0])
+    x[col == 'black'] += 2000.
+    star_points.data['x'] = x
+
+    yield_now = np.sum(targets['COMPLETENESS'][0]) * 0.1
     rect_points.data['top'] = np.array([yield_now,a,a])/2. - 50. 
 
     # this is the binomial yield stuff 
@@ -213,9 +201,7 @@ iwa.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
 
- 
 # Set up layouts and add to document
 inputs = Column(children=[aperture, contrast, plot2]) 
 curdoc().add_root(Row(children=[inputs, plot1], width=1800))
-curdoc().add_root(source) 
-
+curdoc().add_root(source)

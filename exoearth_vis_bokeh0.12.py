@@ -27,16 +27,16 @@ col[np.where(targets['COMPLETENESS'][0] > 0.2)] = 'red'
 col[np.where(targets['COMPLETENESS'][0] > 0.5)] = 'yellow' 
 col[np.where(targets['COMPLETENESS'][0] > 0.8)] = 'lightgreen' 
 
-totyield = np.sum(targets['COMPLETENESS'][0] * 0.1) 
+totyield = 0.1 * np.sum(targets['COMPLETENESS'][0])
 
 
 # x0,y0 = original positons, will not be changed 
 # x,y = positions that will be modified to hide C = 0 stars in view 
-print 'LKJSDFLKJ', np.size(targets['Y'][0]) 
-print 'LKJSDFLKJ', np.size(targets['X'][0]) 
-star_points = ColumnDataSource(data=dict(x0=targets['X'][0], y0=targets['Y'][0], x=targets['X'][0], y=targets['Y'][0], r=targets['DISTANCE'][0], \
-         stype=targets['TYPE'][0], hip=targets['HIP'][0], color=col, complete=targets['COMPLETENESS'][0]))
-rad_circles = ColumnDataSource(data=dict(x=np.array([0., 0., 0., 0.]), y=np.array([0., 0., 0., 0.]), cfrac=[0., 0., 0., 0.], fillcolor=['black', 'black','black','0.342']))
+star_points = ColumnDataSource(data=dict(x0=targets['X'][0], y0=targets['Y'][0], x=targets['X'][0], y=targets['Y'][0],
+                                         r=targets['DISTANCE'][0], stype=targets['TYPE'][0], hip=targets['HIP'][0],
+                                         color=col, complete=targets['COMPLETENESS'][0]))
+rad_circles = ColumnDataSource(data=dict(x=np.array([0., 0., 0., 0.]), y=np.array([0., 0., 0., 0.]),
+                                         cfrac=[0., 0., 0., 0.], fillcolor=['black', 'black', 'black', 'black']))
 
 # Set up plot
 plot1 = Figure(plot_height=800, plot_width=800, x_axis_type = None, y_axis_type = None,
@@ -88,12 +88,12 @@ plot1.border_fill_color = "black"
 plot1.min_border_left = 80
 
 # main glyphs for planet circles  
-star_syms = plot1.circle('x', 'y', source=star_points, name="star_points_to_hover", \
+star_syms = plot1.circle('x', 'y', source=star_points, name="star_points_to_hover",
       fill_color='color', line_color='color', radius=0.5, line_alpha=0.5, fill_alpha=0.7)
 star_syms.selection_glyph = Circle(fill_alpha=0.8, fill_color="purple", radius=1.5, line_color='purple', line_width=3)
 
-plot1.text(0.95*0.707*np.array([10., 20., 30., 40.]), 0.707*np.array([10., 20., 30., 40.]), \
-     text=['10 pc', '20 pc', '30 pc', '40 pc'], text_color="white", text_font_style='bold', text_font_size='12pt', text_alpha=0.8) 
+plot1.text(0.95*0.707*np.array([10., 20., 30., 40.]), 0.707*np.array([10., 20., 30., 40.]),
+     text=['10 pc', '20 pc', '30 pc', '40 pc'], text_color="white", text_font_style='bold', text_font_size='12pt', text_alpha=0.8)
 plot1.text([48.5], [47], ['Chance Of Detecting'], text_color="white", text_align="right", text_alpha=1.0) 
 plot1.text([48.5], [44.5], ['an Earth Twin if Present'], text_color="white", text_align="right", text_alpha=1.0) 
 plot1.text([48.5], [44.5], ['___________________'], text_color="white", text_align="right", text_alpha=1.0) 
@@ -122,12 +122,11 @@ plot2.xaxis.axis_line_color = 'black'
 plot2.yaxis.axis_line_color = 'black' 
 plot2.border_fill_color = "white"
 plot2.min_border_left = 0
-plot2.circle('x', 'y', source=junk_points, \
-      fill_color='purple', radius=0.1, line_alpha=0.5, fill_alpha=1.0)
+plot2.circle('x', 'y', source=junk_points, fill_color='purple', radius=0.1, line_alpha=0.5, fill_alpha=1.0)
 plot2.line('x', 'y', source=junk_points, line_color='purple', line_alpha=0.5) 
 
-
-rect_points = ColumnDataSource(data=dict(top=[totyield/2.-50., 9000, 9000], bottom=[-49.8, 8800, 8800], left=[-49.8, 8800, 9000], strbag=' ', right=[-45, 8800, 9200])) 
+rect_points = ColumnDataSource(data={'top': [totyield / 2. - 50., 9000, 9000], 'bottom': [-49.8, 8800, 8800],
+                                     'left': [-49.8, 8800, 9000], 'right': [-45, 8800, 9200]})
        
 plot1.quad(top="top", bottom="bottom", left="left", right="right", source=rect_points, color="lightgreen", fill_alpha=0.5, line_alpha=0.) 
 plot1.quad(top=49.9, bottom=-49.9, left=-49.8, right=-45, line_color="lightgreen", line_width=3, fill_alpha=0.0) # open box 
@@ -170,7 +169,6 @@ def update_data(attrname, old, new):
     
     yield_now = np.sum(targets['COMPLETENESS'][0]) * 0.1 
     rect_points.data['top'] = np.array([yield_now,a,a])/2. - 50. 
-    rect_points.data['strbag'] = str(np.sum(np.array(targets['COMPLETENESS'][0]))) 
 
     # this is the binomial yield stuff 
     d = np.random.binomial(yield_now, 0.1, 10000)
@@ -198,8 +196,6 @@ def update_data(attrname, old, new):
       
     junk_points.data['y'] = np.array([d0,d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,d12,d13,d14,d15,d16,d17,d18,d19,d20]) 
 
-
-
 source = ColumnDataSource(data=dict(value=[]))
 source.on_change('data', update_data)
     
@@ -216,11 +212,7 @@ iwa      = Slider(title="Inner Working Angle (l/D)", value=1.5, start=1.5, end=4
 iwa.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
- 
 
-# iterate on changes to parameters 
-#for w in [aperture, contrast]: 
-#    w.on_change('value', update_data)
  
 # Set up layouts and add to document
 inputs = Column(children=[aperture, contrast, plot2]) 

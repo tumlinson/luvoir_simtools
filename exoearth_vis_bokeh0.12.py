@@ -25,15 +25,14 @@ col[:] = 'black'
 col[np.where(targets['COMPLETENESS'][0] > 0.2)] = 'red' 
 col[np.where(targets['COMPLETENESS'][0] > 0.5)] = 'yellow' 
 col[np.where(targets['COMPLETENESS'][0] > 0.8)] = 'lightgreen' 
-
 totyield = 0.1 * np.sum(targets['COMPLETENESS'][0])
 
 # x0,y0 = original positons, will not be changed
 # x,y = positions that will be modified to hide C = 0 stars in view 
 star_points = ColumnDataSource(data={'x0': targets['X'][0], 'y0': targets['Y'][0], 'x': targets['X'][0],
-                                         'y': targets['Y'][0], 'r': targets['DISTANCE'][0], 'stype': targets['TYPE'][0],
-                                         'hip': targets['HIP'][0], 'color': col,
-                                         'complete': targets['COMPLETENESS'][0]})
+                                     'y': targets['Y'][0], 'r': targets['DISTANCE'][0], 'stype': targets['TYPE'][0],
+                                     'hip': targets['HIP'][0], 'color': col,
+                                     'complete': targets['COMPLETENESS'][0]})
 
 # Set up plot
 plot1 = Figure(plot_height=800, plot_width=800, x_axis_type = None, y_axis_type = None,
@@ -74,9 +73,8 @@ hover = plot1.select(dict(type=HoverTool))
 plot1.x_range=Range1d(-50,50,bounds=(-50,50)) 
 plot1.y_range=Range1d(-50,50,bounds=(-50,50)) 
 plot1.background_fill_color = "black"
-#plot1.background_fill_alpha = 1.0
-plot1.yaxis.axis_label = 'Yield' 
-plot1.xaxis.axis_label = ' ' 
+plot1.yaxis.axis_label = 'Yield'
+#plot1.xaxis.axis_label = ' '
 plot1.xaxis.axis_line_width = 0
 plot1.yaxis.axis_line_width = 0
 
@@ -111,22 +109,17 @@ plot2.yaxis.axis_line_width = 2
 plot2.xaxis.axis_line_color = 'black' 
 plot2.yaxis.axis_line_color = 'black' 
 plot2.border_fill_color = "white"
-plot2.min_border_left = 0
 plot2.circle('x', 'y', source=junk_points, fill_color='purple', radius=0.1, line_alpha=0.5, fill_alpha=1.0)
 plot2.line('x', 'y', source=junk_points, line_color='purple', line_alpha=0.5) 
 
 rect_points = ColumnDataSource(data={'top': [totyield / 2. - 50., 9000, 9000], 'bottom': [-49.8, 8800, 8800],
                                      'left': [-49.8, 8800, 9000], 'right': [-45, 8800, 9200]})
-       
-plot1.quad(top="top", bottom="bottom", left="left", right="right", source=rect_points, color="lightgreen", fill_alpha=0.5, line_alpha=0.) 
+plot1.quad(top="top", bottom="bottom", left="left", right="right", source=rect_points, color="lightgreen", fill_alpha=0.5, line_alpha=0.)
 plot1.quad(top=49.9, bottom=-49.9, left=-49.8, right=-45, line_color="lightgreen", line_width=3, fill_alpha=0.0) # open box 
 plot1.circle([-47.4], 'top',source=rect_points, radius=1.8, fill_alpha=0.5, fill_color='lightgreen')
-plot1.text([-47.5], [-50], ['0'], text_color="white", text_align="center") 
-plot1.text([-47.5], [-25], ['50'], text_color="white", text_align="center") 
-plot1.text([-47.5], [0], ['100'], text_color="white", text_align="center") 
-plot1.text([-47.5], [25], ['150'], text_color="white", text_align="center") 
-plot1.text([-47.5], [47], ['200'], text_color="white", text_align="center") 
-plot1.text([-42.5], [47], ['ExoEarth Yield'], text_color="white", text_align="left") 
+plot1.text([-47.5, -47.5, -47.5, -47.5, -47.5], [-50, -25, 0, 25, 47],
+           ['0', '50', '100','150', '200'], text_color="white", text_align="center")
+plot1.text([-42.5], [47], ['ExoEarth Yield'], text_color="white", text_align="left")
 
 def update_data(attrname, old, new):
 
@@ -158,13 +151,12 @@ def update_data(attrname, old, new):
     yield_now = np.sum(targets['COMPLETENESS'][0]) * 0.1
     rect_points.data['top'] = np.array([yield_now,a,a])/2. - 50. 
 
-    # this is the binomial yield stuff 
-    d = np.random.binomial(yield_now, 0.1, 10000)
-    d0 = np.size(np.where(d == 0)) / 10000. 
-    d1 = np.size(np.where(d == 1)) / 10000. 
-    d2 = np.size(np.where(d == 2)) / 10000. 
-    d3 = np.size(np.where(d == 3)) / 10000. 
-    d4 = np.size(np.where(d == 4)) / 10000. 
+    d = np.random.binomial(yield_now, 0.1, 10000) # this is the binomial yield stuff
+    d0 = np.size(np.where(d == 0)) / 10000.
+    d1 = np.size(np.where(d == 1)) / 10000.
+    d2 = np.size(np.where(d == 2)) / 10000.
+    d3 = np.size(np.where(d == 3)) / 10000.
+    d4 = np.size(np.where(d == 4)) / 10000.
     d5 = np.size(np.where(d == 5)) / 10000. 
     d6 = np.size(np.where(d == 6)) / 10000. 
     d7 = np.size(np.where(d == 7)) / 10000. 

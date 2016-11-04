@@ -65,7 +65,7 @@ instrument_info = ColumnDataSource(data=dict(wave=lumos.wave, bef=lumos.bef))
 flux_plot = Figure(plot_height=400, plot_width=800, 
               tools="crosshair,hover,pan,reset,resize,save,box_zoom,wheel_zoom", outline_line_color='black', 
               x_range=[900, 2000], y_range=[0, 4e-16], toolbar_location='right') 
-flux_plot.x_range=Range1d(900,2000,bounds=(900,2000)) 
+flux_plot.x_range=Range1d(900,3000,bounds=(900,3000))
 flux_plot.y_range=Range1d(0,4e-16,bounds=(0,None)) 
 flux_plot.background_fill_color = "beige"
 flux_plot.background_fill_alpha = 0.5 
@@ -81,7 +81,7 @@ flux_plot.line('wave', 'bef', source=instrument_info, line_width=3, line_color='
 sn_plot = Figure(plot_height=400, plot_width=800, 
               tools="crosshair,hover,pan,reset,resize,save,box_zoom,wheel_zoom", outline_line_color='black', 
               x_range=[900, 2000], y_range=[0, 40], toolbar_location='right')
-sn_plot.x_range=Range1d(900,2000,bounds=(900,2000)) 
+sn_plot.x_range=Range1d(900,3000,bounds=(900,3000))
 sn_plot.y_range=Range1d(0,40,bounds=(0,None)) 
 sn_plot.line('w', 'sn', source=spectrum_template, line_width=3, line_color='orange', line_alpha=0.7, legend='S/N per resel')
 sn_plot.background_fill_color = "beige"
@@ -126,8 +126,9 @@ source.on_change('data', update_data)
 
 # Set up widgets and their callbacks (faking the mouseup policy via "source" b/c functional callback doesn't do that. 
 template = Select(title="Template Spectrum", value="QSO", options=["QSO", "10 Myr Starburst", "O5V Star", "G2V Star", "Classical T Tauri", "M1 Dwarf", "Orion Nebula", \
-                            "Starburst, No Dust", "Starburst, E(B-V) = 0.6"])
-redshift = Slider(title="Redshift", value=0.0, start=0., end=1.0, step=0.02, callback_policy='mouseup')
+                            "Starburst, No Dust", "Starburst, E(B-V) = 0.6", "Galaxy with f_esc, HI=1, HeI=1", "Galaxy with f_esc, HI=0.001, HeI=1"])
+
+redshift = Slider(title="Redshift", value=0.0, start=0., end=3.0, step=0.05, callback_policy='mouseup')
 redshift.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)

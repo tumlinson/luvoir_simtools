@@ -13,7 +13,7 @@ from bokeh.plotting import Figure
 from bokeh.resources import CDN
 from bokeh.client import push_session
 from bokeh.embed import components, file_html
-from bokeh.models import ColumnDataSource, HoverTool, Range1d, Square, Circle, LabelSet, FixedTicker 
+from bokeh.models import ColumnDataSource, HoverTool, Range1d, Square, Circle, LabelSet, FixedTicker, TapTool 
 from bokeh.layouts import Column, Row, WidgetBox
 from bokeh.models.glyphs import Text 
 from bokeh.models.widgets import Slider, TextInput
@@ -22,6 +22,8 @@ from bokeh.models.callbacks import CustomJS
 
 cwd = os.getenv('LUVOIR_SIMTOOLS_DIR')
 
+
+# obtain the yield table for the nominal parameter set 
 targets = Table.read(cwd+'data/stark_multiplanet/run_4.0_1.00E-10_3.6_0.1_3.0.fits')  
 col = copy.deepcopy(targets['TYPE'][0]) 
 col[:] = 'black' 
@@ -52,15 +54,10 @@ star_points = ColumnDataSource(data=dict(x0 = targets['X'][0], \
                                          complete7=targets['COMPLETE7'][0], \
                                          complete8=targets['COMPLETE8'][0]  \
                                          )) # end of the stars CDS 
-
-
 black_points = [star_points.data['color'] == 'black'] 
-star_points.data['x'][black_points] += 2000. 
+star_points.data['x'][black_points] += 2000. 	# this line shifts the black points with no yield off the plot 
 
 
-rad_circles = ColumnDataSource(data=dict(x=np.array([0., 0., 0., 0.]), \
-                  y=np.array([0., 0., 0., 0.]), cfrac=[0., 0., 0., 0.], \
-                  fillcolor=['black', 'black','black','0.342']))
 
 # Set up plot
 plot1 = Figure(plot_height=800, plot_width=800, x_axis_type = None, y_axis_type = None,
@@ -112,10 +109,26 @@ plot1.yaxis.axis_line_color = 'black'
 plot1.border_fill_color = "black"
 plot1.min_border_left = 80
 
+def SelectCallback(attrname, old, new): 
+    inds = np.array(new['1d']['indices'])[0] # this miraculously obtains the index of the slected star within the star_syms CDS 
+    print inds, star_points.data['complete0'][inds], str(star_points.data['complete0'][inds])[0:6] 
+    star_yield_label.data['labels'] = [str(star_points.data['complete0'][inds])[0:6], \
+ 			               str(star_points.data['complete1'][inds])[0:6], \
+ 			               str(star_points.data['complete2'][inds])[0:6], \
+ 			               str(star_points.data['complete3'][inds])[0:6], \
+ 			               str(star_points.data['complete4'][inds])[0:6], \
+ 			               str(star_points.data['complete5'][inds])[0:6], \
+ 			               str(star_points.data['complete6'][inds])[0:6], \
+ 			               str(star_points.data['complete7'][inds])[0:6], \
+ 			               str(star_points.data['complete8'][inds])[0:6]] 
+
 # main glyphs for planet circles  
 star_syms = plot1.circle('x', 'y', source=star_points, name="star_points_to_hover", \
       fill_color='color', line_color='color', radius=0.5, line_alpha=0.5, fill_alpha=0.7)
-star_syms.selection_glyph = Circle(fill_alpha=0.8, fill_color="purple", radius=1.5, line_color='purple', line_width=3)
+star_syms.selection_glyph = Circle(fill_alpha=0.8, fill_color="orange", radius=1.5, line_color='purple', line_width=3)
+star_syms.data_source.on_change('selected', SelectCallback)
+#taptool = plot1.select(type=TapTool)
+#taptool.callback = FuncFunc() 
 
 plot1.text(0.95*0.707*np.array([10., 20., 30., 40.]), 0.707*np.array([10., 20., 30., 40.]), \
      text=['10 pc', '20 pc', '30 pc', '40 pc'], text_color="white", text_font_style='bold', text_font_size='12pt', text_alpha=0.8) 
@@ -129,7 +142,7 @@ plot1.text(np.array([48.5]), np.array([41.5-3*2.4]), ["Not Observed"], text_colo
 plot1.circle([0], [0], radius=0.1, fill_alpha=1.0, line_color='white', fill_color='white') 
 plot1.circle([0], [0], radius=0.5, fill_alpha=0.0, line_color='white') 
 
-sym = plot1.circle('x', 'y', source=rad_circles, fill_color='fillcolor', line_color='white', 
+sym = plot1.circle(np.array([0., 0., 0., 0.]), np.array([0., 0., 0., 0.]), fill_color='black', line_color='white', 
            line_width=4, radius=[40,30,20,10], line_alpha=0.8, fill_alpha=0.0) 
 sym.glyph.line_dash = [6, 6]
 
@@ -139,18 +152,18 @@ sym.glyph.line_dash = [6, 6]
 plot2 = Figure(plot_height=400, plot_width=450, tools=" ", outline_line_color='black', \
               x_range=[0, 4], y_range=[0, 4], toolbar_location='left', x_axis_type=None, y_axis_type=None, \
               title='                        Multiplanet Yields') 
-plot2.text([2.0], [3.0], ['Earth-like'], text_color="black", text_align="center", text_alpha=1.0) 
-plot2.text([2.0], [3.0], ['____________________________________________'], text_color="black", text_align="center", text_alpha=1.0) 
-plot2.text([2.0], [2.0], ['Neptune-like'], text_color="black", text_align="center", text_alpha=1.0) 
-plot2.text([2.0], [2.0], ['____________________________________________'], text_color="black", text_align="center", text_alpha=1.0) 
-plot2.text([2.0], [1.0], ['Jupiter-like'], text_color="black", text_align="center", text_alpha=1.0) 
-plot2.text([2.0], [1.0], ['____________________________________________'], text_color="black", text_align="center", text_alpha=1.0) 
-plot2.text([0.5], [3.4], ['Cool'], text_color="black", text_align="center", text_alpha=1.0) 
-plot2.text([2.0], [3.4], ['Warm'], text_color="black", text_align="center", text_alpha=1.0) 
-plot2.text([3.5], [3.4], ['Hot'], text_color="black", text_align="center", text_alpha=1.0) 
+plot2.text([2.5], [3.2], ['Earth-like'], text_color="white", text_align="center", text_alpha=1.0) 
+plot2.text([2.5], [3.2], ['_____________________________'], text_color="white", text_align="center", text_alpha=1.0) 
+plot2.text([2.5], [2.2], ['Neptune-like'], text_color="white", text_align="center", text_alpha=1.0) 
+plot2.text([2.5], [2.2], ['_____________________________'], text_color="white", text_align="center", text_alpha=1.0) 
+plot2.text([2.5], [1.2], ['Jupiter-like'], text_color="white", text_align="center", text_alpha=1.0) 
+plot2.text([2.5], [1.2], ['_____________________________'], text_color="white", text_align="center", text_alpha=1.0) 
+plot2.text([1.5], [3.7], ['Hot'], text_color="white", text_align="center", text_alpha=1.0) 
+plot2.text([2.5], [3.7], ['Warm'], text_color="white", text_align="center", text_alpha=1.0) 
+plot2.text([3.5], [3.7], ['Cool'], text_color="white", text_align="center", text_alpha=1.0) 
 plot2.title.text_font_size = '14pt' 
-plot2.background_fill_color = "white"
-plot2.background_fill_alpha = 0.5 
+plot2.background_fill_color = "black"
+plot2.background_fill_alpha = 1.0 
 plot2.yaxis.axis_label = ' ' 
 plot2.xaxis.axis_label = ' ' 
 plot2.xaxis.axis_line_width = 0
@@ -159,15 +172,18 @@ plot2.xaxis.axis_line_color = 'white'
 plot2.yaxis.axis_line_color = 'white' 
 plot2.border_fill_color = "white"
 plot2.min_border_left = 0
+plot2.image_url(url=["http://www.stsci.edu/~tumlinso/earth1.jpg"], x=[0.2], y=[3.2], w=0.7, h=0.8)
+plot2.image_url(url=["http://www.stsci.edu/~tumlinso/neptune1.jpg"], x=[0.2], y=[2.2], w=0.7, h=0.8)
+plot2.image_url(url=["http://www.stsci.edu/~tumlinso/jupiter1.jpg"], x=[0.2], y=[1.2], w=0.7, h=0.8)
 
 
 # this will place labels in the small plot for the *selected star* - not implemented yet 
 star_yield_label = ColumnDataSource(data=dict(labels=["0","0","0","0","0","0","0","0","0"], \
-                                         xvals =[0.5,2.0,3.5,0.5,2.,3.5,0.5,2.,3.5], yvals =[2.7,2.7,2.7,1.7,1.7,1.7,0.7,0.7,0.7,])) 
-plot2.add_glyph(star_yield_label, Text(x="xvals", y="yvals", text="labels", text_align='center', text_font_size='14pt'))
+                                         xvals =[1.5,2.5,3.5,1.5,2.5,3.5,1.5,2.5,3.5], yvals =[2.9,2.9,2.9,1.9,1.9,1.9,0.9,0.9,0.9,])) 
+plot2.add_glyph(star_yield_label, Text(x="xvals", y="yvals", text="labels", text_align='center', text_color='white', text_font_size='14pt'))
 
 total_yield_label = ColumnDataSource(data=dict(labels=["0","0","0","0","0","0","0","0","0"], \
-                                         xvals =[0.5,2.0,3.5,0.5,2.,3.5,0.5,2.,3.5], yvals =[2.3,2.3,2.3,1.3,1.3,1.3,0.3,0.3,0.3,])) 
+                                         xvals =[1.5,2.5,3.5,1.5,2.5,3.5,1.5,2.5,3.5], yvals =[2.5,2.5,2.5,1.5,1.5,1.5,0.5,0.5,0.5,])) 
 plot2.add_glyph(total_yield_label, Text(x="xvals", y="yvals", text="labels", text_align='center', text_color='red', text_font_size='16pt'))
 
 
@@ -186,15 +202,17 @@ def update_data(attrname, old, new):
     targets = Table.read(filename) 
     star_points.data['complete'] = np.array(targets['COMPLETENESS'][0]) 
 
-    star_yield_label.data['labels'] = [str(targets['COMPLETE0'][0][832])[0:5], \
-                                  str(targets['COMPLETE1'][0][832])[0:5], \
-                                  str(targets['COMPLETE2'][0][832])[0:5], \
-                                  str(targets['COMPLETE3'][0][832])[0:5], \
-                                  str(targets['COMPLETE4'][0][832])[0:5], \
-                                  str(targets['COMPLETE5'][0][832])[0:5], \
-                                  str(targets['COMPLETE6'][0][832])[0:5], \
-                                  str(targets['COMPLETE7'][0][832])[0:5], \
-                                  str(targets['COMPLETE8'][0][832])[0:5]] 
+    star_yield_label.data['labels'] = [str(targets['COMPLETE0'][0][1410])[0:5], \
+                                  str(targets['COMPLETE1'][0][1410])[0:5], \
+                                  str(targets['COMPLETE2'][0][1410])[0:5], \
+                                  str(targets['COMPLETE3'][0][1410])[0:5], \
+                                  str(targets['COMPLETE4'][0][1410])[0:5], \
+                                  str(targets['COMPLETE5'][0][1410])[0:5], \
+                                  str(targets['COMPLETE6'][0][1410])[0:5], \
+                                  str(targets['COMPLETE7'][0][1410])[0:5], \
+                                  str(targets['COMPLETE8'][0][1410])[0:5]] 
+
+    print 'Yield for HIP = 50954 at A = ', aperture.value, ' is ',  targets['COMPLETE0'][0][1410]
 
     total_yield_label.data['labels'] = [str(np.sum(targets['COMPLETE0'][0][:]))[0:5], \
                                         str(np.sum(targets['COMPLETE1'][0][:]))[0:5], \

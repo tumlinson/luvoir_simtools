@@ -3,8 +3,9 @@ import numpy as np
 import sys
 from .degrade_spec import degrade_spec
 from .convolve_spec import convolve_spec
-from .noise_routines import Fstar, Fplan, FpFs, cplan, czodi, cezodi, cspeck, cdark, cread, ctherm, ccic, f_airy
+from .noise_routines import Fstar, Fplan, FpFs, cplan, czodi, cezodi, cspeck, cdark, cread, ctherm, ccic, f_airy, ctherm_earth
 import pdb
+import os
 
 def count_rates(Ahr, lamhr,
                 alpha, Phi, Rp, Teff, Rs, r, d, Nez, diam, Res, Tsys, IWA, OWA,
@@ -26,7 +27,7 @@ def count_rates(Ahr, lamhr,
                 MzV    = 23.0,
                 MezV   = 22.0,
                 wantsnr=10.0, FIX_OWA = False, COMPUTE_LAM = False,
-                SILENT = False, NIR = True, THERMAL = True):
+                SILENT = False, NIR = True, THERMAL = True, GROUND = False):
     #note we get much better SNR than Ty got in his coronagraph paper's LUVIOR
     #simulation because we assume better Tput (0.2 vs his 0.05) and lower dark current
     #(1e-4 vs his 5e-4)
@@ -110,13 +111,14 @@ def count_rates(Ahr, lamhr,
 
     # Set Quantum Efficiency
     print "setting QE"
-    q = np.zeros(Nlam)
-    for j in range(Nlam):
-        if (lam[j] <= 0.7):
-            q[j] = qe
-        else:
-            q[j] = qe*(1.0 - (lam[j]-0.7)/(1.0-0.7))
-    if q[j] < 0.0: q[j] = 0.
+    q = np.zeros(Nlam) + qe
+    
+    #for j in range(Nlam):
+    #    if (lam[j] <= 0.7):
+    #        q[j] = qe
+    #    else:
+    #        q[j] = qe*(1.0 - (lam[j]-0.7)/(1.0-0.7))
+    #if q[j] < 0.0: q[j] = 0.
 
     # Set Dark current and Read noise
     De = np.zeros(Nlam) + De
@@ -134,10 +136,10 @@ def count_rates(Ahr, lamhr,
         # If there are wavelength bins longer than 1um:
         if (np.sum(iNIR) > 0):
             theta[iNIR] = 1.0/1e6/diam/2.*(180/np.pi*3600.)
-            q[iNIR]  = 0.90              # Different from vis detector
+            #q[iNIR]  = 0.90              # Different from vis detector
             Re[iNIR] = 2.                # Different from vis detector
 
-            # Set dark current based on NIR detector properties
+            # Set dark current based on NIR detector properties	    
             if ( lammax <= 2.0 ): De[iNIR] = 1e-3 * np.power(10., (Tdet-120.)*7./100. )
             if ( lammax > 2.0 ) and ( lammax <= 4.0 ): De[iNIR] = 1e-3 * np.power(10., (Tdet-80.)*9./140. )
             if ( lammax > 4.0 ) and ( lammax <= 7.0 ): De[iNIR] = 1e-3 * np.power(10., (Tdet-40.)*11./140. )
@@ -167,6 +169,28 @@ def count_rates(Ahr, lamhr,
             T[iOWA] = 0. #points outside OWA have no throughput
             if ~SILENT:
                 print 'WARNING: portions of spectrum outside OWA'
+
+                    # Modify throughput by atmospheric transmission if GROUND-based
+    if GROUND:
+        # Read in earth transmission file
+        fn = os.path.join(os.path.dirname(__file__), "ground/earth_transmission_atacama_30deg.txt")
+        tdata = np.genfromtxt(fn, skip_header=5)
+        wl_atmos = tdata[:,0]
+        Tatmoshr = tdata[:,1]
+        # Degrade atmospheric transmission to wavelength gridpoints
+        Tatmos = degrade_spec(Tatmoshr, wl_atmos,lam,dlam=dlam)
+        if False:
+            import matplotlib.pyplot as plt; from matplotlib import gridspec
+            fig1 = plt.figure(figsize=(8,6))
+            gs = gridspec.GridSpec(1,1)
+            ax1 = plt.subplot(gs[0])
+            ax1.plot(lam, Tatmos, c="orange", ls="steps-mid")
+            ax1.set_ylabel("Earth Atmospheric Transmission")
+            ax1.set_xlabel("Wavelength [um]")
+            plt.show()
+        # Multiply telescope throughput by atmospheric throughput
+        T = T * Tatmos
+
 
 
     # Degrade albedo and stellar spectrum
@@ -212,6 +236,33 @@ def count_rates(Ahr, lamhr,
         cth    =  ctherm(q, X, lam, dlam, diam, Tsys, emis)                      # internal thermal count rate
     else:
         cth = np.zeros_like(cp)
+  # Add earth thermal photons if GROUND
+    if GROUND:
+        # Read in earth thermal data
+        fn = os.path.join(os.path.dirname(__file__), "ground/earth_thermal_atacama_30deg.txt")
+        tdata = np.genfromtxt(fn, skip_header=6)
+        wl_therm = tdata[:,0]  # um
+        Fthermhr = tdata[:,1]  # W/m^2/um
+        # Degrade earth thermal flux
+        Ftherm = degrade_spec(Fthermhr, wl_therm,lam,dlam=dlam)
+        # Compute intensity
+        Itherm  = Ftherm / np.pi
+        # Compute Earth thermal photon count rate
+        cthe = ctherm_earth(q, X, lam, dlam, diam, Itherm)
+        # Add earth thermal photon counts to telescope thermal counts
+        cth = cth + cthe
+        if False:
+            import matplotlib.pyplot as plt; from matplotlib import gridspec
+            fig2 = plt.figure(figsize=(8,6))
+            gs = gridspec.GridSpec(1,1)
+            ax1 = plt.subplot(gs[0])
+            ax1.plot(lam, cthe, c="blue", ls="steps-mid", label="Earth Thermal")
+            ax1.plot(lam, cth, c="red", ls="steps-mid", label="Telescope Thermal")
+            ax1.plot(lam, cp, c="k", ls="steps-mid", label="Planet")
+            ax1.set_ylabel("Photon Count Rate [1/s]")
+            ax1.set_xlabel("Wavelength [um]")
+            plt.show()
+
     cnoise =  cp + 2*(cz + cez + csp + cD + cR + cth)                        # assumes background subtraction
     cb = (cz + cez + csp + cD + cR + cth)
     ctot = cp + cz + cez + csp + cD + cR + cth

@@ -22,8 +22,7 @@ from bokeh.models.callbacks import CustomJS
 
 cwd = os.getenv('LUVOIR_SIMTOOLS_DIR')
 
-
-# obtain the yield table for the nominal parameter set 
+# obtain the yield table for the nominal parameter set
 targets = Table.read(cwd+'data/stark_multiplanet/run_4.0_1.00E-10_3.6_0.1_3.0.fits')  
 col = copy.deepcopy(targets['TYPE'][0]) 
 col[:] = 'black' 
@@ -146,45 +145,45 @@ sym = plot1.circle(np.array([0., 0., 0., 0.]), np.array([0., 0., 0., 0.]), fill_
            line_width=4, radius=[40,30,20,10], line_alpha=0.8, fill_alpha=0.0) 
 sym.glyph.line_dash = [6, 6]
 
+# second plot, the bar chart of yields
+plot3 = Figure(plot_height=400, plot_width=450, tools="pan,reset,resize,save,tap,box_zoom,wheel_zoom",
+               outline_line_color='black', \
+              x_range=[-0.1, 3], y_range=[0, 200], toolbar_location='below', x_axis_type = None, \
+              title='                        Multiplanet Yields')
+plot3.title.text_font_size = '14pt'
+plot3.background_fill_color = "black"
+plot3.background_fill_alpha = 1.0
+plot3.yaxis.axis_label = 'X'
+plot3.xaxis.axis_label = 'Y'
+plot3.xaxis.axis_line_width = 2
+plot3.yaxis.axis_line_width = 2
+plot3.xaxis.axis_line_color = 'black'
+plot3.yaxis.axis_line_color = 'black'
+plot3.border_fill_color = "white"
+plot3.min_border_left = 0
+plot3.image_url(url=["http://www.stsci.edu/~tumlinso/earth1.jpg"], x=[0.15], y=[180], w=[0.7], h=[50])
+plot3.image_url(url=["http://www.stsci.edu/~tumlinso/neptune1.jpg"], x=[1.15], y=[180], w=[0.7], h=[50])
+plot3.image_url(url=["http://www.stsci.edu/~tumlinso/jupiter1.jpg"], x=[2.15], y=[180], w=[0.7], h=[50])
 
+# this will place labels in the small plot for the *selected star* - not implemented yet
+star_yield_label = ColumnDataSource(data=dict(yields=[10., 10., 10., 10., 10., 10., 10., 10., 10.],
+                                              left=[0.0, 0.3, 0.6, 1.0, 1.3, 1.6, 2.0, 2.3, 2.6],
+                                              right=[0.3, 0.6, 0.9, 1.3, 1.6, 1.9, 2.3, 2.6, 2.9],
+                                              color=['red','green','blue','red','green','blue','red','green','blue'],
+                                              labels=["0","0","0","0","0","0","0","0","0"],
+                                              xvals =[1.5,2.5,3.5,1.5,2.5,3.5,1.5,2.5,3.5],
+                                              yvals =[2.9,2.9,2.9,1.9,1.9,1.9,0.9,0.9,0.9,]))
 
-# second plot, the "table" of Yields 
-plot2 = Figure(plot_height=400, plot_width=450, tools=" ", outline_line_color='black', \
-              x_range=[0, 4], y_range=[0, 4], toolbar_location='left', x_axis_type=None, y_axis_type=None, \
-              title='                        Multiplanet Yields') 
-plot2.text([2.5], [3.2], ['Earth-like'], text_color="white", text_align="center", text_alpha=1.0) 
-plot2.text([2.5], [3.2], ['_____________________________'], text_color="white", text_align="center", text_alpha=1.0) 
-plot2.text([2.5], [2.2], ['Neptune-like'], text_color="white", text_align="center", text_alpha=1.0) 
-plot2.text([2.5], [2.2], ['_____________________________'], text_color="white", text_align="center", text_alpha=1.0) 
-plot2.text([2.5], [1.2], ['Jupiter-like'], text_color="white", text_align="center", text_alpha=1.0) 
-plot2.text([2.5], [1.2], ['_____________________________'], text_color="white", text_align="center", text_alpha=1.0) 
-plot2.text([1.5], [3.7], ['Hot'], text_color="white", text_align="center", text_alpha=1.0) 
-plot2.text([2.5], [3.7], ['Warm'], text_color="white", text_align="center", text_alpha=1.0) 
-plot2.text([3.5], [3.7], ['Cool'], text_color="white", text_align="center", text_alpha=1.0) 
-plot2.title.text_font_size = '14pt' 
-plot2.background_fill_color = "black"
-plot2.background_fill_alpha = 1.0 
-plot2.yaxis.axis_label = ' ' 
-plot2.xaxis.axis_label = ' ' 
-plot2.xaxis.axis_line_width = 0
-plot2.yaxis.axis_line_width = 0 
-plot2.xaxis.axis_line_color = 'white' 
-plot2.yaxis.axis_line_color = 'white' 
-plot2.border_fill_color = "white"
-plot2.min_border_left = 0
-plot2.image_url(url=["http://www.stsci.edu/~tumlinso/earth1.jpg"], x=[0.2], y=[3.2], w=0.7, h=0.8)
-plot2.image_url(url=["http://www.stsci.edu/~tumlinso/neptune1.jpg"], x=[0.2], y=[2.2], w=0.7, h=0.8)
-plot2.image_url(url=["http://www.stsci.edu/~tumlinso/jupiter1.jpg"], x=[0.2], y=[1.2], w=0.7, h=0.8)
-
-
-# this will place labels in the small plot for the *selected star* - not implemented yet 
-star_yield_label = ColumnDataSource(data=dict(labels=["0","0","0","0","0","0","0","0","0"], \
-                                         xvals =[1.5,2.5,3.5,1.5,2.5,3.5,1.5,2.5,3.5], yvals =[2.9,2.9,2.9,1.9,1.9,1.9,0.9,0.9,0.9,])) 
-plot2.add_glyph(star_yield_label, Text(x="xvals", y="yvals", text="labels", text_align='center', text_color='white', text_font_size='14pt'))
-
-total_yield_label = ColumnDataSource(data=dict(labels=["0","0","0","0","0","0","0","0","0"], \
-                                         xvals =[1.5,2.5,3.5,1.5,2.5,3.5,1.5,2.5,3.5], yvals =[2.5,2.5,2.5,1.5,1.5,1.5,0.5,0.5,0.5,])) 
-plot2.add_glyph(total_yield_label, Text(x="xvals", y="yvals", text="labels", text_align='center', text_color='red', text_font_size='16pt'))
+total_yield_label = ColumnDataSource(data=dict(yields=[0., 0., 0., 0., 0., 0., 0., 0., 0.], \
+                                        left=[0.0, 0.3, 0.6, 1.0, 1.3, 1.6, 2.0, 2.3, 2.6],
+                                        right=[0.3, 0.6, 0.9, 1.3, 1.6, 1.9, 2.3, 2.6, 2.9],
+                                        color=['red', 'green', 'blue', 'red', 'green', 'blue', 'red', 'green', 'blue'],
+                                        labels=["0","0","0","0","0","0","0","0","0"], \
+                                        xvals =[1.5,2.5,3.5,1.5,2.5,3.5,1.5,2.5,3.5], \
+                                        yvals =[2.5,2.5,2.5,1.5,1.5,1.5,0.5,0.5,0.5,]))
+plot3.quad(top='yields', bottom=0., left='left', right='right', \
+           source=total_yield_label, color='color', fill_alpha=0.9, line_alpha=1.)
+plot3.text('left', 'yields', 'labels', 0., 20, 20, text_align='center', source=total_yield_label, text_color='white')
 
 
 def update_data(attrname, old, new):
@@ -202,6 +201,15 @@ def update_data(attrname, old, new):
     targets = Table.read(filename) 
     star_points.data['complete'] = np.array(targets['COMPLETENESS'][0]) 
 
+    star_yield_label.data['yields'] = [targets['COMPLETE0'][0][1410], \
+                                  targets['COMPLETE1'][0][1410], \
+                                  targets['COMPLETE2'][0][1410], \
+                                  targets['COMPLETE3'][0][1410], \
+                                  targets['COMPLETE4'][0][1410], \
+                                  targets['COMPLETE5'][0][1410], \
+                                  targets['COMPLETE6'][0][1410], \
+                                  targets['COMPLETE7'][0][1410], \
+                                  targets['COMPLETE8'][0][1410]]
     star_yield_label.data['labels'] = [str(targets['COMPLETE0'][0][1410])[0:5], \
                                   str(targets['COMPLETE1'][0][1410])[0:5], \
                                   str(targets['COMPLETE2'][0][1410])[0:5], \
@@ -210,19 +218,27 @@ def update_data(attrname, old, new):
                                   str(targets['COMPLETE5'][0][1410])[0:5], \
                                   str(targets['COMPLETE6'][0][1410])[0:5], \
                                   str(targets['COMPLETE7'][0][1410])[0:5], \
-                                  str(targets['COMPLETE8'][0][1410])[0:5]] 
+                                  str(targets['COMPLETE8'][0][1410])[0:5]]
 
-    print 'Yield for HIP = 50954 at A = ', aperture.value, ' is ',  targets['COMPLETE0'][0][1410]
-
-    total_yield_label.data['labels'] = [str(np.sum(targets['COMPLETE0'][0][:]))[0:5], \
-                                        str(np.sum(targets['COMPLETE1'][0][:]))[0:5], \
-                                        str(np.sum(targets['COMPLETE2'][0][:]))[0:5], \
-                                        str(np.sum(targets['COMPLETE3'][0][:]))[0:5], \
-                                        str(np.sum(targets['COMPLETE4'][0][:]))[0:5], \
-                                        str(np.sum(targets['COMPLETE5'][0][:]))[0:5], \
-                                        str(np.sum(targets['COMPLETE6'][0][:]))[0:5], \
-                                        str(np.sum(targets['COMPLETE7'][0][:]))[0:5], \
-                                        str(np.sum(targets['COMPLETE8'][0][:]))[0:5]] 
+    total_yield_label.data['yields'] = [np.sum(targets['COMPLETE0'][0][:]), \
+                                        np.sum(targets['COMPLETE1'][0][:]), \
+                                        np.sum(targets['COMPLETE2'][0][:]), \
+                                        np.sum(targets['COMPLETE3'][0][:]), \
+                                        np.sum(targets['COMPLETE4'][0][:]), \
+                                        np.sum(targets['COMPLETE5'][0][:]), \
+                                        np.sum(targets['COMPLETE6'][0][:]), \
+                                        np.sum(targets['COMPLETE7'][0][:]), \
+                                        np.sum(targets['COMPLETE8'][0][:])]
+    print 'Total Yields', total_yield_label.data['yields']
+    total_yield_label.data['labels'] = [str(int(np.sum(targets['COMPLETE0'][0][:]))), \
+                                        str(int(np.sum(targets['COMPLETE1'][0][:]))), \
+                                        str(int(np.sum(targets['COMPLETE2'][0][:]))), \
+                                        str(int(np.sum(targets['COMPLETE3'][0][:]))), \
+                                        str(int(np.sum(targets['COMPLETE4'][0][:]))), \
+                                        str(int(np.sum(targets['COMPLETE5'][0][:]))), \
+                                        str(int(np.sum(targets['COMPLETE6'][0][:]))), \
+                                        str(int(np.sum(targets['COMPLETE7'][0][:]))), \
+                                        str(int(np.sum(targets['COMPLETE8'][0][:])))]
  
     # colors corresponding to yields are updated here 
     col = copy.deepcopy(targets['TYPE'][0]) 
@@ -241,8 +257,6 @@ def update_data(attrname, old, new):
     star_points.data['x'] = x 
     
     yield_now = np.sum(targets['COMPLETENESS'][0]) * 0.1 
-    #rect_points.data['top'] = np.array([yield_now,a,a])/2. - 50. 
-    #rect_points.data['strbag'] = str(np.sum(np.array(targets['COMPLETENESS'][0]))) 
 
     star_points.data['COMPLETE0'] = np.array(targets['COMPLETE0'][0]) 
     star_points.data['COMPLETE1'] = np.array(targets['COMPLETE1'][0]) 
@@ -270,14 +284,9 @@ iwa      = Slider(title="Inner Working Angle (l/D)", value=1.5, start=1.5, end=4
 iwa.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
- 
 
-# iterate on changes to parameters 
-#for w in [aperture, contrast]: 
-#    w.on_change('value', update_data)
- 
 # Set up layouts and add to document
-inputs = Column(children=[aperture, contrast, plot2]) 
+inputs = Column(children=[aperture, contrast, plot3])
 curdoc().add_root(Row(children=[inputs, plot1], width=1800))
 curdoc().add_root(source) 
 

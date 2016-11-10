@@ -45,13 +45,13 @@ star_points = ColumnDataSource(data=dict(x0 = targets['X'][0], \
                                          complete=targets['COMPLETENESS'][0], \
                                          complete0=targets['COMPLETE0'][0], \
                                          complete1=targets['COMPLETE1'][0], \
-                                         complete2=targets['COMPLETE2'][0], \
+                                         complete2=targets['COMPLETE2'][0]*targets['MP_ETA'][0][1], \
                                          complete3=targets['COMPLETE3'][0], \
                                          complete4=targets['COMPLETE4'][0], \
-                                         complete5=targets['COMPLETE5'][0], \
+                                         complete5=targets['COMPLETE5'][0]*targets['MP_ETA'][0][4], \
                                          complete6=targets['COMPLETE6'][0], \
                                          complete7=targets['COMPLETE7'][0], \
-                                         complete8=targets['COMPLETE8'][0]  \
+                                         complete8=targets['COMPLETE8'][0]*targets['MP_ETA'][0][7]  \
                                          )) # end of the stars CDS 
 black_points = [star_points.data['color'] == 'black'] 
 star_points.data['x'][black_points] += 2000. 	# this line shifts the black points with no yield off the plot 
@@ -146,12 +146,12 @@ sym = plot1.circle(np.array([0., 0., 0., 0.]), np.array([0., 0., 0., 0.]), fill_
 sym.glyph.line_dash = [6, 6]
 
 # second plot, the bar chart of yields
-plot3 = Figure(plot_height=400, plot_width=450, tools="pan,reset,resize,save,tap,box_zoom,wheel_zoom",
+plot3 = Figure(plot_height=400, plot_width=480, tools="pan,reset,resize,save,tap,box_zoom,wheel_zoom",
                outline_line_color='black', \
-              x_range=[-0.1, 3], y_range=[0, 200], toolbar_location='below', x_axis_type = None, \
+              x_range=[-0.1, 3], y_range=[0, 100], toolbar_location='below', x_axis_type = None, \
               title='                        Multiplanet Yields')
 plot3.title.text_font_size = '14pt'
-plot3.background_fill_color = "black"
+plot3.background_fill_color = "white"
 plot3.background_fill_alpha = 1.0
 plot3.yaxis.axis_label = 'X'
 plot3.xaxis.axis_label = 'Y'
@@ -161,9 +161,7 @@ plot3.xaxis.axis_line_color = 'black'
 plot3.yaxis.axis_line_color = 'black'
 plot3.border_fill_color = "white"
 plot3.min_border_left = 0
-plot3.image_url(url=["http://www.stsci.edu/~tumlinso/earth1.jpg"], x=[0.15], y=[180], w=[0.7], h=[50])
-plot3.image_url(url=["http://www.stsci.edu/~tumlinso/neptune1.jpg"], x=[1.15], y=[180], w=[0.7], h=[50])
-plot3.image_url(url=["http://www.stsci.edu/~tumlinso/jupiter1.jpg"], x=[2.15], y=[180], w=[0.7], h=[50])
+plot3.image_url(url=["http://jt-astro.science/planets.jpg"], x=[-0.2], y=[105], w=[3.2], h=[105])
 
 # this will place labels in the small plot for the *selected star* - not implemented yet
 star_yield_label = ColumnDataSource(data=dict(yields=[10., 10., 10., 10., 10., 10., 10., 10., 10.],
@@ -183,7 +181,7 @@ total_yield_label = ColumnDataSource(data=dict(yields=[0., 0., 0., 0., 0., 0., 0
                                         yvals =[2.5,2.5,2.5,1.5,1.5,1.5,0.5,0.5,0.5,]))
 plot3.quad(top='yields', bottom=0., left='left', right='right', \
            source=total_yield_label, color='color', fill_alpha=0.9, line_alpha=1.)
-plot3.text('left', 'yields', 'labels', 0., 20, 20, text_align='center', source=total_yield_label, text_color='white')
+plot3.text('left', 'yields', 'labels', 0., 20, -3, text_align='center', source=total_yield_label, text_color='black')
 
 
 def update_data(attrname, old, new):
@@ -203,42 +201,43 @@ def update_data(attrname, old, new):
 
     star_yield_label.data['yields'] = [targets['COMPLETE0'][0][1410], \
                                   targets['COMPLETE1'][0][1410], \
-                                  targets['COMPLETE2'][0][1410], \
+                                  targets['MP_ETA'][0][1] * targets['COMPLETE2'][0][1410], \
                                   targets['COMPLETE3'][0][1410], \
                                   targets['COMPLETE4'][0][1410], \
-                                  targets['COMPLETE5'][0][1410], \
+                                  targets['MP_ETA'][0][4] * targets['COMPLETE5'][0][1410], \
                                   targets['COMPLETE6'][0][1410], \
                                   targets['COMPLETE7'][0][1410], \
-                                  targets['COMPLETE8'][0][1410]]
+                                  targets['MP_ETA'][0][7] * targets['COMPLETE8'][0][1410]]
     star_yield_label.data['labels'] = [str(targets['COMPLETE0'][0][1410])[0:5], \
-                                  str(targets['COMPLETE1'][0][1410])[0:5], \
-                                  str(targets['COMPLETE2'][0][1410])[0:5], \
-                                  str(targets['COMPLETE3'][0][1410])[0:5], \
-                                  str(targets['COMPLETE4'][0][1410])[0:5], \
-                                  str(targets['COMPLETE5'][0][1410])[0:5], \
-                                  str(targets['COMPLETE6'][0][1410])[0:5], \
-                                  str(targets['COMPLETE7'][0][1410])[0:5], \
-                                  str(targets['COMPLETE8'][0][1410])[0:5]]
-
+                                       str(targets['COMPLETE1'][0][1410])[0:5], \
+                                       str(targets['MP_ETA'][0][1] * targets['COMPLETE2'][0][1410])[0:5], \
+                                       str(targets['COMPLETE3'][0][1410])[0:5], \
+                                       str(targets['COMPLETE4'][0][1410])[0:5], \
+                                       str(targets['MP_ETA'][0][4] * targets['COMPLETE5'][0][1410])[0:5], \
+                                       str(targets['COMPLETE6'][0][1410])[0:5], \
+                                       str(targets['COMPLETE7'][0][1410])[0:5], \
+                                       str(targets['MP_ETA'][0][7] * targets['COMPLETE8'][0][1410])[0:5]]
     total_yield_label.data['yields'] = [np.sum(targets['COMPLETE0'][0][:]), \
                                         np.sum(targets['COMPLETE1'][0][:]), \
-                                        np.sum(targets['COMPLETE2'][0][:]), \
+                                        np.sum(targets['MP_ETA'][0][1] * targets['COMPLETE2'][0][:]), \
                                         np.sum(targets['COMPLETE3'][0][:]), \
                                         np.sum(targets['COMPLETE4'][0][:]), \
-                                        np.sum(targets['COMPLETE5'][0][:]), \
+                                        np.sum(targets['MP_ETA'][0][4] * targets['COMPLETE5'][0][:]), \
                                         np.sum(targets['COMPLETE6'][0][:]), \
                                         np.sum(targets['COMPLETE7'][0][:]), \
-                                        np.sum(targets['COMPLETE8'][0][:])]
+                                        np.sum(targets['MP_ETA'][0][7] * targets['COMPLETE8'][0][:])]
     print 'Total Yields', total_yield_label.data['yields']
     total_yield_label.data['labels'] = [str(int(np.sum(targets['COMPLETE0'][0][:]))), \
                                         str(int(np.sum(targets['COMPLETE1'][0][:]))), \
-                                        str(int(np.sum(targets['COMPLETE2'][0][:]))), \
+                                        str(int(targets['MP_ETA'][0][1]*np.sum(targets['COMPLETE2'][0][:]))), \
                                         str(int(np.sum(targets['COMPLETE3'][0][:]))), \
                                         str(int(np.sum(targets['COMPLETE4'][0][:]))), \
-                                        str(int(np.sum(targets['COMPLETE5'][0][:]))), \
+                                        str(int(targets['MP_ETA'][0][4]*np.sum(targets['COMPLETE5'][0][:]))), \
                                         str(int(np.sum(targets['COMPLETE6'][0][:]))), \
                                         str(int(np.sum(targets['COMPLETE7'][0][:]))), \
-                                        str(int(np.sum(targets['COMPLETE8'][0][:])))]
+                                        str(int(targets['MP_ETA'][0][7]*np.sum(targets['COMPLETE8'][0][:])))]
+
+    print 'MP_ETA', targets['MP_ETA'][0]
  
     # colors corresponding to yields are updated here 
     col = copy.deepcopy(targets['TYPE'][0]) 

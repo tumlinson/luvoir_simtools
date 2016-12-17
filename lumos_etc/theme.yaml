@@ -1,0 +1,17 @@
+attrs:
+    Figure:
+        background_fill_color: '#FF00FF'
+        border_fill_color: '#22222F'
+        outline_line_color: '#444444'
+    Axis:
+        axis_line_color: "white"
+        axis_label_text_color: "white"
+        major_label_text_color: "orange"
+        major_tick_line_color: "white"
+        minor_tick_line_color: "white"
+        minor_tick_line_color: "white"
+    Grid:
+        grid_line_dash: [6, 4]
+        grid_line_alpha: .3
+    Title:
+        text_color: "green"

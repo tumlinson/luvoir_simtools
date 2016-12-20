@@ -1,6 +1,7 @@
 ''' Docstring 
 '''
 import numpy as np
+import copy 
 
 from bokeh.io import output_file, gridplot 
 from bokeh.plotting import Figure
@@ -39,15 +40,12 @@ def simulate_exposure(telescope, spectrograph, wave, flux, exptime):
     signal_to_noise = source_counts / (source_counts + background_counts)** 0.5 
     return signal_to_noise 
 
-
 ##### START FOR NEW WAY TO GET TEMPLATE SPECTRA 
 spec_dict = get_pysynphot_spectra.add_spectrum_to_library() 
 template_to_start_with = 'QSO' 
 spec_dict[template_to_start_with].wave 
 spec_dict[template_to_start_with].flux # <---- these are the variables you need 
 
-# THIS IS THE ENTIRE S/N CALCULATION 
-#sn = (spec_dict[template_to_start_with].flux * 1.e16 * 100. ) ** 0.5
 signal_to_noise = simulate_exposure(luvoir, lumos, spec_dict[template_to_start_with].wave, spec_dict[template_to_start_with].flux, 1.0) 
 
 flux_cut = spec_dict[template_to_start_with].flux 
@@ -73,9 +71,6 @@ flux_plot.xaxis.axis_label = 'Wavelength'
 flux_plot.line('w', 'f', source=spectrum_template, line_width=3, line_color='firebrick', line_alpha=0.7, legend='Source Flux')
 flux_plot.line('wave', 'bef', source=instrument_info, line_width=3, line_color='darksalmon', line_alpha=0.7, legend='Background')
 
-
-
-
 # set up the flux plot 
 sn_plot = Figure(plot_height=400, plot_width=800, 
               tools="crosshair,hover,pan,reset,resize,save,box_zoom,wheel_zoom", outline_line_color='black', 
@@ -94,38 +89,42 @@ def update_data(attrname, old, new): # use this one for updating pysynphot tempa
     print 'Selected grating = ', grating.value 
     lumos.set_mode(grating.value) 
 
-    print 'BEF = ', lumos.wave[20], lumos.bef[20] 
+    new_w0 = spec_dict[template.value].wave 
+    new_f0 = spec_dict[template.value].flux 
+ 
+    #OOPS, SHOULD USE PYSYNPHOT FOR REDSHIFT HERE, THE NORMALIZATION IS NOT QUITE CORRECT 
+    new_w = np.array(new_w0) * (1. + redshift.value)
+    new_f = np.array(new_f0) * 10.**( (21.-magnitude.value) / 2.5)
+    new_sn = np.nan_to_num(simulate_exposure(luvoir, lumos, new_w, new_f, exptime.value)) 
 
-    spectrum_template.data['w0'] = spec_dict[template.value].wave 
-    spectrum_template.data['f0'] = spec_dict[template.value].flux 
+    flux_cut = copy.deepcopy(new_f) 
+    flux_cut[new_w < lumos.lambda_range[0]] = -999.  
+    flux_cut[new_w > lumos.lambda_range[1]] = -999.  
+    print 'RANGE', lumos.lambda_range[0], lumos.lambda_range[1] 
 
-    spectrum_template.data['w'] = np.array(spectrum_template.data['w0']) * (1. + redshift.value)
-    spectrum_template.data['f'] = np.array(spectrum_template.data['f0']) * 10.**( (21.-magnitude.value) / 2.5)
-
-    #OOPS SHOULD USE PYSYNPHOT FOR REDSHIFT HERE, THE NORMALIZATION IS NOT QUITE CORRECT 
+    new_dict = {'w':new_w, 'f':new_f, 'w0':new_w0, 'f0':new_f0, 'flux_cut':flux_cut, 'sn':new_sn} 
+    spectrum_template.data = new_dict 
 
     luvoir.aperture = aperture.value 
-    # THIS IS THE ENTIRE S/N CALCULATION 
-    sn = np.nan_to_num(simulate_exposure(luvoir, lumos, spectrum_template.data['w'], spectrum_template.data['f'], exptime.value)) 
-    spectrum_template.data['sn'] = sn
 
     # set the axes to autoscale appropriately 
     flux_plot.y_range.start = 0 
-    flux_plot.y_range.end = 1.5*np.max(spectrum_template.data['f'])
+    flux_plot.y_range.end = 1.5*np.max(flux_cut)
     sn_plot.y_range.start = 0 
-    sn_plot.y_range.end = 1.3*np.max(sn) 
+    sn_plot.y_range.end = 1.3*np.max(spectrum_template.data['sn'])
+    print 'MAX MAX', np.max(spectrum_template.data['f']), np.max(flux_cut) 
 
     instrument_info.data['wave'] = lumos.wave 
     instrument_info.data['bef'] = lumos.bef  
-
 
 # fake source for managing callbacks 
 source = ColumnDataSource(data=dict(value=[]))
 source.on_change('data', update_data)
 
 # Set up widgets and their callbacks (faking the mouseup policy via "source" b/c functional callback doesn't do that. 
-template = Select(title="Template Spectrum", value="QSO", options=["QSO", "10 Myr Starburst", "O5V Star", "G2V Star", "Classical T Tauri", "M1 Dwarf", "Orion Nebula", \
-                            "Starburst, No Dust", "Starburst, E(B-V) = 0.6", "Galaxy with f_esc, HI=1, HeI=1", "Galaxy with f_esc, HI=0.001, HeI=1"])
+template = Select(title="Template Spectrum", value="QSO", 
+                options=["QSO", "10 Myr Starburst", "O5V Star", "G2V Star", "Classical T Tauri", "M1 Dwarf", "Orion Nebula", \
+                         "Starburst, No Dust", "Starburst, E(B-V) = 0.6", "Galaxy with f_esc, HI=1, HeI=1", "Galaxy with f_esc, HI=0.001, HeI=1"])
 
 redshift = Slider(title="Redshift", value=0.0, start=0., end=3.0, step=0.05, callback_policy='mouseup')
 redshift.callback = CustomJS(args=dict(source=source), code="""
@@ -145,7 +144,6 @@ exptime = Slider(title="Exposure Time [hr]", value=1.0, start=0.1, end=10.0, ste
 exptime.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-
 
 # iterate on changes to parameters 
 for w in [template, grating]:  w.on_change('value', update_data)

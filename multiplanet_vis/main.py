@@ -23,7 +23,7 @@ from bokeh.models.callbacks import CustomJS
 cwd = os.getenv('LUVOIR_SIMTOOLS_DIR')
 
 # obtain the yield table for the nominal parameter set
-targets = Table.read(cwd+'data/stark_multiplanet/run_4.0_1.00E-10_3.6_0.1_3.0.fits')  
+targets = Table.read(cwd+'multiplanet_vis/data/stark_multiplanet/run_4.0_1.00E-10_3.6_0.1_3.0.fits')  
 col = copy.deepcopy(targets['TYPE'][0]) 
 col[:] = 'black' 
 col[np.where(targets['COMPLETENESS'][0] > 0.2*0.1)] = 'red' 
@@ -94,6 +94,37 @@ hover = HoverTool(names=["star_points_to_hover"], mode='mouse', # point_policy="
         """
     )
 plot1.add_tools(hover) 
+### THIS IS THE HOVER HELP FOR THE MAIN WINDOW 
+hover_help = HoverTool(names=["quickhelp_to_hover"], mode='mouse', 
+     tooltips = """ 
+            <div>
+                <span style="font-size: 16px; font-weight: normal; color: #000">
+                This tool visualizes the results of detailed exoplanet mission <br> 
+                yield simulations described in Stark et al. (2014), ApJ, 795, 122 <br> 
+                Stark et al. (2015), ApJ, 808, 149. The python/bokeh visualization <br> 
+		is by <a href='http://jt-astro.science'>Jason Tumlinson</a>. <br> <br> 
+           </div>
+           <div>
+                <span style="font-size: 16px; font-weight: normal; color: #000">
+                For this analysis, the fraction of stars with exoEarth <br> 
+                candidates (Eta_Earth) is assumed to be 10%. The planets <br>
+                are observed over 1 year of total exposure time using <br> 
+                high-contrast optical imaging with a coronagraph. At least <br> 
+                one imaging observation of every star is performed to find <br>
+                the exoEarth candidates (blind search). For every detected <br>
+                planet, a partial spectroscopic characterization is executed. <br>
+                The telescope aperture and coronagraph contrast can be varied <br>
+                with the slider bars. The real host stars observed are shown <br>
+                with colored dots in the main plot, with the Sun at the center <br>
+                (hovering the cursor over a dot will reveal the star name<br>
+                and parameters). The color of the dot indicates the chance <br>
+                of detecting an exoEarth around that star if it is present.
+                </span>
+        </div>
+ 
+        """
+    )
+plot1.add_tools(hover_help) 
 hover = plot1.select(dict(type=HoverTool))
 plot1.x_range=Range1d(-50,50,bounds=(-50,50)) 
 plot1.y_range=Range1d(-50,50,bounds=(-50,50)) 
@@ -129,6 +160,10 @@ star_syms.data_source.on_change('selected', SelectCallback)
 #taptool = plot1.select(type=TapTool)
 #taptool.callback = FuncFunc() 
 
+quickhelp_source = ColumnDataSource(data=dict(x=np.array([44.0]), y=np.array([32.]), text=['Help']))
+help_glyph = plot1.circle('x', 'y', color='black', source=quickhelp_source, radius=4, name="quickhelp_to_hover") 
+plot1.text([48.5], [30], ['Help'], text_color='orange', text_font_size='18pt', text_align="right") 
+
 plot1.text(0.95*0.707*np.array([10., 20., 30., 40.]), 0.707*np.array([10., 20., 30., 40.]), \
      text=['10 pc', '20 pc', '30 pc', '40 pc'], text_color="white", text_font_style='bold', text_font_size='12pt', text_alpha=0.8) 
 plot1.text([48.5], [47], ['Chance Of Detecting'], text_color="white", text_align="right", text_alpha=1.0) 
@@ -146,10 +181,10 @@ sym = plot1.circle(np.array([0., 0., 0., 0.]), np.array([0., 0., 0., 0.]), fill_
 sym.glyph.line_dash = [6, 6]
 
 # second plot, the bar chart of yields
-plot3 = Figure(plot_height=400, plot_width=480, tools="pan,reset,resize,save,tap,box_zoom,wheel_zoom",
+plot3 = Figure(plot_height=400, plot_width=480, tools="reset,save,tap",
                outline_line_color='black', \
-              x_range=[-0.1, 3], y_range=[0, 100], toolbar_location='below', x_axis_type = None, \
-              title='                        Multiplanet Yields')
+              x_range=[-0.1, 3], y_range=[0, 100], toolbar_location='above', x_axis_type = None, \
+              title='Multiplanet Yields') 
 plot3.title.text_font_size = '14pt'
 plot3.background_fill_color = "white"
 plot3.background_fill_alpha = 1.0
@@ -176,13 +211,29 @@ total_yield_label = ColumnDataSource(data=dict(yields=[0., 0., 0., 0., 0., 0., 0
                                         left=[0.0, 0.3, 0.6, 1.0, 1.3, 1.6, 2.0, 2.3, 2.6],
                                         right=[0.3, 0.6, 0.9, 1.3, 1.6, 1.9, 2.3, 2.6, 2.9],
                                         color=['red', 'green', 'blue', 'red', 'green', 'blue', 'red', 'green', 'blue'],
+                                        temp=['Hot','Warm','Cool','Hot','Warm','Cool','Hot','Warm','Cool'], 
+                                        mass=['Earths','Earths','Earths','Neptunes','Neptunes','Neptunes','Jupiters','Jupiters','Jupiters'], 
                                         labels=["0","0","0","0","0","0","0","0","0"], \
                                         xvals =[1.5,2.5,3.5,1.5,2.5,3.5,1.5,2.5,3.5], \
                                         yvals =[2.5,2.5,2.5,1.5,1.5,1.5,0.5,0.5,0.5,]))
 plot3.quad(top='yields', bottom=0., left='left', right='right', \
-           source=total_yield_label, color='color', fill_alpha=0.9, line_alpha=1.)
+           source=total_yield_label, color='color', fill_alpha=0.9, line_alpha=1., name='total_yield_label_hover')
 plot3.text('left', 'yields', 'labels', 0., 20, -3, text_align='center', source=total_yield_label, text_color='black')
 
+yield_hover = HoverTool(names=["total_yield_label_hover"], mode='mouse', # point_policy="snap_to_data",
+     tooltips = """ 
+            <div>
+                <span style="font-size: 20px; font-weight: bold; color:@color">N = </span>
+                <span style="font-size: 20px; font-weight: bold; color:@color">@yields</span>
+            </div>
+            <div>
+                <span style="font-size: 20px; font-weight: bold; color:@color">@temp </span>
+            </div>
+            <div>
+                <span style="font-size: 20px; font-weight: bold; color:@color">@mass</span>
+            </div>
+              """) 
+plot3.add_tools(yield_hover) 
 
 def update_data(attrname, old, new):
 
@@ -195,7 +246,7 @@ def update_data(attrname, old, new):
                  '10':'10.0','10.0':'10.0','12':'12.0','12.0':'12.0','14':'14.0',\
                  '14.0':'14.0','16':'16.0'} 
     contrasts = {'-11':'1.00E-11','-10':'1.00E-10','-9':'1.00E-09'} 
-    filename = cwd+'data/stark_multiplanet/'+'run_'+apertures[str(a)]+'_'+contrasts[str(c)]+'_3.6_0.1_3.0.fits' 
+    filename = cwd+'multiplanet_vis/data/stark_multiplanet/'+'run_'+apertures[str(a)]+'_'+contrasts[str(c)]+'_3.6_0.1_3.0.fits' 
     targets = Table.read(filename) 
     star_points.data['complete'] = np.array(targets['COMPLETENESS'][0]) 
 

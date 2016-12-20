@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../bootstrap-3.3.6/docs/favicon.ico">
+
+    <title>LUVOIR Performance Simulation</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../bootstrap-3.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="jumbotron-narrow.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="../bootstrap-3.3.6/assets/js/ie-emulation-modes-warning.js"></script>
+
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+          </ul>
+        </nav>
+        <h3 class="text-muted">LUVOIR: Photometric ETC </h3>
+        <h4 class="text-muted"><a href="http://asd.gsfc.nasa.gov/luvoir/tools/"> Back to Main Page</a></h4><br>
+      </div>
+
+      <div class="row marketing">
+        <div class="col-lg-6">
+          <p>This is the basic ETC for photometry in multiband images. Choose your telescope aperture, exposure time, and magnitude. Given an aperture and magnitude (AB in all bands), choose the exposure time that reaches your desired S/N. To obtain limiting magnitudes given exposure time, set that time and then tune the magnitude to reach your desired limiting S/N.</p>
+        </div>
+        <div class="col-lg-6">
+          <p>The details of these calculations are <a href="SNR_equation.pdf"> here</a>. We assume that the pixel size in each band critically samples the telescope's diffraction limited PSF at the shortest wavelength in that channel. Thermal backgrounds are included for T = 280 K, which substantially affects the K band.</p>
+        </div>
+      </div>
+
+
+
+
+
+      <div class="bk-root"> 
+      <script
+        src="http://www.jt-astro.science:5101/phot_etc_bokeh0.12/autoload.js?bokeh-autoload-element=b4694091-c903-467c-8fc1-59940f788f29"
+        id="b4694091-c903-467c-8fc1-59940f788f29"
+        data-bokeh-model-id=""
+        data-bokeh-doc-id=""
+    ></script> 
+      </div> 
+
+
+
+    </div> <!-- /container -->
+
+
+  </body>
+</html>

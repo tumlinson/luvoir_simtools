@@ -1,0 +1,39 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <style>
+            @import url(https://fonts.googleapis.com/css?family=Helvetica);
+            body {
+              font-family: 'Helvetica', sans-serif;
+              -webkit-font-smoothing: antialiased;
+              text-rendering: optimizeLegibility;
+              color: #F00;
+              background: #000000;   
+             }
+        </style>
+        <meta charset="utf-8">
+        <title>Bokeh Crossfilter Example</title>
+        {{ bokeh_css }}
+        {{ bokeh_js }}
+    </head>
+
+
+    <div class="container">
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <!-- <li role="presentation" class="active"><a href="#">Home</a></li>
+            <li role="presentation"><a href="#">About</a></li>
+            <li role="presentation"><a href="#">Contact</a></li> --> 
+          </ul>
+        </nav>
+        <h3 class="text-muted">LUVOIR: The VERY Large UltraViolet Optical Infrared Surveyor</h3>
+      </div>
+
+    <body>
+        {{ plot_div|indent(8) }}
+        {{ plot_script|indent(8) }}
+    </body>
+</html>

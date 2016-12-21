@@ -25,7 +25,7 @@ from bokeh.models.callbacks import CustomJS
 cwd = os.getenv('LUVOIR_SIMTOOLS_DIR')
 
 # obtain the yield table for the nominal parameter set
-targets = Table.read(cwd+'multiplanet_vis/data/stark_multiplanet/run_4.0_1.00E-10_3.6_0.1_3.0.fits')  
+targets = Table.read(cwd+'multiplanet_vis/data/stark_multiplanet/run_4.0_1.00E-10_0.10_3.0.fits')  
 col = copy.deepcopy(targets['TYPE'][0]) 
 col[:] = 'black' 
 col[np.where(targets['COMPLETENESS'][0] > 0.2*0.1)] = 'red' 
@@ -47,13 +47,13 @@ star_points = ColumnDataSource(data=dict(x0 = targets['X'][0], \
                                          complete=targets['COMPLETENESS'][0], \
                                          complete0=targets['COMPLETE0'][0], \
                                          complete1=targets['COMPLETE1'][0], \
-                                         complete2=targets['COMPLETE2'][0]*targets['MP_ETA'][0][1], \
+                                         complete2=targets['COMPLETE2'][0], \
                                          complete3=targets['COMPLETE3'][0], \
                                          complete4=targets['COMPLETE4'][0], \
-                                         complete5=targets['COMPLETE5'][0]*targets['MP_ETA'][0][4], \
+                                         complete5=targets['COMPLETE5'][0], \
                                          complete6=targets['COMPLETE6'][0], \
                                          complete7=targets['COMPLETE7'][0], \
-                                         complete8=targets['COMPLETE8'][0]*targets['MP_ETA'][0][7]  \
+                                         complete8=targets['COMPLETE8'][0]  \
                                          )) # end of the stars CDS 
 black_points = [star_points.data['color'] == 'black'] 
 star_points.data['x'][black_points] += 2000. 	# this line shifts the black points with no yield off the plot 
@@ -159,7 +159,7 @@ sym.glyph.line_dash = [6, 6]
 # second plot, the bar chart of yields
 plot3 = Figure(plot_height=400, plot_width=480, tools="reset,save,tap",
                outline_line_color='black', \
-              x_range=[-0.1, 3], y_range=[0, 100], toolbar_location='above', x_axis_type = None, \
+              x_range=[-0.1, 3], y_range=[0, 300], toolbar_location='above', x_axis_type = None, \
               title='Multiplanet Yields') 
 plot3.title.text_font_size = '14pt'
 plot3.background_fill_color = "white"
@@ -172,7 +172,7 @@ plot3.xaxis.axis_line_color = 'black'
 plot3.yaxis.axis_line_color = 'black'
 plot3.border_fill_color = "white"
 plot3.min_border_left = 0
-plot3.image_url(url=["http://jt-astro.science/planets.jpg"], x=[-0.2], y=[105], w=[3.2], h=[105])
+plot3.image_url(url=["http://jt-astro.science/planets.jpg"], x=[-0.2], y=[305], w=[3.2], h=[305])
 
 # this will place labels in the small plot for the *selected star* - not implemented yet
 star_yield_label = ColumnDataSource(data=dict(yields=[10., 10., 10., 10., 10., 10., 10., 10., 10.],
@@ -221,48 +221,52 @@ def update_data(attrname, old, new):
     apertures = {'4.0':'4.0','4':'4.0','6':'6.0','6.0':'6.0','8':'8.0','8.0':'8.0',\
                  '10':'10.0','10.0':'10.0','12':'12.0','12.0':'12.0','14':'14.0',\
                  '14.0':'14.0','16':'16.0'} 
+    apertures = {'4.0':'4.0','4':'4.0','8':'8.0','8.0':'8.0',\
+                 '12':'12.0','12.0':'12.0',\
+                 '14.0':'14.0','16':'16.0','20':'20.0','20.0':'20.0'} 
     contrasts = {'-11':'1.00E-11','-10':'1.00E-10','-9':'1.00E-09'} 
-    filename = cwd+'multiplanet_vis/data/stark_multiplanet/'+'run_'+apertures[str(a)]+'_'+contrasts[str(c)]+'_3.6_0.1_3.0.fits' 
+    filename = cwd+'multiplanet_vis/data/stark_multiplanet/'+'run_'+apertures[str(a)]+'_'+contrasts[str(c)]+'_0.10_3.0.fits' 
+    print filename 
     targets = Table.read(filename) 
     star_points.data['complete'] = np.array(targets['COMPLETENESS'][0]) 
 
     star_yield_label.data['yields'] = [targets['COMPLETE0'][0][1410], \
                                   targets['COMPLETE1'][0][1410], \
-                                  targets['MP_ETA'][0][1] * targets['COMPLETE2'][0][1410], \
+                                  targets['COMPLETE2'][0][1410], \
                                   targets['COMPLETE3'][0][1410], \
                                   targets['COMPLETE4'][0][1410], \
-                                  targets['MP_ETA'][0][4] * targets['COMPLETE5'][0][1410], \
+                                  targets['COMPLETE5'][0][1410], \
                                   targets['COMPLETE6'][0][1410], \
                                   targets['COMPLETE7'][0][1410], \
-                                  targets['MP_ETA'][0][7] * targets['COMPLETE8'][0][1410]]
+                                  targets['COMPLETE8'][0][1410]]
     star_yield_label.data['labels'] = [str(targets['COMPLETE0'][0][1410])[0:5], \
                                        str(targets['COMPLETE1'][0][1410])[0:5], \
-                                       str(targets['MP_ETA'][0][1] * targets['COMPLETE2'][0][1410])[0:5], \
+                                       str(targets['COMPLETE2'][0][1410])[0:5], \
                                        str(targets['COMPLETE3'][0][1410])[0:5], \
                                        str(targets['COMPLETE4'][0][1410])[0:5], \
-                                       str(targets['MP_ETA'][0][4] * targets['COMPLETE5'][0][1410])[0:5], \
+                                       str(targets['COMPLETE5'][0][1410])[0:5], \
                                        str(targets['COMPLETE6'][0][1410])[0:5], \
                                        str(targets['COMPLETE7'][0][1410])[0:5], \
-                                       str(targets['MP_ETA'][0][7] * targets['COMPLETE8'][0][1410])[0:5]]
+                                       str(targets['COMPLETE8'][0][1410])[0:5]]
     total_yield_label.data['yields'] = [np.sum(targets['COMPLETE0'][0][:]), \
                                         np.sum(targets['COMPLETE1'][0][:]), \
-                                        np.sum(targets['MP_ETA'][0][1] * targets['COMPLETE2'][0][:]), \
+                                        np.sum(targets['COMPLETE2'][0][:]), \
                                         np.sum(targets['COMPLETE3'][0][:]), \
                                         np.sum(targets['COMPLETE4'][0][:]), \
-                                        np.sum(targets['MP_ETA'][0][4] * targets['COMPLETE5'][0][:]), \
+                                        np.sum(targets['COMPLETE5'][0][:]), \
                                         np.sum(targets['COMPLETE6'][0][:]), \
                                         np.sum(targets['COMPLETE7'][0][:]), \
-                                        np.sum(targets['MP_ETA'][0][7] * targets['COMPLETE8'][0][:])]
+                                        np.sum(targets['COMPLETE8'][0][:])]
     print 'Total Yields', total_yield_label.data['yields']
     total_yield_label.data['labels'] = [str(int(np.sum(targets['COMPLETE0'][0][:]))), \
                                         str(int(np.sum(targets['COMPLETE1'][0][:]))), \
-                                        str(int(targets['MP_ETA'][0][1]*np.sum(targets['COMPLETE2'][0][:]))), \
+                                        str(int(np.sum(targets['COMPLETE2'][0][:]))), \
                                         str(int(np.sum(targets['COMPLETE3'][0][:]))), \
                                         str(int(np.sum(targets['COMPLETE4'][0][:]))), \
-                                        str(int(targets['MP_ETA'][0][4]*np.sum(targets['COMPLETE5'][0][:]))), \
+                                        str(int(np.sum(targets['COMPLETE5'][0][:]))), \
                                         str(int(np.sum(targets['COMPLETE6'][0][:]))), \
                                         str(int(np.sum(targets['COMPLETE7'][0][:]))), \
-                                        str(int(targets['MP_ETA'][0][7]*np.sum(targets['COMPLETE8'][0][:])))]
+                                        str(int(np.sum(targets['COMPLETE8'][0][:])))]
 
     print 'MP_ETA', targets['MP_ETA'][0]
  
@@ -298,7 +302,7 @@ source = ColumnDataSource(data=dict(value=[]))
 source.on_change('data', update_data)
     
 # Set up widgets
-aperture= Slider(title="Aperture (meters)", value=4., start=4., end=16.0, step=2.0, callback_policy='mouseup', width=350)
+aperture= Slider(title="Aperture (meters)", value=4., start=4., end=20.0, step=4.0, callback_policy='mouseup', width=350)
 aperture.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)

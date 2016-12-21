@@ -3,37 +3,24 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-<!--        <style>
-            @import url(https://fonts.googleapis.com/css?family=Noto+Sans);
+        <style>
+            @import url(https://fonts.googleapis.com/css?family=PT+Serif);
             body {
-              font-family: 'Helvetica', sans-serif;
+              font-family: 'PT Serif';
               -webkit-font-smoothing: antialiased;
               text-rendering: optimizeLegibility;
               color: #000;
               background: #FFFFFF;   
              }
-        </style> --> 
+        </style>
         <meta charset="utf-8">
-        <title>HDI ETC</title>
+        <title>LUVOIR HDI ETC</title>
         {{ bokeh_css }}
-        {{ bokeh_js }} 
-
-    <link rel="icon" href="../bootstrap-3.3.6/docs/favicon.ico">
-
-    <!-- Bootstrap core CSS -->
-    <link href="../../bootstrap-3.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link href="../../bootstrap-3.3.6/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="../../bootstrap-3.3.6/docs/examples/jumbotron-narrow.css" rel="stylesheet">
-
+        {{ bokeh_js }}
     </head>
 
 
-    <body>
-    <div class="container">
+    <div class="container", text-align: center>
       <div class="header clearfix">
         <nav>
           <ul class="nav nav-pills pull-right">
@@ -42,30 +29,11 @@
             <li role="presentation"><a href="#">Contact</a></li> --> 
           </ul>
         </nav>
-        <h3 class="text-muted">LUVOIR: The Large UltraViolet Optical Infrared Surveyor</h3>
-        <h4 class="text-muted"><a href="http://asd.gsfc.nasa.gov/luvoir/tools/"> Back to Main Page</a></h4><br>
+        <h1 class="text-muted">LUVOIR: The Large UltraViolet Optical Infrared Surveyor</h1>
       </div>
 
-      <div class="row marketing">
-        <div class="col-lg-6">
-          <p>This is the basic ETC for photometry in multiband images. Choose your telescope aperture, exposure time, and magnitude. Given an aperture and magnitude (AB in all bands), choose the exposure time that reaches your desired S/N. To obtain limiting magnitudes given exposure time, set that time and then tune the magnitude to reach your desired limiting S/N.</p>
-        </div>
-        <div class="col-lg-6">
-          <p>The details of these calculations are <a href="SNR_equation.pdf"> here</a>. We assume that the pixel size in each band critically samples the telescope's diffraction limited PSF at the shortest wavelength in that channel. Thermal backgrounds are included for T = 280 K, which substantially affects the K band.</p>
-        </div>
-      </div>
-
+    <body>
         {{ plot_div|indent(8) }}
         {{ plot_script|indent(8) }}
-
-
-    <div class="jumbotron">
-        <p><a class="btn btn-lg btn-success" href="http://cor.gsfc.nasa.gov/studies/luvoir.php" role="button">Learn More about LUVOIR</a></p>
-    </div>
-
-
     </body>
-
-
-
 </html>

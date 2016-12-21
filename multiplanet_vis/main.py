@@ -8,15 +8,17 @@ from astropy.table import Table
 import copy  
 import os 
 
+import help_text as h 
+
 from bokeh.io import output_file, gridplot 
 from bokeh.plotting import Figure
 from bokeh.resources import CDN
 from bokeh.client import push_session
 from bokeh.embed import components, file_html
-from bokeh.models import ColumnDataSource, HoverTool, Range1d, Square, Circle, LabelSet, FixedTicker, TapTool 
-from bokeh.layouts import Column, Row, WidgetBox
+from bokeh.models import ColumnDataSource, HelpTool, HoverTool, Range1d, Square, Circle, LabelSet, FixedTicker, TapTool 
+from bokeh.layouts import Column, Row, widgetbox, layout 
 from bokeh.models.glyphs import Text 
-from bokeh.models.widgets import Slider, TextInput
+from bokeh.models.widgets import Panel, Tabs, Slider, TextInput, Div 
 from bokeh.io import hplot, vplot, curdoc
 from bokeh.models.callbacks import CustomJS
 
@@ -96,34 +98,8 @@ hover = HoverTool(names=["star_points_to_hover"], mode='mouse', # point_policy="
 plot1.add_tools(hover) 
 ### THIS IS THE HOVER HELP FOR THE MAIN WINDOW 
 hover_help = HoverTool(names=["quickhelp_to_hover"], mode='mouse', 
-     tooltips = """ 
-            <div>
-                <span style="font-size: 16px; font-weight: normal; color: #000">
-                This tool visualizes the results of detailed exoplanet mission <br> 
-                yield simulations described in Stark et al. (2014), ApJ, 795, 122 <br> 
-                Stark et al. (2015), ApJ, 808, 149. The python/bokeh visualization <br> 
-		is by <a href='http://jt-astro.science'>Jason Tumlinson</a>. <br> <br> 
-           </div>
-           <div>
-                <span style="font-size: 16px; font-weight: normal; color: #000">
-                For this analysis, the fraction of stars with exoEarth <br> 
-                candidates (Eta_Earth) is assumed to be 10%. The planets <br>
-                are observed over 1 year of total exposure time using <br> 
-                high-contrast optical imaging with a coronagraph. At least <br> 
-                one imaging observation of every star is performed to find <br>
-                the exoEarth candidates (blind search). For every detected <br>
-                planet, a partial spectroscopic characterization is executed. <br>
-                The telescope aperture and coronagraph contrast can be varied <br>
-                with the slider bars. The real host stars observed are shown <br>
-                with colored dots in the main plot, with the Sun at the center <br>
-                (hovering the cursor over a dot will reveal the star name<br>
-                and parameters). The color of the dot indicates the chance <br>
-                of detecting an exoEarth around that star if it is present.
-                </span>
-        </div>
- 
-        """
-    )
+     tooltips = h.help() )
+    
 plot1.add_tools(hover_help) 
 hover = plot1.select(dict(type=HoverTool))
 plot1.x_range=Range1d(-50,50,bounds=(-50,50)) 
@@ -160,9 +136,9 @@ star_syms.data_source.on_change('selected', SelectCallback)
 #taptool = plot1.select(type=TapTool)
 #taptool.callback = FuncFunc() 
 
-quickhelp_source = ColumnDataSource(data=dict(x=np.array([44.0]), y=np.array([32.]), text=['Help']))
+quickhelp_source = ColumnDataSource(data=dict(x=np.array([44.0]), y=np.array([14.]), text=['Help']))
 help_glyph = plot1.circle('x', 'y', color='black', source=quickhelp_source, radius=4, name="quickhelp_to_hover") 
-plot1.text([48.5], [30], ['Help'], text_color='orange', text_font_size='18pt', text_align="right") 
+plot1.text([50. ], [14], ['Help'], text_color='orange', text_font_size='18pt', text_align="right") 
 
 plot1.text(0.95*0.707*np.array([10., 20., 30., 40.]), 0.707*np.array([10., 20., 30., 40.]), \
      text=['10 pc', '20 pc', '30 pc', '40 pc'], text_color="white", text_font_style='bold', text_font_size='12pt', text_alpha=0.8) 
@@ -322,21 +298,34 @@ source = ColumnDataSource(data=dict(value=[]))
 source.on_change('data', update_data)
     
 # Set up widgets
-aperture= Slider(title="Aperture (meters)", value=4., start=4., end=16.0, step=2.0, callback_policy='mouseup')
+aperture= Slider(title="Aperture (meters)", value=4., start=4., end=16.0, step=2.0, callback_policy='mouseup', width=350)
 aperture.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-contrast = Slider(title="Log (Contrast)", value=-10, start=-11.0, end=-9, step=1.0, callback_policy='mouseup')
+contrast = Slider(title="Log (Contrast)", value=-10, start=-11.0, end=-9, step=1.0, callback_policy='mouseup', width=350)
 contrast.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-iwa      = Slider(title="Inner Working Angle (l/D)", value=1.5, start=1.5, end=4.0, step=0.5, callback_policy='mouseup')
+iwa      = Slider(title="Inner Working Angle (l/D)", value=1.5, start=1.5, end=4.0, step=0.5, callback_policy='mouseup', width=350)
 iwa.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
 
+input_sliders = Column(children=[aperture, contrast]) 
+control_tab = Panel(child=input_sliders, title='Controls', width=480)
+div = Div(text=h.help(),width=480, height=2000)
+help_tab = Panel(child=div, title='Help', width=480, height=300)
+input_tabs = Tabs(tabs=[control_tab,help_tab])  
+
+inputs = Column(aperture, contrast, plot3)  
+rowrow =  Row(inputs, plot1)  
+
 # Set up layouts and add to document
-inputs = Column(children=[aperture, contrast, plot3])
-curdoc().add_root(Row(children=[inputs, plot1], width=1800))
+curdoc().add_root(rowrow) 
 curdoc().add_root(source) 
+
+
+
+
+
 

@@ -69,19 +69,14 @@ magnitude = Slider(title="Magnitude (AB)", value=32.0, start=10.0, end=35.)
 
 def update_data(attrname, old, new):
 
-    #a = aperture.value 
-    m = magnitude.value
-    e = exptime.value
-
     luvoir.aperture = aperture.value 
     hdi.set_pixel_sizes(luvoir) # adaptively set the pixel sizes 
 
     wave = hdi.pivotwave 
-    snr = phot_etc.compute_snr(luvoir, hdi, e, m) 
+    snr = phot_etc.compute_snr(luvoir, hdi, exptime.value, magnitude.value) 
     source.data = dict(x=wave[2:-3], y=snr[2:-3], desc=hdi.bandnames[2:-3]) 
     source2.data = dict(x=hdi.pivotwave[0:2], y=snr[0:2], desc=hdi.bandnames[0:2]) 
     source3.data = dict(x=hdi.pivotwave[-3:], y=snr[-3:], desc=hdi.bandnames[-3:]) 
-
 
 for w in [aperture, exptime, magnitude]: # iterate on changes to parameters 
     w.on_change('value', update_data)
@@ -89,5 +84,5 @@ for w in [aperture, exptime, magnitude]: # iterate on changes to parameters
 # Set up layouts and add to document
 inputs = WidgetBox(children=[aperture, exptime, magnitude]) 
 curdoc().add_root(row(children=[inputs, snr_plot])) 
-script = autoload_server(model=None, app_path="/simple_etc", url="pancho.local:5006")
+#script = autoload_server(model=None, app_path="/simple_etc", url="pancho.local:5006")
 #print(script)

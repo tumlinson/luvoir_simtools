@@ -48,7 +48,4 @@ image_to_use.on_change('value', update_image)
 
 curdoc().add_root(image_to_use)
 curdoc().add_root(p)
-
-
-
-  
+curdoc().add_root(source)

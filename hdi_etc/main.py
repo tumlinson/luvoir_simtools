@@ -10,11 +10,12 @@ from bokeh.resources import CDN
 from bokeh.embed import components, autoload_server 
 from bokeh.models import ColumnDataSource, HBox, VBoxForm, HoverTool, Paragraph, Range1d 
 from bokeh.layouts import column, row, WidgetBox 
-from bokeh.models.widgets import Slider
+from bokeh.models.widgets import Slider, Tabs, Div, Panel 
 from bokeh.io import hplot, vplot, curdoc
 from bokeh.embed import file_html
 
 import Telescope as T 
+import help_text as h 
 
 luvoir = T.Telescope(10., 280., 500.) # set up LUVOIR with 10 meters, T = 280, and diff limit at 500 nm 
 hdi = T.Camera()                     # and HDI camera with default bandpasses 
@@ -81,8 +82,23 @@ def update_data(attrname, old, new):
 for w in [aperture, exptime, magnitude]: # iterate on changes to parameters 
     w.on_change('value', update_data)
 
+controls = WidgetBox(children=[aperture, exptime, magnitude]) 
+controls_tab = Panel(child=controls, title='Controls')
+
+help = Div(text = h.help()) 
+help_tab = Panel(child=help, title='Help')
+
+inputs = Tabs(tabs=[ controls_tab, help_tab]) 
+
 # Set up layouts and add to document
-inputs = WidgetBox(children=[aperture, exptime, magnitude]) 
 curdoc().add_root(row(children=[inputs, snr_plot])) 
-#script = autoload_server(model=None, app_path="/simple_etc", url="pancho.local:5006")
-#print(script)
+curdoc().add_root(source) 
+
+
+
+
+
+
+
+
+

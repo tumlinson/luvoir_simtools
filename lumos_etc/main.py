@@ -9,7 +9,7 @@ from bokeh.resources import CDN
 from bokeh.embed import components 
 from bokeh.models import ColumnDataSource, HBox, VBoxForm, HoverTool, Paragraph, Range1d 
 from bokeh.layouts import Column, Row, WidgetBox
-from bokeh.models.widgets import Slider, TextInput, Select 
+from bokeh.models.widgets import Slider, TextInput, Select, Tabs, Panel, Div 
 from bokeh.io import hplot, vplot, curdoc
 from bokeh.embed import file_html
 from bokeh.models.callbacks import CustomJS
@@ -18,6 +18,7 @@ import astropy.constants as const
 import get_pysynphot_spectra
 
 import Telescope as T 
+import help_text as h 
 
 luvoir = T.Telescope(10., 280., 500.) # set up LUVOIR with 10 meters, T = 280, and diff limit at 500 nm 
 lumos = T.Spectrograph() # set up LUVOIR with 10 meters, T = 280, and diff limit at 500 nm 
@@ -149,9 +150,22 @@ exptime.callback = CustomJS(args=dict(source=source), code="""
 for w in [template, grating]:  w.on_change('value', update_data)
  
 # Set up layouts and add to document
-source_inputs = Column(children=[template, redshift, magnitude])
-exposure_inputs = Column(children=[grating, aperture, exptime])
+source_inputs = WidgetBox(children=[template, redshift, magnitude])
+controls_tab = Panel(child=source_inputs, title='Controls')
+help = Div(text = h.help()) 
+help_tab = Panel(child=help, title='Info')
+source_inputs = Tabs(tabs=[ controls_tab, help_tab]) 
+
+exposure_inputs = WidgetBox(children=[grating, aperture, exptime])
+
+
 row1 = Row(children=[source_inputs, flux_plot])
 row2 = Row(children=[exposure_inputs, sn_plot])
+
 curdoc().add_root(Column(children=[row1, row2]))
+curdoc().add_root(source) 
+
+
+
+
 

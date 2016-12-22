@@ -86,7 +86,7 @@ controls = WidgetBox(children=[aperture, exptime, magnitude])
 controls_tab = Panel(child=controls, title='Controls')
 
 help = Div(text = h.help()) 
-help_tab = Panel(child=help, title='Help')
+help_tab = Panel(child=help, title='Info')
 
 inputs = Tabs(tabs=[ controls_tab, help_tab]) 
 

@@ -36,6 +36,7 @@ from bokeh.embed import components, autoload_server
 
 import coronagraph as cg  # Import coronagraph (O/NIRS)  model
 cwd = os.getenv('LUVOIR_SIMTOOLS_DIR') 
+import help_text as h 
 
 #allow it to run it from other folders and still know where planet folder is
 #planetdir = "../coronagraph/planets/" #new path compared to before
@@ -192,12 +193,12 @@ def change_filename(attrname, old, new):
 
 
 instruction0 = Div(text="""Specify a filename here:
-                           (no special characters):""", width=300, height=15)
+                           (no special characters):""", width=400, height=15)
 text_input = TextInput(value="filename", title=" ", width=100)
-instruction1 = Div(text="""Then choose a file format here:""", width=300, height=15)
+instruction1 = Div(text="""Then choose a file format here:""", width=400, height=15)
 format_button_group = RadioButtonGroup(labels=["txt", "fits"])
-instruction2 = Div(text="""The link to download your file will appear here:""", width=300, height=15)
-link_box  = Div(text=""" """, width=300, height=15)
+instruction2 = Div(text="""The link to download your file will appear here:""", width=400, height=15)
+link_box  = Div(text=""" """, width=400, height=15)
 
 
 def i_clicked_a_button(new): 
@@ -426,6 +427,7 @@ observation_tab = Panel(child=oo, title='Observation')
 planet_tab = Panel(child=pp, title='Target')
 #instrument_tab = Panel(child=ii, title='Instrumentation')
 download_tab = Panel(child=qq, title='Download')
+info_tab = Panel(child=Div(text=h.help(), width=300), title='Info', width=300)
 
 for w in [text_input]: 
     w.on_change('value', change_filename)
@@ -438,6 +440,11 @@ for gg in [ground_based]:
     gg.on_change('value', update_data)
 
 
-inputs = Tabs(tabs=[ planet_tab, observation_tab,  download_tab ])
+inputs = Tabs(tabs=[ planet_tab, observation_tab,  download_tab, info_tab ], width=330)
 
 curdoc().add_root(row(inputs, ptabs)) 
+curdoc().add_root(source) 
+
+
+
+

@@ -33,6 +33,7 @@ from bokeh.embed import components, autoload_server
 
 
 import coronagraph as cg  # Import coronagraph model
+import help_text as h 
 
 cwd = os.getenv('LUVOIR_SIMTOOLS_DIR') 
 
@@ -218,12 +219,12 @@ def change_filename(attrname, old, new):
    format_button_group.active = None 
 
 
-instruction0 = Div(text="""Specify a filename here:
-                           (no special characters):""", width=300, height=15)
+instruction0 = Div(text="""Specify a filename here 
+                           (no special characters):""", width=300, height=12)
 text_input = TextInput(value="filename", title=" ", width=100)
-instruction1 = Div(text="""Then choose a file format here:""", width=300, height=15)
+instruction1 = Div(text="""Then choose a file format here:""", width=300, height=12)
 format_button_group = RadioButtonGroup(labels=["txt", "fits"])
-instruction2 = Div(text="""The link to download your file will appear here:""", width=300, height=15)
+instruction2 = Div(text="""The link to download your file will appear here:""", width=300, height=12)
 link_box  = Div(text=""" """, width=300, height=15)
 
 
@@ -1391,10 +1392,11 @@ template = Select(title="Planet Spectrum", value="Earth", options=["Earth",  "Ar
 comparison = Select(title="Show comparison spectrum?", value ="none", options=["none", "Earth",  "Archean Earth", "Hazy Archean Earth", "1% PAL O2 Proterozoic Earth", "0.1% PAL O2 Proterozoic Earth","Venus", "Early Mars", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune",'----','Warm Neptune at 2 AU', 'Warm Neptune w/o Clouds at 1 AU', 'Warm Neptune w/ Clouds at 1 AU','Warm Jupiter at 0.8 AU', 'Warm Jupiter at 2 AU', "False O2 Planet (F2V star)", '-----', 'Proxima Cen b 10 bar 95% O2 dry', 'Proxima Cen b 10 bar 95% O2 wet', 'Proxima Cen b 10 bar O2-CO2', 'Proxima Cen b 90 bar O2-CO2', 'Proxima Cen b 90 bar Venus', 'Proxima Cen b 10 bar Venus', 'Proxima Cen b CO2/CO/O2 dry', 'Proxima Cen b Earth', 'Proxima Cen b Archean Earth', 'Proxima Cen b hazy Archean Earth'])
 
 
-oo = column(children=[exptime, diameter, resolution_UV, resolution, resolution_NIR, temperature, ground_based]) 
+oo = column(children=[Div(text="""Choose telescope integration time per coronagraphic bandpass, mirror diameter, spectrograph resolution for UV-VIS-NIR channels, telescope temperature, and whether to turn on a ground-based simulator.""") , exptime, diameter, resolution_UV, resolution, resolution_NIR, temperature, ground_based]) 
 pp = column(children=[template, comparison, distance, radius, semimajor, exozodi]) 
 qq = column(children=[instruction0, text_input, instruction1, format_button_group, instruction2, link_box])
-ii = column(children=[inner, outer,  dtmax])
+ii = column(children=[Div(text="""Choose the scaling factor for the inner working angle (IWA), the outer working angle (OWA), and the maximum length of time for a single exposure.<br><br>"""), inner, outer,  dtmax])
+
 ee = column(children=[want_snr])
 
 observation_tab = Panel(child=oo, title='Observation')
@@ -1402,6 +1404,7 @@ planet_tab = Panel(child=pp, title='Planet')
 instrument_tab = Panel(child=ii, title='Instrumentation')
 download_tab = Panel(child=qq, title='Download')
 time_tab = Panel(child=ee, title='Exposure Time Calculator')
+info_tab = Panel(child=Div(text=h.help()), title='Info')
 
 for w in [text_input]: 
     w.on_change('value', change_filename)
@@ -1417,6 +1420,7 @@ for gg in [ground_based]:
     gg.on_change('value', update_data)
 
 
-inputs = Tabs(tabs=[ planet_tab, observation_tab, instrument_tab, time_tab, download_tab ])
+inputs = Tabs(tabs=[ planet_tab, observation_tab, instrument_tab, time_tab, download_tab, info_tab ])
 
 curdoc().add_root(row(inputs, ptabs)) 
+curdoc().add_root(source)

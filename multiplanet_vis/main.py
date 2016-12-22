@@ -137,8 +137,8 @@ star_syms.data_source.on_change('selected', SelectCallback)
 #taptool.callback = FuncFunc() 
 
 quickhelp_source = ColumnDataSource(data=dict(x=np.array([44.0]), y=np.array([14.]), text=['Help']))
-help_glyph = plot1.circle('x', 'y', color='black', source=quickhelp_source, radius=4, name="quickhelp_to_hover") 
-plot1.text([50. ], [14], ['Help'], text_color='orange', text_font_size='18pt', text_align="right") 
+#help_glyph = plot1.circle('x', 'y', color='black', source=quickhelp_source, radius=4, name="quickhelp_to_hover") 
+#plot1.text([50. ], [14], ['Help'], text_color='orange', text_font_size='18pt', text_align="right") 
 
 plot1.text(0.95*0.707*np.array([10., 20., 30., 40.]), 0.707*np.array([10., 20., 30., 40.]), \
      text=['10 pc', '20 pc', '30 pc', '40 pc'], text_color="white", text_font_style='bold', text_font_size='12pt', text_alpha=0.8) 
@@ -159,8 +159,7 @@ sym.glyph.line_dash = [6, 6]
 # second plot, the bar chart of yields
 plot3 = Figure(plot_height=400, plot_width=480, tools="reset,save,tap",
                outline_line_color='black', \
-              x_range=[-0.1, 3], y_range=[0, 300], toolbar_location='above', x_axis_type = None, \
-              title='Multiplanet Yields') 
+              x_range=[-0.1, 3], y_range=[0, 300], toolbar_location='below', x_axis_type = None) 
 plot3.title.text_font_size = '14pt'
 plot3.background_fill_color = "white"
 plot3.background_fill_alpha = 1.0
@@ -302,26 +301,27 @@ source = ColumnDataSource(data=dict(value=[]))
 source.on_change('data', update_data)
     
 # Set up widgets
-aperture= Slider(title="Aperture (meters)", value=4., start=4., end=20.0, step=4.0, callback_policy='mouseup', width=350)
+aperture= Slider(title="Aperture (meters)", value=4., start=4., end=20.0, step=4.0, callback_policy='mouseup', width=450)
 aperture.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-contrast = Slider(title="Log (Contrast)", value=-10, start=-11.0, end=-9, step=1.0, callback_policy='mouseup', width=350)
+contrast = Slider(title="Log (Contrast)", value=-10, start=-11.0, end=-9, step=1.0, callback_policy='mouseup', width=450)
 contrast.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-iwa      = Slider(title="Inner Working Angle (l/D)", value=1.5, start=1.5, end=4.0, step=0.5, callback_policy='mouseup', width=350)
+iwa      = Slider(title="Inner Working Angle (l/D)", value=1.5, start=1.5, end=4.0, step=0.5, callback_policy='mouseup', width=450)
 iwa.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
 
+
 input_sliders = Column(children=[aperture, contrast]) 
-control_tab = Panel(child=input_sliders, title='Controls', width=480)
-div = Div(text=h.help(),width=480, height=2000)
-help_tab = Panel(child=div, title='Help', width=480, height=300)
+control_tab = Panel(child=input_sliders, title='Controls', width=450)
+div = Div(text=h.help(),width=450, height=2000)
+help_tab = Panel(child=div, title='Info', width=450, height=300)
 input_tabs = Tabs(tabs=[control_tab,help_tab])  
 
-inputs = Column(aperture, contrast, plot3)  
+inputs = Column(plot3, input_tabs) 
 rowrow =  Row(inputs, plot1)  
 
 # Set up layouts and add to document

@@ -1,0 +1,63 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <style>
+            @import url(https://fonts.googleapis.com/css?family=PT+Serif);
+            body {
+              font-family: 'PT Serif';
+              -webkit-font-smoothing: antialiased;
+              text-rendering: optimizeLegibility;
+              color: #000;
+              background: #FFFFFF;   
+             }
+		h1.text-muted {
+		    text-align: center;
+		}
+		h2.text-muted {
+		    text-align: center;
+		}
+        </style>
+        <meta charset="utf-8">
+        <title>LUVOIR ONIRS ETC</title>
+        {{ bokeh_css }}
+        {{ bokeh_js }}
+    </head>
+
+
+    <div class="container", text-align: center>
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <!-- <li role="presentation" class="active"><a href="#">Home</a></li>
+            <li role="presentation"><a href="#">About</a></li>
+            <li role="presentation"><a href="#">Contact</a></li> --> 
+          </ul>
+        </nav>
+        <h1 class="text-muted">LUVOIR: The Large UltraViolet Optical Infrared Surveyor</h1>
+        <h2 class="text-muted">Optical/NearIR Spectrograph</h2>
+      </div>
+
+        <div class="container" >
+          <p>This is a basic presentation of simulated spectra for several types of astrophysical objects. </p>
+        </div>
+        <div class="col-lg-6">
+          <p>The underlying model for O/NIRS is derived from the python-based version of Tyler Robinson's coronagraphic spectrum and noise model (Robinson et al. 2016). Python by Jacob Lustig-Yaeger and O/NIRS development by Giada Arney. Bokeh rendering by Jason Tumlinson and Giada Arney. </p>
+        </div>
+          <div class="col-lg-6">
+            <p>The "Target" tab includes options to simulate several types of astrophysical object spectra that can be selected from the "Object Spectrum" dropdown menu. The log telescope-planetary system separation distance can be set using the "Distance" slider. When a target is selected, the "Log Object Radius" slider will default to the correct position for the selected target. <br><Br>
+              
+              The "Observation" tab includes sliders for telescope integration time per coronagraphic bandpass, mirror diameter, spectrograph resolution, telescope temperature, the maximum length of time of a single exposure, and the option to turn on a ground-based simulator.<br><Br>
+            
+              In the "Download" tab, spectral data can be downloaded in either .txt or .fits format.<br><br>
+
+              For full details, please see the readme file <a href="onirs_readme.txt">here</a>.
+            </p>
+        </div>
+
+    <body>
+        {{ plot_div|indent(8) }}
+        {{ plot_script|indent(8) }}
+    </body>
+</html>

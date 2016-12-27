@@ -4,7 +4,7 @@ import astropy.constants as const
 def compute_snr(telescope, camera, exposure_in_hours, ab_magnitudes):
 
     diff_limit = 1.22*(500.*0.000000001)*206264.8062/telescope.aperture 
-    print 'diff_limit', diff_limit
+    #print 'diff_limit', diff_limit
 
     source_magnitudes = np.array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.]) * ab_magnitudes
 
@@ -39,36 +39,36 @@ def compute_snr(telescope, camera, exposure_in_hours, ab_magnitudes):
 
     snr = signal_counts / (signal_counts + sky_counts + read_noise**2 + dark_noise**2 + thermal_counts)**0.5
 
-    print
-    print
-    print 'aperture', telescope.aperture, ' meters' 
-    print 'temperature', telescope.temperature, ' K' 
-    print 'source_mag', source_magnitudes
-    print 'pivot waves', camera.pivotwave
-    print 'pixels', camera.pixel_size, ' arcsec' 
-    print 'ab zeropoints', camera.ab_zeropoint
-    print 'total_qe', camera.total_qe
-    print 'ap corr', camera.aperture_correction
-    print 'bandpass R', camera.bandpass_r
-    print 'derived_bandpass', camera.derived_bandpass
-    print 'read_noise', camera.detector_read_noise
-    print 'dark rate', camera.dark_current
-    print 'sky_brightness', sky_brightness
-    print 'fwhm_psf', fwhm_psf
-    print 'sn_box', sn_box
-    print 'number_of_exposures', number_of_exposures
-    print 'detector_read_noise', camera.detector_read_noise
-    print 'time_per_exp', time_per_exposure
-    print 'signal_counts', signal_counts
-    print 'shot_noise_in_signal', shot_noise_in_signal
-    print 'sky_counts', sky_counts
-    print 'shot_noise_in_sky', shot_noise_in_sky
-    print 'read noise', read_noise
-    print 'dark noise', dark_noise
-    print 'thermal counts ', thermal_counts 
-    print 'SNR', snr, np.max(snr)
-    print
-    print
+    #print
+    #print
+    #print 'aperture', telescope.aperture, ' meters' 
+    #print 'temperature', telescope.temperature, ' K' 
+    #print 'source_mag', source_magnitudes
+    #print 'pivot waves', camera.pivotwave
+    #print 'pixels', camera.pixel_size, ' arcsec' 
+    #print 'ab zeropoints', camera.ab_zeropoint
+    #print 'total_qe', camera.total_qe
+    #print 'ap corr', camera.aperture_correction
+    #print 'bandpass R', camera.bandpass_r
+    #print 'derived_bandpass', camera.derived_bandpass
+    #print 'read_noise', camera.detector_read_noise
+    #print 'dark rate', camera.dark_current
+    #print 'sky_brightness', sky_brightness
+    #print 'fwhm_psf', fwhm_psf
+    #print 'sn_box', sn_box
+    #print 'number_of_exposures', number_of_exposures
+    #print 'detector_read_noise', camera.detector_read_noise
+    #print 'time_per_exp', time_per_exposure
+    #print 'signal_counts', signal_counts
+    #print 'shot_noise_in_signal', shot_noise_in_signal
+    #print 'sky_counts', sky_counts
+    #print 'shot_noise_in_sky', shot_noise_in_sky
+    #print 'read noise', read_noise
+    #print 'dark noise', dark_noise
+    #print 'thermal counts ', thermal_counts 
+    #print 'SNR', snr, np.max(snr)
+    #print
+    #print
 
     return snr
 
@@ -95,10 +95,10 @@ def C_thermal(telescope, wavelength_in_nm, R_bandwidth, N_pix, pixel_scale, QE_t
 
     Omega = 2.3504e-11 * pixel_scale**2 * N_pix 
 
-    print 'Planck: ', planck(wavelength_in_cm, telescope.temperature) 
-    print 'QE * Planck / E_per_phot', QE_tot * planck(wavelength_in_cm, telescope.temperature) / energy_per_photon 
-    print 'E_per_phot', energy_per_photon 
-    print 'Omega', Omega 
+    #print 'Planck: ', planck(wavelength_in_cm, telescope.temperature) 
+    #print 'QE * Planck / E_per_phot', QE_tot * planck(wavelength_in_cm, telescope.temperature) / energy_per_photon 
+    #print 'E_per_phot', energy_per_photon 
+    #print 'Omega', Omega 
 
     C_thermal = telescope.ota_emissivity * planck(wavelength_in_cm, telescope.temperature) / energy_per_photon * \
 			(np.pi / 4. * D**2) * QE_tot * Omega * bandwidth 

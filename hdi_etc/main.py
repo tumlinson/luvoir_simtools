@@ -9,21 +9,30 @@ from bokeh.plotting import Figure
 from bokeh.resources import CDN
 from bokeh.embed import components, autoload_server 
 from bokeh.models import ColumnDataSource, HBox, VBoxForm, HoverTool, Paragraph, Range1d 
+from bokeh.models.callbacks import CustomJS
 from bokeh.layouts import column, row, WidgetBox 
-from bokeh.models.widgets import Slider, Tabs, Div, Panel 
+from bokeh.models.widgets import Slider, Tabs, Div, Panel, Select 
 from bokeh.io import hplot, vplot, curdoc
 from bokeh.embed import file_html
 
 import Telescope as T 
 import help_text as h 
+import get_pysynphot_spectra
+import pysynphot as S 
 
 luvoir = T.Telescope(10., 280., 500.) # set up LUVOIR with 10 meters, T = 280, and diff limit at 500 nm 
 hdi = T.Camera()                     # and HDI camera with default bandpasses 
 hdi.set_pixel_sizes(luvoir) 
 
+spec_dict = get_pysynphot_spectra.add_spectrum_to_library() 
+template_to_start_with = 'Flat (AB)' 
+spec_dict[template_to_start_with].wave 
+spec_dict[template_to_start_with].flux # <---- these are the variables you need to make the plot 
+spec_dict[template_to_start_with].convert('abmag') 
+
 # set up ColumnDataSources for main SNR plot 
 snr = phot_etc.compute_snr(luvoir, hdi, 1., 32.)
-source = ColumnDataSource(data=dict(x=hdi.pivotwave[2:-3], y=snr[2:-3], desc=hdi.bandnames[2:-3] ))
+source1 = ColumnDataSource(data=dict(x=hdi.pivotwave[2:-3], y=snr[2:-3], desc=hdi.bandnames[2:-3] ))
 source2 = ColumnDataSource(data=dict(x=hdi.pivotwave[0:2], y=snr[0:2], desc=hdi.bandnames[0:2]))
 source3 = ColumnDataSource(data=dict(x=hdi.pivotwave[-3:], y=snr[-3:], desc=hdi.bandnames[-3:]))
 
@@ -46,7 +55,7 @@ hover = HoverTool(point_policy="snap_to_data",
 snr_plot = Figure(plot_height=400, plot_width=800, 
               tools="crosshair,pan,reset,resize,save,box_zoom,wheel_zoom",
               x_range=[120, 2300], y_range=[0, 40], toolbar_location='right')
-snr_plot.x_range = Range1d(120, 2300, bounds=(120, 2300)) 
+snr_plot.x_range = Range1d(100, 2300, bounds=(120, 2300)) 
 snr_plot.add_tools(hover)
 snr_plot.background_fill_color = "beige"
 snr_plot.background_fill_alpha = 0.5
@@ -54,8 +63,8 @@ snr_plot.yaxis.axis_label = 'SNR'
 snr_plot.xaxis.axis_label = 'Wavelength (nm)'
 snr_plot.text(5500, 20, text=['V'], text_align='center', text_color='red')
 
-snr_plot.line('x', 'y', source=source, line_width=3, line_alpha=1.0) 
-snr_plot.circle('x', 'y', source=source, fill_color='white', line_color='blue', size=10)
+snr_plot.line('x', 'y', source=source1, line_width=3, line_alpha=1.0) 
+snr_plot.circle('x', 'y', source=source1, fill_color='white', line_color='blue', size=10)
     
 snr_plot.line('x', 'y', source=source2, line_width=3, line_color='orange', line_alpha=1.0)
 snr_plot.circle('x', 'y', source=source2, fill_color='white', line_color='orange', size=8) 
@@ -63,42 +72,98 @@ snr_plot.circle('x', 'y', source=source2, fill_color='white', line_color='orange
 snr_plot.line('x', 'y', source=source3, line_width=3, line_color='red', line_alpha=1.0)
 snr_plot.circle('x', 'y', source=source3, fill_color='white', line_color='red', size=8) 
 
-# Set up widgets
-aperture= Slider(title="Aperture (meters)", value=12., start=2., end=20.0, step=1.0, tags=[4,5,6,6]) 
-exptime = Slider(title="Exptime (hours)", value=1., start=0., end=10.0, step=0.1)
-magnitude = Slider(title="Magnitude (AB)", value=32.0, start=10.0, end=35.)
+spectrum_template = ColumnDataSource(data=dict(w=spec_dict[template_to_start_with].wave, f=spec_dict[template_to_start_with].flux, \
+                                   w0=spec_dict[template_to_start_with].wave, f0=spec_dict[template_to_start_with].flux))
+
+sed_plot = Figure(plot_height=400, plot_width=800, 
+              tools="crosshair,pan,reset,resize,save,box_zoom,wheel_zoom",
+              x_range=[120, 2300], y_range=[35, 21], toolbar_location='right')
+sed_plot.x_range = Range1d(100, 2300, bounds=(120, 2300)) 
+sed_plot.background_fill_color = "beige"
+sed_plot.background_fill_alpha = 0.5
+sed_plot.yaxis.axis_label = 'AB Mag'
+sed_plot.xaxis.axis_label = 'Wavelength (nm)'
+sed_plot.line('w','f',line_color='orange', line_width=3, source=spectrum_template, line_alpha=1.0)  
+
+
+
 
 def update_data(attrname, old, new):
+
+    print "You have chosen template ", template.value, np.size(spec_dict[template.value].wave) 
 
     luvoir.aperture = aperture.value 
     hdi.set_pixel_sizes(luvoir) # adaptively set the pixel sizes 
 
+    #CHANGE THE SED TEMPLATE IN THE SED PLOT 
+    spectrum = spec_dict[template.value]
+    band = S.ObsBandpass('johnson,v')
+    band.convert('nm') 
+    ss = spectrum.renorm(magnitude.value+2.5, 'abmag', band) #### OH MY GOD WHAT A HACK!!!! 
+    print 'Renorming to ', magnitude.value 
+    new_w0 = ss.wave 
+    new_f0 = ss.flux 
+    new_w = np.array(new_w0) 
+    new_f = np.array(new_f0) 
+    spectrum_template.data = {'w':new_w, 'f':new_f, 'w0':new_w0, 'f0':new_f0} 
+    # OK DONE WITH THAT 
+
+    interp_mags = spec_dict[template.value]
+    mag_arr = np.array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.]) 
+    for pwave,index in zip(hdi.pivotwave,np.arange(10)): 
+       mag_arr[index] = ss.sample(pwave) 
+       print index, pwave, ss.sample(pwave), mag_arr[index] 
+    
+    snr = phot_etc.compute_snr(luvoir, hdi, exptime.value, mag_arr)
+    
+    print 'SNR' 
+    print 'SNR' 
+    print 'SNR' 
+    print 'SNR' 
+    print mag_arr 
+    print snr 
+    print 'SNR' 
+    print 'SNR' 
+    print 'SNR' 
+    print 'SNR' 
+
     wave = hdi.pivotwave 
-    snr = phot_etc.compute_snr(luvoir, hdi, exptime.value, magnitude.value) 
-    source.data = dict(x=wave[2:-3], y=snr[2:-3], desc=hdi.bandnames[2:-3]) 
+    source1.data = dict(x=wave[2:-3], y=snr[2:-3], desc=hdi.bandnames[2:-3]) 
     source2.data = dict(x=hdi.pivotwave[0:2], y=snr[0:2], desc=hdi.bandnames[0:2]) 
     source3.data = dict(x=hdi.pivotwave[-3:], y=snr[-3:], desc=hdi.bandnames[-3:]) 
 
-for w in [aperture, exptime, magnitude]: # iterate on changes to parameters 
+def fake_function(attrname, old, new):
+    print "THIS IS JUST A FAKE CALLBACK FUNCTION", magnitude.value 
+
+# fake source for managing callbacks 
+source = ColumnDataSource(data=dict(value=[]))
+source.on_change('data', update_data)
+
+# Set up widgets
+aperture= Slider(title="Aperture (meters)", value=12., start=2., end=20.0, step=1.0, tags=[4,5,6,6],callback_policy='mouseup') 
+aperture.callback = CustomJS(args=dict(source=source), code="""
+    source.data = { value: [cb_obj.value] }
+""")
+exptime = Slider(title="Exptime (hours)", value=1., start=0.1, end=10.0, step=0.1, callback_policy='mouseup')
+magnitude = Slider(title="V Magnitude (AB)", value=30.0, start=20.0, end=35., callback_policy='mouseup') 
+magnitude.callback = CustomJS(args=dict(source=source), code="""
+    source.data = { value: [cb_obj.value] }
+""")
+template = Select(title="Template Spectrum", value="Flat (AB)", 
+                options=["Flat (AB)", "Blackbody (5000K)", "O5V Star", \
+                         "B5V Star", "G2V Star", "M2V Star", "Orion Nebula", "NGC 1068"]) 
+
+for w in [ aperture, exptime, template]: # iterate on changes to parameters 
     w.on_change('value', update_data)
 
-controls = WidgetBox(children=[aperture, exptime, magnitude]) 
+controls = WidgetBox(children=[aperture, exptime, magnitude, template]) 
 controls_tab = Panel(child=controls, title='Controls')
-
-help = Div(text = h.help()) 
-help_tab = Panel(child=help, title='Info')
-
+help_tab = Panel(child=Div(text = h.help()), title='Info')
 inputs = Tabs(tabs=[ controls_tab, help_tab]) 
 
+plots = Tabs(tabs=[ Panel(child=snr_plot, title='SNR',width=800), Panel(child=sed_plot, title='SED',width=800)]) 
+
 # Set up layouts and add to document
-curdoc().add_root(row(children=[inputs, snr_plot])) 
+curdoc().add_root(row(children=[inputs, plots])) 
 curdoc().add_root(source) 
-
-
-
-
-
-
-
-
-
+curdoc().add_root(source1) 

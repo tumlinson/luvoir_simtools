@@ -183,6 +183,7 @@ def update_data(attrname, old, new):
     indices = np.arange(n_stars) 
     iran = indices[ random_numbers < yields['complete2'] ] 
     new_dict = {'x': yields['x'][iran], 'y':yields['y'][iran], 'r':0.8+0.0*yields['y'][iran], 'color':col[iran], 'alpha':np.array(alph)[iran]} 
+    print 'NSTARS INSIDE UPDATE DATA', n_stars, iran 
     pulse_points.data = new_dict  
 
 def recalc(): 
@@ -190,9 +191,11 @@ def recalc():
     n_stars = np.size(yields['complete2'])  
     random_numbers = np.random.random(n_stars) 
     indices = np.arange(n_stars) 
-    iran = indices[ random_numbers < yields['complete2'] ] 
-    new_dict = {'x': yields['x'][iran], 'y':yields['y'][iran], 'r':0.8+0.0*yields['y'][iran], 'color':col[iran], 'alpha':np.array(alph)[iran]} 
+    iran = indices[ random_numbers < star_points.data['complete2'] ] 
+    print iran 
+    new_dict = {'x': star_points.data['x'][iran], 'y':star_points.data['y'][iran], 'r':0.8+0.0*star_points.data['y'][iran], 'color':col[iran], 'alpha':np.array(alph)[iran]} 
     pulse_points.data = new_dict  
+    print 'NSTARS OUTSIDE UPDATE DATA', n_stars, iran 
 
 
 # Make the blue stars pulse 

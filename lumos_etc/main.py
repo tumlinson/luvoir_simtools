@@ -1,22 +1,13 @@
-''' Docstring 
-'''
 import numpy as np
 import copy 
-
-from bokeh.io import output_file, gridplot 
 from bokeh.plotting import Figure
-from bokeh.resources import CDN
-from bokeh.embed import components 
-from bokeh.models import ColumnDataSource, HBox, VBoxForm, HoverTool, Paragraph, Range1d 
+from bokeh.models import ColumnDataSource, HoverTool, Range1d 
 from bokeh.layouts import Column, Row, WidgetBox
 from bokeh.models.widgets import Slider, TextInput, Select, Tabs, Panel, Div 
-from bokeh.io import hplot, vplot, curdoc
-from bokeh.embed import file_html
+from bokeh.io import curdoc
 from bokeh.models.callbacks import CustomJS
 import astropy.constants as const
-
 import get_pysynphot_spectra
-
 import Telescope as T 
 import help_text as h 
 
@@ -61,20 +52,20 @@ instrument_info = ColumnDataSource(data=dict(wave=lumos.wave, bef=lumos.bef))
 
 # set up the flux plot 
 flux_plot = Figure(plot_height=400, plot_width=800, 
-              tools="crosshair,hover,pan,reset,resize,save,box_zoom,wheel_zoom", outline_line_color='black', 
+              tools="crosshair,hover,pan,reset,save,box_zoom,wheel_zoom", outline_line_color='black', 
               x_range=[900, 2000], y_range=[0, 4e-16], toolbar_location='right') 
 flux_plot.x_range=Range1d(900,3000,bounds=(900,3000))
 flux_plot.y_range=Range1d(0,4e-16,bounds=(0,None)) 
 flux_plot.background_fill_color = "beige"
 flux_plot.background_fill_alpha = 0.5 
-flux_plot.yaxis.axis_label = 'Flux' 
-flux_plot.xaxis.axis_label = 'Wavelength' 
+flux_plot.yaxis.axis_label = 'Flux [erg / s / cm2 / Ang]' 
+flux_plot.xaxis.axis_label = 'Wavelength [Angstrom]' 
 flux_plot.line('w', 'f', source=spectrum_template, line_width=3, line_color='firebrick', line_alpha=0.7, legend='Source Flux')
 flux_plot.line('wave', 'bef', source=instrument_info, line_width=3, line_color='darksalmon', line_alpha=0.7, legend='Background')
 
 # set up the flux plot 
 sn_plot = Figure(plot_height=400, plot_width=800, 
-              tools="crosshair,hover,pan,reset,resize,save,box_zoom,wheel_zoom", outline_line_color='black', 
+              tools="crosshair,hover,pan,reset,save,box_zoom,wheel_zoom", outline_line_color='black', 
               x_range=[900, 2000], y_range=[0, 40], toolbar_location='right')
 sn_plot.x_range=Range1d(900,3000,bounds=(900,3000))
 sn_plot.y_range=Range1d(0,40,bounds=(0,None)) 

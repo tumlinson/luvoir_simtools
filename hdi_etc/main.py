@@ -53,7 +53,7 @@ hover = HoverTool(point_policy="snap_to_data",
 
 # Set up plot
 snr_plot = Figure(plot_height=400, plot_width=800, 
-              tools="crosshair,pan,reset,resize,save,box_zoom,wheel_zoom",
+              tools="crosshair,pan,reset,save,box_zoom,wheel_zoom",
               x_range=[120, 2300], y_range=[0, 40], toolbar_location='right')
 snr_plot.x_range = Range1d(100, 2300, bounds=(120, 2300)) 
 snr_plot.add_tools(hover)
@@ -76,7 +76,7 @@ spectrum_template = ColumnDataSource(data=dict(w=spec_dict[template_to_start_wit
                                    w0=spec_dict[template_to_start_with].wave, f0=spec_dict[template_to_start_with].flux))
 
 sed_plot = Figure(plot_height=400, plot_width=800, 
-              tools="crosshair,pan,reset,resize,save,box_zoom,wheel_zoom",
+              tools="crosshair,pan,reset,save,box_zoom,wheel_zoom",
               x_range=[120, 2300], y_range=[35, 21], toolbar_location='right')
 sed_plot.x_range = Range1d(100, 2300, bounds=(120, 2300)) 
 sed_plot.background_fill_color = "beige"

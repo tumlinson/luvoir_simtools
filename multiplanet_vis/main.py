@@ -24,7 +24,7 @@ star_points.data['x'][[star_points.data['color'] == 'black']] += 2000. 	# this l
 
 # set up the main plot and do its tweaks 
 plot1 = Figure(plot_height=800, plot_width=800, x_axis_type = None, y_axis_type = None,
-              tools="pan,reset,resize,save,tap,box_zoom,wheel_zoom", outline_line_color='black', 
+              tools="pan,reset,save,tap,box_zoom,wheel_zoom", outline_line_color='black', 
               x_range=[-50, 50], y_range=[-50, 50], toolbar_location='right')
 hover = HoverTool(names=["star_points_to_hover"], mode='mouse', tooltips = get_tooltip.tooltip()) 
 plot1.add_tools(hover) 

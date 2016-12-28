@@ -99,6 +99,7 @@ def update_data(attrname, old, new):
     spectrum = spec_dict[template.value]
     band = S.ObsBandpass('johnson,v')
     band.convert('nm') 
+    print spectrum.waveunits.name 
     ss = spectrum.renorm(magnitude.value+2.5, 'abmag', band) #### OH MY GOD WHAT A HACK!!!! 
     print 'Renorming to ', magnitude.value 
     new_w0 = ss.wave 
@@ -106,7 +107,6 @@ def update_data(attrname, old, new):
     new_w = np.array(new_w0) 
     new_f = np.array(new_f0) 
     spectrum_template.data = {'w':new_w, 'f':new_f, 'w0':new_w0, 'f0':new_f0} 
-    # OK DONE WITH THAT 
 
     interp_mags = spec_dict[template.value]
     mag_arr = np.array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.]) 
@@ -145,18 +145,26 @@ aperture.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
 exptime = Slider(title="Exptime (hours)", value=1., start=0.1, end=10.0, step=0.1, callback_policy='mouseup')
+exptime.callback = CustomJS(args=dict(source=source), code="""
+    source.data = { value: [cb_obj.value] }
+""")
 magnitude = Slider(title="V Magnitude (AB)", value=30.0, start=20.0, end=35., callback_policy='mouseup') 
 magnitude.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
 template = Select(title="Template Spectrum", value="Flat (AB)", 
                 options=["Flat (AB)", "Blackbody (5000K)", "O5V Star", \
-                         "B5V Star", "G2V Star", "M2V Star", "Orion Nebula", "NGC 1068"]) 
+                         "B5V Star", "G2V Star", "M2V Star", "Orion Nebula", "Elliptical Galaxy", "Sbc Galaxy", \
+                         "Starburst Galaxy", "NGC 1068"]) 
+#redshift = Slider(title="Redshift", value=0., start=0.0, end=1.0, step=0.1, callback_policy='mouseup')
+#redshift.callback = CustomJS(args=dict(source=source), code="""
+#    source.data = { value: [cb_obj.value] }
+#""")
 
-for w in [ aperture, exptime, template]: # iterate on changes to parameters 
+for w in [template]: # iterate on changes to parameters 
     w.on_change('value', update_data)
 
-controls = WidgetBox(children=[aperture, exptime, magnitude, template]) 
+controls = WidgetBox(children=[aperture, exptime, magnitude, template ]) 
 controls_tab = Panel(child=controls, title='Controls')
 help_tab = Panel(child=Div(text = h.help()), title='Info')
 inputs = Tabs(tabs=[ controls_tab, help_tab]) 

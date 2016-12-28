@@ -23,6 +23,30 @@
         <title>LUVOIR Multiplanet Yields</title>
         {{ bokeh_css }}
         {{ bokeh_js }}
+        <style>
+.bk-root .bk-widget .bk-slider-horizontal {
+  width: 93%;
+  margin-left: 8px;
+  height: 10px;
+}
+.bk-root .bk-bs-nav-tabs {
+  border-bottom: 1px solid #ddd;
+  font-family: 'PT Serif';
+  font-size: 15pt 
+}
+.bk-root .bk-ui-slider { 
+  font-family: 'PT Serif';
+}
+.bk-root .bk-ui-slider .bk-ui-slider-handle {
+  position: absolute;
+  z-index: 2;
+  width: 1.2em;
+  height: 1.2em;
+  cursor: default;
+  -ms-touch-action: none;
+  touch-action: none;
+}
+        </style>
     </head>
 
 

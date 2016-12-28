@@ -1,106 +1,33 @@
-''' 
-this is run by typing "bokeh serve --show myapp.py" on the command line 
-'''
 import numpy as np
 import math 
-
 from astropy.table import Table 
 import copy  
 import os 
 
 import help_text as h 
+import get_yield_for_cds as gy 
+import get_tooltip 
 
-from bokeh.io import output_file, gridplot 
+from bokeh.io import curdoc 
 from bokeh.plotting import Figure
-from bokeh.resources import CDN
-from bokeh.client import push_session
-from bokeh.embed import components, file_html
-from bokeh.models import ColumnDataSource, HelpTool, HoverTool, Range1d, Square, Circle, LabelSet, FixedTicker, TapTool 
-from bokeh.layouts import Column, Row, widgetbox, layout 
-from bokeh.models.glyphs import Text 
-from bokeh.models.widgets import Panel, Tabs, Slider, TextInput, Div 
-from bokeh.io import hplot, vplot, curdoc
+from bokeh.driving import bounce 
+from bokeh.models import ColumnDataSource, HoverTool, Range1d, Square, Circle
+from bokeh.layouts import Column, Row
+from bokeh.models.widgets import Panel, Tabs, Slider, Div, Button 
 from bokeh.models.callbacks import CustomJS
 
 cwd = os.getenv('LUVOIR_SIMTOOLS_DIR')
 
-# obtain the yield table for the nominal parameter set
-targets = Table.read(cwd+'multiplanet_vis/data/stark_multiplanet/run_4.0_1.00E-10_0.10_3.0.fits')  
-col = copy.deepcopy(targets['TYPE'][0]) 
-col[:] = 'black' 
-col[np.where(targets['COMPLETENESS'][0] > 0.2*0.1)] = 'red' 
-col[np.where(targets['COMPLETENESS'][0] > 0.5*0.1)] = 'yellow' 
-col[np.where(targets['COMPLETENESS'][0] > 0.8*0.1)] = 'lightgreen' 
+yields = gy.get_yield('12.0', '-10') # this is the starting yield set, 4 m with contrast = 1e-10 
+star_points = ColumnDataSource(data = yields)  
+star_points.data['x'][[star_points.data['color'] == 'black']] += 2000. 	# this line shifts the black points with no yield off the plot 
 
-totyield = np.sum(targets['COMPLETENESS'][0] * 0.1) 
-
-# x0,y0 = original positons, will not be changed 
-# x,y = positions that will be modified to hide C = 0 stars in view 
-star_points = ColumnDataSource(data=dict(x0 = targets['X'][0], \
-                                         y0 = targets['Y'][0], \
-                                         x  = targets['X'][0], \
-                                         y  = targets['Y'][0], \
-                                         r  = targets['DISTANCE'][0], \
-                                         stype=targets['TYPE'][0], \
-                                         hip=targets['HIP'][0], \
-                                         color=col, \
-                                         complete=targets['COMPLETENESS'][0], \
-                                         complete0=targets['COMPLETE0'][0], \
-                                         complete1=targets['COMPLETE1'][0], \
-                                         complete2=targets['COMPLETE2'][0], \
-                                         complete3=targets['COMPLETE3'][0], \
-                                         complete4=targets['COMPLETE4'][0], \
-                                         complete5=targets['COMPLETE5'][0], \
-                                         complete6=targets['COMPLETE6'][0], \
-                                         complete7=targets['COMPLETE7'][0], \
-                                         complete8=targets['COMPLETE8'][0]  \
-                                         )) # end of the stars CDS 
-black_points = [star_points.data['color'] == 'black'] 
-star_points.data['x'][black_points] += 2000. 	# this line shifts the black points with no yield off the plot 
-
-
-
-# Set up plot
+# set up the main plot and do its tweaks 
 plot1 = Figure(plot_height=800, plot_width=800, x_axis_type = None, y_axis_type = None,
               tools="pan,reset,resize,save,tap,box_zoom,wheel_zoom", outline_line_color='black', 
               x_range=[-50, 50], y_range=[-50, 50], toolbar_location='right')
-
-hover = HoverTool(names=["star_points_to_hover"], mode='mouse', # point_policy="snap_to_data",
-     tooltips = """ 
-        <div>
-            <div>
-                <img
-                    src="http://www.stsci.edu/~tumlinso/earth_spec.jpg" height="150" alt="@imgs" width="271"
-                    style="float: left; margin: 0px 15px 15px 0px;"
-                    border="2"
-                ></img>
-            </div>
-            <div>
-                <span style="font-size: 20px; font-weight: bold; color: #696">HIP</span>
-                <span style="font-size: 20px; font-weight: bold; color: #696">@hip</span>
-            </div>
-            <div>
-                <span style="font-size: 20px; font-weight: bold; color: #696">@stype</span>
-                <span style="font-size: 20px; font-weight: bold; color: #696">type</span>
-            </div>
-            <div>
-                <span style="font-size: 20px; font-weight: bold; color: #696">D = </span>
-                <span style="font-size: 20px; font-weight: bold; color: #696;">@r</span>
-                <span style="font-size: 20px; font-weight: bold; color: #696;"> pc</span>
-            </div>
-            <div>
-                <span style="font-size: 20px; font-weight: bold; color: #696">C = </span>
-                <span style="font-size: 20px; font-weight: bold; color: #696;">@complete</span>
-            </div>
-        </div>
-        """
-    )
+hover = HoverTool(names=["star_points_to_hover"], mode='mouse', tooltips = get_tooltip.tooltip()) 
 plot1.add_tools(hover) 
-### THIS IS THE HOVER HELP FOR THE MAIN WINDOW 
-hover_help = HoverTool(names=["quickhelp_to_hover"], mode='mouse', 
-     tooltips = h.help() )
-    
-plot1.add_tools(hover_help) 
 hover = plot1.select(dict(type=HoverTool))
 plot1.x_range=Range1d(-50,50,bounds=(-50,50)) 
 plot1.y_range=Range1d(-50,50,bounds=(-50,50)) 
@@ -113,11 +40,14 @@ plot1.yaxis.axis_line_width = 0
 plot1.xaxis.axis_line_color = 'black' 
 plot1.yaxis.axis_line_color = 'black' 
 plot1.border_fill_color = "black"
-plot1.min_border_left = 80
+plot1.min_border_left = 10
+plot1.min_border_right = 10
 
+star_syms = plot1.circle('x', 'y', source=star_points, name="star_points_to_hover", \
+      fill_color='color', line_color='color', radius=0.5, line_alpha=0.3, fill_alpha=0.3)
+star_syms.selection_glyph = Circle(fill_alpha=0.8, fill_color="orange", radius=1.5, line_color='purple', line_width=3)
 def SelectCallback(attrname, old, new): 
     inds = np.array(new['1d']['indices'])[0] # this miraculously obtains the index of the slected star within the star_syms CDS 
-    print inds, star_points.data['complete0'][inds], str(star_points.data['complete0'][inds])[0:6] 
     star_yield_label.data['labels'] = [str(star_points.data['complete0'][inds])[0:6], \
  			               str(star_points.data['complete1'][inds])[0:6], \
  			               str(star_points.data['complete2'][inds])[0:6], \
@@ -127,24 +57,14 @@ def SelectCallback(attrname, old, new):
  			               str(star_points.data['complete6'][inds])[0:6], \
  			               str(star_points.data['complete7'][inds])[0:6], \
  			               str(star_points.data['complete8'][inds])[0:6]] 
+star_syms.data_source.on_change('selected', SelectCallback)
 
 # main glyphs for planet circles  
-star_syms = plot1.circle('x', 'y', source=star_points, name="star_points_to_hover", \
-      fill_color='color', line_color='color', radius=0.5, line_alpha=0.5, fill_alpha=0.7)
-star_syms.selection_glyph = Circle(fill_alpha=0.8, fill_color="orange", radius=1.5, line_color='purple', line_width=3)
-star_syms.data_source.on_change('selected', SelectCallback)
-#taptool = plot1.select(type=TapTool)
-#taptool.callback = FuncFunc() 
-
-quickhelp_source = ColumnDataSource(data=dict(x=np.array([44.0]), y=np.array([14.]), text=['Help']))
-#help_glyph = plot1.circle('x', 'y', color='black', source=quickhelp_source, radius=4, name="quickhelp_to_hover") 
-#plot1.text([50. ], [14], ['Help'], text_color='orange', text_font_size='18pt', text_align="right") 
-
 plot1.text(0.95*0.707*np.array([10., 20., 30., 40.]), 0.707*np.array([10., 20., 30., 40.]), \
      text=['10 pc', '20 pc', '30 pc', '40 pc'], text_color="white", text_font_style='bold', text_font_size='12pt', text_alpha=0.8) 
 plot1.text([48.5], [47], ['Chance Of Detecting'], text_color="white", text_align="right", text_alpha=1.0) 
 plot1.text([48.5], [44.5], ['an Earth Twin if Present'], text_color="white", text_align="right", text_alpha=1.0) 
-plot1.text([48.5], [44.5], ['___________________'], text_color="white", text_align="right", text_alpha=1.0) 
+plot1.text([48.5], [44.5], ['_____________________________'], text_color="white", text_align="right", text_alpha=1.0) 
 plot1.text(np.array([48.5]), np.array([41.5]), ["80-100%"], text_color='lightgreen', text_align="right") 
 plot1.text(np.array([48.5]), np.array([41.5-1*2.4]), ["50-80%"], text_color='yellow', text_align="right") 
 plot1.text(np.array([48.5]), np.array([41.5-2*2.4]), ["20-50%"], text_color='red', text_align="right") 
@@ -156,32 +76,45 @@ sym = plot1.circle(np.array([0., 0., 0., 0.]), np.array([0., 0., 0., 0.]), fill_
            line_width=4, radius=[40,30,20,10], line_alpha=0.8, fill_alpha=0.0) 
 sym.glyph.line_dash = [6, 6]
 
+# create pulsing symbols 
+n_stars = np.size(yields['complete2'])  
+col = copy.deepcopy(yields['stype']) 
+col[:] = 'deepskyblue'
+alph = copy.deepcopy(yields['x']) 
+alph[:] = 1.
+random_numbers = np.random.random(n_stars) 
+indices = np.arange(n_stars) 
+iran = indices[ random_numbers < yields['complete2'] ] 
+pulse_points = ColumnDataSource(data={'x': yields['x'][iran], 'y':yields['y'][iran], 'r':0.8+0.0*yields['y'][iran], 'color':col[iran], 'alpha':np.array(alph)[iran]}) 
+pulse_syms = plot1.circle('x','y', source=pulse_points, name="pulse_points", fill_color='color',radius='r', line_alpha='alpha', fill_alpha='alpha')
+
 # second plot, the bar chart of yields
-plot3 = Figure(plot_height=400, plot_width=480, tools="reset,save,tap",
-               outline_line_color='black', \
-              x_range=[-0.1, 3], y_range=[0, 300], toolbar_location='below', x_axis_type = None) 
-plot3.title.text_font_size = '14pt'
-plot3.background_fill_color = "white"
-plot3.background_fill_alpha = 1.0
-plot3.yaxis.axis_label = 'X'
-plot3.xaxis.axis_label = 'Y'
-plot3.xaxis.axis_line_width = 2
-plot3.yaxis.axis_line_width = 2
-plot3.xaxis.axis_line_color = 'black'
-plot3.yaxis.axis_line_color = 'black'
-plot3.border_fill_color = "white"
-plot3.min_border_left = 0
-plot3.image_url(url=["http://jt-astro.science/planets.jpg"], x=[-0.2], y=[305], w=[3.2], h=[305])
+hist_plot = Figure(plot_height=400, plot_width=480, tools="reset,save,tap", outline_line_color='black', \
+                x_range=[-0.1,3], y_range=[0,300], toolbar_location='below', x_axis_type = None) 
+hist_plot.title.text_font_size = '14pt'
+hist_plot.background_fill_color = "white"
+hist_plot.background_fill_alpha = 1.0
+hist_plot.yaxis.axis_label = 'X'
+hist_plot.xaxis.axis_label = 'Y'
+hist_plot.xaxis.axis_line_width = 2
+hist_plot.yaxis.axis_line_width = 2
+hist_plot.xaxis.axis_line_color = 'black'
+hist_plot.yaxis.axis_line_color = 'black'
+hist_plot.border_fill_color = "white"
+hist_plot.min_border_left = 0
+hist_plot.image_url(url=["http://jt-astro.science/planets.jpg"], x=[-0.2], y=[305], w=[3.2], h=[305])
+hist_plot.text([0.45], [280], ['Rocky'], text_align='center') 
+hist_plot.text([1.45], [280], ['Neptunes'], text_align='center') 
+hist_plot.text([2.45], [280], ['Jupiters'], text_align='center') 
 
 # this will place labels in the small plot for the *selected star* - not implemented yet
 star_yield_label = ColumnDataSource(data=dict(yields=[10., 10., 10., 10., 10., 10., 10., 10., 10.],
-                                              left=[0.0, 0.3, 0.6, 1.0, 1.3, 1.6, 2.0, 2.3, 2.6],
-                                              right=[0.3, 0.6, 0.9, 1.3, 1.6, 1.9, 2.3, 2.6, 2.9],
-                                              color=['red','green','blue','red','green','blue','red','green','blue'],
-                                              labels=["0","0","0","0","0","0","0","0","0"],
-                                              xvals =[1.5,2.5,3.5,1.5,2.5,3.5,1.5,2.5,3.5],
-                                              yvals =[2.9,2.9,2.9,1.9,1.9,1.9,0.9,0.9,0.9,]))
-
+                                        left=[0.0, 0.3, 0.6, 1.0, 1.3, 1.6, 2.0, 2.3, 2.6],
+                                        right=[0.3, 0.6, 0.9, 1.3, 1.6, 1.9, 2.3, 2.6, 2.9],
+                                        color=['red','green','blue','red','green','blue','red','green','blue'],
+                                        labels=["0","0","0","0","0","0","0","0","0"],
+                                        xvals =[1.5,2.5,3.5,1.5,2.5,3.5,1.5,2.5,3.5],
+                                        yvals =[2.9,2.9,2.9,1.9,1.9,1.9,0.9,0.9,0.9,]))
 total_yield_label = ColumnDataSource(data=dict(yields=[0., 0., 0., 0., 0., 0., 0., 0., 0.], \
                                         left=[0.0, 0.3, 0.6, 1.0, 1.3, 1.6, 2.0, 2.3, 2.6],
                                         right=[0.3, 0.6, 0.9, 1.3, 1.6, 1.9, 2.3, 2.6, 2.9],
@@ -191,12 +124,22 @@ total_yield_label = ColumnDataSource(data=dict(yields=[0., 0., 0., 0., 0., 0., 0
                                         labels=["0","0","0","0","0","0","0","0","0"], \
                                         xvals =[1.5,2.5,3.5,1.5,2.5,3.5,1.5,2.5,3.5], \
                                         yvals =[2.5,2.5,2.5,1.5,1.5,1.5,0.5,0.5,0.5,]))
-plot3.quad(top='yields', bottom=0., left='left', right='right', \
-           source=total_yield_label, color='color', fill_alpha=0.9, line_alpha=1., name='total_yield_label_hover')
-plot3.text('left', 'yields', 'labels', 0., 20, -3, text_align='center', source=total_yield_label, text_color='black')
+total_yield_label.data['yields'] = [np.sum(yields['complete0'][:]), np.sum(yields['complete1'][:]), 
+                                        np.sum(yields['complete2'][:]), np.sum(yields['complete3'][:]), 
+                                        np.sum(yields['complete4'][:]), np.sum(yields['complete5'][:]), 
+                                        np.sum(yields['complete6'][:]), np.sum(yields['complete7'][:]), 
+                                        np.sum(yields['complete8'][:])]
+total_yield_label.data['labels'] = [str(int(np.sum(yields['complete0'][:]))), str(int(np.sum(yields['complete1'][:]))), 
+                                        str(int(np.sum(yields['complete2'][:]))), str(int(np.sum(yields['complete3'][:]))), 
+                                        str(int(np.sum(yields['complete4'][:]))), str(int(np.sum(yields['complete5'][:]))), 
+                                        str(int(np.sum(yields['complete6'][:]))), str(int(np.sum(yields['complete7'][:]))), 
+                                        str(int(np.sum(yields['complete8'][:])))]
+hist_plot.quad(top='yields', bottom=0., left='left', right='right', source=total_yield_label, \
+                color='color', fill_alpha=0.9, line_alpha=1., name='total_yield_label_hover')
+           
+hist_plot.text('left', 'yields', 'labels', 0., 20, -3, text_align='center', source=total_yield_label, text_color='black')
 
-yield_hover = HoverTool(names=["total_yield_label_hover"], mode='mouse', # point_policy="snap_to_data",
-     tooltips = """ 
+yield_hover = HoverTool(names=["total_yield_label_hover"], mode='mouse', tooltips = """ 
             <div>
                 <span style="font-size: 20px; font-weight: bold; color:@color">N = </span>
                 <span style="font-size: 20px; font-weight: bold; color:@color">@yields</span>
@@ -208,100 +151,60 @@ yield_hover = HoverTool(names=["total_yield_label_hover"], mode='mouse', # point
                 <span style="font-size: 20px; font-weight: bold; color:@color">@mass</span>
             </div>
               """) 
-plot3.add_tools(yield_hover) 
+hist_plot.add_tools(yield_hover) 
 
 def update_data(attrname, old, new):
 
-    a = aperture.value 
-    c = contrast.value 
-    i = iwa.value 
+    print 'APERTURE A = ', aperture.value, ' CONTRAST C = ', contrast.value, ' IWA I = ', iwa.value 
+    yields = gy.get_yield(aperture.value, contrast.value) 
+    star_points.data = yields 
 
-    print 'APERTURE A = ', a, ' CONTRAST C = ', c, ' IWA I = ', i 
-    apertures = {'4.0':'4.0','4':'4.0','6':'6.0','6.0':'6.0','8':'8.0','8.0':'8.0',\
-                 '10':'10.0','10.0':'10.0','12':'12.0','12.0':'12.0','14':'14.0',\
-                 '14.0':'14.0','16':'16.0'} 
-    apertures = {'4.0':'4.0','4':'4.0','8':'8.0','8.0':'8.0',\
-                 '12':'12.0','12.0':'12.0',\
-                 '14.0':'14.0','16':'16.0','20':'20.0','20.0':'20.0'} 
-    contrasts = {'-11':'1.00E-11','-10':'1.00E-10','-9':'1.00E-09'} 
-    filename = cwd+'multiplanet_vis/data/stark_multiplanet/'+'run_'+apertures[str(a)]+'_'+contrasts[str(c)]+'_0.10_3.0.fits' 
-    print filename 
-    targets = Table.read(filename) 
-    star_points.data['complete'] = np.array(targets['COMPLETENESS'][0]) 
-
-    star_yield_label.data['yields'] = [targets['COMPLETE0'][0][1410], \
-                                  targets['COMPLETE1'][0][1410], \
-                                  targets['COMPLETE2'][0][1410], \
-                                  targets['COMPLETE3'][0][1410], \
-                                  targets['COMPLETE4'][0][1410], \
-                                  targets['COMPLETE5'][0][1410], \
-                                  targets['COMPLETE6'][0][1410], \
-                                  targets['COMPLETE7'][0][1410], \
-                                  targets['COMPLETE8'][0][1410]]
-    star_yield_label.data['labels'] = [str(targets['COMPLETE0'][0][1410])[0:5], \
-                                       str(targets['COMPLETE1'][0][1410])[0:5], \
-                                       str(targets['COMPLETE2'][0][1410])[0:5], \
-                                       str(targets['COMPLETE3'][0][1410])[0:5], \
-                                       str(targets['COMPLETE4'][0][1410])[0:5], \
-                                       str(targets['COMPLETE5'][0][1410])[0:5], \
-                                       str(targets['COMPLETE6'][0][1410])[0:5], \
-                                       str(targets['COMPLETE7'][0][1410])[0:5], \
-                                       str(targets['COMPLETE8'][0][1410])[0:5]]
-    total_yield_label.data['yields'] = [np.sum(targets['COMPLETE0'][0][:]), \
-                                        np.sum(targets['COMPLETE1'][0][:]), \
-                                        np.sum(targets['COMPLETE2'][0][:]), \
-                                        np.sum(targets['COMPLETE3'][0][:]), \
-                                        np.sum(targets['COMPLETE4'][0][:]), \
-                                        np.sum(targets['COMPLETE5'][0][:]), \
-                                        np.sum(targets['COMPLETE6'][0][:]), \
-                                        np.sum(targets['COMPLETE7'][0][:]), \
-                                        np.sum(targets['COMPLETE8'][0][:])]
-    print 'Total Yields', total_yield_label.data['yields']
-    total_yield_label.data['labels'] = [str(int(np.sum(targets['COMPLETE0'][0][:]))), \
-                                        str(int(np.sum(targets['COMPLETE1'][0][:]))), \
-                                        str(int(np.sum(targets['COMPLETE2'][0][:]))), \
-                                        str(int(np.sum(targets['COMPLETE3'][0][:]))), \
-                                        str(int(np.sum(targets['COMPLETE4'][0][:]))), \
-                                        str(int(np.sum(targets['COMPLETE5'][0][:]))), \
-                                        str(int(np.sum(targets['COMPLETE6'][0][:]))), \
-                                        str(int(np.sum(targets['COMPLETE7'][0][:]))), \
-                                        str(int(np.sum(targets['COMPLETE8'][0][:])))]
-
-    print 'MP_ETA', targets['MP_ETA'][0]
+    total_yield_label.data['yields'] = [np.sum(yields['complete0'][:]), np.sum(yields['complete1'][:]), 
+                                        np.sum(yields['complete2'][:]), np.sum(yields['complete3'][:]), 
+                                        np.sum(yields['complete4'][:]), np.sum(yields['complete5'][:]), 
+                                        np.sum(yields['complete6'][:]), np.sum(yields['complete7'][:]), 
+                                        np.sum(yields['complete8'][:])]
+    total_yield_label.data['labels'] = [str(int(np.sum(yields['complete0'][:]))), str(int(np.sum(yields['complete1'][:]))), 
+                                        str(int(np.sum(yields['complete2'][:]))), str(int(np.sum(yields['complete3'][:]))), 
+                                        str(int(np.sum(yields['complete4'][:]))), str(int(np.sum(yields['complete5'][:]))), 
+                                        str(int(np.sum(yields['complete6'][:]))), str(int(np.sum(yields['complete7'][:]))), 
+                                        str(int(np.sum(yields['complete8'][:])))]
+    print total_yield_label.data['labels'] 
  
-    # colors corresponding to yields are updated here 
-    col = copy.deepcopy(targets['TYPE'][0]) 
-    col[:] = 'black' 
-    col[np.where(targets['COMPLETENESS'][0] < 0.2*0.1)] = 'black' 
-    col[np.where(targets['COMPLETENESS'][0] > 0.2*0.1)] = 'red' 
-    col[np.where(targets['COMPLETENESS'][0] > 0.5*0.1)] = 'yellow' 
-    col[np.where(targets['COMPLETENESS'][0] > 0.8*0.1)] = 'lightgreen' 
-    star_points.data['color'] = col
+    # regenerate the pulsing blue points 
+    col = copy.deepcopy(yields['stype']) 
+    col[:] = 'deepskyblue'
+    alph = copy.deepcopy(yields['x']) 
+    alph[:] = 1.
 
-    # reset the positions and hide the low completion stars by shifting their X 
-    star_points.data['x'] = star_points.data['x0'] 
-    star_points.data['y'] = star_points.data['y0'] 
-    x = copy.deepcopy(targets['X'][0]) 
-    x[col == 'black'] = x[col == 'black'] + 2000. 
-    star_points.data['x'] = x 
+    # NOW DRAW RANDOM VARIATES TO GET HIGHLIGHTED STARS
+    n_stars = np.size(yields['complete2'])  
+    random_numbers = np.random.random(n_stars) 
+    indices = np.arange(n_stars) 
+    iran = indices[ random_numbers < yields['complete2'] ] 
+    new_dict = {'x': yields['x'][iran], 'y':yields['y'][iran], 'r':0.8+0.0*yields['y'][iran], 'color':col[iran], 'alpha':np.array(alph)[iran]} 
+    pulse_points.data = new_dict  
+
+def recalc(): 
+    # NOW DRAW RANDOM VARIATES TO GET HIGHLIGHTED STARS
+    n_stars = np.size(yields['complete2'])  
+    random_numbers = np.random.random(n_stars) 
+    indices = np.arange(n_stars) 
+    iran = indices[ random_numbers < yields['complete2'] ] 
+    new_dict = {'x': yields['x'][iran], 'y':yields['y'][iran], 'r':0.8+0.0*yields['y'][iran], 'color':col[iran], 'alpha':np.array(alph)[iran]} 
+    pulse_points.data = new_dict  
+
+
+# Make the blue stars pulse 
+@bounce([0,0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9])
+def pulse_stars(i):
+    pulse_points.data['alpha'] = np.array(pulse_points.data['alpha']) * 0. + 1. * i 
+    pulse_points.data['r'] = np.array(pulse_points.data['alpha']) * 0. + (0.3 * i + 0.5) 
     
-    yield_now = np.sum(targets['COMPLETENESS'][0]) * 0.1 
-
-    star_points.data['COMPLETE0'] = np.array(targets['COMPLETE0'][0]) 
-    star_points.data['COMPLETE1'] = np.array(targets['COMPLETE1'][0]) 
-    star_points.data['COMPLETE2'] = np.array(targets['COMPLETE2'][0]) 
-    star_points.data['COMPLETE3'] = np.array(targets['COMPLETE3'][0]) 
-    star_points.data['COMPLETE4'] = np.array(targets['COMPLETE4'][0]) 
-    star_points.data['COMPLETE5'] = np.array(targets['COMPLETE5'][0]) 
-    star_points.data['COMPLETE6'] = np.array(targets['COMPLETE6'][0]) 
-    star_points.data['COMPLETE7'] = np.array(targets['COMPLETE7'][0]) 
-    star_points.data['COMPLETE8'] = np.array(targets['COMPLETE8'][0]) 
-
+# Set up widgets with "fake" callbacks 
 source = ColumnDataSource(data=dict(value=[]))
 source.on_change('data', update_data)
-    
-# Set up widgets
-aperture= Slider(title="Aperture (meters)", value=4., start=4., end=20.0, step=4.0, callback_policy='mouseup', width=450)
+aperture= Slider(title="Aperture (meters)", value=12., start=4., end=20.0, step=4.0, callback_policy='mouseup', width=450)
 aperture.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
@@ -309,27 +212,22 @@ contrast = Slider(title="Log (Contrast)", value=-10, start=-11.0, end=-9, step=1
 contrast.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-iwa      = Slider(title="Inner Working Angle (l/D)", value=1.5, start=1.5, end=4.0, step=0.5, callback_policy='mouseup', width=450)
+iwa = Slider(title="Inner Working Angle (l/D)", value=1.5, start=1.5, end=4.0, step=0.5, callback_policy='mouseup', width=450)
 iwa.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
+regenerate = Button(label='Regenerate the Sample of Detected Earths', width=450, button_type='success') 
+regenerate.on_click(recalc) 
 
-
-input_sliders = Column(children=[aperture, contrast]) 
+# Set up control widgets and their layout 
+input_sliders = Column(children=[aperture, contrast, regenerate]) 
 control_tab = Panel(child=input_sliders, title='Controls', width=450)
 div = Div(text=h.help(),width=450, height=2000)
-help_tab = Panel(child=div, title='Info', width=450, height=300)
-input_tabs = Tabs(tabs=[control_tab,help_tab])  
-
-inputs = Column(plot3, input_tabs) 
+info_tab = Panel(child=div, title='Info', width=450, height=300)
+input_tabs = Tabs(tabs=[control_tab,info_tab], width=450)  
+inputs = Column(hist_plot, input_tabs) 
 rowrow =  Row(inputs, plot1)  
 
-# Set up layouts and add to document
-curdoc().add_root(rowrow) 
+curdoc().add_root(rowrow) # Set up layouts and add to document
 curdoc().add_root(source) 
-
-
-
-
-
-
+curdoc().add_periodic_callback(pulse_stars, 100)

@@ -1,8 +1,11 @@
 attrs:
     Figure:
-        background_fill_color: '#FFFFFF'
+        background_fill_color: '#000000'
         border_fill_color: '#FFFFFF'
-        outline_line_color: '#FFFFF4'
+        outline_line_color: '#444444'
+    Text: 
+        text_font: 'PT Serif' 
+        text_font_style: 'bold' 
     Axis:
         axis_line_color: "black"
         axis_label_text_color: "black"
@@ -14,4 +17,4 @@ attrs:
         grid_line_dash: [6, 4]
         grid_line_alpha: .3
     Title:
-        text_color: "black"
+        text_color: "green"

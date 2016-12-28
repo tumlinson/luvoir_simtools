@@ -138,7 +138,7 @@ textlabel = ColumnDataSource(data=dict(label = planet_label))
 ################################
 #plots spectrum and exposure time
 snr_plot = Figure(plot_height=500, plot_width=750, 
-                  tools="crosshair,pan,reset,resize,save,box_zoom,wheel_zoom,hover",
+                  tools="crosshair,pan,reset,save,box_zoom,wheel_zoom,hover",
                   toolbar_location='right', x_range=[0.4, 5.0], y_range=[min(Fo)*0.9, max(Fo)*1.1])
 
 snr_plot.background_fill_color = "beige"

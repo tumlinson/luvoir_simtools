@@ -111,14 +111,14 @@ hist_plot.text([2.45], [280], ['Jupiters'], text_align='center')
 star_yield_label = ColumnDataSource(data=dict(yields=[10., 10., 10., 10., 10., 10., 10., 10., 10.],
                                         left=[0.0, 0.3, 0.6, 1.0, 1.3, 1.6, 2.0, 2.3, 2.6],
                                         right=[0.3, 0.6, 0.9, 1.3, 1.6, 1.9, 2.3, 2.6, 2.9],
-                                        color=['red','green','blue','red','green','blue','red','green','blue'],
+                                        color=['red','green','deepskyblue','red','green','blue','red','green','blue'],
                                         labels=["0","0","0","0","0","0","0","0","0"],
                                         xvals =[1.5,2.5,3.5,1.5,2.5,3.5,1.5,2.5,3.5],
                                         yvals =[2.9,2.9,2.9,1.9,1.9,1.9,0.9,0.9,0.9,]))
 total_yield_label = ColumnDataSource(data=dict(yields=[0., 0., 0., 0., 0., 0., 0., 0., 0.], \
                                         left=[0.0, 0.3, 0.6, 1.0, 1.3, 1.6, 2.0, 2.3, 2.6],
                                         right=[0.3, 0.6, 0.9, 1.3, 1.6, 1.9, 2.3, 2.6, 2.9],
-                                        color=['red', 'green', 'blue', 'red', 'green', 'blue', 'red', 'green', 'blue'],
+                                        color=['red', 'green', 'deepskyblue', 'red', 'green', 'blue', 'red', 'green', 'blue'],
                                         temp=['Hot','Warm','Cool','Hot','Warm','Cool','Hot','Warm','Cool'], 
                                         mass=['Earths','Earths','Earths','Neptunes','Neptunes','Neptunes','Jupiters','Jupiters','Jupiters'], 
                                         labels=["0","0","0","0","0","0","0","0","0"], \

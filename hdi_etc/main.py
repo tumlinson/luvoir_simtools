@@ -132,6 +132,13 @@ def update_data(attrname, old, new):
     source2.data = dict(x=hdi.pivotwave[0:2], y=snr[0:2], desc=hdi.bandnames[0:2]) 
     source3.data = dict(x=hdi.pivotwave[-3:], y=snr[-3:], desc=hdi.bandnames[-3:]) 
 
+    snr_plot.y_range.start = 0
+    snr_plot.y_range.end = 1.3*np.max([np.max(snr),5.]) 
+
+    sed_plot.y_range.start = np.min(ss.flux)+5. 
+    sed_plot.y_range.end = np.min(ss.flux)-5. 
+
+
 def fake_function(attrname, old, new):
     print "THIS IS JUST A FAKE CALLBACK FUNCTION", magnitude.value 
 

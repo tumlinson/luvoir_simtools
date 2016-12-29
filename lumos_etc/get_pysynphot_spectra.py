@@ -7,6 +7,7 @@ def add_spectrum_to_library():
     cwd = os.getenv('LUVOIR_SIMTOOLS_DIR')
 
     spec_dict = {}
+
     tab = ascii.read(cwd+'data/CTTS_etc_d140pc_101116.txt', names=['wave','flux'])
     sp = S.ArraySpectrum(wave=tab['wave'], flux=tab['flux'], waveunits='Angstrom', fluxunits='flam')
     ctts = sp.renorm(21., 'abmag', S.ObsBandpass('galex,fuv'))
@@ -68,6 +69,11 @@ def add_spectrum_to_library():
     sp = S.ArraySpectrum(wave=tab['lam'], flux=tab['lh1=17.5'], waveunits='Angstrom', fluxunits='flam')
     fesc1 = sp.renorm(21., 'abmag', S.ObsBandpass('galex,fuv'))
     spec_dict['Galaxy with f_esc, HI=0.001, HeI=1'] = fesc1
+
+    flatsp = S.FlatSpectrum(21, fluxunits='flam')
+    flat = flatsp.renorm(21., 'abmag', S.ObsBandpass('galex,fuv'))
+    spec_dict['Flat in F_lambda'] = flat  
+
 
     return spec_dict
 

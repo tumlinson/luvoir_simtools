@@ -72,13 +72,15 @@ sn_plot.y_range=Range1d(0,40,bounds=(0,None))
 sn_plot.line('w', 'sn', source=spectrum_template, line_width=3, line_color='orange', line_alpha=0.7, legend='S/N per resel')
 sn_plot.background_fill_color = "beige"
 sn_plot.background_fill_alpha = 0.5 
-sn_plot.xaxis.axis_label = 'Wavelength' 
+sn_plot.xaxis.axis_label = 'Wavelength [Angstrom]' 
 sn_plot.yaxis.axis_label = 'S/N per resel' 
 
 def update_data(attrname, old, new): # use this one for updating pysynphot tempaltes 
    
     print "You have chosen template ", template.value, np.size(spec_dict[template.value].wave) 
     print 'Selected grating = ', grating.value 
+    luvoir.aperture = aperture.value 
+    print 'Your telescope is set to', luvoir.aperture 
     lumos.set_mode(grating.value) 
 
     new_w0 = spec_dict[template.value].wave 
@@ -97,7 +99,6 @@ def update_data(attrname, old, new): # use this one for updating pysynphot tempa
     new_dict = {'w':new_w, 'f':new_f, 'w0':new_w0, 'f0':new_f0, 'flux_cut':flux_cut, 'sn':new_sn} 
     spectrum_template.data = new_dict 
 
-    luvoir.aperture = aperture.value 
 
     # set the axes to autoscale appropriately 
     flux_plot.y_range.start = 0 
@@ -115,7 +116,7 @@ source.on_change('data', update_data)
 
 # Set up widgets and their callbacks (faking the mouseup policy via "source" b/c functional callback doesn't do that. 
 template = Select(title="Template Spectrum", value="QSO", 
-                options=["QSO", "10 Myr Starburst", "O5V Star", "G2V Star", "Classical T Tauri", "M1 Dwarf", "Orion Nebula", \
+                options=["Flat in F_lambda", "QSO", "10 Myr Starburst", "O5V Star", "G2V Star", "Classical T Tauri", "M1 Dwarf", "Orion Nebula", \
                          "Starburst, No Dust", "Starburst, E(B-V) = 0.6", "Galaxy with f_esc, HI=1, HeI=1", "Galaxy with f_esc, HI=0.001, HeI=1"])
 
 redshift = Slider(title="Redshift", value=0.0, start=0., end=3.0, step=0.05, callback_policy='mouseup')

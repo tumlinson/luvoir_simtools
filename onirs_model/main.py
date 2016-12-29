@@ -179,10 +179,10 @@ hover.tooltips = [
    ('thermal', '@cth{int}')
 ]
 
-ptab1 = Panel(child=snr_plot, title='Spectrum')
+#ptab1 = Panel(child=snr_plot, title='Spectrum')
 #ptab2 = Panel(child=exp_plot, title='Exposure Time')
-ptabs = Tabs(tabs=[ptab1])
-show(ptabs)
+#ptabs = Tabs(tabs=[ptab1])
+show(snr_plot)
 
 ################################
 #  PROGRAMS
@@ -442,7 +442,7 @@ for gg in [ground_based]:
 
 inputs = Tabs(tabs=[ planet_tab, observation_tab,  download_tab, info_tab ], width=330)
 
-curdoc().add_root(row(inputs, ptabs)) 
+curdoc().add_root(row(inputs, snr_plot)) 
 curdoc().add_root(source) 
 
 

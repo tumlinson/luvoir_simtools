@@ -5,7 +5,6 @@ from bokeh.models import ColumnDataSource, HoverTool, Range1d, BoxSelectTool, Se
 from bokeh.models.widgets import Slider
 from bokeh.plotting import Figure
 
-
 relation_properties = ColumnDataSource(data=dict(power_law_slope=[0.15], arbitrary_normalization=[2.2])) 
 
 # here is a CDS for the shutter positions. Just made up for now.
@@ -27,7 +26,7 @@ shutter_positions = ColumnDataSource(
 # Set up plot
 box_select = BoxSelectTool()
 plot1 = Figure(plot_height=500, plot_width=770, x_axis_type=None, y_axis_type=None,
-               tools=["pan,reset,tap,box_zoom,wheel_zoom,save", box_select],
+               tools=["pan,reset,tap,wheel_zoom,save", box_select],
                x_range=[-75, 75], y_range=[-50, 50], toolbar_location='left')
 plot1.image_url(url=["http://www.jt-astro.science/hs-2014-04-a-print.jpg"], x=[-75], y=[50], w=150, h=100)
 #plot1.image_url(url=["http://farm9.staticflickr.com/8238/8416833561_a5e096d251_o.jpg"], x=[-50], y=[50], w=100, h=100)
@@ -102,7 +101,8 @@ def shutter_updater(attr, old, new):  # callback for shutter selection
 
 def power_law_updater(attr, old, new): 
     print 'want to change the power law to', power_law_slider.value 
-    relation_properties.data['power_law_slope'] = power_law_slider.value 
+    relation_properties.data['power_law_slope'] = [power_law_slider.value] 
+    print 'MADE IT TO HERE JUST FINE' 
     cluster_masses = np.array([5.5, 5.1, 2.6, 7.2, 6.1, 5.5, 5.4, 3.4, 4.3, 4.1, 3.5, 3.6, 3.7, 4.9, 4.8, \
         5., 4.9, 4.8, 4.1, 4.3, 4.2, 4.0, 3.3, 2.3, 3.6, 3.3, 3.2, 1.2, 6.1, 6.7, 3.9, 4.2])
     scatter_term = 2.0 * np.random.rand(np.size(cluster_masses)) - 1.0
@@ -114,11 +114,8 @@ def power_law_updater(attr, old, new):
     shutter_positions.data['vmax_up_error'] = vmax_up_error 
     shutter_positions.data['vmax_down_error'] = vmax_down_error
     print shutter_positions.data['vmax_up_error'], shutter_positions.data['vmax_down_error'] 
-
-
-# iterate on changes to parameters
-for w in [aperture, exposure]:
-    w.on_change('value', update_data)
+    print 
+    print 
 
 for s in [aperture, exposure, power_law_slider]: 
     s.on_change('value', power_law_updater)

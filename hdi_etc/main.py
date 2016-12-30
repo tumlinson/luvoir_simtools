@@ -17,7 +17,7 @@ from bokeh.embed import file_html
 
 import Telescope as T 
 import help_text as h 
-import get_hdi_etcs 
+import get_hdi_seds 
 import pysynphot as S 
 
 luvoir = T.Telescope(10., 280., 500.) # set up LUVOIR with 10 meters, T = 280, and diff limit at 500 nm 

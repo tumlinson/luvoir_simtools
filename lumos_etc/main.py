@@ -33,7 +33,7 @@ def simulate_exposure(telescope, spectrograph, wave, flux, exptime):
     return signal_to_noise 
 
 ##### START FOR NEW WAY TO GET TEMPLATE SPECTRA 
-spec_dict = get_pysynphot_spectra.add_spectrum_to_library() 
+spec_dict = get_lumos_spectra.add_spectrum_to_library() 
 template_to_start_with = 'QSO' 
 spec_dict[template_to_start_with].wave 
 spec_dict[template_to_start_with].flux # <---- these are the variables you need 

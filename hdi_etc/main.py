@@ -24,7 +24,7 @@ luvoir = T.Telescope(10., 280., 500.) # set up LUVOIR with 10 meters, T = 280, a
 hdi = T.Camera()                     # and HDI camera with default bandpasses 
 hdi.set_pixel_sizes(luvoir) 
 
-spec_dict = get_pysynphot_spectra.add_spectrum_to_library() 
+spec_dict = get_hdi_seds.add_spectrum_to_library() 
 template_to_start_with = 'Flat (AB)' 
 spec_dict[template_to_start_with].wave 
 spec_dict[template_to_start_with].flux # <---- these are the variables you need to make the plot 

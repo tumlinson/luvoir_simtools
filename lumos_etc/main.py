@@ -7,7 +7,7 @@ from bokeh.models.widgets import Slider, TextInput, Select, Tabs, Panel, Div
 from bokeh.io import curdoc
 from bokeh.models.callbacks import CustomJS
 import astropy.constants as const
-import get_pysynphot_spectra
+import get_lumos_spectra
 import Telescope as T 
 import help_text as h 
 

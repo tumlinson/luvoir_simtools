@@ -12,20 +12,20 @@ def tooltip():
             </div> --> 
             <div>
                 <span style="font-size: 20px; font-weight: bold; color: #696">HIP</span>
-                <span style="font-size: 20px; font-weight: bold; color: #696">@hip</span>
+                <span style="font-size: 20px; font-weight: bold; color: #696">@hip</span><p> 
             </div>
             <div>
                 <span style="font-size: 20px; font-weight: bold; color: #696">@stype</span>
-                <span style="font-size: 20px; font-weight: bold; color: #696">type</span>
+                <span style="font-size: 20px; font-weight: bold; color: #696">type</span><p> 
             </div>
             <div>
                 <span style="font-size: 20px; font-weight: bold; color: #696">D = </span>
                 <span style="font-size: 20px; font-weight: bold; color: #696;">@r</span>
-                <span style="font-size: 20px; font-weight: bold; color: #696;"> pc</span>
+                <span style="font-size: 20px; font-weight: bold; color: #696;"> pc</span><p> 
             </div>
             <div>
                 <span style="font-size: 20px; font-weight: bold; color: #696">C = </span>
-                <span style="font-size: 20px; font-weight: bold; color: #696;">@complete2</span>
+                <span style="font-size: 20px; font-weight: bold; color: #696;">@complete1</span>
             </div>
         </div>
         """

@@ -44,8 +44,8 @@ plot1.min_border_left = 10
 plot1.min_border_right = 10
 
 star_syms = plot1.circle('x', 'y', source=star_points, name="star_points_to_hover", \
-      fill_color='color', line_color='color', radius=0.5, line_alpha=0.3, fill_alpha=0.3)
-star_syms.selection_glyph = Circle(fill_alpha=0.8, fill_color="orange", radius=1.5, line_color='purple', line_width=3)
+      fill_color='color', line_color='color', radius=0.5, line_alpha='alpha', fill_alpha='alpha')
+star_syms.selection_glyph = Circle(fill_alpha=0.8, fill_color="gold", radius=1.5, line_color='purple', line_width=3)
 def SelectCallback(attrname, old, new): 
     inds = np.array(new['1d']['indices'])[0] # this miraculously obtains the index of the slected star within the star_syms CDS 
     star_yield_label.data['labels'] = [str(star_points.data['complete0'][inds])[0:6], \
@@ -62,13 +62,15 @@ star_syms.data_source.on_change('selected', SelectCallback)
 # main glyphs for planet circles  
 plot1.text(0.95*0.707*np.array([10., 20., 30., 40.]), 0.707*np.array([10., 20., 30., 40.]), \
      text=['10 pc', '20 pc', '30 pc', '40 pc'], text_color="white", text_font_style='bold', text_font_size='12pt', text_alpha=0.8) 
-plot1.text([48.5], [47], ['Chance Of Detecting'], text_color="white", text_align="right", text_alpha=1.0) 
-plot1.text([48.5], [44.5], ['an Earth Twin if Present'], text_color="white", text_align="right", text_alpha=1.0) 
-plot1.text([48.5], [44.5], ['_____________________________'], text_color="white", text_align="right", text_alpha=1.0) 
-plot1.text(np.array([48.5]), np.array([41.5]), ["80-100%"], text_color='lightgreen', text_align="right") 
-plot1.text(np.array([48.5]), np.array([41.5-1*2.4]), ["50-80%"], text_color='yellow', text_align="right") 
-plot1.text(np.array([48.5]), np.array([41.5-2*2.4]), ["20-50%"], text_color='red', text_align="right") 
+plot1.text([48.5], [47], ['Chance Of Detecting'], text_color="white", text_align="right") 
+plot1.text([48.5], [44.5], ['an Earth Twin if Present'], text_color="white", text_align="right") 
+plot1.text([48.5], [44.5], ['_____________________________'], text_color="white", text_align="right") 
+plot1.text(np.array([48.5]), np.array([41.5]), ["80-100%"], text_color='gold', text_alpha=0.6+0.2, text_align="right") 
+plot1.text(np.array([48.5]), np.array([41.5-1*2.4]), ["50-80%"], text_color='gold', text_alpha=0.3+0.2, text_align="right") 
+plot1.text(np.array([48.5]), np.array([41.5-2*2.4]), ["20-50%"], text_color='gold', text_alpha=0.1+0.2, text_align="right") 
 plot1.text(np.array([48.5]), np.array([41.5-3*2.4]), ["Not Observed"], text_color='black', text_align="right") 
+plot1.text([-49], [46], ['Earth Twin Detections'], text_font_size='16pt', text_color='deepskyblue') 
+plot1.text([-49], [43], ['Random Realization for One Year Survey'], text_font_size='16pt', text_color='deepskyblue') 
 plot1.circle([0], [0], radius=0.1, fill_alpha=1.0, line_color='white', fill_color='white') 
 plot1.circle([0], [0], radius=0.5, fill_alpha=0.0, line_color='white') 
 
@@ -77,24 +79,27 @@ sym = plot1.circle(np.array([0., 0., 0., 0.]), np.array([0., 0., 0., 0.]), fill_
 sym.glyph.line_dash = [6, 6]
 
 # create pulsing symbols 
-n_stars = np.size(yields['complete2'])  
+n_stars = np.size(yields['complete1'])  
 col = copy.deepcopy(yields['stype']) 
 col[:] = 'deepskyblue'
 alph = copy.deepcopy(yields['x']) 
 alph[:] = 1.
 random_numbers = np.random.random(n_stars) 
 indices = np.arange(n_stars) 
-iran = indices[ random_numbers < yields['complete2'] ] 
+iran = indices[ random_numbers < yields['complete1'] ] 
 pulse_points = ColumnDataSource(data={'x': yields['x'][iran], 'y':yields['y'][iran], 'r':0.8+0.0*yields['y'][iran], 'color':col[iran], 'alpha':np.array(alph)[iran]}) 
 pulse_syms = plot1.circle('x','y', source=pulse_points, name="pulse_points", fill_color='color',radius='r', line_alpha='alpha', fill_alpha='alpha')
 
 # second plot, the bar chart of yields
 hist_plot = Figure(plot_height=400, plot_width=480, tools="reset,save,tap", outline_line_color='black', \
-                x_range=[-0.1,3], y_range=[0,300], toolbar_location='below', x_axis_type = None) 
+                x_range=[-0.1,3], y_range=[0,300], toolbar_location='below', x_axis_type = None, 
+                title='Expected Total Yield in One Year Survey') 
 hist_plot.title.text_font_size = '14pt'
 hist_plot.background_fill_color = "white"
 hist_plot.background_fill_alpha = 1.0
 hist_plot.yaxis.axis_label = 'X'
+hist_plot.yaxis.axis_label_text_font= 'PT Serif' 
+hist_plot.yaxis.major_label_text_font = 'PT Serif' 
 hist_plot.xaxis.axis_label = 'Y'
 hist_plot.xaxis.axis_line_width = 2
 hist_plot.yaxis.axis_line_width = 2
@@ -106,19 +111,21 @@ hist_plot.image_url(url=["http://jt-astro.science/planets.jpg"], x=[-0.2], y=[30
 hist_plot.text([0.45], [280], ['Rocky'], text_align='center') 
 hist_plot.text([1.45], [280], ['Neptunes'], text_align='center') 
 hist_plot.text([2.45], [280], ['Jupiters'], text_align='center') 
+hist_plot.title.align='center' 
+hist_plot.title.text_font='PT Serif' 
 
 # this will place labels in the small plot for the *selected star* - not implemented yet
 star_yield_label = ColumnDataSource(data=dict(yields=[10., 10., 10., 10., 10., 10., 10., 10., 10.],
                                         left=[0.0, 0.3, 0.6, 1.0, 1.3, 1.6, 2.0, 2.3, 2.6],
                                         right=[0.3, 0.6, 0.9, 1.3, 1.6, 1.9, 2.3, 2.6, 2.9],
-                                        color=['red','green','deepskyblue','red','green','blue','red','green','blue'],
+                                        color=['red','green','blue','red','green','blue','red','green','blue'],
                                         labels=["0","0","0","0","0","0","0","0","0"],
                                         xvals =[1.5,2.5,3.5,1.5,2.5,3.5,1.5,2.5,3.5],
                                         yvals =[2.9,2.9,2.9,1.9,1.9,1.9,0.9,0.9,0.9,]))
 total_yield_label = ColumnDataSource(data=dict(yields=[0., 0., 0., 0., 0., 0., 0., 0., 0.], \
                                         left=[0.0, 0.3, 0.6, 1.0, 1.3, 1.6, 2.0, 2.3, 2.6],
                                         right=[0.3, 0.6, 0.9, 1.3, 1.6, 1.9, 2.3, 2.6, 2.9],
-                                        color=['red', 'green', 'deepskyblue', 'red', 'green', 'blue', 'red', 'green', 'blue'],
+                                        color=['red', 'green', 'blue', 'red', 'green', 'blue', 'red', 'green', 'blue'],
                                         temp=['Hot','Warm','Cool','Hot','Warm','Cool','Hot','Warm','Cool'], 
                                         mass=['Earths','Earths','Earths','Neptunes','Neptunes','Neptunes','Jupiters','Jupiters','Jupiters'], 
                                         labels=["0","0","0","0","0","0","0","0","0"], \
@@ -178,24 +185,28 @@ def update_data(attrname, old, new):
     alph[:] = 1.
 
     # NOW DRAW RANDOM VARIATES TO GET HIGHLIGHTED STARS
-    n_stars = np.size(yields['complete2'])  
+    n_stars = np.size(yields['complete1'])  
     random_numbers = np.random.random(n_stars) 
     indices = np.arange(n_stars) 
-    iran = indices[ random_numbers < yields['complete2'] ] 
-    new_dict = {'x': yields['x'][iran], 'y':yields['y'][iran], 'r':0.8+0.0*yields['y'][iran], 'color':col[iran], 'alpha':np.array(alph)[iran]} 
+    iran = indices[ random_numbers < yields['complete1'] ] 
     print 'NSTARS INSIDE UPDATE DATA', n_stars, iran 
+    new_dict = {'x': yields['x'][iran], 'y':yields['y'][iran], 'r':0.8+0.0*yields['y'][iran], 'color':col[iran], 'alpha':np.array(alph)[iran]} 
     pulse_points.data = new_dict  
 
 def recalc(): 
     # NOW DRAW RANDOM VARIATES TO GET HIGHLIGHTED STARS
-    n_stars = np.size(yields['complete2'])  
+    col = copy.deepcopy(yields['stype']) 
+    col[:] = 'deepskyblue'
+    alph = copy.deepcopy(yields['x']) 
+    alph[:] = 1.
+    n_stars = np.size(yields['complete1'])  
     random_numbers = np.random.random(n_stars) 
     indices = np.arange(n_stars) 
-    iran = indices[ random_numbers < star_points.data['complete2'] ] 
+    iran = np.array(indices[ random_numbers < star_points.data['complete1'] ]) 
     print iran 
     new_dict = {'x': star_points.data['x'][iran], 'y':star_points.data['y'][iran], 'r':0.8+0.0*star_points.data['y'][iran], 'color':col[iran], 'alpha':np.array(alph)[iran]} 
-    pulse_points.data = new_dict  
     print 'NSTARS OUTSIDE UPDATE DATA', n_stars, iran 
+    pulse_points.data = new_dict  
 
 
 # Make the blue stars pulse 

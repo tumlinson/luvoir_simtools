@@ -18,9 +18,17 @@ def get_yield(aperture_in, contrast_in):
  
     col = copy.deepcopy(targets['TYPE'][0])
     col[:] = 'black'
-    col[where(targets['COMPLETENESS'][0] > 0.2*0.1)] = 'red'
-    col[where(targets['COMPLETENESS'][0] > 0.5*0.1)] = 'yellow'
-    col[where(targets['COMPLETENESS'][0] > 0.8*0.1)] = 'lightgreen'
+    col[where(targets['COMPLETE1'][0] > 0.01*0.1)] = 'gold' # 'red'
+    col[where(targets['COMPLETE1'][0] > 0.2*0.1)] = 'gold' # 'red'
+    col[where(targets['COMPLETE1'][0] > 0.5*0.1)] = 'gold' # 'yellow'
+    col[where(targets['COMPLETE1'][0] > 0.8*0.1)] = 'gold' # 'lightgreen'
+    
+    alp = copy.deepcopy(targets['TYPE'][0])
+    alp[:] = 0.0  
+    alp[where(targets['COMPLETE1'][0] > 0.01*0.1)] = 0.05 
+    alp[where(targets['COMPLETE1'][0] > 0.2*0.1)] = 0.1
+    alp[where(targets['COMPLETE1'][0] > 0.5*0.1)] = 0.3
+    alp[where(targets['COMPLETE1'][0] > 0.8*0.1)] = 0.6
     
     # x0,y0 = original positons; x,y = positions that will be modified to hide C = 0 stars in view 
     xx = copy.deepcopy(targets['X'][0]) 
@@ -35,7 +43,7 @@ def get_yield(aperture_in, contrast_in):
                 stype=targets['TYPE'][0], \
                 tspec=targets['TSPEC'][0], \
                 color=col, \
-                complete=targets['COMPLETENESS'][0], \
+                alpha=alp, \
                 complete0=targets['COMPLETE0'][0], \
                 complete1=targets['COMPLETE1'][0], \
                 complete2=targets['COMPLETE2'][0], \

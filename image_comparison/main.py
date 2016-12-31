@@ -46,8 +46,6 @@ def update_image(attr,old,new):
   p1.image_url(url=[image1], x=[0], y=[0], w=10, h=10)
   p3.image_url(url=[image2], x=[0], y=[0], w=10, h=10)
 
-
-
 p = gridplot([[p1, p3]]) 
 
 image_to_use.on_change('value', update_image)

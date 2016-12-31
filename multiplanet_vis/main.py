@@ -246,7 +246,6 @@ eta_table_source = ColumnDataSource(eta_table_data)
 eta_columns = [
         TableColumn(field="ptype", title="Planet Type"), 
         TableColumn(field="radii", title="R/R_Earth"),
-        TableColumn(field="a", title="S-M Axis (AU)"),
         TableColumn(field="eta", title="Eta")] 
 eta_table = DataTable(source=eta_table_source, columns=eta_columns, width=450, height=980)
 

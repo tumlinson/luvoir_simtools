@@ -4,7 +4,7 @@ from bokeh.layouts import column, row, widgetbox
 from bokeh.models import ColumnDataSource, HoverTool, Range1d, BoxSelectTool, Segment, Square
 from bokeh.models.widgets import Slider, Tabs, Div, Panel, Select 
 from bokeh.plotting import Figure
-import help_text as h 
+import mosview_help as h 
 
 
 relation_properties = ColumnDataSource(data=dict(power_law_slope=[0.15], arbitrary_normalization=[2.2])) 

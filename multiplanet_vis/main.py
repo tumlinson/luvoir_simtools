@@ -4,7 +4,7 @@ from astropy.table import Table
 import copy  
 import os 
 
-import help_text as h 
+import multiplanet_help as h 
 import get_yield_for_cds as gy 
 import get_tooltip 
 

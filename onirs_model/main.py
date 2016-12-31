@@ -36,7 +36,7 @@ from bokeh.embed import components, autoload_server
 
 import coronagraph as cg  # Import coronagraph (O/NIRS)  model
 cwd = os.getenv('LUVOIR_SIMTOOLS_DIR') 
-import help_text as h 
+import onirs_help as h 
 
 #allow it to run it from other folders and still know where planet folder is
 #planetdir = "../coronagraph/planets/" #new path compared to before

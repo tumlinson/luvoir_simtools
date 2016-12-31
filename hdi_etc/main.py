@@ -16,7 +16,7 @@ from bokeh.io import hplot, vplot, curdoc
 from bokeh.embed import file_html
 
 import Telescope as T 
-import help_text as h 
+import hdi_help as h 
 import get_hdi_seds 
 import pysynphot as S 
 

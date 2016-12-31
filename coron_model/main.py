@@ -33,7 +33,7 @@ from bokeh.embed import components, autoload_server
 
 
 import coronagraph as cg  # Import coronagraph model
-import help_text as h 
+import coron_help as h 
 
 cwd = os.getenv('LUVOIR_SIMTOOLS_DIR') 
 

@@ -209,7 +209,7 @@ hover.tooltips = [
 ptab1 = Panel(child=snr_plot, title='Spectrum')
 ptab2 = Panel(child=exp_plot, title='Exposure Time')
 ptabs = Tabs(tabs=[ptab1, ptab2])
-show(ptabs)
+#show(ptabs)
 
 ################################
 #  PROGRAMS
@@ -965,7 +965,7 @@ def update_data(attrname, old, new):
           Ahr_c = model[:,1]
           lamhr_c = lamhr_c / 1000. #convert to microns
           Ahr_c = Ahr_c * 0.67 #convert to geometric albedo
-          semimajor_c = 1.0
+          semimajor_c = 2.0
           radius_c = 3.86
           Teff_c  = 5780.   # Sun-like Teff (K)
           Rs_c    = 1.      # star radius in solar radii
@@ -995,7 +995,7 @@ def update_data(attrname, old, new):
           Ahr_c = model[:,1]
           lamhr_c = lamhr_c / 1000. #convert to microns
           Ahr_c = Ahr_c * 0.67 #convert to geometric albedo
-          semimajor_c = 2.0
+          semimajor_c = 1.0
           radius_c = 3.86
           Teff_c  = 5780.   # Sun-like Teff (K)
           Rs_c    = 1.      # star radius in solar radii

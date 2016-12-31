@@ -4,6 +4,9 @@ from scipy import special
 from numba import jit
 import os
 
+cwd = os.getenv('LUVOIR_SIMTOOLS_DIR') 
+relpath = cwd+'coron_model/coronagraph/' #### os.path.join(os.path.dirname(__file__), planetdir)
+
 __all__ = ["Fstar", "Fplan", "FpFs", "cplan", "czodi", "cezodi", "cspeck", "cdark",
            "cread", "ccic", "f_airy", "f_airy_int", "ctherm", "ctherm_earth",
            "construct_lam", "set_quantum_efficiency", "set_dark_current",
@@ -920,6 +923,7 @@ def set_atmos_throughput(lam, dlam, convolve, plot=False):
     """
     # Read in earth transmission file
     fn = os.path.join(os.path.dirname(__file__), "ground/earth_transmission_atacama_30deg.txt")
+    fn = relpath+"ground/earth_transmission_atacama_30deg.txt" 
     tdata = np.genfromtxt(fn, skip_header=5)
     wl_atmos = tdata[:,0]
     Tatmoshr = tdata[:,1]
@@ -958,6 +962,7 @@ def get_thermal_ground_intensity(lam, dlam, convolve):
     """
     # Read in earth thermal data
     fn = os.path.join(os.path.dirname(__file__), "ground/earth_thermal_atacama_30deg.txt")
+    fn = relpath+"ground/earth_thermal_atacama_30deg.txt" 
     tdata = np.genfromtxt(fn, skip_header=6)
     wl_therm = tdata[:,0]  # um
     Fthermhr = tdata[:,1]  # W/m^2/um

@@ -2,8 +2,10 @@ import numpy as np
 from bokeh.io import curdoc
 from bokeh.layouts import column, row, widgetbox
 from bokeh.models import ColumnDataSource, HoverTool, Range1d, BoxSelectTool, Segment, Square
-from bokeh.models.widgets import Slider
+from bokeh.models.widgets import Slider, Tabs, Div, Panel, Select 
 from bokeh.plotting import Figure
+import help_text as h 
+
 
 relation_properties = ColumnDataSource(data=dict(power_law_slope=[0.15], arbitrary_normalization=[2.2])) 
 
@@ -20,7 +22,6 @@ vmax_down_error = cluster_vmax - 300.
 shutter_positions = ColumnDataSource(
     data=dict(x=cluster_xcoords, y=cluster_ycoords, vmax=cluster_vmax, mass=cluster_masses, scatter=scatter_term, \
                vmax_up_error=vmax_up_error, vmax_down_error=vmax_down_error))
-
 
 
 # Set up plot
@@ -84,10 +85,9 @@ cluster_errors.nonselection_glyph = Segment(line_alpha=0.1, line_color='grey', l
 
 
 # Set up control widgets
-aperture = Slider(title="Aperture (meters)", value=12., start=4., end=20.0, step=1.0, width=500)
-exposure = Slider(title="Exposure Time (hr)", value=1, start=1.0, end=10., step=1.0, width=500)
-power_law_slider = Slider(title="Power Law Slope", value=0.15, start=0.0, end=1., step=0.05, width=500)
-
+aperture = Slider(title="Aperture (meters)", value=12., start=4., end=20.0, step=1.0, width=400)
+exposure = Slider(title="Exposure Time (hr)", value=1, start=1.0, end=10., step=1.0, width=400)
+power_law_slider = Slider(title="Power Law Slope", value=0.15, start=0.0, end=1., step=0.05, width=400)
 
 def update_data(attrname, old, new):  # callback for slider moves
 
@@ -123,5 +123,15 @@ for s in [aperture, exposure, power_law_slider]:
 # this triggers the "shutter_updater" function when a shutter is selected
 shutters.data_source.on_change('selected', shutter_updater)
 
-layout = row(plot1, column(plot2, widgetbox(children=[aperture, exposure, power_law_slider]),width=500)) 
+controls_tab = Panel(child=widgetbox(children=[aperture, exposure, power_law_slider]), title='Controls', width=400)
+info_tab = Panel(child=Div(text = h.help()), title='Info', width=400)
+tab = Tabs(tabs=[ controls_tab, info_tab], width=400) 
+
+
+layout = row(plot1, column(plot2, tab, width=500)) 
 curdoc().add_root(layout)
+
+
+
+
+

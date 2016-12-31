@@ -13,7 +13,7 @@ from bokeh.plotting import Figure
 from bokeh.driving import bounce 
 from bokeh.models import ColumnDataSource, HoverTool, Range1d, Square, Circle
 from bokeh.layouts import Column, Row
-from bokeh.models.widgets import Panel, Tabs, Slider, Div, Button 
+from bokeh.models.widgets import Panel, Tabs, Slider, Div, Button, DataTable, DateFormatter, TableColumn 
 from bokeh.models.callbacks import CustomJS
 
 cwd = os.getenv('LUVOIR_SIMTOOLS_DIR')
@@ -62,14 +62,15 @@ star_syms.data_source.on_change('selected', SelectCallback)
 # main glyphs for planet circles  
 plot1.text(0.95*0.707*np.array([10., 20., 30., 40.]), 0.707*np.array([10., 20., 30., 40.]), \
      text=['10 pc', '20 pc', '30 pc', '40 pc'], text_color="white", text_font_style='bold', text_font_size='12pt', text_alpha=0.8) 
-plot1.text([48.5], [47], ['Chance Of Detecting'], text_color="white", text_align="right") 
-plot1.text([48.5], [44.5], ['an Earth Twin if Present'], text_color="white", text_align="right") 
-plot1.text([48.5], [44.5], ['_____________________________'], text_color="white", text_align="right") 
-plot1.text(np.array([48.5]), np.array([41.5]), ["80-100%"], text_color='gold', text_alpha=0.6+0.2, text_align="right") 
-plot1.text(np.array([48.5]), np.array([41.5-1*2.4]), ["50-80%"], text_color='gold', text_alpha=0.3+0.2, text_align="right") 
-plot1.text(np.array([48.5]), np.array([41.5-2*2.4]), ["20-50%"], text_color='gold', text_alpha=0.1+0.2, text_align="right") 
-plot1.text(np.array([48.5]), np.array([41.5-3*2.4]), ["Not Observed"], text_color='black', text_align="right") 
-plot1.text([-49], [46], ['Earth Twin Detections'], text_font_size='16pt', text_color='deepskyblue') 
+plot1.text([48.5], [47], ['Chance Of Detecting a'], text_color="white", text_align="right") 
+plot1.text([48.5], [44.5], ['Habitable Planet Candidate'], text_color="white", text_align="right") 
+plot1.text([48.5], [42.0], ['if Present'], text_color="white", text_align="right") 
+plot1.text([48.5], [42.0], ['___________'], text_color="white", text_align="right") 
+plot1.text(np.array([48.5]), np.array([39.5]), ["80-100%"], text_color='gold', text_alpha=0.6+0.2, text_align="right") 
+plot1.text(np.array([48.5]), np.array([39.5-1*2.4]), ["50-80%"], text_color='gold', text_alpha=0.3+0.2, text_align="right") 
+plot1.text(np.array([48.5]), np.array([39.5-2*2.4]), ["20-50%"], text_color='gold', text_alpha=0.1+0.2, text_align="right") 
+plot1.text(np.array([48.5]), np.array([39.5-3*2.4]), ["Not Observed"], text_color='black', text_align="right") 
+plot1.text([-49], [46], ['Habitable Candidate Detections'], text_font_size='16pt', text_color='deepskyblue') 
 plot1.text([-49], [43], ['Random Realization for One Year Survey'], text_font_size='16pt', text_color='deepskyblue') 
 plot1.circle([0], [0], radius=0.1, fill_alpha=1.0, line_color='white', fill_color='white') 
 plot1.circle([0], [0], radius=0.5, fill_alpha=0.0, line_color='white') 
@@ -107,7 +108,7 @@ hist_plot.xaxis.axis_line_color = 'black'
 hist_plot.yaxis.axis_line_color = 'black'
 hist_plot.border_fill_color = "white"
 hist_plot.min_border_left = 0
-hist_plot.image_url(url=["http://jt-astro.science/planets.jpg"], x=[-0.2], y=[305], w=[3.2], h=[305])
+hist_plot.image_url(url=["http://jt-astro.science/planets.jpg"], x=[-0.05], y=[305], w=[3.0], h=[305])
 hist_plot.text([0.45], [280], ['Rocky'], text_align='center') 
 hist_plot.text([1.45], [280], ['Neptunes'], text_align='center') 
 hist_plot.text([2.45], [280], ['Jupiters'], text_align='center') 
@@ -127,7 +128,7 @@ total_yield_label = ColumnDataSource(data=dict(yields=[0., 0., 0., 0., 0., 0., 0
                                         right=[0.3, 0.6, 0.9, 1.3, 1.6, 1.9, 2.3, 2.6, 2.9],
                                         color=['red', 'green', 'blue', 'red', 'green', 'blue', 'red', 'green', 'blue'],
                                         temp=['Hot','Warm','Cool','Hot','Warm','Cool','Hot','Warm','Cool'], 
-                                        mass=['Earths','Earths','Earths','Neptunes','Neptunes','Neptunes','Jupiters','Jupiters','Jupiters'], 
+                                        mass=['Rocky','Rocky','Rocky','Neptunes','Neptunes','Neptunes','Jupiters','Jupiters','Jupiters'], 
                                         labels=["0","0","0","0","0","0","0","0","0"], \
                                         xvals =[1.5,2.5,3.5,1.5,2.5,3.5,1.5,2.5,3.5], \
                                         yvals =[2.5,2.5,2.5,1.5,1.5,1.5,0.5,0.5,0.5,]))
@@ -230,15 +231,35 @@ iwa = Slider(title="Inner Working Angle (l/D)", value=1.5, start=1.5, end=4.0, s
 iwa.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-regenerate = Button(label='Regenerate the Sample of Detected Earths', width=450, button_type='success') 
+regenerate = Button(label='Regenerate the Sample of Detected Candidates', width=450, button_type='success') 
 regenerate.on_click(recalc) 
+
+#######
+
+eta_table_data = dict(
+        ptype=['Hot Rock', 'Warm Rock', 'Cold Rock', 'Hot Neptunes', 'Warm Neptunes', 'Cold Neptunes','Hot Jupiters','Warm Jupiters','Cold Jupiters'], 
+        radii=['0.5-1.4','0.5-1.4','0.5-1.4','1.4-4','1.4-4','1.4-4','4-11.6','4-11.6','4-11.6'], 
+        eta=['0.82','0.41','0.41','0.69','0.69','0.35','0.09','0.09','0.09'], 
+        a=['0.074-0.816','0.816-1.62','1.62-12.4','0.735-0.791','0.791-1.54','1.54-12.4','0.0735-0.803','0.803-1.58','1.58-13.5'] 
+    )
+eta_table_source = ColumnDataSource(eta_table_data)
+eta_columns = [
+        TableColumn(field="ptype", title="Planet Type"), 
+        TableColumn(field="radii", title="R/R_Earth"),
+        TableColumn(field="a", title="S-M Axis (AU)"),
+        TableColumn(field="eta", title="Eta")] 
+eta_table = DataTable(source=eta_table_source, columns=eta_columns, width=450, height=980)
+
+#######
+
 
 # Set up control widgets and their layout 
 input_sliders = Column(children=[aperture, contrast, regenerate]) 
 control_tab = Panel(child=input_sliders, title='Controls', width=450)
 div = Div(text=h.help(),width=450, height=2000)
 info_tab = Panel(child=div, title='Info', width=450, height=300)
-input_tabs = Tabs(tabs=[control_tab,info_tab], width=450)  
+eta_tab = Panel(child=eta_table, title='Planets', width=450, height=300)
+input_tabs = Tabs(tabs=[control_tab,info_tab,eta_tab], width=450)  
 inputs = Column(hist_plot, input_tabs) 
 rowrow =  Row(inputs, plot1)  
 

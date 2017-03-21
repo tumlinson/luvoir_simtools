@@ -9,11 +9,19 @@ Created on Fri Oct 14 21:31:18 2016
 from __future__ import (print_function, division, absolute_import, with_statement,
                         nested_scopes, generators)
 
-from .base import PersistentModel
-from defaults import default_camera
 import numpy as np
 import astropy.units as u
 import astropy.constants as const
+
+from syotools.models.base import PersistentModel
+from syotools.defaults import default_camera
+
+def nice_print(arr):
+    if isinstance(arr, u.Quantity):
+        l = ['{:.2f}'.format(i) for i in arr.value]
+    else:
+        l = ['{:.2f}'.format(i) for i in arr]
+    return ', '.join(l)
 
 class Camera(PersistentModel): 
     """
@@ -52,7 +60,7 @@ class Camera(PersistentModel):
     bandnames = ['']
     channels = [([],0)]
     ab_zeropoint = np.zeros(1, dtype=float) * (u.photon / u.s / u.cm**2 / u.nm)
-    total_qe = np.zeros(1, dtype=float) * (u.electron / u.photon)
+    total_qe = np.zeros(1, dtype=float) * u.dimensionless_unscaled
     ap_corr = np.zeros(1, dtype=float) * u.dimensionless_unscaled
     bandpass_r = np.zeros(1, dtype=float) * u.dimensionless_unscaled
     dark_current = np.zeros(1, dtype=float) * (u.electron / u.s / u.pixel)
@@ -68,9 +76,9 @@ class Camera(PersistentModel):
         """
         pixsize = np.zeros(self.n_bands, dtype=float)
         for bands, ref in self.channels:
-            pxs = (0.61 * u.rad * self.pivot_wave[ref] / self.telescope.aperture).to(u.arcsec)
+            pxs = (0.61 * u.rad * self.pivotwave[ref] / self.telescope.aperture).to(u.arcsec)
             pixsize[bands] = pxs
-        return pixsize
+        return pixsize * u.arcsec / u.pix
     
     @property
     def n_bands(self):
@@ -98,7 +106,6 @@ class Camera(PersistentModel):
                     which case it will be used for all bands, or a float array
                     of 1 mag per band.
         """
-        nice_print = lambda arr: ', '.join(arr.tolist())
         
         if verbose: #These are our initial conditions
             print('Telescope diffraction limit: {}'.format(self.telescope.diff_limit_arcsec))
@@ -133,7 +140,7 @@ class Camera(PersistentModel):
         #Should this actually be hardcoded in this function? 
         #Or can we store/calculate it somewhere? Maybe in defaults?
         sky_brightness = np.array([23.807, 25.517, 22.627, 22.307, 21.917, 
-                                   22.257, 21.757, 21.567, 22.417, 22.537])
+                                   22.257, 21.757, 21.567, 22.417, 22.537]) * u.mag('AB')
         
         if verbose:
             print('Source magnitudes: {}'.format(nice_print(magnitude)))
@@ -146,23 +153,26 @@ class Camera(PersistentModel):
         desired_exp_time = (np.full(self.n_bands, exptime.value) * exptime.unit).to(u.second)
         time_per_exposure = desired_exp_time / number_of_exposures
         
-        flux_convert = lambda mag: 10.**(-0.4*mag)
+        flux_convert = lambda mag: 10.**(-0.4*(mag.value))
         
         base_counts = (self.total_qe * desired_exp_time * self.ab_zeropoint *
-                       np.pi / 4. * (self.telescope.aperture * 100.)**2 *
+                       np.pi / 4. * (self.telescope.aperture.to(u.cm))**2 *
                        self.derived_bandpass)
         signal_counts = base_counts * self.ap_corr * flux_convert(magnitude)
-        sky_counts = base_counts * flux_convert(sky_brightness) * (self.pixel_size * sn_box)**2
-        
+        sky_counts = (base_counts * flux_convert(sky_brightness) / u.arcsec**2 * 
+                      (self.pixel_size * sn_box)**2)
+                      
         shot_noise_in_signal = np.sqrt(signal_counts)
         shot_noise_in_sky = np.sqrt(sky_counts)
         
-        read_noise = self.detector_rn * sn_box * np.sqrt(number_of_exposures)
-        dark_noise = sn_box * np.sqrt(self.dark_current * desired_exp_time)
+        read_noise = self.detector_rn * sn_box * np.sqrt(number_of_exposures) / u.electron**0.5 #have to fix units
+        dark_noise = sn_box * np.sqrt(self.dark_current * desired_exp_time) / u.pix**0.5 #have to fix units
         
         thermal_counts = desired_exp_time * self.c_thermal(sn_box**2, verbose=verbose)
-        snr = signal_counts / np.sqrt(signal_counts + sky_counts + read_noise**2 + dark_noise**2 + thermal_counts)
-
+    
+        snr = signal_counts / np.sqrt(signal_counts + sky_counts + read_noise**2 
+                                      + dark_noise**2 + thermal_counts)
+        
         if verbose:
             print('PSF width: {}'.format(nice_print(fwhm_psf)))
             print('SN box width: {}'.format(nice_print(sn_box)))
@@ -178,30 +188,29 @@ class Camera(PersistentModel):
             print()
             print('SNR: {}'.format(snr))
             print('Max SNR: {} in {} band'.format(snr.max(), self.bandnames[snr.argmax()]))
-
+            
         return snr
     
     def c_thermal(self, box, verbose=True):
         """
         Calculate the thermal emission counts for the telescope.
-        """        
-
+        """
+        
         bandwidth = self.derived_bandpass.to(u.cm)
     
-        h = const.h.to(u.erg * u.s).value # Planck's constant erg s 
-        c = const.c.to(u.cm / u.s).value # speed of light [cm / s] 
+        h = const.h.to(u.erg * u.s) # Planck's constant erg s 
+        c = const.c.to(u.cm / u.s) # speed of light [cm / s] 
     
-        energy_per_photon = h * c / self.pivotwave.to(u.cm) 
+        energy_per_photon = h * c / self.pivotwave.to(u.cm) / u.ph
     
         D = self.telescope.aperture.to(u.cm) # telescope diameter in cm 
     
-        Omega = 2.3504e-11 * self.pixel_scale**2 * box
+        Omega = (2.3504e-11 * self.pixel_size**2 * box).to(u.sr)
         
         planck = self.planck
         qepephot = self.total_qe * planck / energy_per_photon
         
         if verbose:
-            nice_print = lambda arr: ', '.join(arr.tolist())
             print('Planck spectrum: {}'.format(nice_print(planck)))
             print('QE * Planck / E_phot: {}'.format(nice_print(qepephot)))
             print('E_phot: {}'.format(nice_print(energy_per_photon)))
@@ -209,7 +218,7 @@ class Camera(PersistentModel):
     
         thermal = (self.telescope.ota_emissivity * planck / energy_per_photon * 
     			(np.pi / 4. * D**2) * self.total_qe * Omega * bandwidth )
- 
+        
         return thermal 
     
     @property
@@ -225,5 +234,6 @@ class Camera(PersistentModel):
         x = 2. * h * c**2 / wave**5 
         exponent = (h * c / (wave * k * temp)) 
     
-        return x / (np.exp(exponent)-1.) 
+        result = (x / (np.exp(exponent)-1.)).to(u.erg / u.s / u.cm**3) / u.sr
+        return result
             

@@ -9,7 +9,7 @@ Created on Sat Oct 15 10:59:16 2016
 from __future__ import (print_function, division, absolute_import, with_statement,
                         nested_scopes, generators)
 
-from persistence import JSON
+from syotools.persistence import JSON
 
 
 class PersistentModel(object):

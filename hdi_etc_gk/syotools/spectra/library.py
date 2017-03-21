@@ -8,15 +8,21 @@ Created on Tue Oct 18 11:19:05 2016
 from __future__ import (print_function, division, absolute_import, with_statement,
                         nested_scopes, generators)
 
+import os; os.environ['PYSYN_CDBS'] = os.path.expanduser("~/cdbs")
 
-from pathlib import Path
+#pathlib not supported in python 2
+try:
+    from pathlib import Path
+    use_pathlib = True
+except ImportError:
+    use_pathlib = False
 
 import astropy.units as u
 import pysynphot as pys
-from specutils.io.read_fits import read_fits
+from specutils.io.read_fits import read_fits_spectrum1d as read_fits
 import specutils as specu
 
-from defaults import default_spectra
+from syotools.defaults import default_spectra
 
 class _spec_library(object):
     """
@@ -149,9 +155,14 @@ class _spec_library(object):
             if not isinstance(specid, (list, tuple)):
                 raise TypeError('specid must be a list or tuple when multispec=True')
         
-        path = Path(filepath).resolve() # using pathlib
-        extensions = path.suffixes
-        abspath = str(path)
+        if use_pathlib:
+            path = Path(filepath).resolve() # using pathlib
+            extensions = path.suffixes
+            abspath = str(path)
+        else:
+            path = os.path.expanduser(filepath)
+            tmp, extensions = os.path.splitext(path)
+            abspath = os.path.abspath(path)
         
         #We load fits files using specutils, because it's more forgiving.
         
@@ -196,14 +207,17 @@ class _spec_library(object):
         """
         self.add_spec_from_arrays(specid, spectrum.wavelength, spectrum.flux)
 
-    def save_spec_to_file(self, file, specid, **options):
+    def save_spec_to_file(self, fname, specid, **options):
         """
         Save a library spectrum to a FITS file, using pysynphot's writefits.
         Any options to writefits may be passed via **options; see
         https://pysynphot.readthedocs.io/en/latest/ref_api.html#pysynphot.spectrum.SourceSpectrum.writefits
         """
-        path = Path(file)
-        abspath = str(path.resolve())
+        if use_pathlib:
+            path = Path(fname)
+            abspath = str(path.resolve())
+        else:
+            abspath = os.path.abspath(os.path.expanduser(fname))
         
         outspec = self._available_spectra[specid]
         outspec.writefits(abspath, **options)

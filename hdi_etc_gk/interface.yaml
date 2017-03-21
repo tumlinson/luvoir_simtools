@@ -1,146 +1,127 @@
---- !Range1d:
+- !Range1d: &snr_xrange
     ref: "snr_xrange"
     start: 100
     end: 2300
-    bounds: (120, 2300)
-
---- !Range1d:
+    bounds: !!python/tuple [120, 2300]
+- !Range1d: &sed_xrange
     ref: "sed_xrange"
     start: 100
     end: 2300
-    bounds: (120, 2300)
-
---- !Range1d:
-    ref: "snr_yrange"
-    start: 0
-    end: 40
-    bounds: (0, 40)
-
---- !Range1d:
-    ref: "sed_yrange"
-    start: 35
-    end: 21
-    bounds: (35, 21)
-
---- !HoverTool:
+    bounds: !!python/tuple [120, 2300]
+- !HoverTool: &hover
     ref: "hover"
     point_policy: "snap_to_data"
-    tooltips: {hover_tooltip}
-
---- !ColumnDataSource:
+    tooltips: !self.hover_tooltip
+- !ColumnDataSource: &source_blue
     ref: "source_blue"
     data:
-        x: {camera}.pivotwave[2:-3]
-        y: {snr}[2:-3]
-        desc: {camera}.bandnames[2:-3]
-
---- !ColumnDataSource:
+        x: !self.camera.pivotwave[2:-3]
+        y: !self.snr[2:-3]
+        desc: !self.camera.bandnames[2:-3]
+- !ColumnDataSource: &source_orange
     ref: "source_orange"
     data:
-        x: {camera}.pivotwave[:2]
-        y: {snr}[:2]
-        desc: {camera}.bandnames[:2]
-
---- !ColumnDataSource:
+        x: !self.camera.pivotwave[:2]
+        y: !self.snr[:2]
+        desc: !self.camera.bandnames[:2]
+- !ColumnDataSource: &source_red
     ref: "source_red"
     data:
-        x: {camera}.pivotwave[-3:]
-        y: {snr}[-3:]
-        desc: {camera}.bandnames[-3:]
-
---- !ColumnDataSource:
+        x: !self.camera.pivotwave[-3:]
+        y: !self.snr[-3:]
+        desc: !self.camera.bandnames[-3:]
+- !ColumnDataSource: &spectrum_template
     ref: "spectrum_template"
-    x: {template_spectrum}.wave
-    y: {template_spectrum}.flux
-
---- !ColumnDataSource:
+    data:
+        x: !self.template_wave
+        y: !self.template_flux
+- !ColumnDataSource: &dummy_source
     ref: "dummy_source"
     data:
         value: []
-    on_data: {controller}
-    
---- !CustomJS
-    ref: "callback"
-
---- !!Document:
-    --- !row:
-        --- !Tabs:
-            --- !Panel:
+    on_change: ['data', !self.controller ]
+- !CustomJS: &callback
+    ref: "js_callback"
+    args:
+        source: *dummy_source
+    code: "\n    source.data = { value: [cb_obj.value] }\n"
+- !Slider: &ap_slider
+    ref: "ap_slider"
+    title: "Aperture (meters)"
+    value: 12.
+    range: !!python/tuple [2.0, 20.0, 1.0]
+    tags: [4, 5, 6, 6]
+    callback: *callback
+- !Slider: &exp_slider
+    ref: "exp_slider"
+    title: "Exptime (hours)"
+    value: 1.0
+    range: !!python/tuple [0.1, 10.0, 0.1]
+    callback: *callback
+- !Slider: &mag_slider
+    ref: "mag_slider"
+    title: "V Magnitude (AB)"
+    value: 30.0
+    range: !!python/tuple [20.0, 35.0, 0.1]
+    callback: *callback
+- !Select: &template_select
+    ref: "template_select"
+    title: "Template Spectrum"
+    value: "Flat (AB)"
+    options: !self.template_options
+    on_change: ['value', !self.controller ]
+- !Figure: &snr_figure
+    ref: "snr_figure"
+    x_range: *snr_xrange
+    y_range: !!python/tuple [0, 40]
+    y_axis_label: 'SNR'
+    x_axis_label: 'Wavelength (nm)'
+    add_tools: !!python/list [*hover]
+    text:
+        loc: !!python/tuple [5500, 20]
+        text: !!python/tuple ['V']
+        text_align: 'center'
+        text_color: 'red'
+    elements:
+        - {'kind': 'line', 'source': *source_blue, 'line_color': 'blue'}
+        - {'kind': 'circle', 'source': *source_blue, 'line_color': 'blue', 'size': 10}
+        - {'kind': 'line', 'source': *source_orange, 'line_color': 'orange'}
+        - {'kind': 'circle', 'source': *source_orange, 'line_color': 'orange', 'size': 8}
+        - {'kind': 'line', 'source': *source_red, 'line_color': 'red'}
+        - {'kind': 'circle', 'source': *source_red, 'line_color': 'red', 'size': 8}
+- !Figure: &sed_figure
+    ref: "sed_figure"
+    x_range: *sed_xrange
+    y_range: !!python/tuple [35, 21]
+    y_axis_label: 'AB Mag'
+    x_axis_label: 'Wavelength (nm)'
+    elements:
+        - {'kind': 'line','source': *spectrum_template, 'line_color': 'orange'}
+- !Document:
+    - !row:
+        - !Tabs:
+            tabs: 
+            - !Panel:
                 title: 'Controls'
-                --- !WidgetBox:
-                    --- !Slider:
-                        ref: "ap_slider"
-                        title: "Aperture (meters)"
-                        value: 12.
-                        range: [2.0, 20.0, 1.0]
-                        tags: [4, 5, 6, 6]
-                        callback: {{callback}}
-                    --- !Slider:
-                        ref: "exp_slider"
-                        title: "Exptime (hours)"
-                        value: 1.0
-                        range: [0.1, 10.0, 0.1]
-                        callback: {{callback}}
-                    --- !Slider:
-                        ref: "mag_slider"
-                        title: "V Magnitude (AB)"
-                        value: 30.0
-                        range: [20.0, 35.0, 0.1]
-                        callback: {{callback}}
-                    --- !Select:
-                        ref: "template_select"
-                        title: "Template Spectrum"
-                        value: "Flat (AB)"
-                        options: {template_options}
-                        on_value: {controller}
-            --- !Panel:
+                child: 
+                    !WidgetBox:
+                        children:
+                        - *ap_slider
+                        - *exp_slider
+                        - *mag_slider
+                        - *template_select
+            - !Panel:
                 title: 'Info'
-                --- !Div:
-                    text: {help_text}
-        --- !Tabs:
-            --- !Panel:
+                child: 
+                    !Div:
+                        text: !self.help_text
+        - !Tabs:
+            tabs:
+            - !Panel:
                 title: "SNR"
                 width: 800
-                --- !Figure:
-                    x_range: {{snr_xrange}}
-                    y_range: {{snr_yrange}}
-                    yaxis_label: 'SNR'
-                    xaxis_label: 'Wavelength (nm)'
-                    add_tool: {{hover}}
-                    text:
-                        loc: [5500, 20]
-                        text: ['V']
-                        text_align: 'center'
-                        text_color: 'red'
-                    --- !Line:
-                        source: {{source_blue}}
-                        line_color: 'blue'
-                    --- !Circle:
-                        source: {{source_blue}}
-                        line_color: 'blue'
-                        size: 10
-                    --- !Line:
-                        source: {{source_orange}}
-                        line_color: 'orange'
-                    --- !Circle:
-                        source: {{source_orange}}
-                        line_color: 'orange'
-                        size: 8
-                    --- !Line:
-                        source: {{source_red}}
-                        line_color: 'red'
-                    --- !Circle:
-                        source: {{source_red}}
-                        line_color: 'red'
-                        size: 8
-            --- !Panel:
+                child: *snr_figure
+            - !Panel:
                 title: 'SED'
                 width: 800
-                --- !Figure:
-                    x_range: {{sed_xrange}}
-                    y_range: {{sed_yrange}}
-                    yaxis_label: 'AB Mag'
-                    xaxis_label: 'Wavelength (nm)'
-                    --- !Line:
-                        source: {{spectrum_template}}
-                        line_color: 'orange'
+                child: *sed_figure

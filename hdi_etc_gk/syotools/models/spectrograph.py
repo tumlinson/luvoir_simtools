@@ -12,8 +12,8 @@ from __future__ import (print_function, division, absolute_import, with_statemen
 import numpy as np
 import astropy.units as u
 
-from .base import PersistentModel
-from defaults import default_spectrograph
+from syotools.models.base import PersistentModel
+from syotools.defaults import default_spectrograph
 
 class Spectrograph(PersistentModel):
     """

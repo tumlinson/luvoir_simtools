@@ -8,7 +8,13 @@ Created on Sat Oct 15 10:59:16 2016
 from __future__ import (print_function, division, absolute_import, with_statement,
                         nested_scopes, generators)
 
-from pathlib import Path
+#pathlib not supported in python 2
+try:
+    from pathlib import Path
+    use_pathlib = True
+except ImportError:
+    import os
+    use_pathlib = False
 
 import astropy.units as u
 import astropy.io.ascii as asc #to read .dat files
@@ -27,12 +33,12 @@ default_camera = {'name': 'HDI',
                                          790., 1260., 1600., 2220.]) * u.nm,
                   'bandnames': ['FUV', 'NUV', 'U','B','V','R','I', 
                                 'J', 'H', 'K'],
-                  'channel_ref': [([0,1], 2), ([2, 3, 4, 5, 6], 2), ([7, 8, 9], 7)],
+                  'channels': [([0,1], 2), ([2, 3, 4, 5, 6], 2), ([7, 8, 9], 7)],
                   'ab_zeropoint':  np.array([35548., 24166., 15305., 12523., 
                                              10018., 8609., 6975., 4373., 
                                              3444., 2482.]) * (u.photon / u.s / u.cm**2 / u.nm),
                   'total_qe': np.array([0.1, 0.1, 0.15, 0.45, 0.6, 0.6, 0.6, 
-                                        0.6, 0.6, 0.6]) * (u.electron / u.photon),
+                                        0.6, 0.6, 0.6]) * u.electron / u.ph, #* u.dimensionless_unscaled,
                   'ap_corr': np.full(10, 1., dtype=float) * u.dimensionless_unscaled,
                   'bandpass_r': np.full(10, 5., dtype=float) * u.dimensionless_unscaled,
                   'dark_current': np.array([0.0005, 0.0005, 0.001, 0.001, 
@@ -44,8 +50,12 @@ default_camera = {'name': 'HDI',
 #LUVOIR Multi-Object Spectrograph
 
 #Load data from ascii table file (need a better method? maybe a FITS table?)
-spec_default_path = Path('data') / 'LUMOS_vals.dat'
-spec_default = asc.read(str(spec_default_path))
+if use_pathlib:
+    spec_default_path = str(Path('data') / 'LUMOS_vals.dat')
+else:
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    spec_default_path = os.path.join(current_dir, '..', 'data', 'Lumos_vals.dat')
+spec_default = asc.read(spec_default_path)
  
 default_spectrograph = {'name': 'LUMOS',
                         'modes': {'G120M': 'Med_Res_BEF', 
@@ -54,7 +64,7 @@ default_spectrograph = {'name': 'LUMOS',
                                   'G155L': 'Low_Res_BEF', 
                                   'G145LL': 'LL_Mode_BEF'},
                         'befs': {mode: spec_default[mode+'_BEF'] * (u.erg / u.s / u.cm**3 / u.sr) 
-                                       for mode in ['Med_Res', 'Low_Res', 'LL_Mode']},
+                                       for mode in ['Med_Res', 'Low_Res', 'LL_mode']},
                         'Rs': {'G120M': 30000., 
                                'G150M': 30000., 
                                'G180M': 30000., 
@@ -68,3 +78,7 @@ default_spectrograph = {'name': 'LUMOS',
                         'mode': 'G150M',
                         'wave': spec_default['Wave'] * u.A,
                         'aeff': spec_default['A_eff'] * u.m**2}
+
+#Placeholder for default coronagraph
+
+default_coronagraph = {}

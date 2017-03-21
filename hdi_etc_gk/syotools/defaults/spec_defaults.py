@@ -9,42 +9,63 @@ Created on Tue Oct 18 14:10:45 2016
 from __future__ import (print_function, division, absolute_import, with_statement,
                         nested_scopes, generators)
 
+import os; os.environ['PYSYN_CDBS'] = os.path.expanduser("~/cdbs")
+
 import pysynphot as pys
 import astropy.io.ascii as asc
-from pathlib import Path
-import os
+
+#pathlib is not supported in python 2
+try:
+    from pathlib import Path
+    use_pathlib = True
+except ImportError:
+    use_pathlib = False
 
 pysyn_base = os.environ['PYSYN_CDBS']
+data_base = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','data'))
 
 def load_txtfile(spec):
     fname = spec['file']
     band = spec.get('band', 'johnson,v')
-    path = Path(fname[0])
-    for f in fname[1:]:
-        path = path / f
-    abspath = str(path.resolve())
+    if use_pathlib:
+        path = Path(fname[0])
+        for f in fname[1:]:
+            path = path / f
+        abspath = str(path.resolve())
+    else:
+        abspath = os.path.abspath(os.path.join(*fname))
     tab = asc.read(abspath, names=['wave','flux']) 
     sp = pys.ArraySpectrum(wave=tab['wave'], flux=tab['flux'], waveunits='Angstrom', fluxunits='flam')
     sp = sp.renorm(30., 'abmag', pys.ObsBandpass(band))
+    sp.convert('abmag')
+    sp.convert('nm')
     return sp
 
 def load_pysfits(spec):
     fname = spec['file']
     band = spec.get('band', 'johnson,v')
-    path = Path(fname[0])
-    for f in fname[1:]:
-        path = path / f
-    abspath = str(path.resolve())
+    if use_pathlib:
+        path = Path(fname[0])
+        for f in fname[1:]:
+            path = path / f
+        abspath = str(path.resolve())
+    else:
+       abspath = os.path.abspath(os.path.join(*fname)) 
     sp = pys.FileSpectrum(abspath)
     sp = sp.renorm(30., 'abmag', pys.ObsBandpass(band))
+    sp.convert('abmag')
+    sp.convert('nm')
     return sp
 
 specs = {'ctts': {'desc': 'Classical T-Tauri Star', 
-                  'file': ['data', 'CTTS_etc_d140pc_101116.txt']},
+                  'file': [data_base, 'CTTS_etc_d140pc_101116.txt'],
+                  'band': 'galex,fuv'},
          'mdwarf': {'desc': 'M1 Dwarf', 
-                    'file': ['data', 'dM1_etc_d5pc_101116.txt']},
+                    'file': [data_base, 'dM1_etc_d5pc_101116.txt'],
+                    'band': 'galex,fuv'},
          's99': {'desc': '10 Myr Starburst', 
-                 'file': ['data', '10Myr_Starburst_nodust.dat']},
+                 'file': [data_base, '10Myr_Starburst_nodust.dat'],
+                 'band': 'galex,fuv'},
          'qso': {'desc': 'QSO', 
                  'file': [pysyn_base, 'grid', 'agn', 'qso_template.fits'], 
                  'band': 'galex,fuv'},
@@ -72,14 +93,23 @@ specs = {'ctts': {'desc': 'Classical T-Tauri Star',
                  'file': [pysyn_base, 'grid', 'pickles', 'dat_uvk', 
                           'pickles_uk_40.fits']},
          'elliptical': {'desc': 'Elliptical Galaxy', 
-                        'file': [pysyn_base, 'grid', 'etc_models', 
-                                 'el_cww_fuv_001.fits']},
+                        #'file': [pysyn_base, 'grid', 'etc_models', 
+                        #         'el_cww_fuv_001.fits']},
+                        'file': [pysyn_base, 'grid', 'kc96', 
+                                'elliptical_template.fits'],
+                        'band': 'galex,fuv'},
          'sbc': {'desc': 'Sbc Galaxy', 
-                 'file': [pysyn_base, 'grid', 'etc_models', 
-                          'sbc_cb2004a_001.fits']},
+                 #'file': [pysyn_base, 'grid', 'etc_models', 
+                 #         'sbc_cb2004a_001.fits']},
+                 'file': [pysyn_base, 'grid', 'kc96', 
+                          'sc_template.fits'],
+                 'band': 'galex,fuv'},
          'starburst': {'desc': 'Starburst Galaxy',
-                       'file': [pysyn_base, 'grid', 'etc_models', 
-                                'sb1_kinney_fuv_001.fits']},
+                       #'file': [pysyn_base, 'grid', 'etc_models', 
+                       #         'sb1_kinney_fuv_001.fits']},
+                       'file': [pysyn_base, 'grid', 'kc96', 
+                                'starb1_template.fits'],
+                       'band': 'galex,fuv'},
          'ngc1068': {'desc': 'NGC 1068',
                      'file': [pysyn_base, 'grid', 'agn', 
                               'ngc1068_template.fits']}}

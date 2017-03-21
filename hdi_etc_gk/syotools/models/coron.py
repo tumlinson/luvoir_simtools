@@ -11,10 +11,10 @@ from __future__ import (print_function, division, absolute_import, with_statemen
 
 import astropy.units as u
 import numpy as np
-import coronagraph as cg
 
-from base import PersistentModel
-from defaults import default_coronagraph
+import syotools.coronagraph as cg
+from syotools.models.base import PersistentModel
+from syotools.defaults import default_coronagraph
 
 class Coronagraph(PersistentModel):
     """

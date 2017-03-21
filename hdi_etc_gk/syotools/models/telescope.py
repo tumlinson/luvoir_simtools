@@ -8,8 +8,8 @@ Created on Fri Oct 14 20:28:51 2016
 
 from __future__ import (print_function, division, absolute_import, with_statement,
                         nested_scopes, generators)
-from .base import PersistentModel
-from defaults import default_telescope
+from syotools.models.base import PersistentModel
+from syotools.defaults import default_telescope
 import astropy.units as u #for unit conversions
 
 

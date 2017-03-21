@@ -9,7 +9,6 @@ Created on Tue Oct 18 12:53:39 2016
 from __future__ import (print_function, division, absolute_import, with_statement,
                         nested_scopes, generators)
 
-from model_defaults import *
-from spec_defaults import *
-from bokeh_defaults import *
+from .model_defaults import *
+from .spec_defaults import *
 

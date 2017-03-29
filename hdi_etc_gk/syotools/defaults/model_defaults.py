@@ -54,7 +54,7 @@ if use_pathlib:
     spec_default_path = str(Path('data') / 'LUMOS_vals.dat')
 else:
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    spec_default_path = os.path.join(current_dir, '..', 'data', 'Lumos_vals.dat')
+    spec_default_path = os.path.join(current_dir, '..', 'data', 'LUMOS_vals.dat')
 spec_default = asc.read(spec_default_path)
  
 default_spectrograph = {'name': 'LUMOS',

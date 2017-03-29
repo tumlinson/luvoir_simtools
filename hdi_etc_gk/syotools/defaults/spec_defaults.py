@@ -9,7 +9,9 @@ Created on Tue Oct 18 14:10:45 2016
 from __future__ import (print_function, division, absolute_import, with_statement,
                         nested_scopes, generators)
 
-import os; os.environ['PYSYN_CDBS'] = os.path.expanduser("~/cdbs")
+import os
+
+import syotools.cdbs
 
 import pysynphot as pys
 import astropy.io.ascii as asc

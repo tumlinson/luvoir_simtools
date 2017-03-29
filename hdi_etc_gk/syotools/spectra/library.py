@@ -8,7 +8,9 @@ Created on Tue Oct 18 11:19:05 2016
 from __future__ import (print_function, division, absolute_import, with_statement,
                         nested_scopes, generators)
 
-import os; os.environ['PYSYN_CDBS'] = os.path.expanduser("~/cdbs")
+import os
+
+import syotools.cdbs
 
 #pathlib not supported in python 2
 try:

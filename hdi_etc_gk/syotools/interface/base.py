@@ -42,7 +42,32 @@ class SYOTool(object):
     document_constructor = factory.document_constructor
     
     def self_constructor(self, loader, tag_suffix, node):
+        """
+        A multi_constructor for `!self` tag in the interface file.
+        """
         yield eval("self"+tag_suffix, globals(), locals())
+        
+    def tool_preinit(self):
+        """
+        This should be implemented by the tool subclass, to do any pre-
+        initialization steps that the tool requires.
+        
+        If this is not required, subclass should set `tool_preinit = None`
+        in the class definition.
+        """
+        
+        raise NotImplementedError
+    
+    def tool_postinit(self):
+        """
+        This should be implemented by the tool subclass, to do any pre-
+        initialization steps that the tool requires.
+        
+        If this is not required, subclass should set `tool_postinit = None`
+        in the class definition.
+        """
+        
+        raise NotImplementedError
     
     def __init__(self):
         """
@@ -56,6 +81,12 @@ class SYOTool(object):
         
         Then, we need to register all the constructors that we need.
         """
+        
+        #Allow for pre-init stuff from the tool subclass.
+        if self.tool_preinit is not None:
+            self.tool_preinit()
+        
+        #Handle YAML construction
         self.formats = {}
         self.refs = {}
         
@@ -73,14 +104,24 @@ class SYOTool(object):
         yaml.add_constructor(u"!Document:", self.document_constructor)
         
         yaml.add_multi_constructor(u"!self", self.self_constructor)
+        
+        self.include_formatting()
+        self.parse_interface()
+        
+        #Allow for post-init stuff from the tool subclass.
+        if self.tool_postinit is not None:
+            self.tool_postinit()
     
-    def include_formatting(self, formatting_string):
+    def include_formatting(self):
         """
         This should simply be a dictionary of formatting keywords.
         """
-        self.formats = yaml.load(formatting_string)
+        if not self.format_string:
+            return
+        
+        self.formats = yaml.load(self.format_string)
     
-    def parse_interface(self, interface_file):
+    def parse_interface(self):
         """
         This is the workhorse YAML parser, which creates the interface based
         on the layout file.
@@ -88,8 +129,11 @@ class SYOTool(object):
         `interface_file` is the path to the interface .yaml file to be parsed.
         """
         
+        if not self.interface_file:
+            raise NotImplementedError("Interface file required.")
+        
         #Read the interface file into a string
-        filepath = os.path.abspath(os.path.expanduser(interface_file))
+        filepath = os.path.abspath(os.path.expanduser(self.interface_file))
         if not os.path.exists(filepath):
             raise SYOParserError("Interface file path does not exist.")
         with open(filepath) as f:

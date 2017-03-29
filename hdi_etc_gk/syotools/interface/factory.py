@@ -6,12 +6,15 @@ Created on Mon Feb 20 14:05:03 2017
 @author: gkanarek
 """
 
-from bokeh.layouts import column, row, WidgetBox
+from bokeh.layouts import column, row, WidgetBox, gridplot
 from bokeh.plotting import Figure
 from bokeh.models import ColumnDataSource, HoverTool, Range1d
 from bokeh.models.callbacks import CustomJS
-from bokeh.models.widgets import Slider, Tabs, Div, Panel, Select
+from bokeh.models.widgets import (Slider, Tabs, Div, Panel, Select, TextInput,
+                                  Button)
 from bokeh.io import curdoc
+
+from .fileinput import FileInput
 
 mappings = {'CustomJS': CustomJS,
             'Range1d': Range1d,
@@ -22,7 +25,11 @@ mappings = {'CustomJS': CustomJS,
             'Div': Div,
             'Select': Select,
             'Tabs': Tabs,
-            'WidgetBox': WidgetBox
+            'WidgetBox': WidgetBox,
+            'TextInput': TextInput,
+            'Button': Button,
+            'gridplot': gridplot,
+            'FileInput': FileInput
             }
 
 sequences = {'column': column,
@@ -37,6 +44,7 @@ def mapping_factory(tool, element_type):
         value = loader.construct_mapping(node, deep=True)
         ref = value.pop("ref", "")
         callback = value.pop("on_change", [])
+        onclick = value.pop("on_click", None)
         fmt.update(value)
         if element_type == "Slider":
             fmt["start"], fmt["end"], fmt["step"] = fmt.pop("range", [0, 1, 0.1])
@@ -45,6 +53,8 @@ def mapping_factory(tool, element_type):
             tool.refs[ref] = obj
         if callback:
             obj.on_change(*callback)
+        if onclick:
+            obj.on_click(onclick)
         yield obj
     
     mapping_constructor.__name__ = element_type.lower() + '_' + mapping_constructor.__name__

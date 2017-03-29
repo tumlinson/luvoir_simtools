@@ -9,7 +9,7 @@ Created on Tue Feb 14 14:39:33 2017
 from __future__ import (print_function, division, absolute_import, with_statement,
                         nested_scopes, generators)
 
-import os; os.environ['PYSYN_CDBS'] = os.path.expanduser("~/cdbs")
+import os#; os.environ['PYSYN_CDBS'] = os.path.expanduser("~/cdbs")
 
 script_dir = os.path.abspath(os.path.dirname(__file__))
 
@@ -67,10 +67,9 @@ hover_tooltip = """
 
 class HDI_ETC(SYOTool):
     
-    def __init__(self):
+    def tool_preinit(self):
         """
-        Set any required attributes for the interface before calling 
-        super().__init__() so that the interface will be parsed correctly.
+        Pre-initialize any required attributes for the interface.
         """
         #initialize engine objects
         self.telescope = Telescope()
@@ -91,11 +90,12 @@ class HDI_ETC(SYOTool):
         self.spectrum_type = 'fab'
         self.update_sed()
         
-        #initialize formatting and interface
-        super(HDI_ETC, self).__init__() #Make sure to do this!
+        #Formatting & interface stuff:
+        self.format_string = interface_format
+        self.interface_file = os.path.join(script_dir, "interface.yaml")
         
-        self.include_formatting(interface_format)
-        self.parse_interface(os.path.join(script_dir, "interface.yaml"))
+    #No post-initialization required
+    tool_postinit = None
     
     def controller(self, attr, old, new):
         #Grab values from the inputs

@@ -15,6 +15,9 @@ script_dir = os.path.abspath(os.path.dirname(__file__))
 
 import numpy as np
 import astropy.units as u
+
+from syotools import cdbs
+
 from pysynphot import ObsBandpass
 
 from syotools.models import Telescope, Camera

@@ -71,7 +71,7 @@ class _spec_library(object):
         else:
             name = lambda cls: '{}.{}'.format(cls.__module__, cls.__name__)
             allowed = ', '.join([name(s) for s in (pys.spectrum.SourceSpectrum,
-                                                 specu.Spectrum1D, u.Quantity,
+                                                 specu.Spectrum1D, units.Quantity,
                                                  list, tuple)])
             raise TypeError('Only the following types are supported: '+allowed)
         self._descriptions[key] = ''
@@ -193,7 +193,7 @@ class _spec_library(object):
         ArraySpectrum, and add them to the library.
         """
 
-        if not (isinstance(wavelength, u.Quantity) and isinstance(flux, u.Quantity)):
+        if not (isinstance(wavelength, units.Quantity) and isinstance(flux, units.Quantity)):
             raise TypeError('wavelength and flux must be Quantity arrays')
         sp = pys.ArraySpectrum(wave=wavelength.value, flux=flux.value,
                                waveunits=str(wavelength.unit),

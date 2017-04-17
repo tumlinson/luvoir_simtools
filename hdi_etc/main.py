@@ -176,7 +176,7 @@ controls_tab = Panel(child=controls, title='These are your damn controls')
 help_tab = Panel(child=Div(text = h.help()), title='Info')
 inputs = Tabs(tabs=[ controls_tab, help_tab]) 
 
-plots = Tabs(tabs=[ Panel(child=snr_plot, title='SNR',width=800), Panel(child=sed_plot, title='SED',width=800)]) 
+plots = Tabs(tabs=[ Panel(child=snr_plot, title='SNR, Bitches!',width=800), Panel(child=sed_plot, title='SED',width=800)]) 
 
 # Set up layouts and add to document
 curdoc().add_root(row(children=[inputs, plots])) 

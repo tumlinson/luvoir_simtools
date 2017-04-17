@@ -9,14 +9,14 @@ from __future__ import (print_function, division, absolute_import, with_statemen
                         nested_scopes, generators)
 
 import numpy as np
-import astropy.units as u
+import astropy.units as units
 import astropy.constants as const
 
 from syotools.models.base import PersistentModel
 from syotools.defaults import default_camera
 
 def nice_print(arr):
-    if isinstance(arr, u.Quantity):
+    if isinstance(arr, units.Quantity):
         l = ['{:.2f}'.format(i) for i in arr.value]
     else:
         l = ['{:.2f}'.format(i) for i in arr]
@@ -55,15 +55,15 @@ class Camera(PersistentModel):
     telescope = None
     
     name = ''
-    pivotwave = np.zeros(1, dtype=float) * u.nm
+    pivotwave = np.zeros(1, dtype=float) * units.nm
     bandnames = ['']
     channels = [([],0)]
-    ab_zeropoint = np.zeros(1, dtype=float) * (u.photon / u.s / u.cm**2 / u.nm)
-    total_qe = np.zeros(1, dtype=float) * u.dimensionless_unscaled
-    ap_corr = np.zeros(1, dtype=float) * u.dimensionless_unscaled
-    bandpass_r = np.zeros(1, dtype=float) * u.dimensionless_unscaled
-    dark_current = np.zeros(1, dtype=float) * (u.electron / u.s / u.pixel)
-    detector_rn = np.zeros(1, dtype=float) * (u.electron / u.pixel)
+    ab_zeropoint = np.zeros(1, dtype=float) * (units.photon / units.s / units.cm**2 / units.nm)
+    total_qe = np.zeros(1, dtype=float) * units.dimensionless_unscaled
+    ap_corr = np.zeros(1, dtype=float) * units.dimensionless_unscaled
+    bandpass_r = np.zeros(1, dtype=float) * units.dimensionless_unscaled
+    dark_current = np.zeros(1, dtype=float) * (units.electron / units.s / units.pixel)
+    detector_rn = np.zeros(1, dtype=float) * (units.electron / units.pixel)
     
     @property
     def pixel_size(self):
@@ -75,9 +75,9 @@ class Camera(PersistentModel):
         """
         pixsize = np.zeros(self.n_bands, dtype=float)
         for bands, ref in self.channels:
-            pxs = (0.61 * u.rad * self.pivotwave[ref] / self.telescope.aperture).to(u.arcsec)
+            pxs = (0.61 * units.rad * self.pivotwave[ref] / self.telescope.aperture).to(units.arcsec)
             pixsize[bands] = pxs
-        return pixsize * u.arcsec / u.pix
+        return pixsize * units.arcsec / units.pix
     
     @property
     def n_bands(self):
@@ -93,7 +93,7 @@ class Camera(PersistentModel):
     
     @property
     def fwhm_psf(self):
-        return (1.22 * u.rad * self.pivotwave / self.telescope.aperture).to(u.arcsec)
+        return (1.22 * units.rad * self.pivotwave / self.telescope.aperture).to(units.arcsec)
     
     def signal_to_noise(self, exptime, n_exp, magnitude, verbose=True):
         """
@@ -121,11 +121,11 @@ class Camera(PersistentModel):
             print('Dark rate: {}'.format(nice_print(self.dark_current)))
             
         #Check inputs
-        if not isinstance(exptime, u.Quantity):
+        if not isinstance(exptime, units.Quantity):
             raise TypeError('Exposure time must be a Quantity')
             #We don't need to enforce the particular time unit, because astropy
             #unit conversions handle this for us.
-        if not isinstance(magnitude, u.Quantity) or magnitude.unit != u.mag('AB'):
+        if not isinstance(magnitude, units.Quantity) or magnitude.unit != units.mag('AB'):
             raise TypeError('Magnitude must be a Quantity with units of AB mag')
         
         #If magnitude is an array, verify array length; otherwise, convert to
@@ -139,7 +139,7 @@ class Camera(PersistentModel):
         #Should this actually be hardcoded in this function? 
         #Or can we store/calculate it somewhere? Maybe in defaults?
         sky_brightness = np.array([23.807, 25.517, 22.627, 22.307, 21.917, 
-                                   22.257, 21.757, 21.567, 22.417, 22.537]) * u.mag('AB')
+                                   22.257, 21.757, 21.567, 22.417, 22.537]) * units.mag('AB')
         
         if verbose:
             print('Source magnitudes: {}'.format(nice_print(magnitude)))
@@ -149,23 +149,23 @@ class Camera(PersistentModel):
         fwhm_psf = np.maximum(self.fwhm_psf, self.telescope.diff_limit_arcsec)
         sn_box = np.round(3. * fwhm_psf / self.pixel_size)
         number_of_exposures = np.full(self.n_bands, n_exp)
-        desired_exp_time = (np.full(self.n_bands, exptime.value) * exptime.unit).to(u.second)
+        desired_exp_time = (np.full(self.n_bands, exptime.value) * exptime.unit).to(units.second)
         time_per_exposure = desired_exp_time / number_of_exposures
         
         flux_convert = lambda mag: 10.**(-0.4*(mag.value))
         
         base_counts = (self.total_qe * desired_exp_time * self.ab_zeropoint *
-                       np.pi / 4. * (self.telescope.aperture.to(u.cm))**2 *
+                       np.pi / 4. * (self.telescope.aperture.to(units.cm))**2 *
                        self.derived_bandpass)
         signal_counts = base_counts * self.ap_corr * flux_convert(magnitude)
-        sky_counts = (base_counts * flux_convert(sky_brightness) / u.arcsec**2 * 
+        sky_counts = (base_counts * flux_convert(sky_brightness) / units.arcsec**2 * 
                       (self.pixel_size * sn_box)**2)
                       
         shot_noise_in_signal = np.sqrt(signal_counts)
         shot_noise_in_sky = np.sqrt(sky_counts)
         
-        read_noise = self.detector_rn * sn_box * np.sqrt(number_of_exposures) / u.electron**0.5 #have to fix units
-        dark_noise = sn_box * np.sqrt(self.dark_current * desired_exp_time) / u.pix**0.5 #have to fix units
+        read_noise = self.detector_rn * sn_box * np.sqrt(number_of_exposures) / units.electron**0.5 #have to fix units
+        dark_noise = sn_box * np.sqrt(self.dark_current * desired_exp_time) / units.pix**0.5 #have to fix units
         
         thermal_counts = desired_exp_time * self.c_thermal(sn_box**2, verbose=verbose)
     
@@ -195,16 +195,16 @@ class Camera(PersistentModel):
         Calculate the thermal emission counts for the telescope.
         """
         
-        bandwidth = self.derived_bandpass.to(u.cm)
+        bandwidth = self.derived_bandpass.to(units.cm)
     
-        h = const.h.to(u.erg * u.s) # Planck's constant erg s 
-        c = const.c.to(u.cm / u.s) # speed of light [cm / s] 
+        h = const.h.to(units.erg * units.s) # Planck's constant erg s 
+        c = const.c.to(units.cm / units.s) # speed of light [cm / s] 
     
-        energy_per_photon = h * c / self.pivotwave.to(u.cm) / u.ph
+        energy_per_photon = h * c / self.pivotwave.to(units.cm) / units.ph
     
-        D = self.telescope.aperture.to(u.cm) # telescope diameter in cm 
+        D = self.telescope.aperture.to(units.cm) # telescope diameter in cm 
     
-        Omega = (2.3504e-11 * self.pixel_size**2 * box).to(u.sr)
+        Omega = (2.3504e-11 * self.pixel_size**2 * box).to(units.sr)
         
         planck = self.planck
         qepephot = self.total_qe * planck / energy_per_photon
@@ -227,12 +227,12 @@ class Camera(PersistentModel):
         """
         wave = self.pivotwave.to('cm')
         temp = self.telescope.temperature.to('K')
-        h = const.h.to(u.erg * u.s) # Planck's constant erg s 
-        c = const.c.to(u.cm / u.s) # speed of light [cm / s] 
-        k = const.k_B.to(u.erg / u.K) # Boltzmann's constant [erg deg K^-1] 
+        h = const.h.to(units.erg * units.s) # Planck's constant erg s 
+        c = const.c.to(units.cm / units.s) # speed of light [cm / s] 
+        k = const.k_B.to(units.erg / units.K) # Boltzmann's constant [erg deg K^-1] 
         x = 2. * h * c**2 / wave**5 
         exponent = (h * c / (wave * k * temp)) 
     
-        result = (x / (np.exp(exponent)-1.)).to(u.erg / u.s / u.cm**3) / u.sr
+        result = (x / (np.exp(exponent)-1.)).to(units.erg / units.s / units.cm**3) / units.sr
         return result
             

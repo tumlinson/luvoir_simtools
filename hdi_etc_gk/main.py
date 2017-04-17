@@ -13,7 +13,7 @@ import os#; os.environ['PYSYN_CDBS'] = os.path.expanduser("~/cdbs")
 script_dir = os.path.abspath(os.path.dirname(__file__))
 
 import numpy as np
-import astropy.units as u
+import astropy.units as units
 
 from syotools import cdbs
 
@@ -86,9 +86,9 @@ class HDI_ETC(SYOTool):
         self.hover_tooltip = hover_tooltip
         
         #set defaults
-        self.exptime = 1.0 * u.hour
-        self.renorm_magnitude = 30.0 * u.mag('AB')
-        self.aperture = 12.0 * u.m
+        self.exptime = 1.0 * units.hour
+        self.renorm_magnitude = 30.0 * units.mag('AB')
+        self.aperture = 12.0 * units.m
         self.spectrum_type = 'fab'
         self.update_sed()
         
@@ -101,9 +101,9 @@ class HDI_ETC(SYOTool):
     
     def controller(self, attr, old, new):
         #Grab values from the inputs
-        self.exptime = self.refs["exp_slider"].value * u.hour
-        self.renorm_magnitude = self.refs["mag_slider"].value * u.mag('AB')
-        self.aperture = self.refs["ap_slider"].value * u.m
+        self.exptime = self.refs["exp_slider"].value * units.hour
+        self.renorm_magnitude = self.refs["mag_slider"].value * units.mag('AB')
+        self.aperture = self.refs["ap_slider"].value * units.m
         temp = self.template_options.index(self.refs["template_select"].value)
         self.spectrum_type = self.templates[temp]
         
@@ -133,7 +133,7 @@ class HDI_ETC(SYOTool):
         spectrum = SpectralLibrary.get(self.spectrum_type)
         band = ObsBandpass('johnson,v')
         band.convert('nm')
-        new_spectrum = spectrum.renorm((self.renorm_magnitude + 2.5*u.mag('AB')).value,
+        new_spectrum = spectrum.renorm((self.renorm_magnitude + 2.5*units.mag('AB')).value,
                                        'abmag', band)
         new_spectrum.convert('nm')
         new_spectrum.convert('abmag')
@@ -143,7 +143,7 @@ class HDI_ETC(SYOTool):
             print("Infinite values!")
 
         self.spectrum_template = new_spectrum
-        self.sed = sed * u.mag('AB')
+        self.sed = sed * units.mag('AB')
         
     @property
     def snr(self):

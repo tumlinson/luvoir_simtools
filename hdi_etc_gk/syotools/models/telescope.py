@@ -9,7 +9,7 @@ from __future__ import (print_function, division, absolute_import, with_statemen
                         nested_scopes, generators)
 from syotools.models.base import PersistentModel
 from syotools.defaults import default_telescope
-import astropy.units as u #for unit conversions
+import astropy.units as units #for unit conversions
 
 
 class Telescope(PersistentModel):
@@ -33,17 +33,17 @@ class Telescope(PersistentModel):
     cameras = []
     
     name = ''
-    aperture = 0. * u.m
-    temperature = 0. * u.K
-    ota_emissivity = 0. * u.dimensionless_unscaled
-    diff_limit_wavelength = 0. * u.nm
+    aperture = 0. * units.m
+    temperature = 0. * units.K
+    ota_emissivity = 0. * units.dimensionless_unscaled
+    diff_limit_wavelength = 0. * units.nm
         
     @property
     def diff_limit_arcsec(self):
         """
         Convert the diffraction limit from nm to arcseconds.
         """
-        return (1.22 * u.rad * self.diff_limit_wavelength / self.aperture).to(u.arcsec)
+        return (1.22 * units.rad * self.diff_limit_wavelength / self.aperture).to(units.arcsec)
     
     def add_camera(self, camera):
         self.cameras.append(camera)

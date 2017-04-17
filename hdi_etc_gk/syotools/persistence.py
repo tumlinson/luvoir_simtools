@@ -12,7 +12,7 @@ from __future__ import (print_function, division, absolute_import, with_statemen
 import json
 
 #Utilities:
-import astropy.units as u
+import astropy.units as units
 import numpy as np
 
 #### Base Protocol class

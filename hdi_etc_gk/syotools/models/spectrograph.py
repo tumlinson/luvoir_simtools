@@ -9,7 +9,7 @@ from __future__ import (print_function, division, absolute_import, with_statemen
                         nested_scopes, generators)
 
 import numpy as np
-import astropy.units as u
+import astropy.units as units
 
 from syotools.models.base import PersistentModel
 from syotools.defaults import default_spectrograph

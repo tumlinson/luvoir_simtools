@@ -8,7 +8,7 @@ Created on Tue Oct 18 15:23:49 2016
 from __future__ import (print_function, division, absolute_import, with_statement,
                         nested_scopes, generators)
 
-import astropy.units as u
+import astropy.units as units
 import numpy as np
 
 import syotools.coronagraph as cg
@@ -49,18 +49,18 @@ class Coronagraph(PersistentModel):
     engine = cg
     count_rates = {}
     
-    int_time = 0. * u.hr
-    phase_angle = 0. * u.deg
+    int_time = 0. * units.hr
+    phase_angle = 0. * units.deg
     phase_func = 1.
-    r_planet = 1. * u.R_earth
-    semimajor = 1. * u.au
-    t_eff = 0. * u.K
-    r_star = 1. * u.R_sun
-    d_system = 0. * u.pc
+    r_planet = 1. * units.R_earth
+    semimajor = 1. * units.au
+    t_eff = 0. * units.K
+    r_star = 1. * units.R_sun
+    d_system = 0. * units.pc
     n_exoz = 1.
-    wave = np.zeros(0, dtype=float) * u.um
-    radiance = np.zeros(0, dtype=float) * (u.W / u.m**2 / u.um / u.sr)
-    sol_flux = np.zeros(0, dtype=float) * (u.W / u.m**2 / u.um)
+    wave = np.zeros(0, dtype=float) * units.um
+    radiance = np.zeros(0, dtype=float) * (units.W / units.m**2 / units.um / units.sr)
+    sol_flux = np.zeros(0, dtype=float) * (units.W / units.m**2 / units.um)
     
     
     def __init__(self, *arg, **kw):
@@ -72,22 +72,22 @@ class Coronagraph(PersistentModel):
         """
         Planetary albedo spectrum.
         """
-        return np.pi * u.sr * (np.pi * self.radiance / self.sol_flux).decompose()
+        return np.pi * units.sr * (np.pi * self.radiance / self.sol_flux).decompose()
     
     def _calc_count_rates(self):
         """
         Compute the coronagraphic model using the coronagraph package.
         """
         al = self.albedo.value
-        wv = self.wave.to(u.um).value
-        sf = self.sol_flux.to(u.W / u.m**2 / u.um).value
-        pa = self.phase_angle.to(u.deg).value
+        wv = self.wave.to(units.um).value
+        sf = self.sol_flux.to(units.W / units.m**2 / units.um).value
+        pa = self.phase_angle.to(units.deg).value
         pf = self.phase_func.value
-        rp = self.r_planet.to(u.R_earth).value
-        te = self.t_eff.to(u.K).value
-        rs = self.r_star.to(u.R_sun).value
-        sm = self.semimajor.to(u.au).value
-        ds = self.d_system.to(u.pc).value
+        rp = self.r_planet.to(units.R_earth).value
+        te = self.t_eff.to(units.K).value
+        rs = self.r_star.to(units.R_sun).value
+        sm = self.semimajor.to(units.au).value
+        ds = self.d_system.to(units.pc).value
         ez = self.n_exoz.value
         cr = cg.count_rates(al, wv, sf, pa, pf, rp, te, rs, sm, ds, ez)
         self._count_rates = dict(*zip(['wavelength','wave_bin','albedo',
@@ -110,7 +110,7 @@ class Coronagraph(PersistentModel):
         """
         Integration time in seconds
         """
-        return self.int_time.to(u.s).value
+        return self.int_time.to(units.s).value
     
     @property
     def snr(self):

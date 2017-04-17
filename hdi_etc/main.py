@@ -172,7 +172,7 @@ for w in [template]: # iterate on changes to parameters
     w.on_change('value', update_data)
 
 controls = WidgetBox(children=[aperture, exptime, magnitude, template ]) 
-controls_tab = Panel(child=controls, title='Controls')
+controls_tab = Panel(child=controls, title='These are your damn controls')
 help_tab = Panel(child=Div(text = h.help()), title='Info')
 inputs = Tabs(tabs=[ controls_tab, help_tab]) 
 

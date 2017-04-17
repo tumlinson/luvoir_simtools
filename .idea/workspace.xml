@@ -1,0 +1,829 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="43c2c774-4b86-4ce9-a0bc-0b39f858e742" name="Default" comment="small edits to exoearth_vis">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/.gitignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/.gitmodules" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/.ipynb_checkpoints/Planet Zoo-checkpoint.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/.luvoir_demo.py.swp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/Venus.txt.gz" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coron_model.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coron_model.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coron_model_v1.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coron_model_v2.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coron_model_v3.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/#noise_routines.py#" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/Noise.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/Observation.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/Spectrum.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/call_noise.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/convolve_spec.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/count_rates.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/count_rates_2.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/count_rates_wrapper.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/degrade_spec.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/degrade_spec_old.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/filters/LANDSAT/Ball_BA_RSR.v1.1-1.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/filters/LANDSAT/Blue.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/filters/LANDSAT/Cirrus.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/filters/LANDSAT/CostalAerosol.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/filters/LANDSAT/Green.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/filters/LANDSAT/NIR.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/filters/LANDSAT/Pan.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/filters/LANDSAT/Red.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/filters/LANDSAT/SWIR1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/filters/LANDSAT/SWIR2.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/filters/UBVRI/bess-b.pass" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/filters/UBVRI/bess-i.pass" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/filters/UBVRI/bess-r.pass" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/filters/UBVRI/bess-u.pass" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/filters/UBVRI/bess-v.pass" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/filters/UBVRI2/Bessel_B-1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/filters/UBVRI2/Bessel_I-1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/filters/UBVRI2/Bessel_R-1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/filters/UBVRI2/Bessel_U-1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/filters/UBVRI2/Bessel_V-1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/filters/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/filters/imager.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/ground/earth_thermal.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/ground/earth_thermal_atacama_30deg.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/ground/earth_transmission.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/ground/earth_transmission_atacama_30deg.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/make_noise.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/noise_routines.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/observe.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/readsmart/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/readsmart/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/readsmart/example_files/.ipynb_checkpoints/examples-checkpoint.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/readsmart/example_files/earth_standard_hitran08_50_100000cm-1_clearsky.hrt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/readsmart/example_files/earth_standard_hitran08_50_100000cm-1_clearsky_toa.rad" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/readsmart/example_files/earth_standard_hitran08_50_100000cm-1_clearsky_toa.rad_rad001_toa.j_O3" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/readsmart/example_files/examples.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/readsmart/example_files/icrccm_62.atm" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/readsmart/example_files/plots/example1.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/readsmart/example_files/plots/example_atm.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/readsmart/example_files/plots/example_jacobians.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/readsmart/example_files/plots/example_rad1.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/readsmart/example_files/plots/example_rad2.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/readsmart/gas_info.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/readsmart/gases.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/readsmart/readsmart.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/readsmart/trnst.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/teleplanstar.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/coronagraph/utils.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/coronagraph_luvoir_v2.pro" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/coronagraph_luvoir_v3.pro" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/coronagraph_routines.pro" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/degrade_spec.pro" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/gaussfold.pro" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/luvoir_GJ876.pro" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/luvoir_HAZE_modernsun.pro" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/luvoir_demo.eps" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/luvoir_demo.pdf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/luvoir_demo.pro" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/luvoir_earth_03192008.pro" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/luvoir_lalande21185.pro" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/atlast_noise.pro" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/degrade_spec.pro" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/earth_quadrature_radiance_refl.dat" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/earthtime.sav" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/email_from_ty" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/noise_routines.pro" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/planets/ArcheanEarth_geo_albedo.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/planets/EarlyMars_geo_albedo.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/planets/EarlyVenus_geo_albedo.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/planets/F2V_5.e-1fCO2_1.e6H2Volc_1.e10BIF.out_toa.rad" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/planets/Hazy_ArcheanEarth_geo_albedo.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/planets/Jupiter_geo_albedo.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/planets/Mars_geo_albedo.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/planets/Neptune_geo_albedo.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/planets/Saturn_geo_albedo.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/planets/Uranus_geo_albedo.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/planets/Venus_geo_albedo.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/planets/earth_quadrature_radiance_refl.dat" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/planets/fstarcloudy.sav" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/planets/jupiter.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/planets/saturn.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/planets/subneptune.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/planets/uranus.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/planets/wavelengths.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/plots/earth/albnoisy_earth_8.00000diam_200.000res_10.0000_0.300000_2.00000_0.200000tput_180.000Temp.eps" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/plots/earth/albnonoise_earth_8.00000diam_200.000res_10.0000_0.300000_2.00000_0.200000tput_180.000Temp.eps" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/plots/earth/albspec_earth_8.00000diam_200.000res_10.0000_0.300000_2.00000_0.200000tput_180.000Temp.eps" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/plots/earth/inttime_earth_8.00000diam_200.000res_10.0000_0.300000_2.00000_0.200000tput_180.000Temp.eps" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/plots/earth/noises_earth_8.00000diam_200.000res_10.0000_0.300000_2.00000_0.200000tput_180.000Temp.eps" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/plots/earth/noisy_earth_8.00000diam_200.000res_10.0000_0.300000_2.00000_0.200000tput_180.000Temp.eps" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/plots/earth/nonoise_earth_8.00000diam_200.000res_10.0000_0.300000_2.00000_0.200000tput_180.000Temp.eps" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/plots/earth/spec_earth_8.00000diam_200.000res_10.0000_0.300000_2.00000_0.200000tput_180.000Temp.eps" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/plots/earth/vars_earth_8.00000diam_200.000res_10.0000_0.300000_2.00000_0.200000tput_180.000Temp.sav" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/run_all_planets.pro" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/run_atlast_noise.pro" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/old_code/set_colors.pro" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/output_files/luvoir_GJ876_p01bar.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/output_files/luvoir_HAZE_modernsun.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/output_files/luvoir_earth_03192008.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/plots/luvoir_GJ876_p01bar.pdf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/plots/luvoir_GJ876_p01bar_innerHZ.pdf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/plots/luvoir_GJ876_p01bar_outerHZ.pdf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/plots/luvoir_GJ876_p100bar_outerHZ.pdf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/plots/luvoir_GJ876_p10bar_outerHZ.pdf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/plots/luvoir_HAZE_modernsun.pdf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/plots/luvoir_Lalande21185_p100bar_.5hr_innerHZ.pdf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/plots/luvoir_Lalande21185_p100bar_.5hr_outerHZ.pdf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/plots/luvoir_Lalande21185_p100bar_outerHZ.pdf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/plots/luvoir_Lalande21185_p1bar_.5hr_innerHZ.pdf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/plots/luvoir_Lalande21185_p1bar_.5hr_outerHZ.pdf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/plots/luvoir_Lalande21185_p1bar_1hr_innerHZ.pdf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/plots/luvoir_Lalande21185_p1bar_1hr_outerHZ.pdf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/plots/luvoir_earth_03192008.pdf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/plots/luvoir_earth_03192008_xlog.pdf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/spectra/HAZE_modernsun.pt_toa.rad" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/spectra/earth_03192008_px34_hitran2012_50_100000cm_toa.rad" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/spectra/photo_clima_p0100bar_GJ876_dry.pt_fixed_filtered_hitran2012_50_100000cm_toa.rad" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/spectra/photo_clima_p010bar_3.6e-4CO2_GJ876_dry.pt_fixed_filtered_hitran2012_50_100000cm_toa.rad" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/spectra/photo_clima_p01bar_3.6e-4_GJ876_dry.pt_fixed_filtered_hitran2012_50_100000cm_toa.rad" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/idl/writecol.pro" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/inputs/input_default_planet.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/inputs/input_default_star.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/inputs/input_default_telescope.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/inputs/input_user_planet.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/inputs/input_user_star.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/inputs/input_user_telescope.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/luvoir_demo.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/.ipynb_checkpoints/Planet Zoo-checkpoint.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/.ipynb_checkpoints/cg_example-checkpoint.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/.ipynb_checkpoints/create_noisey_spectrum-checkpoint.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/.ipynb_checkpoints/telescope_class-checkpoint.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/.ipynb_checkpoints/telescope_imager-checkpoint.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/.ipynb_checkpoints/telescope_imager2-checkpoint.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/.ipynb_checkpoints/test_telescope_imaging-checkpoint.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/.ipynb_checkpoints/tests6-16-checkpoint.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/Planet Zoo.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/cg_example.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/Noise.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/Observation.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/Spectrum.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/call_noise.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/convolve_spec.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/count_rates.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/count_rates_wrapper.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/degrade_spec.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/filters/LANDSAT/Ball_BA_RSR.v1.1-1.xlsx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/filters/LANDSAT/Blue.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/filters/LANDSAT/Cirrus.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/filters/LANDSAT/CostalAerosol.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/filters/LANDSAT/Green.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/filters/LANDSAT/NIR.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/filters/LANDSAT/Pan.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/filters/LANDSAT/Red.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/filters/LANDSAT/SWIR1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/filters/LANDSAT/SWIR2.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/filters/UBVRI/bess-b.pass" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/filters/UBVRI/bess-i.pass" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/filters/UBVRI/bess-r.pass" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/filters/UBVRI/bess-u.pass" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/filters/UBVRI/bess-v.pass" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/filters/UBVRI2/Bessel_B-1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/filters/UBVRI2/Bessel_I-1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/filters/UBVRI2/Bessel_R-1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/filters/UBVRI2/Bessel_U-1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/filters/UBVRI2/Bessel_V-1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/filters/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/filters/imager.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/make_noise.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/noise_routines.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/observe.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/readsmart/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/readsmart/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/readsmart/example_files/.ipynb_checkpoints/examples-checkpoint.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/readsmart/example_files/earth_standard_hitran08_50_100000cm-1_clearsky.hrt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/readsmart/example_files/earth_standard_hitran08_50_100000cm-1_clearsky_toa.rad" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/readsmart/example_files/earth_standard_hitran08_50_100000cm-1_clearsky_toa.rad_rad001_toa.j_O3" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/readsmart/example_files/examples.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/readsmart/example_files/icrccm_62.atm" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/readsmart/example_files/plots/example1.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/readsmart/example_files/plots/example_atm.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/readsmart/example_files/plots/example_jacobians.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/readsmart/example_files/plots/example_rad1.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/readsmart/example_files/plots/example_rad2.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/readsmart/gas_info.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/readsmart/gases.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/readsmart/readsmart.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/readsmart/trnst.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/teleplanstar.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/coronagraph/utils.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/create_noisey_spectrum.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/telescope_class.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/telescope_imager.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/telescope_imager2.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/test_telescope_imaging.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/notebooks/tests6-16.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/output/luvoir_demo_.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/output/smart_data_earth_clearsky.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/output/smart_data_test.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/#Mars_geo_albedo.txt#" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/#Venus_geo_albedo.txt#" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/0.8AU_3x.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/2AU_3x.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/ArcheanEarth_geo_albedo.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/EarlyMars_geo_albedo.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/EarlyVenus_geo_albedo.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/Earth2_geo_albedo.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/Earth_geo_albedo.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/F2V_5.e-1fCO2_1.e6H2Volc_1.e10BIF.out_toa.rad" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/Hazy_ArcheanEarth_geo_albedo.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/Jupiter_geo_albedo.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/Mars_geo_albedo.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/Neptune_geo_albedo.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/Reflection_a1_m2.6_LM.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/Reflection_a1_m2.6_LM_NoCloud.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/Reflection_a2_m1.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/Saturn_geo_albedo.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/SunKuruczArcheanSpectrum.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/SunKuruczSpectrum.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/Uranus_geo_albedo.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/Venus_geo_albedo.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/earth_quadrature_radiance_refl.dat" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/fstarcloudy.sav" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/fstarcloudy_geo_albedo.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/jupiter.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/new_venus.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/proterozoic_hi_o2.sav" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/proterozoic_hi_o2_geo_albedo.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/proterozoic_low_o2.sav" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/proterozoic_low_o2_geo_albedo.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/saturn.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/subneptune.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/uranus.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/warm_neptunes.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/planets/wavelengths.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/plots/earth_quad_R70.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/plots/earth_quad_jc.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/plots/earth_quad_ls.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/plots/example1.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/plots/luvoir_demo_.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/plots/smart_data_earth_clearsky.pdf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/plots/smart_data_test.pdf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/readsmart/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/readsmart/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/readsmart/example_files/.ipynb_checkpoints/examples-checkpoint.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/readsmart/example_files/earth_standard_hitran08_50_100000cm-1_clearsky.hrt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/readsmart/example_files/earth_standard_hitran08_50_100000cm-1_clearsky_toa.rad" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/readsmart/example_files/earth_standard_hitran08_50_100000cm-1_clearsky_toa.rad_rad001_toa.j_O3" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/readsmart/example_files/examples.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/readsmart/example_files/icrccm_62.atm" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/readsmart/example_files/plots/example1.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/readsmart/example_files/plots/example_atm.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/readsmart/example_files/plots/example_jacobians.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/readsmart/example_files/plots/example_rad1.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/readsmart/example_files/plots/example_rad2.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/readsmart/gas_info.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/readsmart/gases.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/readsmart/readsmart.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/coronagraph-master/readsmart/trnst.py" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dashboard.html" afterPath="$PROJECT_DIR$/dashboard.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dashboard.py" afterPath="$PROJECT_DIR$/dashboard.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/multiplanet_vis/get_tooltip.py" afterPath="$PROJECT_DIR$/multiplanet_vis/get_tooltip.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/multiplanet_vis/get_yield_for_cds.py" afterPath="$PROJECT_DIR$/multiplanet_vis/get_yield_for_cds.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/multiplanet_vis/help_text.py" afterPath="$PROJECT_DIR$/multiplanet_vis/help_text.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/multiplanet_vis/main.py" afterPath="$PROJECT_DIR$/multiplanet_vis/main.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/multiplanet_vis/templates/index.html" afterPath="$PROJECT_DIR$/multiplanet_vis/templates/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/multiplanet_vis/theme.yaml" afterPath="$PROJECT_DIR$/multiplanet_vis/theme.yaml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/run.sh" afterPath="$PROJECT_DIR$/run.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/widgets/exoearth_vis_test.py" afterPath="$PROJECT_DIR$/widgets/exoearth_vis_test.py" />
+    </list>
+    <ignored path="luvoir_simtools.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="luvoir_simtools" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="bokeh-widgets.css" pinned="false" current-in-tab="true">
+        <entry file="file://$USER_HOME$/yt-conda/lib/python2.7/site-packages/bokeh/server/static/css/bokeh-widgets.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1232">
+              <caret line="5340" column="22" selection-start-line="5340" selection-start-column="16" selection-end-line="5340" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="JT" />
+      </list>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/exoearth_vis_bokeh0.12.py" />
+        <option value="$PROJECT_DIR$/get_pysynphot_spectra.py" />
+        <option value="$PROJECT_DIR$/spec_etc_bokeh0.12.py" />
+        <option value="$PROJECT_DIR$/multiplanet_vis_bokeh0.12.py" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="85" />
+    <option name="y" value="23" />
+    <option name="width" value="1230" />
+    <option name="height" value="750" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="luvoir_simtools" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="&lt; Python 2.7.11 (~/yt-conda/bin/python) &gt;" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="luvoir_simtools" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="&lt; Python 2.7.11 (~/yt-conda/bin/python) &gt;" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="site-packages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="luvoir_simtools" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="&lt; Python 2.7.11 (~/yt-conda/bin/python) &gt;" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="site-packages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bokeh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="luvoir_simtools" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="&lt; Python 2.7.11 (~/yt-conda/bin/python) &gt;" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="site-packages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bokeh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="server" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="luvoir_simtools" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="&lt; Python 2.7.11 (~/yt-conda/bin/python) &gt;" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="site-packages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bokeh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="server" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="static" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="luvoir_simtools" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="&lt; Python 2.7.11 (~/yt-conda/bin/python) &gt;" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="site-packages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bokeh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="server" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="static" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="css" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="luvoir_simtools" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="&lt; Python 2.7.11 (~/yt-conda/bin/python) &gt;" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="site-packages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="luvoir_simtools" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="/usr/bin/python" />
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="luvoir_simtools" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Tox" factoryName="Tox">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="luvoir_simtools" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Attests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="luvoir_simtools" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Doctests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="luvoir_simtools" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Nosetests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="luvoir_simtools" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Unittests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="luvoir_simtools" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PUREUNITTEST" value="true" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="py.test">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="luvoir_simtools" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="testToRun" value="" />
+      <option name="keywords" value="" />
+      <option name="params" value="" />
+      <option name="USE_PARAM" value="false" />
+      <option name="USE_KEYWORD" value="false" />
+      <method />
+    </configuration>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="43c2c774-4b86-4ce9-a0bc-0b39f858e742" name="Default" comment="" />
+      <created>1478191595884</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1478191595884</updated>
+    </task>
+    <task id="LOCAL-00001" summary="edits to exoearth_vis for small format changes and working yield thermometer">
+      <created>1478197016474</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1478197016474</updated>
+    </task>
+    <task id="LOCAL-00002" summary="small edits to exoearth_vis">
+      <created>1478204338292</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1478204338292</updated>
+    </task>
+    <task id="LOCAL-00003" summary="small edits to exoearth_vis">
+      <created>1478266805446</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1478266805446</updated>
+    </task>
+    <task id="LOCAL-00004" summary="added two fesc spectra to spec_etc">
+      <created>1478268248936</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1478268248936</updated>
+    </task>
+    <task id="LOCAL-00005" summary="added McCandless spectra to spec_etc and get_pysynphot_spectra">
+      <created>1478280245443</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1478280245443</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="85" y="23" width="1230" height="750" extended-state="1" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23333333" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3281027" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="edits to exoearth_vis for small format changes and working yield thermometer" />
+    <MESSAGE value="small edits to exoearth_vis" />
+    <MESSAGE value="added two fesc spectra to spec_etc" />
+    <MESSAGE value="added McCandless spectra to spec_etc and get_pysynphot_spectra" />
+    <option name="LAST_COMMIT_MESSAGE" value="added McCandless spectra to spec_etc and get_pysynphot_spectra" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/spec_etc_bokeh0.12.py" />
+    <entry file="file://$PROJECT_DIR$/get_pysynphot_spectra.py" />
+    <entry file="file://$PROJECT_DIR$/exoearth_vis_bokeh0.12.py" />
+    <entry file="file://$PROJECT_DIR$/z2gal_bokeh0.12.py" />
+    <entry file="file://$PROJECT_DIR$/get_pysynphot_spectra.py" />
+    <entry file="file://$PROJECT_DIR$/mosview_bokeh0.12.py" />
+    <entry file="file://$PROJECT_DIR$/exoearth_vis_bokeh0.12.py" />
+    <entry file="file://$USER_HOME$/yt-conda/lib/python2.7/site-packages/numpy/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2587">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spec_etc_bokeh0.12.py" />
+    <entry file="file://$PROJECT_DIR$/multiplanet_vis_bokeh0.12.py" />
+    <entry file="file://$USER_HOME$/yt-conda/lib/python2.7/site-packages/bokeh/server/static/css/bokeh-widgets.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-4170">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/yt-conda/lib/python2.7/site-packages/bokeh/server/static/css/bokeh-widgets.css.map">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-4140">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/yt-conda/lib/python2.7/site-packages/bokeh/server/static/css/bokeh-widgets.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1232">
+          <caret line="5340" column="22" selection-start-line="5340" selection-start-column="16" selection-end-line="5340" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

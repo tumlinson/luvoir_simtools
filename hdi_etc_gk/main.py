@@ -22,6 +22,7 @@ from pysynphot import ObsBandpass
 from syotools.models import Telescope, Camera
 from syotools.interface import SYOTool
 from syotools.spectra import SpectralLibrary
+from syotools.utils import pre_encode, pre_decode
 
 #We're going to just use the default values for LUVOIR
 interface_format = """
@@ -86,9 +87,9 @@ class HDI_ETC(SYOTool):
         self.hover_tooltip = hover_tooltip
         
         #set defaults
-        self.exptime = 1.0 * u.hour
-        self.renorm_magnitude = 30.0 * u.mag('AB')
-        self.aperture = 12.0 * u.m
+        self.exptime = pre_encode(1.0 * u.hour)
+        self.renorm_magnitude = pre_encode(30.0 * u.mag('AB'))
+        self.aperture = pre_encode(12.0 * u.m)
         self.spectrum_type = 'fab'
         self.update_sed()
         
@@ -101,29 +102,31 @@ class HDI_ETC(SYOTool):
     
     def controller(self, attr, old, new):
         #Grab values from the inputs
-        self.exptime = self.refs["exp_slider"].value * u.hour
-        self.renorm_magnitude = self.refs["mag_slider"].value * u.mag('AB')
-        self.aperture = self.refs["ap_slider"].value * u.m
+    
+    
+        self.exptime = pre_encode(self.refs["exp_slider"].value * u.hour)
+        self.renorm_magnitude = pre_encode(self.refs["mag_slider"].value * u.mag('AB'))
+        self.aperture = pre_encode(self.refs["ap_slider"].value * u.m)
         temp = self.template_options.index(self.refs["template_select"].value)
         self.spectrum_type = self.templates[temp]
         
         #Update the template SED based on new values
         self.update_sed()
         
-        snr = self.snr
+        snr = pre_decode(self.snr)
 
         #Update the y ranges & data
         self.refs["snr_figure"].y_range.start = 0
         self.refs["snr_figure"].y_range.end = 1.3 * max(snr.value.max(), 5.)
         self.refs["sed_figure"].y_range.start = self.spectrum_template.flux.min() + 5.
         self.refs["sed_figure"].y_range.end = self.spectrum_template.flux.min() - 5.
-        self.refs["source_blue"].data = {'x': self.camera.pivotwave[2:-3], 
+        self.refs["source_blue"].data = {'x': self._pivotwave[2:-3], 
                                          'y': snr[2:-3],
                                          'desc': self.camera.bandnames[2:-3]}
-        self.refs["source_orange"].data = {'x': self.camera.pivotwave[:2], 
+        self.refs["source_orange"].data = {'x': self._pivotwave[:2], 
                                            'y': snr[:2],
                                            'desc': self.camera.bandnames[:2]}
-        self.refs["source_red"].data = {'x': self.camera.pivotwave[-3:], 
+        self.refs["source_red"].data = {'x': self._pivotwave[-3:], 
                                         'y': snr[-3:],
                                         'desc': self.camera.bandnames[-3:]}
         self.refs["spectrum_template"].data = {'x': self.template_wave,
@@ -133,23 +136,28 @@ class HDI_ETC(SYOTool):
         spectrum = SpectralLibrary.get(self.spectrum_type)
         band = ObsBandpass('johnson,v')
         band.convert('nm')
-        new_spectrum = spectrum.renorm((self.renorm_magnitude + 2.5*u.mag('AB')).value,
+        
+        renorm_mag = pre_decode(self.renorm_magnitude)
+        
+        new_spectrum = spectrum.renorm((renorm_mag + 2.5*u.mag('AB')).value,
                                        'abmag', band)
         new_spectrum.convert('nm')
         new_spectrum.convert('abmag')
-        sed = new_spectrum.sample(self.camera.pivotwave.value)
+        sed = new_spectrum.sample(self._pivotwave)
         
         if np.count_nonzero(~np.isfinite(new_spectrum.flux)):
             print("Infinite values!")
 
         self.spectrum_template = new_spectrum
-        self.sed = sed * u.mag('AB')
+        self.sed = pre_encode(sed * u.mag('AB'))
         
     @property
     def snr(self):
         self.telescope.aperture = self.aperture
-        out = self.camera.signal_to_noise(self.exptime, 3, self.sed, verbose=False)
-        return out
+        sed = pre_decode(self.sed)
+        exptime = pre_decode(self.exptime)
+        out = self.camera.signal_to_noise(exptime, 3, sed, verbose=False)
+        return out #already serialized via JsonUnit
     
     @property
     def template_wave(self):
@@ -159,6 +167,15 @@ class HDI_ETC(SYOTool):
     def template_flux(self):
         return np.asarray(self.spectrum_template.flux)
 
+    #Conversions to avoid Bokeh Server trying to serialize Quantities
+    @property
+    def _pivotwave(self):
+        return self.camera.recover('pivotwave').value
+    
+    @property
+    def _snr(self):
+        return pre_decode(self.snr).value
+    
 
 HDI_ETC()
 

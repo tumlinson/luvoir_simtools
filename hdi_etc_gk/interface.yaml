@@ -15,20 +15,20 @@
 - !ColumnDataSource: &source_blue
     ref: "source_blue"
     data:
-        x: !self.camera.pivotwave[2:-3]
-        y: !self.snr[2:-3]
+        x: !self._pivotwave[2:-3]
+        y: !self._snr[2:-3]
         desc: !self.camera.bandnames[2:-3]
 - !ColumnDataSource: &source_orange
     ref: "source_orange"
     data:
-        x: !self.camera.pivotwave[:2]
-        y: !self.snr[:2]
+        x: !self._pivotwave[:2]
+        y: !self._snr[:2]
         desc: !self.camera.bandnames[:2]
 - !ColumnDataSource: &source_red
     ref: "source_red"
     data:
-        x: !self.camera.pivotwave[-3:]
-        y: !self.snr[-3:]
+        x: !self._pivotwave[-3:]
+        y: !self._snr[-3:]
         desc: !self.camera.bandnames[-3:]
 - !ColumnDataSource: &spectrum_template
     ref: "spectrum_template"

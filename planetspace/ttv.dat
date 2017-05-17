@@ -1,0 +1,8 @@
+#!/bin/bash
+### All planets on exoplanets.org discovered via TTV
+### and with mass values > 0.0 (TIMING && MSINI[mjupiter] > 0.0)
+### These were obtained on 4/March/2015 [CBH]
+###  NAME     MSINI        A         Mstar
+###           mjupiter     au        Msun
+Kepler-48-b   1.23e-02   5.32e-02   8.80e-01
+Kepler-48-c   4.56e-02   8.51e-02   8.80e-01

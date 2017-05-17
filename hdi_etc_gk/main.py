@@ -115,10 +115,10 @@ class HDI_ETC(SYOTool):
         
         snr = self._snr
         pwave = self._pivotwave
-
+        
         #Update the y ranges & data
         self.refs["snr_figure"].y_range.start = 0
-        self.refs["snr_figure"].y_range.end = 1.3 * max(snr.value.max(), 5.)
+        self.refs["snr_figure"].y_range.end = 1.3 * max(snr.max(), 5.)
         self.refs["sed_figure"].y_range.start = self.spectrum_template.flux.min() + 5.
         self.refs["sed_figure"].y_range.end = self.spectrum_template.flux.min() - 5.
         self.refs["source_blue"].data = {'x': pwave[2:-3], 

@@ -113,20 +113,21 @@ class HDI_ETC(SYOTool):
         #Update the template SED based on new values
         self.update_sed()
         
-        snr = pre_decode(self.snr)
-
+        snr = self._snr
+        pwave = self._pivotwave
+        
         #Update the y ranges & data
         self.refs["snr_figure"].y_range.start = 0
-        self.refs["snr_figure"].y_range.end = 1.3 * max(snr.value.max(), 5.)
+        self.refs["snr_figure"].y_range.end = 1.3 * max(snr.max(), 5.)
         self.refs["sed_figure"].y_range.start = self.spectrum_template.flux.min() + 5.
         self.refs["sed_figure"].y_range.end = self.spectrum_template.flux.min() - 5.
-        self.refs["source_blue"].data = {'x': self._pivotwave[2:-3], 
+        self.refs["source_blue"].data = {'x': pwave[2:-3], 
                                          'y': snr[2:-3],
                                          'desc': self.camera.bandnames[2:-3]}
-        self.refs["source_orange"].data = {'x': self._pivotwave[:2], 
+        self.refs["source_orange"].data = {'x': pwave[:2], 
                                            'y': snr[:2],
                                            'desc': self.camera.bandnames[:2]}
-        self.refs["source_red"].data = {'x': self._pivotwave[-3:], 
+        self.refs["source_red"].data = {'x': pwave[-3:], 
                                         'y': snr[-3:],
                                         'desc': self.camera.bandnames[-3:]}
         self.refs["spectrum_template"].data = {'x': self.template_wave,

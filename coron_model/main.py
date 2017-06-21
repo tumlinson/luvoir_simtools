@@ -23,11 +23,11 @@ from bokeh.client import push_session
 from bokeh.themes import Theme 
 import yaml 
 from bokeh.plotting import Figure
-from bokeh.models import ColumnDataSource, HBox, VBoxForm, HoverTool, Paragraph, Range1d, DataRange1d, Label, DataSource
+from bokeh.models import ColumnDataSource, HBox, HoverTool, Paragraph, Range1d, DataRange1d, Label, DataSource
 from bokeh.models.glyphs import Text
 from bokeh.layouts import column, row, WidgetBox 
 from bokeh.models.widgets import Slider, Panel, Tabs, Div, TextInput, RadioButtonGroup, Select, RadioButtonGroup
-from bokeh.io import hplot, vplot, curdoc, output_file, show, vform
+from bokeh.io import curdoc, output_file, show
 from bokeh.models.callbacks import CustomJS
 from bokeh.embed import components, autoload_server
 

@@ -8,11 +8,11 @@ import phot_compute_snr as phot_etc
 from bokeh.plotting import Figure
 from bokeh.resources import CDN
 from bokeh.embed import components, autoload_server 
-from bokeh.models import ColumnDataSource, HBox, VBoxForm, HoverTool, Paragraph, Range1d 
+from bokeh.models import ColumnDataSource, HBox, HoverTool, Paragraph, Range1d 
 from bokeh.models.callbacks import CustomJS
 from bokeh.layouts import column, row, WidgetBox 
 from bokeh.models.widgets import Slider, Tabs, Div, Panel, Select 
-from bokeh.io import hplot, vplot, curdoc
+from bokeh.io import curdoc
 from bokeh.embed import file_html
 
 import Telescope as T 

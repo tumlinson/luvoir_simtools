@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.image as mpimg
 
 from bokeh.plotting import figure, gridplot, output_file, show
-from bokeh.models import ColumnDataSource, HBox, VBoxForm, Paragraph, Range1d
+from bokeh.models import ColumnDataSource, Paragraph, Range1d
 from bokeh.io import hplot, vplot, curdoc
 from bokeh.models.widgets import Select 
 

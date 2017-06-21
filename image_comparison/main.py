@@ -3,7 +3,7 @@ import matplotlib.image as mpimg
 
 from bokeh.plotting import figure, gridplot, output_file, show
 from bokeh.models import ColumnDataSource, Paragraph, Range1d
-from bokeh.io import hplot, vplot, curdoc
+from bokeh.io import curdoc
 from bokeh.models.widgets import Select 
 
 image_to_use = Select(title="Image to See", value="Galaxy", options=["Galaxy (z=2)", "Deep Field", "Star Forming Region", "Perseus A", "Pluto"], width=200)

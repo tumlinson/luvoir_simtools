@@ -19,6 +19,7 @@ from astropy.table import Table, Column
 import os
 from bokeh.io import curdoc
 from bokeh.client import push_session
+from __future__ import print_function
 
 from bokeh.themes import Theme 
 import yaml 
@@ -153,11 +154,11 @@ textlabel = ColumnDataSource(data=dict(label = planet_label))
 ################################
 #plots spectrum and exposure time
 snr_plot = Figure(plot_height=500, plot_width=750, 
-                  tools="crosshair,pan,reset,save,box_zoom,wheel_zoom,hover",
+                  tools="crosshair,pan,reset,save,box_zoom,wheel_zoom,resize,hover",
                   toolbar_location='right', x_range=[0.2, 3.0], y_range=[0, 0.2])
 
 exp_plot = Figure(plot_height=500, plot_width=750, 
-                  tools="crosshair,pan,reset,save,box_zoom,wheel_zoom,hover",
+                  tools="crosshair,pan,reset,save,box_zoom,wheel_zoom,resize,hover",
                   toolbar_location='right', x_range=[0.2, 3.0], y_range=[1e-3, 1e10],
                   y_axis_type="log")
 
@@ -241,8 +242,11 @@ def i_clicked_a_button(new):
     if (format_button_group.active == 1): t.write(filename, overwrite=True) 
     if (format_button_group.active == 0): ascii.write(t, filename)
  
+    filename = cwd+'outputs/'+filename 
+    print 'file coming', filename 
+
     os.system('gzip -f ' +filename) 
-    os.system('cp -rp '+filename+'.gz /home/jtastro/jt-astro.science/outputs') 
+    os.system('cp -rp '+filename+'.gz outputs') 
     print    """Your file is <a href='http://jt-astro.science/outputs/"""+filename+""".gz'>"""+filename+""".gz</a>. """
 
     link_box.text = """Your file is <a href='http://jt-astro.science/outputs/"""+filename+""".gz'>"""+filename+""".gz</a>. """

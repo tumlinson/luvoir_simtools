@@ -10,6 +10,8 @@ import astropy.constants as const
 import get_lumos_spectra
 import Telescope as T 
 import lumos_help as h 
+from __future__ import print_function
+
 
 luvoir = T.Telescope(10., 280., 500.) # set up LUVOIR with 10 meters, T = 280, and diff limit at 500 nm 
 lumos = T.Spectrograph() # set up LUVOIR with 10 meters, T = 280, and diff limit at 500 nm 

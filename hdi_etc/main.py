@@ -14,6 +14,8 @@ from bokeh.layouts import column, row, WidgetBox
 from bokeh.models.widgets import Slider, Tabs, Div, Panel, Select 
 from bokeh.io import curdoc
 from bokeh.embed import file_html
+from __future__ import print_function
+
 
 import Telescope as T 
 import hdi_help as h 

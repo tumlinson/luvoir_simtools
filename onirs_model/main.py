@@ -21,6 +21,8 @@ from astropy.table import Table, Column
 import os
 from bokeh.io import curdoc
 from bokeh.client import push_session
+from __future__ import print_function
+
 
 from bokeh.themes import Theme 
 import yaml 

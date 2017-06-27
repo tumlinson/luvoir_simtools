@@ -4,6 +4,8 @@ from bokeh.layouts import column, row, widgetbox
 from bokeh.models import ColumnDataSource, HoverTool, Range1d, BoxSelectTool, Segment, Rect, Square
 from bokeh.models.widgets import Slider
 from bokeh.plotting import Figure
+from __future__ import print_function
+
 
 
 

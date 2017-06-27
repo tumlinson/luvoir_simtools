@@ -19,6 +19,7 @@ from bokeh.models.glyphs import Text
 from bokeh.models.widgets import Slider, TextInput
 from bokeh.io import hplot, vplot, curdoc
 from bokeh.models.callbacks import CustomJS
+from __future__ import print_function
 
 cwd = os.getenv('LUVOIR_SIMTOOLS_DIR')
 

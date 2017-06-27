@@ -5,6 +5,8 @@ from bokeh.plotting import figure, gridplot, output_file, show
 from bokeh.models import ColumnDataSource, Paragraph, Range1d
 from bokeh.io import curdoc
 from bokeh.models.widgets import Select 
+from __future__ import print_function
+
 
 image_to_use = Select(title="Image to See", value="Galaxy", options=["Galaxy (z=2)", "Deep Field", "Star Forming Region", "Perseus A", "Pluto"], width=200)
 

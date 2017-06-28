@@ -12,6 +12,7 @@
 
 # Import some standard python packages
 
+from __future__ import print_function
 import numpy as np
 from astropy.io import fits, ascii 
 import pdb
@@ -86,7 +87,7 @@ model = np.loadtxt(fn, skiprows=8)
 lamhr = model[:,0]
 radhr = model[:,1]
 Fohr = model[:,2] * (1.495e11)**2 / (6.95e8)**2 # convert to flux @ stellar surface
-print 'Fohr =', Fohr
+print('Fohr =', Fohr) 
 # Calculate hi-resolution reflectivity
 Fohr_bb = cg.noise_routines.Fstar(lamhr, 5777, 1., 1., AU=True) # stellar flux (comparison)
 lammin = 0.4
@@ -105,8 +106,6 @@ Ro_ = Ro
 # Run onirs with default LUVOIR telescope 
 lam, dlam, Fo, q, co, cz, cD, cR, cth, DtSNR = \
     cg.count_rates_onirs(Fohr_, lamhr, Ro, d, lammin=lammin, lammax=lammax, Res=Res, diam=diam, Tsys=Tsys,De=De, Re=Re, Dtmax=Dtmax, GROUND=False, THERMAL=True,  wantsnr=wantsnr)
-
-print 'co =', co
 
 # Calculate background photon count rates
 cb = (cz + cD + cR + cth)
@@ -202,8 +201,8 @@ link_box  = Div(text=""" """, width=300, height=15)
 
 def i_clicked_a_button(new): 
     filename=text_input.value + {0:'.txt', 1:'.fits'}[format_button_group.active]
-    print "Your format is   ", format_button_group.active, {0:'txt', 1:'fits'}[format_button_group.active] 
-    print "Your filename is: ", filename 
+    print("Your format is   ", format_button_group.active, {0:'txt', 1:'fits'}[format_button_group.active]) 
+    print("Your filename is: ", filename) 
     fileformat={0:'txt', 1:'fits'}[format_button_group.active]
     link_box.text = """Working""" 
  
@@ -215,7 +214,7 @@ def i_clicked_a_button(new):
  
     os.system('gzip -f ' +filename) 
     os.system('cp -rp '+filename+'.gz /home/jtastro/jt-astro.science/outputs') 
-    print    """Your file is <a href='http://jt-astro.science/outputs/"""+filename+""".gz'>"""+filename+""".gz</a>. """
+    print("""Your file is <a href='http://jt-astro.science/outputs/"""+filename+""".gz'>"""+filename+""".gz</a>. """) 
 
     link_box.text = """Your file is <a href='http://jt-astro.science/outputs/"""+filename+""".gz'>"""+filename+""".gz</a>. """
 
@@ -225,10 +224,10 @@ def i_clicked_a_button(new):
 #########################################
 
 def update_data(attrname, old, new):
-    print 'Updating model for exptime = ', exptime.value, ' for object with R = ', 10**radius.value, ' at distance ', 10**distance.value, ' parsecs '
-    print 'diameter (m) = ', diameter.value, 'resolution = ', resolution.value
-    print '                   temperature (K) = ', temperature.value
-    print 'You have chosen object spectrum: ', template.value
+    print('Updating model for exptime = ', exptime.value, ' for object with R = ', 10**radius.value, ' at distance ', 10**distance.value, ' parsecs ') 
+    print('diameter (m) = ', diameter.value, 'resolution = ', resolution.value) 
+    print('                   temperature (K) = ', temperature.value) 
+    print('You have chosen object spectrum: ', template.value) 
     try:
        lasttemplate
     except NameError:
@@ -263,7 +262,6 @@ def update_data(attrname, old, new):
           lamhr_ = model[:,0]
           radhr_ = model[:,1]
           Fohr_ = model[:,2] * (1.495e11)**2 / (6.95e8)**2 # convert to flux @ stellar surface
-          print 'Fohr_ =', Fohr_
           radius.value = 0.
           lammin = 0.4
           lammax = 5.
@@ -280,7 +278,7 @@ def update_data(attrname, old, new):
           
        
 
-    print "ground based = ", ground_based.value
+    print("ground based = ", ground_based.value) 
     if ground_based.value == "No":
        ground_based_ = False
     if ground_based.value == "Yes":
@@ -337,8 +335,8 @@ def update_data(attrname, old, new):
     #CratioC_ok = CratioC[iii]
     #Cratio_ok = Cratio_ok[~np.isnan(Cratio_ok)]
     #CratioC_ok = CratioC_ok[~np.isnan(CratioC_ok)]
-    print 'snr_ymax_',  np.max(Fo)
-    print 'snr_ymin_',  np.min(Fo)
+    print('snr_ymax_',  np.max(Fo)) 
+    print('snr_ymin_',  np.min(Fo)) 
     snr_ymax_ = np.max(Fo)
     snr_ymin_ = np.min(Fo)
   #  snr_plot.y_range.start = -0.2

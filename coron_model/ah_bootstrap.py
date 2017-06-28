@@ -31,6 +31,7 @@ See https://github.com/astropy/astropy-helpers for more details, and for the
 latest version of this module.
 """
 
+from __future__ import print_function
 import contextlib
 import errno
 import imp

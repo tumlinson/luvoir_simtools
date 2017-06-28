@@ -10,6 +10,7 @@
 
 # Import some standard python packages
 
+from __future__ import print_function
 import numpy as np
 from astropy.io import fits, ascii 
 import pdb
@@ -223,8 +224,8 @@ link_box  = Div(text=""" """, width=300, height=15)
 
 def i_clicked_a_button(new): 
     filename=text_input.value + {0:'.txt', 1:'.fits'}[format_button_group.active]
-    print "Your format is   ", format_button_group.active, {0:'txt', 1:'fits'}[format_button_group.active] 
-    print "Your filename is: ", filename 
+    print("Your format is   ", format_button_group.active, {0:'txt', 1:'fits'}[format_button_group.active]) 
+    print("Your filename is: ", filename) 
     fileformat={0:'txt', 1:'fits'}[format_button_group.active]
     link_box.text = """Working""" 
  
@@ -236,7 +237,7 @@ def i_clicked_a_button(new):
  
     os.system('gzip -f ' +filename) 
     os.system('cp -rp '+filename+'.gz /home/jtastro/jt-astro.science/outputs') 
-    print    """Your file is <a href='http://jt-astro.science/outputs/"""+filename+""".gz'>"""+filename+""".gz</a>. """
+    print  ("""Your file is <a href='http://jt-astro.science/outputs/"""+filename+""".gz'>"""+filename+""".gz</a>. """) 
 
     link_box.text = """Your file is <a href='http://jt-astro.science/outputs/"""+filename+""".gz'>"""+filename+""".gz</a>. """
 
@@ -246,11 +247,11 @@ def i_clicked_a_button(new):
 #########################################
 
 def update_data(attrname, old, new):
-    print 'Updating model for exptime = ', exptime.value, ' for planet with R = ', radius.value, ' at distance ', distance.value, ' parsec '
-    print '                   exozodi = ', exozodi.value, 'diameter (m) = ', diameter.value, 'resolution = ', resolution.value
-    print '                   temperature (K) = ', temperature.value, 'IWA = ', inner.value, 'OWA = ', outer.value
-    print 'You have chosen planet spectrum: ', template.value
-    print 'You have chosen comparison spectrum: ', comparison.value
+    print('Updating model for exptime = ', exptime.value, ' for planet with R = ', radius.value, ' at distance ', distance.value, ' parsec ') 
+    print('                   exozodi = ', exozodi.value, 'diameter (m) = ', diameter.value, 'resolution = ', resolution.value) 
+    print('                   temperature (K) = ', temperature.value, 'IWA = ', inner.value, 'OWA = ', outer.value) 
+    print('You have chosen planet spectrum: ', template.value) 
+    print('You have chosen comparison spectrum: ', comparison.value) 
     try:
        lasttemplate
     except NameError:
@@ -328,7 +329,6 @@ def update_data(attrname, old, new):
        if template.value =='test':
           fn = 'ArcheanEarth_geo_albedo.txt'
           fn = os.path.join(relpath, fn)
-          print fn
           model = np.loadtxt(fn, skiprows=8)
           lamhr_ = model[:,0]
           Ahr_ = model[:,1]
@@ -344,7 +344,6 @@ def update_data(attrname, old, new):
        if template.value =='1% PAL O2 Proterozoic Earth':
           fn = 'proterozoic_hi_o2_geo_albedo.txt'
           fn = os.path.join(relpath, fn)
-          print fn
           model = np.loadtxt(fn, skiprows=0)
           lamhr_ = model[:,0]
           Ahr_ = model[:,1]
@@ -745,7 +744,7 @@ def update_data(attrname, old, new):
           
        
 
-    print "ground based = ", ground_based.value
+    print("ground based = ", ground_based.value) 
     if ground_based.value == "No":
        ground_based_ = False
     if ground_based.value == "Yes":
@@ -1245,8 +1244,8 @@ def update_data(attrname, old, new):
               
 
     if comparison.value != 'none':
-      print 'comparison.value =', comparison.value
-      print  'running comparison spectrum'
+      print('comparison.value =', comparison.value) 
+      print( 'running comparison spectrum') 
       try:
          distance_c
       except NameError:
@@ -1282,8 +1281,8 @@ def update_data(attrname, old, new):
     CratioC_ok = CratioC[iii]
     Cratio_ok = Cratio_ok[~np.isnan(Cratio_ok)]
     CratioC_ok = CratioC_ok[~np.isnan(CratioC_ok)]
-    print 'snr_ymax_',  np.max([np.max(Cratio_ok)*1e9, np.max(CratioC_ok)*1e9])
-    print 'snr_ymin_',  np.min([np.min(Cratio_ok)*1e9, np.min(CratioC_ok)*1e9])
+    print('snr_ymax_',  np.max([np.max(Cratio_ok)*1e9, np.max(CratioC_ok)*1e9])) 
+    print('snr_ymin_',  np.min([np.min(Cratio_ok)*1e9, np.min(CratioC_ok)*1e9])) 
     snr_ymax_ = np.max([np.max(Cratio_ok)*1e9, np.max(CratioC_ok)*1e9])
     snr_ymin_ = np.min([np.min(CratioC_ok)*1e9, np.min(CratioC_ok)*1e9])
     snr_plot.y_range.start = -0.2

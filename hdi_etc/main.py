@@ -1,5 +1,6 @@
 ''' A dead simple ETC for HDST 
 '''
+from __future__ import print_function
 import numpy as np
 from bokeh.io import output_file, gridplot 
 
@@ -14,8 +15,6 @@ from bokeh.layouts import column, row, WidgetBox
 from bokeh.models.widgets import Slider, Tabs, Div, Panel, Select 
 from bokeh.io import curdoc
 from bokeh.embed import file_html
-from __future__ import print_function
-
 
 import Telescope as T 
 import hdi_help as h 
@@ -92,7 +91,7 @@ sed_plot.line('w','f',line_color='orange', line_width=3, source=spectrum_templat
 
 def update_data(attrname, old, new):
 
-    print "You have chosen template ", template.value, np.size(spec_dict[template.value].wave) 
+    print("You have chosen template ", template.value, np.size(spec_dict[template.value].wave)) 
 
     luvoir.aperture = aperture.value 
     hdi.set_pixel_sizes(luvoir) # adaptively set the pixel sizes 
@@ -101,9 +100,9 @@ def update_data(attrname, old, new):
     spectrum = spec_dict[template.value]
     band = S.ObsBandpass('johnson,v')
     band.convert('nm') 
-    print spectrum.waveunits.name 
+    print(spectrum.waveunits.name) 
     ss = spectrum.renorm(magnitude.value+2.5, 'abmag', band) #### OH MY GOD WHAT A HACK!!!! 
-    print 'Renorming to ', magnitude.value 
+    print('Renorming to ', magnitude.value) 
     new_w0 = ss.wave 
     new_f0 = ss.flux 
     new_w = np.array(new_w0) 
@@ -114,20 +113,14 @@ def update_data(attrname, old, new):
     mag_arr = np.array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.]) 
     for pwave,index in zip(hdi.pivotwave,np.arange(10)): 
        mag_arr[index] = ss.sample(pwave) 
-       print index, pwave, ss.sample(pwave), mag_arr[index] 
+       print(index, pwave, ss.sample(pwave), mag_arr[index]) 
     
     snr = phot_etc.compute_snr(luvoir, hdi, exptime.value, mag_arr)
     
-    print 'SNR' 
-    print 'SNR' 
-    print 'SNR' 
-    print 'SNR' 
-    print mag_arr 
-    print snr 
-    print 'SNR' 
-    print 'SNR' 
-    print 'SNR' 
-    print 'SNR' 
+    print('SNR') 
+    print(mag_arr) 
+    print(snr) 
+    print('SNR') 
 
     wave = hdi.pivotwave 
     source1.data = dict(x=wave[2:-3], y=snr[2:-3], desc=hdi.bandnames[2:-3]) 
@@ -142,7 +135,7 @@ def update_data(attrname, old, new):
 
 
 def fake_function(attrname, old, new):
-    print "THIS IS JUST A FAKE CALLBACK FUNCTION", magnitude.value 
+    print("THIS IS JUST A FAKE CALLBACK FUNCTION", magnitude.value) 
 
 # fake source for managing callbacks 
 source = ColumnDataSource(data=dict(value=[]))

@@ -1,3 +1,4 @@
+from __future__ import print_function
 import numpy as np
 from bokeh.io import curdoc
 from bokeh.layouts import column, row, widgetbox
@@ -5,8 +6,6 @@ from bokeh.models import ColumnDataSource, HoverTool, Range1d, BoxSelectTool, Se
 from bokeh.models.widgets import Slider, Tabs, Div, Panel, Select 
 from bokeh.plotting import Figure
 import mosview_help as h 
-from __future__ import print_function
-
 
 
 relation_properties = ColumnDataSource(data=dict(power_law_slope=[0.15], arbitrary_normalization=[2.2])) 
@@ -57,7 +56,7 @@ plot1.add_tools(hover)
 
 # this is a grey square grid for convenience at reading coordinates 
 for xx in np.arange(17) * 10. - 80:
-    print xx
+    print(xx) 
     plot1.line([xx, xx], [-50, 50], line_width=1, line_color='grey')
     plot1.line([-75, 75], [xx, xx], line_width=1, line_color='grey')
 
@@ -95,16 +94,15 @@ def update_data(attrname, old, new):  # callback for slider moves
 
     a = aperture.value  # Get the current slider values
     c = exposure.value
-    print 'APERTURE AND EXPOSURE SLIDERS ARE NOT WORKING YET FOR THIS TOOL'
+    print('APERTURE AND EXPOSURE SLIDERS ARE NOT WORKING YET FOR THIS TOOL') 
 
 def shutter_updater(attr, old, new):  # callback for shutter selection
     indexes = np.array(new['1d']['indices'], dtype='int')
     masses = np.array(shutter_positions.data['mass'])
 
 def power_law_updater(attr, old, new): 
-    print 'want to change the power law to', power_law_slider.value 
+    print('want to change the power law to', power_law_slider.value) 
     relation_properties.data['power_law_slope'] = [power_law_slider.value] 
-    print 'MADE IT TO HERE JUST FINE' 
     cluster_masses = np.array([5.5, 5.1, 2.6, 7.2, 6.1, 5.5, 5.4, 3.4, 4.3, 4.1, 3.5, 3.6, 3.7, 4.9, 4.8, \
         5., 4.9, 4.8, 4.1, 4.3, 4.2, 4.0, 3.3, 2.3, 3.6, 3.3, 3.2, 1.2, 6.1, 6.7, 3.9, 4.2])
     scatter_term = 2.0 * np.random.rand(np.size(cluster_masses)) - 1.0
@@ -115,9 +113,7 @@ def power_law_updater(attr, old, new):
     shutter_positions.data['vmax'] = cluster_vmax 
     shutter_positions.data['vmax_up_error'] = vmax_up_error 
     shutter_positions.data['vmax_down_error'] = vmax_down_error
-    print shutter_positions.data['vmax_up_error'], shutter_positions.data['vmax_down_error'] 
-    print 
-    print 
+    print(shutter_positions.data['vmax_up_error'], shutter_positions.data['vmax_down_error']) 
 
 for s in [aperture, exposure, power_law_slider]: 
     s.on_change('value', power_law_updater)

@@ -1,3 +1,4 @@
+from __future__ import print_function
 import numpy as np
 import math 
 from astropy.table import Table 
@@ -7,7 +8,6 @@ import os
 import multiplanet_help as h 
 import get_yield_for_cds as gy 
 import get_tooltip 
-from __future__ import print_function
 
 from bokeh.io import curdoc 
 from bokeh.plotting import Figure
@@ -70,13 +70,13 @@ def SelectCallback(attrname, old, new):
  			               str(star_points.data['complete8'][inds])[0:6]] 
 
     # now change the image in the "Star" tab to show the selected star  
-    print 'You have selected star HIP', star_points.data['hip'][inds]
-    print 'You have a telescope of size: ', str(aperture.value * 10. / 10.) 
-    print 'You have a telescope with contrast: ', contrast.value 
+    print('You have selected star HIP', star_points.data['hip'][inds]) 
+    print('You have a telescope of size: ', str(aperture.value * 10. / 10.)) 
+    print('You have a telescope with contrast: ', contrast.value) 
     image_prefix = 'http://www.stsci.edu/~tumlinso/stark_luvoir_yields/tumlinson-multiplanet_results-'+ \
                        str(aperture.value*10./10.)+'_1.00E'+str(contrast.value)+'_0.10_3.0/' 
     image_file = 'HIP_'+str(int(star_points.data['hip'][inds]))+'.png' 
-    print 'I need to go get file: ', image_prefix + image_file 
+    print('I need to go get file: ', image_prefix + image_file) 
     plot2.image_url(url=[image_prefix+image_file], x=[-50], y=[50], w=100, h=130)
     
 
@@ -186,7 +186,7 @@ hist_plot.add_tools(yield_hover)
 
 def update_data(attrname, old, new):
 
-    print 'APERTURE A = ', aperture.value, ' CONTRAST C = ', contrast.value, ' IWA I = ', iwa.value 
+    print('APERTURE A = ', aperture.value, ' CONTRAST C = ', contrast.value, ' IWA I = ', iwa.value) 
     yields = gy.get_yield(aperture.value, contrast.value) 
     star_points.data = yields 
 
@@ -200,7 +200,7 @@ def update_data(attrname, old, new):
                                         str(int(np.sum(yields['complete4'][:]))), str(int(np.sum(yields['complete5'][:]))), 
                                         str(int(np.sum(yields['complete6'][:]))), str(int(np.sum(yields['complete7'][:]))), 
                                         str(int(np.sum(yields['complete8'][:])))]
-    print total_yield_label.data['labels'] 
+    print(total_yield_label.data['labels']) 
  
     # regenerate the pulsing blue points 
     col = copy.deepcopy(yields['stype']) 
@@ -213,7 +213,7 @@ def update_data(attrname, old, new):
     random_numbers = np.random.random(n_stars) 
     indices = np.arange(n_stars) 
     iran = indices[ random_numbers < yields['complete1'] ] 
-    print 'NSTARS INSIDE UPDATE DATA', n_stars, iran 
+    print('NSTARS INSIDE UPDATE DATA', n_stars, iran) 
     new_dict = {'x': yields['x'][iran], 'y':yields['y'][iran], 'r':0.8+0.0*yields['y'][iran], 'color':col[iran], 'alpha':np.array(alph)[iran]} 
     pulse_points.data = new_dict  
 
@@ -227,9 +227,7 @@ def recalc():
     random_numbers = np.random.random(n_stars) 
     indices = np.arange(n_stars) 
     iran = np.array(indices[ random_numbers < star_points.data['complete1'] ]) 
-    print iran 
     new_dict = {'x': star_points.data['x'][iran], 'y':star_points.data['y'][iran], 'r':0.8+0.0*star_points.data['y'][iran], 'color':col[iran], 'alpha':np.array(alph)[iran]} 
-    print 'NSTARS OUTSIDE UPDATE DATA', n_stars, iran 
     pulse_points.data = new_dict  
 
 

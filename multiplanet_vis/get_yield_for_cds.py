@@ -1,4 +1,4 @@
-
+from __future__ import print_function
 from numpy import where 
 from astropy.table import Table 
 import copy 

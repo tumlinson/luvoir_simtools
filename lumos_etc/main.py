@@ -1,3 +1,4 @@
+from __future__ import print_function
 import numpy as np
 import copy 
 from bokeh.plotting import Figure
@@ -10,7 +11,6 @@ import astropy.constants as const
 import get_lumos_spectra
 import Telescope as T 
 import lumos_help as h 
-from __future__ import print_function
 
 
 luvoir = T.Telescope(10., 280., 500.) # set up LUVOIR with 10 meters, T = 280, and diff limit at 500 nm 
@@ -18,8 +18,8 @@ lumos = T.Spectrograph() # set up LUVOIR with 10 meters, T = 280, and diff limit
 lumos.set_mode('G120M') 
 
 def simulate_exposure(telescope, spectrograph, wave, flux, exptime): 
-    print "Attempting to create an exposure for Telescope: ", telescope.name, telescope.aperture, ' m' 
-    print "                                 and Spectrograph: ", spectrograph.name, " in mode ", spectrograph.mode_name 
+    print("Attempting to create an exposure for Telescope: ", telescope.name, telescope.aperture, ' m') 
+    print("                                 and Spectrograph: ", spectrograph.name, " in mode ", spectrograph.mode_name) 
 
     # obtain the interpolated effective areas for the input spectrum 
     aeff_interp = np.interp(wave, spectrograph.wave, spectrograph.aeff, left=0., right=0.) * (telescope.aperture/12.)**2 
@@ -79,10 +79,10 @@ sn_plot.yaxis.axis_label = 'S/N per resel'
 
 def update_data(attrname, old, new): # use this one for updating pysynphot tempaltes 
    
-    print "You have chosen template ", template.value, np.size(spec_dict[template.value].wave) 
-    print 'Selected grating = ', grating.value 
+    print("You have chosen template ", template.value, np.size(spec_dict[template.value].wave)) 
+    print('Selected grating = ', grating.value) 
     luvoir.aperture = aperture.value 
-    print 'Your telescope is set to', luvoir.aperture 
+    print('Your telescope is set to', luvoir.aperture) 
     lumos.set_mode(grating.value) 
 
     new_w0 = spec_dict[template.value].wave 
@@ -96,7 +96,7 @@ def update_data(attrname, old, new): # use this one for updating pysynphot tempa
     flux_cut = copy.deepcopy(new_f) 
     flux_cut[new_w < lumos.lambda_range[0]] = -999.  
     flux_cut[new_w > lumos.lambda_range[1]] = -999.  
-    print 'RANGE', lumos.lambda_range[0], lumos.lambda_range[1] 
+    print('RANGE', lumos.lambda_range[0], lumos.lambda_range[1]) 
 
     new_dict = {'w':new_w, 'f':new_f, 'w0':new_w0, 'f0':new_f0, 'flux_cut':flux_cut, 'sn':new_sn} 
     spectrum_template.data = new_dict 
@@ -107,7 +107,7 @@ def update_data(attrname, old, new): # use this one for updating pysynphot tempa
     flux_plot.y_range.end = 1.5*np.max(flux_cut)
     sn_plot.y_range.start = 0 
     sn_plot.y_range.end = 1.3*np.max(spectrum_template.data['sn'])
-    print 'MAX MAX', np.max(spectrum_template.data['f']), np.max(flux_cut) 
+    print('MAX MAX', np.max(spectrum_template.data['f']), np.max(flux_cut)) 
 
     instrument_info.data['wave'] = lumos.wave 
     instrument_info.data['bef'] = lumos.bef  

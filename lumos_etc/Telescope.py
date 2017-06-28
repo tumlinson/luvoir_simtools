@@ -1,6 +1,5 @@
-
 # define a telescope class 
-
+from __future__ import print_function
 import numpy as np 
 import os 
 from astropy.io import ascii 
@@ -66,7 +65,7 @@ class Spectrograph():
 
         self.mode_names = mode_name 
         if 'G120M' in mode_name:
-            print 'Setting the spectrograph to mode: ', mode_name 
+            print('Setting the spectrograph to mode: ', mode_name) 
             self.bef = self.lumos_table['Med_Res_BEF'] 
             self.delta_lambda = self.wave / 30000. 
             self.lambda_range = np.array([1000., 1425.]) 
@@ -74,7 +73,7 @@ class Spectrograph():
             self.R = 30000. 
           
         if 'G150M' in mode_name: 
-            print 'Setting the spectrograph to mode: ', mode_name 
+            print('Setting the spectrograph to mode: ', mode_name) 
             self.bef = self.lumos_table['Med_Res_BEF'] 
             self.delta_lambda = self.wave / 30000. 
             self.lambda_range = np.array([1225., 1600.]) 
@@ -82,7 +81,7 @@ class Spectrograph():
             self.R = 30000. 
           
         if 'G180M' in mode_name: 
-            print 'Setting the spectrograph to mode: ', mode_name 
+            print('Setting the spectrograph to mode: ', mode_name) 
             self.bef = self.lumos_table['Med_Res_BEF'] 
             self.delta_lambda = self.wave / 30000. 
             self.lambda_range = np.array([1550., 1900.]) 
@@ -90,7 +89,7 @@ class Spectrograph():
             self.R = 30000. 
           
         if 'G155L' in mode_name: 
-            print 'Setting the spectrograph to mode: ', mode_name 
+            print('Setting the spectrograph to mode: ', mode_name) 
             self.bef = self.lumos_table['Low_Res_BEF'] 
             self.delta_lambda = self.wave / 5000. 
             self.lambda_range = np.array([1000., 2000.]) 
@@ -98,7 +97,7 @@ class Spectrograph():
             self.R = 5000.  
 
         if 'G145LL' in mode_name: 
-            print 'Setting the spectrograph to mode: ', mode_name 
+            print('Setting the spectrograph to mode: ', mode_name) 
             self.bef = self.lumos_table['LL_mode_BEF'] 
             self.delta_lambda = self.wave / 500. 
             self.lambda_range = np.array([900., 2000.]) 

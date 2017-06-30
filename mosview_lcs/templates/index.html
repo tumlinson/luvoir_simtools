@@ -34,7 +34,7 @@
             padding: 0;
             border: 0;
             font-size: 100%;
-            font: inherit;
+            
             vertical-align: baseline;
           }
 
@@ -94,15 +94,18 @@
 
           /* Bokeh Root Overrides*/
           .bk-root {
-            background-color: #eee;
+            background-color: rgba(0,0,0,0);
             overflow: auto;
             padding: 20px 0px;
           }
 
           /*Bokeh Bootstrap Tabs Override*/
           .bk-root .bk-bs-nav-tabs{
+            background-color: #fff;
             border: none;
+            font-family: Garamond, Baskerville, "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif;
             margin: 0px;
+            padding: 0 10px; 
           }
           .bk-root .bk-bs-nav-tabs> li {
             margin: 0 2px 0 0;
@@ -142,11 +145,21 @@
             color: #404040;
           }
           .bk-bs-tab-content {
-            margin-top: -4px;
             background-color: #fff;
             border: 0;
             border-top: 1px solid #eee;
+            font-family: Garamond, Baskerville, "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif;
+            margin-top: -4px;
             padding: 15px 0;
+            overflow: auto;
+          }
+
+          .bk-bs-tab-content p {
+            margin-bottom: 4px;
+          }
+
+          .bk-markup {
+            padding: 0 15px;
           }
           
           .bk-root .bk-ui-state-default, .bk-root .bk-ui-widget-content .bk-ui-state-default, .bk-root .bk-ui-widget-header .bk-ui-state-default {

@@ -34,6 +34,9 @@ plot1.image_url(url=["http://www.jt-astro.science/hs-2014-04-a-print.jpg"], x=[-
 #plot1.image_url(url=["http://farm9.staticflickr.com/8238/8416833561_a5e096d251_o.jpg"], x=[-50], y=[50], w=100, h=100)
 plot1.x_range = Range1d(-75, 75, bounds=(-75, 75))
 plot1.y_range = Range1d(-50, 50, bounds=(-50, 50))
+plot1.background_fill_color = "black"
+plot1.background_fill_alpha = 1.0
+plot1.border_fill_color = "black"
 shutters = plot1.square('x', 'y', source=shutter_positions,
                         fill_color='yellow', fill_alpha=0.2, line_color=None, size=20, name="my_shutters")
 shutters.selection_glyph = Square(fill_alpha=0.5, fill_color="green", line_color='green', line_width=3)
@@ -70,11 +73,14 @@ plot2.title.align = 'center'
 plot2.background_fill_alpha = 0.5
 plot2.yaxis.axis_label = 'Max Outflow Velocity [km/s]'
 plot2.xaxis.axis_label = 'log(Cluster Mass)'
-plot2.xaxis.axis_line_color = 'black'
-plot2.yaxis.axis_line_color = 'black'
-plot2.border_fill_color = "white"
+plot2.xaxis.axis_line_color = 'white'
+plot2.yaxis.major_label_text_color = "white"
+plot2.xaxis.major_label_text_color = "white"
+plot2.xaxis.axis_label_text_color = 'white' 
+plot2.yaxis.axis_label_text_color = 'white' 
+plot2.yaxis.axis_line_color = 'white'
+plot2.border_fill_color = "black"
 plot2.min_border_left = 100
-
 
 cluster_points = plot2.square('mass', 'vmax', source=shutter_positions, size=15, color='grey', line_color=None,
                               fill_alpha=0.1)

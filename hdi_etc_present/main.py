@@ -58,9 +58,7 @@ snr_plot = Figure(plot_height=400, plot_width=800,
               x_range=[120, 2300], y_range=[0, 40], toolbar_location='right')
 snr_plot.x_range = Range1d(100, 2300, bounds=(120, 2300)) 
 snr_plot.add_tools(hover)
-snr_plot.background_fill_color = "beige"
-snr_plot.background_fill_alpha = 0.5
-snr_plot.yaxis.axis_label = 'SNR'
+snr_plot.yaxis.axis_label = 'Signal-to-Noise Ratio'
 snr_plot.xaxis.axis_label = 'Wavelength (nm)'
 snr_plot.text(5500, 20, text=['V'], text_align='center', text_color='red')
 
@@ -171,7 +169,7 @@ controls_tab = Panel(child=controls, title='Controls')
 help_tab = Panel(child=Div(text = h.help()), title='Info')
 inputs = Tabs(tabs=[ controls_tab, help_tab]) 
 
-plots = Tabs(tabs=[ Panel(child=snr_plot, title='SNR',width=800), Panel(child=sed_plot, title='SED',width=800)]) 
+plots = Tabs(tabs=[ Panel(child=snr_plot, title='SNR',width=100), Panel(child=sed_plot, title='SED',width=100)]) 
 
 # Set up layouts and add to document
 curdoc().add_root(row(children=[inputs, plots])) 

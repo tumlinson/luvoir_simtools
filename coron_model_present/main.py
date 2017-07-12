@@ -162,9 +162,9 @@ exp_plot = Figure(plot_height=500, plot_width=750,
                   toolbar_location='right', x_range=[0.2, 3.0], y_range=[1e-3, 1e10],
                   y_axis_type="log")
 
-snr_plot.background_fill_color = "beige"
-snr_plot.background_fill_alpha = 0.5
-snr_plot.yaxis.axis_label='F_p/F_s (x10^9)' 
+snr_plot.background_fill_color = "white"
+snr_plot.background_fill_alpha = 0.02
+snr_plot.yaxis.axis_label='Relative Flux' 
 snr_plot.xaxis.axis_label='Wavelength [micron]'
 snr_plot.title.text = 'Planet Spectrum: Earth' #initial spectrum is Earth
 
@@ -183,16 +183,7 @@ exp_plot.line('lam','DtSNR',source=expcompare,line_width=2.0, color="navy", alph
 exp_plot.line('lam','DtSNR',source=expplanet,line_width=2.0, color="darkgreen", alpha=0.7)
 
 #text on plot
-glyph = Text(x=0.25, y=snr_ymin_*0.95, text="label", text_font_size='9pt', text_font_style='bold', text_color='blue')
-#attempting to outline the text here for ease of visibility... 
-glyph2 = Text(x=0.245, y=snr_ymin_*0.95, text="label", text_font_size='9pt', text_font_style='bold', text_color='white')
-glyph3 = Text(x=0.25, y=snr_ymin_*0.935, text="label", text_font_size='9pt', text_font_style='bold', text_color='white')
-glyph4 = Text(x=0.25, y=snr_ymin_*0.965, text="label", text_font_size='9pt', text_font_style='bold', text_color='white')
-glyph5 = Text(x=0.255, y=snr_ymin_*0.95, text="label", text_font_size='9pt', text_font_style='bold', text_color='white')
-snr_plot.add_glyph(textlabel, glyph2)
-snr_plot.add_glyph(textlabel, glyph3)
-snr_plot.add_glyph(textlabel, glyph4)
-snr_plot.add_glyph(textlabel, glyph5)
+glyph = Text(x=0.25, y=snr_ymin_*0.95, text="label", text_font_size='9pt', text_font_style='bold', text_color='yellow')
 snr_plot.add_glyph(textlabel, glyph)
 
 #hovertool
@@ -1394,7 +1385,7 @@ template = Select(title="Planet Spectrum", value="Earth", options=["Earth",  "Ar
 comparison = Select(title="Show comparison spectrum?", value ="none", options=["none", "Earth",  "Archean Earth", "Hazy Archean Earth", "1% PAL O2 Proterozoic Earth", "0.1% PAL O2 Proterozoic Earth","Venus", "Early Mars", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune",'----','Warm Neptune at 2 AU', 'Warm Neptune w/o Clouds at 1 AU', 'Warm Neptune w/ Clouds at 1 AU','Warm Jupiter at 0.8 AU', 'Warm Jupiter at 2 AU', "False O2 Planet (F2V star)", '-----', 'Proxima Cen b 10 bar 95% O2 dry', 'Proxima Cen b 10 bar 95% O2 wet', 'Proxima Cen b 10 bar O2-CO2', 'Proxima Cen b 90 bar O2-CO2', 'Proxima Cen b 90 bar Venus', 'Proxima Cen b 10 bar Venus', 'Proxima Cen b CO2/CO/O2 dry', 'Proxima Cen b Earth', 'Proxima Cen b Archean Earth', 'Proxima Cen b hazy Archean Earth'])
 
 
-oo = column(children=[Div(text="""Choose telescope integration time per coronagraphic bandpass, mirror diameter, spectrograph resolution for UV-VIS-NIR channels, telescope temperature, and whether to turn on a ground-based simulator.""") , exptime, diameter, resolution_UV, resolution, resolution_NIR, temperature, ground_based]) 
+oo = column(children=[Div(text="""Choose telescope integration time per coronagraphic bandpass, mirror diameter, spectrograph resolution for UV-VIS-NIR channels, telescope temperature, and whether to turn on a ground-based simulator.""") , exptime, diameter, resolution]) 
 pp = column(children=[template, comparison, distance, radius, semimajor, exozodi]) 
 qq = column(children=[instruction0, text_input, instruction1, format_button_group, instruction2, link_box])
 ii = column(children=[Div(text="""Choose the scaling factor for the inner working angle (IWA), the outer working angle (OWA), and the maximum length of time for a single exposure.<br><br>"""), inner, outer,  dtmax])
@@ -1422,7 +1413,7 @@ for gg in [ground_based]:
     gg.on_change('value', update_data)
 
 
-inputs = Tabs(tabs=[ planet_tab, observation_tab, instrument_tab, time_tab, download_tab, info_tab ])
+inputs = Tabs(tabs=[ planet_tab, observation_tab])
 
-curdoc().add_root(row(inputs, ptabs)) 
+curdoc().add_root(row(inputs, snr_plot)) 
 curdoc().add_root(source)

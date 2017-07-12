@@ -3,26 +3,16 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <style>
-            @import url(https://fonts.googleapis.com/css?family=PT+Serif);
-            body {
-              font-family: 'PT Serif';
-              -webkit-font-smoothing: antialiased;
-              text-rendering: optimizeLegibility;
-              color: #000;
-              background: #FFFFFF;   
-             }
-		h1.text-muted {
-		    text-align: center;
-		}
-		h2.text-muted {
-		    text-align: center;
-		}
-        </style>
         <meta charset="utf-8">
         <title>LUVOIR Multiplanet Yields</title>
         {{ bokeh_css }}
         {{ bokeh_js }}
+
+        <style>
+         {% include 'styles.css' %}
+        </style>
+
+ 
         <style>
 .bk-root .bk-widget .bk-slider-horizontal {
   width: 93%;

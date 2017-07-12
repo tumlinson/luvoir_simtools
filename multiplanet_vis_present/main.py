@@ -119,17 +119,18 @@ hist_plot = Figure(plot_height=400, plot_width=480, tools="reset,save,tap", outl
                 x_range=[-0.1,3], y_range=[0,300], toolbar_location='below', x_axis_type = None, 
                 title='Expected Total Yield in One Year Survey') 
 hist_plot.title.text_font_size = '14pt'
-hist_plot.background_fill_color = "white"
+hist_plot.title.text_color='white' 
+hist_plot.background_fill_color = "black"
 hist_plot.background_fill_alpha = 1.0
-hist_plot.yaxis.axis_label = 'X'
+hist_plot.yaxis.axis_label = 'Yield'
 hist_plot.yaxis.axis_label_text_font= 'PT Serif' 
 hist_plot.yaxis.major_label_text_font = 'PT Serif' 
-hist_plot.xaxis.axis_label = 'Y'
+hist_plot.xaxis.axis_label = ' '
 hist_plot.xaxis.axis_line_width = 2
 hist_plot.yaxis.axis_line_width = 2
 hist_plot.xaxis.axis_line_color = 'black'
 hist_plot.yaxis.axis_line_color = 'black'
-hist_plot.border_fill_color = "white"
+hist_plot.border_fill_color = "black"
 hist_plot.min_border_left = 0
 hist_plot.image_url(url=["http://jt-astro.science/planets.jpg"], x=[-0.05], y=[305], w=[3.0], h=[305])
 hist_plot.text([0.45], [280], ['Rocky'], text_align='center') 
@@ -284,7 +285,7 @@ plot2_tab = Panel(child=plot2, title='Star', width=800, height=800)
 input_tabs = Tabs(tabs=[control_tab,info_tab,eta_tab], width=450)  
 inputs = Column(hist_plot, input_tabs) 
 plot_tabs = Tabs(tabs=[plot1_tab, plot2_tab], width=800)  
-rowrow =  Row(inputs, plot_tabs)  
+rowrow =  Row(inputs, plot1)  
 
 curdoc().add_root(rowrow) # Set up layouts and add to document
 curdoc().add_root(source) 

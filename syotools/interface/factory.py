@@ -10,10 +10,8 @@ from bokeh.plotting import Figure
 from bokeh.models import ColumnDataSource, HoverTool, Range1d
 from bokeh.models.callbacks import CustomJS
 from bokeh.models.widgets import (Slider, Tabs, Div, Panel, Select, TextInput,
-                                  Button)
+                                  Button, Toggle)
 from bokeh.io import curdoc
-
-from .fileinput import FileInput
 
 mappings = {'CustomJS': CustomJS,
             'Range1d': Range1d,
@@ -28,7 +26,7 @@ mappings = {'CustomJS': CustomJS,
             'TextInput': TextInput,
             'Button': Button,
             'gridplot': gridplot,
-            'FileInput': FileInput
+            'Toggle': Toggle
             }
 
 sequences = {'column': column,

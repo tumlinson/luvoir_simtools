@@ -1,3 +1,4 @@
+# Plot ranges
 - !Range1d: &snr_xrange
     ref: "snr_xrange"
     start: 100
@@ -8,10 +9,12 @@
     start: 100
     end: 2300
     bounds: !!python/tuple [120, 2300]
+# Hover Tooltip
 - !HoverTool: &hover
     ref: "hover"
     point_policy: "snap_to_data"
     tooltips: !self.hover_tooltip
+#Data sources
 - !ColumnDataSource: &source_blue
     ref: "source_blue"
     data:
@@ -40,11 +43,13 @@
     data:
         value: []
     on_change: ['data', !self.controller ]
+#In-browser callback to allow for on_release updates instead of instantaneous
 - !CustomJS: &callback
     ref: "js_callback"
     args:
         source: *dummy_source
     code: "\n    source.data = { value: [cb_obj.value] }\n"
+#Inputs (sliders, dropdowns, etc.)
 - !Slider: &ap_slider
     ref: "ap_slider"
     title: "Aperture (meters)"
@@ -70,6 +75,7 @@
     value: "Flat (AB)"
     options: !self.template_options
     on_change: ['value', !self.controller ]
+#Figures
 - !Figure: &snr_figure
     ref: "snr_figure"
     x_range: *snr_xrange
@@ -97,6 +103,39 @@
     x_axis_label: 'Wavelength (nm)'
     elements:
         - {'kind': 'line','source': *spectrum_template, 'line_color': 'orange'}
+#Save tab
+- !TextInput: &user_prefix
+    ref: "user_prefix"
+    value: "aaa"
+    title: " "
+- !Button: &save_button
+    ref: "save_button"
+    label: "Save"
+    on_click: !self.save
+- !Toggle: &update_save
+    ref: "update_save"
+    label: "Update previous save"
+    on_click: !self.update_toggle
+    active: false
+    disabled: true
+    button_type: "success"
+- !Div: &save_message
+    ref: "save_message"
+    text: " "
+#Load tab
+- !TextInput: &load_filename
+    ref: "load_filename"
+    value: ""
+    placeholder: "Please enter a calculation ID to load."
+    title: " "
+- !Button: &load_button
+    ref: "load_button"
+    label: "Load"
+    on_click: !self.load
+- !Div: &load_message
+    ref: "load_message"
+    text: " "
+#Document structure
 - !Document:
     - !row:
         - !Tabs:
@@ -115,6 +154,25 @@
                 child: 
                     !Div:
                         text: !self.help_text
+            - !Panel:
+                title: 'Save'
+                child:
+                    !column:
+                        - !Div:
+                            text: "Enter a prefix (at least 3 letters) to use for your calculation ID."
+                        - *user_prefix
+                        - *save_button
+                        - *update_save
+                        - *save_message
+            - !Panel:
+                title: 'Load'
+                child:
+                    !column:
+                        - !Div:
+                            text: "Enter a calculation ID to load."
+                        - *load_filename
+                        - *load_button
+                        - *load_message
         - !Tabs:
             tabs:
             - !Panel:

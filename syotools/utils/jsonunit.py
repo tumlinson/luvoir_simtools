@@ -11,6 +11,8 @@ from __future__ import (print_function, division, absolute_import, with_statemen
 import astropy.units as u
 import numpy as np
 
+u.magnitude_zero_points.enable()
+
 class JsonUnit(object):
     """
     A quick and dirty solution for making units storable via JSON. This is
@@ -44,7 +46,7 @@ class JsonUnit(object):
             return value
     
     def _grab_unit(self, unit):
-        if isinstance(unit, u.Unit):
+        if isinstance(unit, (u.UnitBase, u.FunctionUnitBase)):
             return unit.to_string()
         return unit
     

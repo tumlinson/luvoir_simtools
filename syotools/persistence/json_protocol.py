@@ -5,8 +5,8 @@ Created on Tue Apr 25 11:43:22 2017
 @author: gkanarek
 """
 
-from __future__ import (print_function, division, absolute_import, with_statement,
-                        nested_scopes, generators)
+from __future__ import (print_function, division, absolute_import, 
+                        with_statement, nested_scopes, generators)
 
 #Protocols:
 import json
@@ -57,45 +57,68 @@ class JSON(Protocol):
         if "JsonUnit" in entry:
             return JsonUnit.decode_json(entry)
     
-    def load(self, model_class, jsonfile):
+    def load(self, model_class, source):
         """
-        Load a model profile from a json file. This is a very basic
-        persistence model, which can absolutely be made more sophisticated.
+        Load a model profile from a json file (by default) or string. This is 
+        a very basic persistence model, which can absolutely be made more 
+        sophisticated.
         
         The only difference from standard JSON is that we want to parse each
-        attribute through the protocol decoder. 
+        attribute through the protocol decoder.
         """
-    
-        profile = {}
     
         try:
-            with open(jsonfile) as f:
+            with open(source) as f:
                 profile_dict = json.load(f)
-            
-            #Reconstruct the profile
-            for attr, entry in profile_dict.items():
-                profile[attr] = self.decode(attr, entry)
-            
         except FileNotFoundError:
-            print("File {} not found; using default profile.".format(jsonfile))
-        except NotImplementedError:
-            print("This protocol is not implemented; using default profile.")
+            print("File {} not found; using default profile.".format(source))
+        
+        return self.create_from_dict(profile_dict)
             
-        return model_class(**profile)
+    def save(self, model, destination):
+        """
+        Store a model profile into a json file. To handle attributes with 
+        units, we'll pass everything through the encoder.
+        
+        This is a very basic persistence model, which can absolutely be made 
+        more sophisticated.
+        """
+        
+        profile = self.encode_to_dict(model)
 
-    def save(self, model, jsonfile):
+        with open(destination, 'w') as f:
+            json.dump(f, profile, sort_keys=True, indent=4)
+    
+    def encode_to_dict(self, model):
         """
-        Store a model profile into a json file. This is a very basic
-        persistence model, which can absolutely be made more sophisticated.
-        
-        To handle units, we'll pass everything through the encoder.
+        Store a model profile as a dictionary, which can be saved in a file.
         """
-        
         profile = {}
         
         for attr in model._tracked_attributes:
             val = getattr(model, attr)
             profile[attr] = self.encode(val)
         
-        with open(jsonfile, 'w') as f:
-            json.dump(f, profile, sort_keys=True, indent=4)
+        return profile
+    
+    def create_from_dict(self, model_class, profile_dict):
+        """
+        Create a model from a profile dictionary (presumably stored in a file).
+        """
+        profile = {}
+        
+        try:
+            #Reconstruct the profile
+            for attr, entry in profile_dict.items():
+                profile[attr] = self.decode(attr, entry)
+        except NotImplementedError:
+            print("This protocol is not implemented; using default profile.")
+            profile = {}
+        except json.JSONDecodeError:
+            print("Unable to decode source; using default profile.")
+            profile = {}
+        
+        return model_class(**profile)
+            
+        
+        

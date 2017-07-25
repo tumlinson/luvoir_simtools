@@ -47,6 +47,8 @@ class PersistentModel(object):
         handled in the specific model subclass.
         """
         
+        self._tracked_attributes = []
+        
         #First, load defaults, overwriting with anything specifically set in
         #the instantiation call.
         for attr, val in self._default_model.items():
@@ -84,20 +86,41 @@ class PersistentModel(object):
         else:
             print("Persistence protocol not recognized; remaining with {}".format(self._current_protocol.name()))
             
-    def save(self, jsonfile):
+    def save(self, destination):
         """
-        Use the current persistence protocol to save the model profile.
+        Use the current persistence protocol to save the model profile to a 
+        file.
         """
         persistence = self._protocol_registry[self._current_protocol]
-        persistence.save(self, jsonfile)
+        return persistence.save(self, destination)
     
-    def load(self, jsonfile):
+    def load(self, source):
         """
         Use the current persistence protocol to load parameters from a model
         profile.
         """
         persistence = self._protocol_registry[self._current_protocol]
-        new_model = persistence.load(self.__cls__, jsonfile)
+        new_model = persistence.load(self.__cls__, source)
+        new_model._protocol_registry = self._protocol_registry
+        new_model._current_protocol = self._current_protocol
+        self = new_model
+        
+    def encode(self):
+        """
+        Use the current persistence protocol to generate a dictionary of 
+        parameters.
+        """
+        
+        persistence = self._protocol_registry[self._current_protocol]
+        return persistence.encode_to_dict(self)
+    
+    def decode(self, profile_dict):
+        """
+        Use the current persistence protocol to update this model's parameters
+        from a profile dictionary.
+        """
+        persistence = self._protocol_registry[self._current_protocol]
+        new_model = persistence.create_from_dict(self.__class__, profile_dict)
         new_model._protocol_registry = self._protocol_registry
         new_model._current_protocol = self._current_protocol
         self = new_model

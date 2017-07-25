@@ -4,15 +4,17 @@ Created on Wed Oct 19 12:43:00 2016
 
 @author: gkanarek, tumlinson
 """
-from __future__ import (print_function, division, absolute_import, with_statement,
-                        nested_scopes, generators)
+from __future__ import (print_function, division, absolute_import, 
+                        with_statement, nested_scopes, generators)
 
 import yaml
 import os
+import json
+from random import sample
+from string import digits, ascii_letters
 
 #Import the constructor function factories
 from syotools.interface import factory
-
 
 class SYOParserError(Exception):
     """
@@ -40,6 +42,13 @@ class SYOTool(object):
     figure_constructor = factory.figure_constructor
     document_constructor = factory.document_constructor
     
+    #Attributes required for saving calculations
+    tool_prefix = None #must be set by the subclass
+    save_ext = '.json'
+    save_dir = "saves"
+    save_models = [] #must be set by the subclass
+    save_params = [] #must be set by the subclass
+        
     def self_constructor(self, loader, tag_suffix, node):
         """
         A multi_constructor for `!self` tag in the interface file.
@@ -148,3 +157,92 @@ class SYOTool(object):
         #(and self.document, for the document)
         
         self.full_stream = list(yaml.load_all(interface))
+    
+    def validate_filename(self, savefile="", overwrite=False):
+        if not self.tool_prefix:
+            raise NotImplementedError("Tool prefix identifier required to save calculations")
+        
+        if not hasattr(self, 'user_prefix') or not self.user_prefix:
+            raise NotImplementedError("User prefix identifier required to save calculations")
+        
+        if not savefile:
+            postfix = ''.join(sample(digits + ascii_letters, 8))
+            savefile = "{}.{}.{}".format(self.user_prefix, self.tool_prefix, 
+                                            postfix)
+            testfile = savefile + self.save_ext
+            
+        while not overwrite and os.path.exists(os.path.join(self.save_dir, 
+                                                            testfile)):
+            postfix = sample(digits + ascii_letters, 8)
+            savefile = "{}.{}.{}".format(self.user_prefix, self.tool_prefix, 
+                                            postfix)
+            testfile = savefile + self.save_ext
+        
+        return savefile
+    
+    def save_file(self, savefile="", overwrite=False):
+        """
+        Save the relevant models and parameters to a file.
+        """
+            
+        if (not self.save_params and not self.save_models):
+            raise NotImplementedError("No models or parameters to save.")
+            
+        #Collect parameters and models we want to save
+        output = {}
+        output['params'] = {param: getattr(self, param) \
+                              for param in self.save_params}
+        output['models'] = {model: getattr(self, model).encode() \
+                              for model in self.save_models}
+        
+        #Make sure we have a workable filename
+        filename = self.validate_filename(savefile, overwrite=overwrite)
+        outfile = filename + self.save_ext
+        
+        try:
+            #Dump to the indicated file
+            with open(os.path.join(self.save_dir, outfile), 'w') as f:
+                json.dump(output, f)
+        except Exception as e:
+            print(e)
+            return ""
+        return filename
+    
+    def load_file(self, savefile):
+        """
+        Load the stored calculation's models and parameters. Returns 0 on a 
+        successful load; 1 means the savefile doesn't exist, 2 means there was
+        an error retrieving the save state; 3 means an error in loading param
+        and model values.
+        """
+        
+        if (not self.save_params and not self.save_models):
+            raise NotImplementedError("No models or parameters to load.")
+        
+        loadfile = os.path.join(self.save_dir, savefile + self.save_ext)
+        if not os.path.exists(loadfile):
+            return 1
+        
+        try:
+            #Load the savestate
+            with open(loadfile) as f:
+                state = json.load(f)
+        except Exception as e:
+            print(e)
+            return 2
+        try:
+            #Restore tracked parameters and models from the savestate (leave alone
+            #anything which is not included in the savestate)
+            for param in self.save_params:
+                if param in state['params']:
+                    setattr(self, param, state['params'][param])
+            
+            for model in self.save_models:
+                if model in state['models']:
+                    model_state = getattr(self, model)
+                    model_state.decode(state['models'][model])
+                    setattr(self, model, model_state)
+        except Exception as e:
+            print(e)
+            return 3
+        return 0

@@ -70,6 +70,11 @@ hover_tooltip = """
 
 class HDI_ETC(SYOTool):
     
+    tool_prefix = "hdi"
+    save_models = ["telescope", "camera"]
+    save_params = ["exptime", "renorm_magnitude", "spectrum_type", "aperture",
+                   "user_prefix"]
+    
     def tool_preinit(self):
         """
         Pre-initialize any required attributes for the interface.
@@ -97,12 +102,15 @@ class HDI_ETC(SYOTool):
         self.format_string = interface_format
         self.interface_file = os.path.join(script_dir, "interface.yaml")
         
+        #For saving calculations
+        self.current_savefile = ""
+        self.overwrite_save = False
+        
     #No post-initialization required
     tool_postinit = None
     
     def controller(self, attr, old, new):
         #Grab values from the inputs
-    
     
         self.exptime = pre_encode(self.refs["exp_slider"].value * u.hour)
         self.renorm_magnitude = pre_encode(self.refs["mag_slider"].value * u.mag('AB'))
@@ -176,6 +184,75 @@ class HDI_ETC(SYOTool):
     @property
     def _snr(self):
         return pre_decode(self.snr).value
+    
+    def update_toggle(self, active):
+        if active:
+            self.refs["user_prefix"].value = self.user_prefix
+            self.refs["user_prefix"].disabled = True
+            self.refs["save_button"].disabled = False
+            self.overwrite_save = True
+        else:
+            self.refs["user_prefix"].disabled = False
+            self.refs["save_button"].disabled = False
+            self.overwrite_save = False
+    
+    #Save and Load
+    def save(self):
+        """
+        Save the current calculations.
+        """
+        
+        #Check for an existing save file if we're overwriting
+        if self.overwrite_save and self.current_savefile:
+            self.current_savefile = self.save_file(self.current_savefile, 
+                                                   overwrite=True)
+        else:
+            #Set the user prefix from the bokeh interface
+            prefix = self.refs["user_prefix"].value
+            if not prefix.isalpha() or len(prefix) < 3:
+                self.refs["save_message"].text = "Please include a prefix of at "\
+                    "least 3 letters (and no other characters)."
+                return
+            self.user_prefix = prefix
+            #Save the file:
+            self.current_savefile = self.save_file()
+        
+        #Tell the user the filename or the error message.
+        if not self.current_savefile:
+            self.refs["save_message"].text = "Save unsuccessful; please " \
+                "contact the administrators."
+            return
+        
+        self.refs["save_message"].text = "This calculation was saved with " \
+            "the ID {}.".format(self.current_savefile)
+        self.refs["update_save"].disabled = False
+        
+    
+    def load(self):
+        # Get the filename from the bokeh interface
+        calcid = self.refs["load_filename"].value
+        
+        #Load the file
+        code = self.load_file(calcid)
+        
+        if not code: #everything went fine
+            #Update the interface
+            self.refs["update_save"].disabled = False
+            self.current_save = calcid
+            self.refs["exp_slider"].value = pre_decode(self.exptime).value
+            self.refs["mag_slider"].value = pre_decode(self.renorm_magnitude).value
+            self.refs["ap_slider"].value = pre_decode(self.aperture).value
+            temp = self.templates.index(self.spectrum_type)
+            self.refs["template_select"].value = self.template_options[temp]
+            self.controller(None, None, None)
+            
+        errmsg = ["Calculation ID {} loaded successfully.".format(calcid),
+                  "Calculation ID {} does not exist, please try again.".format(calcid),
+                  "Load unsuccessful; please contact the administrators.",
+                  "There was an error restoring the save state; please contact"
+                  " the administrators."][code]
+        self.refs["load_message"].text = errmsg
+        
     
 
 HDI_ETC()

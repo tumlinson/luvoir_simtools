@@ -74,6 +74,7 @@ class HDI_ETC(SYOTool):
     save_models = ["telescope", "camera"]
     save_params = ["exptime", "renorm_magnitude", "spectrum_type", "aperture",
                    "user_prefix"]
+    save_dir = os.path.join(os.environ['LUVOIR_SIMTOOLS_DIR'],'saves')
     
     def tool_preinit(self):
         """

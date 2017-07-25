@@ -1,5 +1,6 @@
 import pysynphot as S 
 import os 
+import numpy as np 
 from astropy.io import ascii
 
 def add_spectrum_to_library():
@@ -45,8 +46,21 @@ def add_spectrum_to_library():
 
     filename_star = os.path.join(os.environ['PYSYN_CDBS'], 'calspec', 'g191b2b_mod_010.fits')
     star = S.FileSpectrum(filename_star)
+    star_wave_sample = np.arange(2500) + 500. 
+    star_flux_sample = star.sample(star_wave_sample) 
+    sp = S.ArraySpectrum(wave=star_wave_sample, flux=star_flux_sample, waveunits='Angstrom', fluxunits='flam')
+    s = sp.renorm(21., 'abmag', S.ObsBandpass('galex,fuv'))
+    spec_dict['G191B2B (WD)'] = s
+
+    filename_star = os.path.join(os.environ['PYSYN_CDBS'], 'calspec', 'gd71_fos_003.fits')
+    star = S.FileSpectrum(filename_star)
     s = star.renorm(21., 'abmag', S.ObsBandpass('galex,fuv'))
-    spec_dict['G191B2B'] = s
+    spec_dict['GD71 (WD)'] = s
+
+    filename_star = os.path.join(os.environ['PYSYN_CDBS'], 'calspec', 'gd153_fos_003.fits')
+    star = S.FileSpectrum(filename_star)
+    s = star.renorm(21., 'abmag', S.ObsBandpass('galex,fuv'))
+    spec_dict['GD153 (WD)'] = s
 
     filename_star = os.path.join(os.environ['PYSYN_CDBS'], 'grid', 'kc96', 'starb1_template.fits')
     star = S.FileSpectrum(filename_star)

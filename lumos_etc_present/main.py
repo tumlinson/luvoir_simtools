@@ -114,7 +114,7 @@ source.on_change('data', update_data)
 
 # Set up widgets and their callbacks (faking the mouseup policy via "source" b/c functional callback doesn't do that. 
 template = Select(title="Template Spectrum", value="QSO", 
-                options=["Flat in F_lambda", "QSO", "10 Myr Starburst", "O5V Star", "G2V Star", "Classical T Tauri", "M1 Dwarf", "Orion Nebula", \
+                options=["Flat in F_lambda", "QSO", "10 Myr Starburst", "O5V Star", "G2V Star", "G191B2B (WD)", "GD71 (WD)", "GD153 (WD)", "Classical T Tauri", "M1 Dwarf", "Orion Nebula", \
                          "Starburst, No Dust", "Starburst, E(B-V) = 0.6", "Galaxy with f_esc, HI=1, HeI=1", "Galaxy with f_esc, HI=0.001, HeI=1"])
 
 redshift = Slider(title="Redshift", value=0.0, start=0., end=3.0, step=0.05, callback_policy='mouseup')

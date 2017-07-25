@@ -13,7 +13,7 @@ import Telescope as T
 import lumos_help as h 
 
 
-luvoir = T.Telescope(10., 280., 500.) # set up LUVOIR with 10 meters, T = 280, and diff limit at 500 nm 
+luvoir = T.Telescope(15., 280., 500.) # set up LUVOIR with 15 meters, T = 280, and diff limit at 500 nm 
 lumos = T.Spectrograph() # set up LUVOIR with 10 meters, T = 280, and diff limit at 500 nm 
 lumos.set_mode('G120M') 
 
@@ -22,7 +22,7 @@ def simulate_exposure(telescope, spectrograph, wave, flux, exptime):
     print("                                 and Spectrograph: ", spectrograph.name, " in mode ", spectrograph.mode_name) 
 
     # obtain the interpolated effective areas for the input spectrum 
-    aeff_interp = np.interp(wave, spectrograph.wave, spectrograph.aeff, left=0., right=0.) * (telescope.aperture/12.)**2 
+    aeff_interp = np.interp(wave, spectrograph.wave, spectrograph.aeff, left=0., right=0.) * (telescope.aperture/15.)**2 
     bef_interp = np.interp(wave, spectrograph.wave, spectrograph.bef, left=0., right=0.) # background to use 
     phot_energy = const.h.to('erg s').value * const.c.to('cm/s').value / (wave * 1e-8) # now convert from erg cm^-2 s^-1 A^-1  
     source_counts = flux / phot_energy * aeff_interp * (exptime*3600.) * (wave / lumos.R) 
@@ -118,7 +118,7 @@ source.on_change('data', update_data)
 
 # Set up widgets and their callbacks (faking the mouseup policy via "source" b/c functional callback doesn't do that. 
 template = Select(title="Template Spectrum", value="QSO", 
-                options=["Flat in F_lambda", "QSO", "10 Myr Starburst", "O5V Star", "G2V Star", "Classical T Tauri", "M1 Dwarf", "Orion Nebula", \
+                options=["Flat in F_lambda", "QSO", "10 Myr Starburst", "O5V Star", "G2V Star", "G191B2B (WD)", "GD71 (WD)", "GD153 (WD)", "Classical T Tauri", "M1 Dwarf", "Orion Nebula", \
                          "Starburst, No Dust", "Starburst, E(B-V) = 0.6", "Galaxy with f_esc, HI=1, HeI=1", "Galaxy with f_esc, HI=0.001, HeI=1"])
 
 redshift = Slider(title="Redshift", value=0.0, start=0., end=3.0, step=0.05, callback_policy='mouseup')
@@ -131,7 +131,7 @@ magnitude.callback = CustomJS(args=dict(source=source), code="""
 """)
 grating = Select(title="Grating / Setting", value="G150M (R = 30,000)", \
                  options=["G120M (R = 30,000)", "G150M (R = 30,000)", "G180M (R = 30,000)", "G155L (R = 5,000)", "G145LL (R = 500)"])
-aperture= Slider(title="Aperture (meters)", value=12., start=2., end=20.0, step=1.0, callback_policy='mouseup')
+aperture= Slider(title="Aperture (meters)", value=15., start=2., end=20.0, step=1.0, callback_policy='mouseup')
 aperture.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)

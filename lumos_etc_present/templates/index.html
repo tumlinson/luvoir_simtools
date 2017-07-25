@@ -1,0 +1,33 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        {{ bokeh_css }}
+        {{ bokeh_js }}
+        <title>LUMOS ETC</title>
+        <style>
+         {% include 'styles.css' %}
+        </style>
+    </head>
+
+
+    <div class="container", text-align: center>
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <!-- <li role="presentation" class="active"><a href="#">Home</a></li>
+            <li role="presentation"><a href="#">About</a></li>
+            <li role="presentation"><a href="#">Contact</a></li> --> 
+          </ul>
+        </nav>
+        <h1 class="text-muted"><a href="https://asd.gsfc.nasa.gov/luvoir/tools/">LUVOIR: The Large UltraViolet Optical Infrared Surveyor</a></h1>
+        <h2 class="text-muted">LUVOIR UV MultiObject Spectrograph (LUMOS) ETC</h2>
+      </div>
+
+    <body>
+        {{ plot_div|indent(8) }}
+        {{ plot_script|indent(8) }}
+    </body>
+</html>

@@ -88,6 +88,5 @@ def add_spectrum_to_library():
     flat = flatsp.renorm(21., 'abmag', S.ObsBandpass('galex,fuv'))
     spec_dict['Flat in F_lambda'] = flat  
 
-
     return spec_dict
 

@@ -32,6 +32,7 @@ def simulate_exposure(telescope, spectrograph, wave, flux, exptime):
 
     background_counts = bef_interp / phot_energy * aeff_interp * (exptime*3600.) * (wave / lumos.R) 
     signal_to_noise = source_counts / (source_counts + background_counts)** 0.5 
+    for sdf in signal_to_noise: print(sdf) 
     return signal_to_noise 
 
 ##### START FOR NEW WAY TO GET TEMPLATE SPECTRA 
@@ -56,7 +57,7 @@ instrument_info = ColumnDataSource(data=dict(wave=lumos.wave, bef=lumos.bef))
 flux_plot = Figure(plot_height=400, plot_width=800, 
               tools="crosshair,hover,pan,reset,save,box_zoom,wheel_zoom", outline_line_color='black', 
               x_range=[900, 2000], y_range=[0, 4e-16], toolbar_location='right') 
-flux_plot.x_range=Range1d(900,3000,bounds=(900,3000))
+flux_plot.x_range=Range1d(900,4000,bounds=(900,4000))
 flux_plot.y_range=Range1d(0,4e-16,bounds=(0,None)) 
 flux_plot.background_fill_color = "beige"
 flux_plot.background_fill_alpha = 0.5 
@@ -69,7 +70,7 @@ flux_plot.line('wave', 'bef', source=instrument_info, line_width=3, line_color='
 sn_plot = Figure(plot_height=400, plot_width=800, 
               tools="crosshair,hover,pan,reset,save,box_zoom,wheel_zoom", outline_line_color='black', 
               x_range=[900, 2000], y_range=[0, 40], toolbar_location='right')
-sn_plot.x_range=Range1d(900,3000,bounds=(900,3000))
+sn_plot.x_range=Range1d(900,4000,bounds=(900,4000))
 sn_plot.y_range=Range1d(0,40,bounds=(0,None)) 
 sn_plot.line('w', 'sn', source=spectrum_template, line_width=3, line_color='orange', line_alpha=0.7, legend='S/N per resel')
 sn_plot.background_fill_color = "beige"
@@ -101,7 +102,6 @@ def update_data(attrname, old, new): # use this one for updating pysynphot tempa
     new_dict = {'w':new_w, 'f':new_f, 'w0':new_w0, 'f0':new_f0, 'flux_cut':flux_cut, 'sn':new_sn} 
     spectrum_template.data = new_dict 
 
-
     # set the axes to autoscale appropriately 
     flux_plot.y_range.start = 0 
     flux_plot.y_range.end = 1.5*np.max(flux_cut)
@@ -129,8 +129,8 @@ magnitude = Slider(title="Magnitude [AB]", value=21., start=15., end=30.0, step=
 magnitude.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-grating = Select(title="Grating / Setting", value="G150M (R = 30,000)", \
-                 options=["G120M (R = 30,000)", "G150M (R = 30,000)", "G180M (R = 30,000)", "G155L (R = 5,000)", "G145LL (R = 500)"])
+grating = Select(title="Grating / Setting", value="G120M (R = 30,000)", \
+                 options=["G120M (R = 30,000)", "G150M (R = 30,000)", "G180M (R = 30,000)", "G155L (R = 5,000)", "G300M (R = 30000)"])
 aperture= Slider(title="Aperture (meters)", value=15., start=2., end=20.0, step=1.0, callback_policy='mouseup')
 aperture.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }

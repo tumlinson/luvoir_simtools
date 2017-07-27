@@ -49,58 +49,78 @@ class Spectrograph():
 
         cwd = os.getenv('LUVOIR_SIMTOOLS_DIR')
 
+        g120 = ascii.read(cwd+'/data/G120M_ETC.dat') 
         self.name = 'LUMOS' 
-        lumos = ascii.read(cwd+'/data/LUMOS_vals.dat') 
-        self.wave = lumos['Wave']
-        self.aeff = lumos['A_eff']
-        self.bef = lumos['Med_Res_BEF'] 
-        self.med_bef = lumos['Med_Res_BEF'] 
-        self.low_bef = lumos['Low_Res_BEF'] 
-        self.delta_lambda = self.wave / 30000. #  EXTREMELY ROUGH resel width 
-        self.lumos_table = lumos 
-        self.mode_name = 'G150M' 
+        self.wave = g120["Wavelength"] 
+        self.aeff = g120['A_Eff']
+        self.bef = g120["BEF"] * g120["XDisp_Width"] * (1. / (g120["Wavelength"][100] - g120["Wavelength"][99]) ) 
+        self.delta_lambda = self.wave / 30000. 
+        self.lumos_table = g120 
+        self.lambda_range = np.array([925., 1475.]) 
+        self.mode_name = 'G120M' 
         self.R = 30000. 
 
     def set_mode(self, mode_name): 
 
         self.mode_names = mode_name 
+        cwd = os.getenv('LUVOIR_SIMTOOLS_DIR')
+
         if 'G120M' in mode_name:
             print('Setting the spectrograph to mode: ', mode_name) 
-            self.bef = self.lumos_table['Med_Res_BEF'] 
+            g120 = ascii.read(cwd+'/data/G120M_ETC.dat') 
+            self.bef = g120["BEF"] * g120["XDisp_Width"] * (1. / (g120["Wavelength"][100] - g120["Wavelength"][99]) ) # last term is 1 / wave interval 
+            self.wave = g120["Wavelength"] 
             self.delta_lambda = self.wave / 30000. 
-            self.lambda_range = np.array([1000., 1425.]) 
+            self.lambda_range = np.array([900., 2500.]) 
             self.mode_name = 'G120M' 
             self.R = 30000. 
-          
+            self.aeff = g120["A_Eff"] 
+
         if 'G150M' in mode_name: 
             print('Setting the spectrograph to mode: ', mode_name) 
-            self.bef = self.lumos_table['Med_Res_BEF'] 
+            g150 = ascii.read(cwd+'/data/G150M_ETC.dat') 
+            self.wave = g150["Wavelength"] 
+            self.bef = g150["BEF"] * g150["XDisp_Width"] * (1. / (g150["Wavelength"][100] - g150["Wavelength"][99]) ) # last term is 1 / wave interval 
             self.delta_lambda = self.wave / 30000. 
-            self.lambda_range = np.array([1225., 1600.]) 
+            self.lambda_range = np.array([1234., 1765.]) 
             self.mode_name = 'G150M' 
             self.R = 30000. 
+            self.aeff = g150["A_Eff"] 
           
         if 'G180M' in mode_name: 
             print('Setting the spectrograph to mode: ', mode_name) 
-            self.bef = self.lumos_table['Med_Res_BEF'] 
+            g180 = ascii.read(cwd+'/data/G180M_ETC.dat') 
+            self.wave = g180["Wavelength"] 
+            self.bef = g180["BEF"] * g180["XDisp_Width"] * (1. / (g180["Wavelength"][100] - g180["Wavelength"][99]) ) # last term is 1 / wave interval 
             self.delta_lambda = self.wave / 30000. 
-            self.lambda_range = np.array([1550., 1900.]) 
+            self.lambda_range = np.array([1534., 2065.]) 
             self.mode_name = 'G180M' 
             self.R = 30000. 
+            self.aeff = g180["A_Eff"] 
           
         if 'G155L' in mode_name: 
             print('Setting the spectrograph to mode: ', mode_name) 
-            self.bef = self.lumos_table['Low_Res_BEF'] 
+            g155 = ascii.read(cwd+'/data/G155L_ETC.dat') 
+            self.wave = g155["Wavelength"] 
+            self.bef = g155["BEF"] * g155["XDisp_Width"] * (1. / (g155["Wavelength"][100] - g155["Wavelength"][99]) ) # last term is 1 / wave interval 
             self.delta_lambda = self.wave / 5000. 
-            self.lambda_range = np.array([1000., 2000.]) 
+            self.lambda_range = np.array([919., 2018.]) 
             self.mode_name = 'G155L' 
-            self.R = 5000.  
+            self.R = 5000. 
+            self.aeff = g155["A_Eff"] 
 
         if 'G145LL' in mode_name: 
+            print('Not supported yet') 
+
+        if 'G300M' in mode_name: 
             print('Setting the spectrograph to mode: ', mode_name) 
-            self.bef = self.lumos_table['LL_mode_BEF'] 
-            self.delta_lambda = self.wave / 500. 
-            self.lambda_range = np.array([900., 2000.]) 
-            self.mode_name = 'G145LL' 
-            self.R = 500. 
+            g300 = ascii.read(cwd+'/data/G300M_ETC.dat') 
+            self.wave = g300["Wavelength"] 
+            self.bef = g300["BEF"] * g300["XDisp_Width"] * (1. / (g300["Wavelength"][100] - g300["Wavelength"][99]) ) # last term is 1 / wave interval 
+            self.delta_lambda = self.wave / 30000. 
+            self.lambda_range = np.array([2000., 4000.]) 
+            self.mode_name = 'G300M' 
+            self.R = 30000. 
+            self.aeff = g300["A_Eff"] 
+
 

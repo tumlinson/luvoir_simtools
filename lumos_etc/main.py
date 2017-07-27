@@ -104,7 +104,7 @@ def update_data(attrname, old, new): # use this one for updating pysynphot tempa
 
     # set the axes to autoscale appropriately 
     flux_plot.y_range.start = 0 
-    flux_plot.y_range.end = 1.5*np.max(flux_cut)
+    flux_plot.y_range.end = 1.5*np.max(new_f0)
     sn_plot.y_range.start = 0 
     sn_plot.y_range.end = 1.3*np.max(spectrum_template.data['sn'])
     print('MAX MAX', np.max(spectrum_template.data['f']), np.max(flux_cut)) 

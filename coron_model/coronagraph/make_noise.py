@@ -1,6 +1,6 @@
 # Import dependent modules
 import numpy as np
-from .degrade_spec import degrade_spec
+from .degrade_spec import degrade_spec, downbin_spec
 from .convolve_spec import convolve_spec
 from .noise_routines import Fstar, Fplan, FpFs, cplan, czodi, cezodi, cspeck, cdark, cread, ctherm, ccic, f_airy
 import pdb

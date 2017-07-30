@@ -1,44 +1,62 @@
-''' A dead simple ETC for HDST 
-'''
-from __future__ import print_function
+#!/usr/bin/env python2
+"""
+Created on Tue Feb 14 14:39:33 2017
+
+@author: gkanarek
+"""
+
+from __future__ import (print_function, division, absolute_import, with_statement,
+                        nested_scopes, generators)
+
+import os#; os.environ['PYSYN_CDBS'] = os.path.expanduser("~/cdbs")
+
+script_dir = os.path.abspath(os.path.dirname(__file__))
+
 import numpy as np
-from bokeh.io import output_file, gridplot 
+import astropy.units as u
 
-import phot_compute_snr as phot_etc 
+from syotools import cdbs
 
-from bokeh.plotting import Figure
-from bokeh.resources import CDN
-from bokeh.embed import components, autoload_server 
-from bokeh.models import ColumnDataSource, HBox, HoverTool, Paragraph, Range1d 
-from bokeh.models.callbacks import CustomJS
-from bokeh.layouts import column, row, WidgetBox 
-from bokeh.models.widgets import Slider, Tabs, Div, Panel, Select 
-from bokeh.io import curdoc
-from bokeh.embed import file_html
+from pysynphot import ObsBandpass
 
-import Telescope as T 
-import hdi_help as h 
-import get_hdi_seds 
-import pysynphot as S 
+from syotools.models import Telescope, Camera
+from syotools.interface import SYOTool
+from syotools.spectra import SpectralLibrary
+from syotools.utils import pre_encode, pre_decode
 
-luvoir = T.Telescope(10., 280., 500.) # set up LUVOIR with 10 meters, T = 280, and diff limit at 500 nm 
-hdi = T.Camera()                     # and HDI camera with default bandpasses 
-hdi.set_pixel_sizes(luvoir) 
+#We're going to just use the default values for LUVOIR
+interface_format = """
+Line:
+    line_width: 3
+    line_alpha: 1.0
+Figure:
+    plot_height: 400
+    plot_width: 800
+    tools: "crosshair,pan,reset,save,box_zoom,wheel_zoom"
+    toolbar_location: "right"
+    background_fill_color: "beige"
+    background_fill_alpha: 0.5
+Circle:
+    fill_color: 'white'
+Slider:
+    callback_policy: 'mouseup'
+"""
 
-spec_dict = get_hdi_seds.add_spectrum_to_library() 
-template_to_start_with = 'Flat (AB)' 
-spec_dict[template_to_start_with].wave 
-spec_dict[template_to_start_with].flux # <---- these are the variables you need to make the plot 
-spec_dict[template_to_start_with].convert('abmag') 
+help_text = """
 
-# set up ColumnDataSources for main SNR plot 
-snr = phot_etc.compute_snr(luvoir, hdi, 1., 32.)
-source1 = ColumnDataSource(data=dict(x=hdi.pivotwave[2:-3], y=snr[2:-3], desc=hdi.bandnames[2:-3] ))
-source2 = ColumnDataSource(data=dict(x=hdi.pivotwave[0:2], y=snr[0:2], desc=hdi.bandnames[0:2]))
-source3 = ColumnDataSource(data=dict(x=hdi.pivotwave[-3:], y=snr[-3:], desc=hdi.bandnames[-3:]))
+      <div class="container"> 
+        <div class="col-lg-6">
+         <p>This is the basic ETC for photometry in multiband images. Choose your telescope aperture, exposure time, and magnitude normalization. The normalization is done in the V band (550 nm). 
+        <p> Given an aperture and magnitude, choose the exposure time that reaches your desired S/N.  
+        <p>To obtain limiting magnitudes given exposure time, set that time and then tune the magnitude to reach your desired limiting S/N.</p>
+        </div>
+        <div class="col-lg-6">
+          <p>The details of these calculations are <a href="http://jt-astro.science/luvoir_simtools/hdi_etc/SNR_equation.pdf" target="_blank"> here</a>. We assume that the pixel size in each band critically samples the telescope's diffraction limited PSF at the shortest wavelength in that channel. Thermal backgrounds are included for T = 280 K, which substantially affects the K band.</p>
+        </div>
+      </div>
+"""
 
-hover = HoverTool(point_policy="snap_to_data", 
-        tooltips="""
+hover_tooltip = """
         <div>
             <div>
                 <span style="font-size: 17px; font-weight: bold; color: #696">@desc band</span>
@@ -48,132 +66,195 @@ hover = HoverTool(point_policy="snap_to_data",
                 <span style="font-size: 15px; font-weight: bold; color: #696;">@y</span>
             </div>
         </div>
+"""
+
+class HDI_ETC(SYOTool):
+    
+    tool_prefix = "hdi"
+    save_models = ["telescope", "camera"]
+    save_params = ["exptime", "renorm_magnitude", "spectrum_type", "aperture",
+                   "user_prefix"]
+    save_dir = os.path.join(os.environ['LUVOIR_SIMTOOLS_DIR'],'saves')
+    
+    def tool_preinit(self):
         """
-    )
-
-
-# Set up plot
-snr_plot = Figure(plot_height=400, plot_width=800, 
-              tools="crosshair,pan,reset,save,box_zoom,wheel_zoom",
-              x_range=[120, 2300], y_range=[0, 40], toolbar_location='right')
-snr_plot.x_range = Range1d(100, 2300, bounds=(120, 2300)) 
-snr_plot.add_tools(hover)
-snr_plot.background_fill_color = "beige"
-snr_plot.background_fill_alpha = 0.5
-snr_plot.yaxis.axis_label = 'SNR'
-snr_plot.xaxis.axis_label = 'Wavelength (nm)'
-snr_plot.text(5500, 20, text=['V'], text_align='center', text_color='red')
-
-snr_plot.line('x', 'y', source=source1, line_width=3, line_alpha=1.0) 
-snr_plot.circle('x', 'y', source=source1, fill_color='white', line_color='blue', size=10)
+        Pre-initialize any required attributes for the interface.
+        """
+        #initialize engine objects
+        self.telescope = Telescope()
+        self.camera = Camera()
+        self.telescope.add_camera(self.camera)
+        
+        #set interface variables
+        self.templates = ['fab', 'bb', 'o5v', 'b5v', 'g2v', 'm2v', 'orion',
+                          'elliptical', 'sbc', 'starburst', 'ngc1068']
+        self.template_options = [SpectralLibrary[t] for t in self.templates]
+        self.help_text = help_text
+        self.hover_tooltip = hover_tooltip
+        
+        #set defaults
+        self.exptime = pre_encode(1.0 * u.hour)
+        self.renorm_magnitude = pre_encode(30.0 * u.mag('AB'))
+        self.aperture = pre_encode(12.0 * u.m)
+        self.spectrum_type = 'fab'
+        self.update_sed()
+        
+        #Formatting & interface stuff:
+        self.format_string = interface_format
+        self.interface_file = os.path.join(script_dir, "interface.yaml")
+        
+        #For saving calculations
+        self.current_savefile = ""
+        self.overwrite_save = False
+        
+    #No post-initialization required
+    tool_postinit = None
     
-snr_plot.line('x', 'y', source=source2, line_width=3, line_color='orange', line_alpha=1.0)
-snr_plot.circle('x', 'y', source=source2, fill_color='white', line_color='orange', size=8) 
+    def controller(self, attr, old, new):
+        #Grab values from the inputs
     
-snr_plot.line('x', 'y', source=source3, line_width=3, line_color='red', line_alpha=1.0)
-snr_plot.circle('x', 'y', source=source3, fill_color='white', line_color='red', size=8) 
+        self.exptime = pre_encode(self.refs["exp_slider"].value * u.hour)
+        self.renorm_magnitude = pre_encode(self.refs["mag_slider"].value * u.mag('AB'))
+        self.aperture = pre_encode(self.refs["ap_slider"].value * u.m)
+        temp = self.template_options.index(self.refs["template_select"].value)
+        self.spectrum_type = self.templates[temp]
+        
+        #Update the template SED based on new values
+        self.update_sed()
+        
+        snr = self._snr
+        pwave = self._pivotwave
+        
+        #Update the y ranges & data
+        self.refs["snr_figure"].y_range.start = 0
+        self.refs["snr_figure"].y_range.end = 1.3 * max(snr.max(), 5.)
+        self.refs["sed_figure"].y_range.start = self.spectrum_template.flux.min() + 5.
+        self.refs["sed_figure"].y_range.end = self.spectrum_template.flux.min() - 5.
+        self.refs["source_blue"].data = {'x': pwave[2:-3], 
+                                         'y': snr[2:-3],
+                                         'desc': self.camera.bandnames[2:-3]}
+        self.refs["source_orange"].data = {'x': pwave[:2], 
+                                           'y': snr[:2],
+                                           'desc': self.camera.bandnames[:2]}
+        self.refs["source_red"].data = {'x': pwave[-3:], 
+                                        'y': snr[-3:],
+                                        'desc': self.camera.bandnames[-3:]}
+        self.refs["spectrum_template"].data = {'x': self.template_wave,
+                                               'y': self.template_flux}
+        
+    def update_sed(self):
+        spectrum = SpectralLibrary.get(self.spectrum_type)
+        band = ObsBandpass('johnson,v')
+        band.convert('nm')
+        
+        renorm_mag = pre_decode(self.renorm_magnitude)
+        
+        new_spectrum = spectrum.renorm((renorm_mag + 2.5*u.mag('AB')).value,
+                                       'abmag', band)
+        new_spectrum.convert('nm')
+        new_spectrum.convert('abmag')
+        sed = new_spectrum.sample(self._pivotwave)
+        
+        if np.count_nonzero(~np.isfinite(new_spectrum.flux)):
+            print("Infinite values!")
 
-spectrum_template = ColumnDataSource(data=dict(w=spec_dict[template_to_start_with].wave, f=spec_dict[template_to_start_with].flux, \
-                                   w0=spec_dict[template_to_start_with].wave, f0=spec_dict[template_to_start_with].flux))
-
-sed_plot = Figure(plot_height=400, plot_width=800, 
-              tools="crosshair,pan,reset,save,box_zoom,wheel_zoom",
-              x_range=[120, 2300], y_range=[35, 21], toolbar_location='right')
-sed_plot.x_range = Range1d(100, 2300, bounds=(120, 2300)) 
-sed_plot.background_fill_color = "beige"
-sed_plot.background_fill_alpha = 0.5
-sed_plot.yaxis.axis_label = 'AB Mag'
-sed_plot.xaxis.axis_label = 'Wavelength (nm)'
-sed_plot.line('w','f',line_color='orange', line_width=3, source=spectrum_template, line_alpha=1.0)  
-
-
-
-
-def update_data(attrname, old, new):
-
-    print("You have chosen template ", template.value, np.size(spec_dict[template.value].wave)) 
-
-    luvoir.aperture = aperture.value 
-    hdi.set_pixel_sizes(luvoir) # adaptively set the pixel sizes 
-
-    #CHANGE THE SED TEMPLATE IN THE SED PLOT 
-    spectrum = spec_dict[template.value]
-    band = S.ObsBandpass('johnson,v')
-    band.convert('nm') 
-    print(spectrum.waveunits.name) 
-    ss = spectrum.renorm(magnitude.value+2.5, 'abmag', band) #### OH MY GOD WHAT A HACK!!!! 
-    print('Renorming to ', magnitude.value) 
-    new_w0 = ss.wave 
-    new_f0 = ss.flux 
-    new_w = np.array(new_w0) 
-    new_f = np.array(new_f0) 
-    spectrum_template.data = {'w':new_w, 'f':new_f, 'w0':new_w0, 'f0':new_f0} 
-
-    interp_mags = spec_dict[template.value]
-    mag_arr = np.array([1., 1., 1., 1., 1., 1., 1., 1., 1., 1.]) 
-    for pwave,index in zip(hdi.pivotwave,np.arange(10)): 
-       mag_arr[index] = ss.sample(pwave) 
-       print(index, pwave, ss.sample(pwave), mag_arr[index]) 
+        self.spectrum_template = new_spectrum
+        self.sed = pre_encode(sed * u.mag('AB'))
+        
+    @property
+    def snr(self):
+        self.telescope.aperture = self.aperture
+        sed = pre_decode(self.sed)
+        exptime = pre_decode(self.exptime)
+        out = self.camera.signal_to_noise(exptime, 3, sed, verbose=False)
+        return out #already serialized via JsonUnit
     
-    snr = phot_etc.compute_snr(luvoir, hdi, exptime.value, mag_arr)
+    @property
+    def template_wave(self):
+        return np.asarray(self.spectrum_template.wave)
     
-    print('SNR') 
-    print(mag_arr) 
-    print(snr) 
-    print('SNR') 
+    @property
+    def template_flux(self):
+        return np.asarray(self.spectrum_template.flux)
 
-    wave = hdi.pivotwave 
-    source1.data = dict(x=wave[2:-3], y=snr[2:-3], desc=hdi.bandnames[2:-3]) 
-    source2.data = dict(x=hdi.pivotwave[0:2], y=snr[0:2], desc=hdi.bandnames[0:2]) 
-    source3.data = dict(x=hdi.pivotwave[-3:], y=snr[-3:], desc=hdi.bandnames[-3:]) 
+    #Conversions to avoid Bokeh Server trying to serialize Quantities
+    @property
+    def _pivotwave(self):
+        return self.camera.recover('pivotwave').value
+    
+    @property
+    def _snr(self):
+        return pre_decode(self.snr).value
+    
+    def update_toggle(self, active):
+        if active:
+            self.refs["user_prefix"].value = self.user_prefix
+            self.refs["user_prefix"].disabled = True
+            self.refs["save_button"].disabled = False
+            self.overwrite_save = True
+        else:
+            self.refs["user_prefix"].disabled = False
+            self.refs["save_button"].disabled = False
+            self.overwrite_save = False
+    
+    #Save and Load
+    def save(self):
+        """
+        Save the current calculations.
+        """
+        
+        #Check for an existing save file if we're overwriting
+        if self.overwrite_save and self.current_savefile:
+            self.current_savefile = self.save_file(self.current_savefile, 
+                                                   overwrite=True)
+        else:
+            #Set the user prefix from the bokeh interface
+            prefix = self.refs["user_prefix"].value
+            if not prefix.isalpha() or len(prefix) < 3:
+                self.refs["save_message"].text = "Please include a prefix of at "\
+                    "least 3 letters (and no other characters)."
+                return
+            self.user_prefix = prefix
+            #Save the file:
+            self.current_savefile = self.save_file()
+        
+        #Tell the user the filename or the error message.
+        if not self.current_savefile:
+            self.refs["save_message"].text = "Save unsuccessful; please " \
+                "contact the administrators."
+            return
+        
+        self.refs["save_message"].text = "This calculation was saved with " \
+            "the ID {}.".format(self.current_savefile)
+        self.refs["update_save"].disabled = False
+        
+    
+    def load(self):
+        # Get the filename from the bokeh interface
+        calcid = self.refs["load_filename"].value
+        
+        #Load the file
+        code = self.load_file(calcid)
+        
+        if not code: #everything went fine
+            #Update the interface
+            self.refs["update_save"].disabled = False
+            self.current_save = calcid
+            self.refs["exp_slider"].value = pre_decode(self.exptime).value
+            self.refs["mag_slider"].value = pre_decode(self.renorm_magnitude).value
+            self.refs["ap_slider"].value = pre_decode(self.aperture).value
+            temp = self.templates.index(self.spectrum_type)
+            self.refs["template_select"].value = self.template_options[temp]
+            self.controller(None, None, None)
+            
+        errmsg = ["Calculation ID {} loaded successfully.".format(calcid),
+                  "Calculation ID {} does not exist, please try again.".format(calcid),
+                  "Load unsuccessful; please contact the administrators.",
+                  "There was an error restoring the save state; please contact"
+                  " the administrators."][code]
+        self.refs["load_message"].text = errmsg
+        
+    
 
-    snr_plot.y_range.start = 0
-    snr_plot.y_range.end = 1.3*np.max([np.max(snr),5.]) 
+HDI_ETC()
 
-    sed_plot.y_range.start = np.min(ss.flux)+5. 
-    sed_plot.y_range.end = np.min(ss.flux)-5. 
-
-
-def fake_function(attrname, old, new):
-    print("THIS IS JUST A FAKE CALLBACK FUNCTION", magnitude.value) 
-
-# fake source for managing callbacks 
-source = ColumnDataSource(data=dict(value=[]))
-source.on_change('data', update_data)
-
-# Set up widgets
-aperture= Slider(title="Aperture (meters)", value=12., start=2., end=20.0, step=1.0, tags=[4,5,6,6],callback_policy='mouseup') 
-aperture.callback = CustomJS(args=dict(source=source), code="""
-    source.data = { value: [cb_obj.value] }
-""")
-exptime = Slider(title="Exptime (hours)", value=1., start=0.1, end=10.0, step=0.1, callback_policy='mouseup')
-exptime.callback = CustomJS(args=dict(source=source), code="""
-    source.data = { value: [cb_obj.value] }
-""")
-magnitude = Slider(title="V Magnitude (AB)", value=30.0, start=20.0, end=35., callback_policy='mouseup') 
-magnitude.callback = CustomJS(args=dict(source=source), code="""
-    source.data = { value: [cb_obj.value] }
-""")
-template = Select(title="Template Spectrum", value="Flat (AB)", 
-                options=["Flat (AB)", "Blackbody (5000K)", "O5V Star", \
-                         "B5V Star", "G2V Star", "M2V Star", "Orion Nebula", "Elliptical Galaxy", "Sbc Galaxy", \
-                         "Starburst Galaxy", "NGC 1068"]) 
-#redshift = Slider(title="Redshift", value=0., start=0.0, end=1.0, step=0.1, callback_policy='mouseup')
-#redshift.callback = CustomJS(args=dict(source=source), code="""
-#    source.data = { value: [cb_obj.value] }
-#""")
-
-for w in [template]: # iterate on changes to parameters 
-    w.on_change('value', update_data)
-
-controls = WidgetBox(children=[aperture, exptime, magnitude, template ]) 
-controls_tab = Panel(child=controls, title='Controls')
-help_tab = Panel(child=Div(text = h.help()), title='Info')
-inputs = Tabs(tabs=[ controls_tab, help_tab]) 
-
-plots = Tabs(tabs=[ Panel(child=snr_plot, title='SNR',width=800), Panel(child=sed_plot, title='SED',width=800)]) 
-
-# Set up layouts and add to document
-curdoc().add_root(row(children=[inputs, plots])) 
-curdoc().add_root(source) 
-curdoc().add_root(source1) 

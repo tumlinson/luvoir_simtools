@@ -1,0 +1,185 @@
+# Plot ranges
+- !Range1d: &snr_xrange
+    ref: "snr_xrange"
+    start: 100
+    end: 2300
+    bounds: !!python/tuple [120, 2300]
+- !Range1d: &sed_xrange
+    ref: "sed_xrange"
+    start: 100
+    end: 2300
+    bounds: !!python/tuple [120, 2300]
+# Hover Tooltip
+- !HoverTool: &hover
+    ref: "hover"
+    point_policy: "snap_to_data"
+    tooltips: !self.hover_tooltip
+#Data sources
+- !ColumnDataSource: &source_blue
+    ref: "source_blue"
+    data:
+        x: !self._pivotwave[2:-3]
+        y: !self._snr[2:-3]
+        desc: !self.camera.bandnames[2:-3]
+- !ColumnDataSource: &source_orange
+    ref: "source_orange"
+    data:
+        x: !self._pivotwave[:2]
+        y: !self._snr[:2]
+        desc: !self.camera.bandnames[:2]
+- !ColumnDataSource: &source_red
+    ref: "source_red"
+    data:
+        x: !self._pivotwave[-3:]
+        y: !self._snr[-3:]
+        desc: !self.camera.bandnames[-3:]
+- !ColumnDataSource: &spectrum_template
+    ref: "spectrum_template"
+    data:
+        x: !self.template_wave
+        y: !self.template_flux
+- !ColumnDataSource: &dummy_source
+    ref: "dummy_source"
+    data:
+        value: []
+    on_change: ['data', !self.controller ]
+#In-browser callback to allow for on_release updates instead of instantaneous
+- !CustomJS: &callback
+    ref: "js_callback"
+    args:
+        source: *dummy_source
+    code: "\n    source.data = { value: [cb_obj.value] }\n"
+#Inputs (sliders, dropdowns, etc.)
+- !Slider: &ap_slider
+    ref: "ap_slider"
+    title: "Aperture (meters)"
+    value: 12.
+    range: !!python/tuple [2.0, 20.0, 1.0]
+    tags: [4, 5, 6, 6]
+    callback: *callback
+- !Slider: &exp_slider
+    ref: "exp_slider"
+    title: "Exptime (hours)"
+    value: 1.0
+    range: !!python/tuple [0.1, 10.0, 0.1]
+    callback: *callback
+- !Slider: &mag_slider
+    ref: "mag_slider"
+    title: "V Magnitude (AB)"
+    value: 30.0
+    range: !!python/tuple [20.0, 35.0, 0.1]
+    callback: *callback
+- !Select: &template_select
+    ref: "template_select"
+    title: "Template Spectrum"
+    value: "Flat (AB)"
+    options: !self.template_options
+    on_change: ['value', !self.controller ]
+#Figures
+- !Figure: &snr_figure
+    ref: "snr_figure"
+    x_range: *snr_xrange
+    y_range: !!python/tuple [0, 40]
+    y_axis_label: 'SNR'
+    x_axis_label: 'Wavelength (nm)'
+    add_tools: !!python/list [*hover]
+    text:
+        loc: !!python/tuple [5500, 20]
+        text: !!python/tuple ['V']
+        text_align: 'center'
+        text_color: 'red'
+    elements:
+        - {'kind': 'line', 'source': *source_blue, 'line_color': 'blue'}
+        - {'kind': 'circle', 'source': *source_blue, 'line_color': 'blue', 'size': 10}
+        - {'kind': 'line', 'source': *source_orange, 'line_color': 'orange'}
+        - {'kind': 'circle', 'source': *source_orange, 'line_color': 'orange', 'size': 8}
+        - {'kind': 'line', 'source': *source_red, 'line_color': 'red'}
+        - {'kind': 'circle', 'source': *source_red, 'line_color': 'red', 'size': 8}
+- !Figure: &sed_figure
+    ref: "sed_figure"
+    x_range: *sed_xrange
+    y_range: !!python/tuple [35, 21]
+    y_axis_label: 'AB Mag'
+    x_axis_label: 'Wavelength (nm)'
+    elements:
+        - {'kind': 'line','source': *spectrum_template, 'line_color': 'orange'}
+#Save tab
+- !TextInput: &user_prefix
+    ref: "user_prefix"
+    value: "aaa"
+    title: " "
+- !Button: &save_button
+    ref: "save_button"
+    label: "Save"
+    on_click: !self.save
+- !Toggle: &update_save
+    ref: "update_save"
+    label: "Update previous save"
+    on_click: !self.update_toggle
+    active: false
+    disabled: true
+    button_type: "success"
+- !Div: &save_message
+    ref: "save_message"
+    text: " "
+#Load tab
+- !TextInput: &load_filename
+    ref: "load_filename"
+    value: ""
+    placeholder: "Please enter a calculation ID to load."
+    title: " "
+- !Button: &load_button
+    ref: "load_button"
+    label: "Load"
+    on_click: !self.load
+- !Div: &load_message
+    ref: "load_message"
+    text: " "
+#Document structure
+- !Document:
+    - !row:
+        - !Tabs:
+            tabs: 
+            - !Panel:
+                title: 'Controls'
+                child: 
+                    !WidgetBox:
+                        children:
+                        - *ap_slider
+                        - *exp_slider
+                        - *mag_slider
+                        - *template_select
+            - !Panel:
+                title: 'Info'
+                child: 
+                    !Div:
+                        text: !self.help_text
+            - !Panel:
+                title: 'Save'
+                child:
+                    !column:
+                        - !Div:
+                            text: "Enter a prefix (at least 3 letters) to use for your calculation ID."
+                        - *user_prefix
+                        - *save_button
+                        - *update_save
+                        - *save_message
+            - !Panel:
+                title: 'Load'
+                child:
+                    !column:
+                        - !Div:
+                            text: "Enter a calculation ID to load."
+                        - *load_filename
+                        - *load_button
+                        - *load_message
+        - !Tabs:
+            tabs:
+            - !Panel:
+                title: "SNR"
+                width: 800
+                child: *snr_figure
+            - !Panel:
+                title: 'SED'
+                width: 800
+                child: *sed_figure

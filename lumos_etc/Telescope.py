@@ -110,7 +110,15 @@ class Spectrograph():
             self.aeff = g155["A_Eff"] 
 
         if 'G145LL' in mode_name: 
-            print('Not supported yet') 
+            print('Setting the spectrograph to mode: ', mode_name) 
+            g145 = ascii.read(cwd+'/data/G145LL_ETC.dat') 
+            self.wave = g145["Wavelength"] 
+            self.bef = g145["BEF"] * g145["XDisp_Width"] * (1. / (g145["Wavelength"][100] - g145["Wavelength"][99]) ) # last term is 1 / wave interval 
+            self.delta_lambda = self.wave / 500. 
+            self.lambda_range = np.array([1000., 2000.]) 
+            self.mode_name = 'G145LL' 
+            self.R = 500. 
+            self.aeff = g145["A_Eff"] 
 
         if 'G300M' in mode_name: 
             print('Setting the spectrograph to mode: ', mode_name) 

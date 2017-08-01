@@ -130,7 +130,7 @@ magnitude.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
 grating = Select(title="Grating / Setting", value="G120M (R = 30,400)", \
-                 options=["G120M (R = 30,400)", "G150M (R = 37,800)", "G180M (R = 40,800)", "G155L (R = 11,600)", "G300M (R = 28,000)"])
+                 options=["G120M (R = 30,400)", "G150M (R = 37,800)", "G180M (R = 40,800)", "G155L (R = 11,600)", "G145LL (R=500)", "G300M (R = 28,000)"])
 aperture= Slider(title="Aperture (meters)", value=15., start=2., end=20.0, step=1.0, callback_policy='mouseup')
 aperture.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }

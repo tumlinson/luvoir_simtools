@@ -7,7 +7,7 @@ from astropy.coordinates import SkyCoord # AstroPy treatment of coordinates
 from astroquery.simbad import Simbad # SIMBAD query functionality 
 import os 
 
-def qso_model(): 
+def cenA_model(): 
 
     cwd = os.getenv('LUVOIR_SIMTOOLS_DIR')
 
@@ -15,7 +15,7 @@ def qso_model():
     cenA = Simbad.query_object('ngc5128')
     cenAdistance = 3.8 * u.Mpc  # Harris et al. (2010)
     cenACoords = SkyCoord(cenA['RA'][0], cenA['DEC'][0], unit=(u.hourangle, u.deg))
-    
+
     imCenA = plt.imread(cwd+'/data/cenA-Fermi-noLabel.jpg')
     imCenA = imCenA[:,0:556,:]
     

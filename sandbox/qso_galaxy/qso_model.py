@@ -5,14 +5,18 @@ from astropy.table import QTable
 import astropy.units as u
 from astropy.coordinates import SkyCoord # AstroPy treatment of coordinates
 from astroquery.simbad import Simbad # SIMBAD query functionality 
+import os 
 
 def qso_model(): 
+
+    cwd = os.getenv('LUVOIR_SIMTOOLS_DIR')
+
     #### Grab Cen A information from SIMBAD eventually the galaxy will be a user choice 
     cenA = Simbad.query_object('ngc5128')
     cenAdistance = 3.8 * u.Mpc  # Harris et al. (2010)
     cenACoords = SkyCoord(cenA['RA'][0], cenA['DEC'][0], unit=(u.hourangle, u.deg))
     
-    imCenA = plt.imread('../data/cenA-Fermi-noLabel.jpg')
+    imCenA = plt.imread(cwd+'/data/cenA-Fermi-noLabel.jpg')
     imCenA = imCenA[:,0:556,:]
     
     # Work out angle for FoV on the sky. The "scale" is based on a measurement with
@@ -24,7 +28,7 @@ def qso_model():
     angle = np.rad2deg(np.arctan(FoV_kpc / cenAdistance.to('kpc'))  )
     area = angle[0]*angle[1]                  # x * y
     
-    dr7qso = QTable.read('../data/dr7_qso_galex.fits')
+    dr7qso = QTable.read(cwd+'/data/dr7_qso_galex.fits')
     zem = dr7qso['Z'][0]
     fuv = dr7qso['FUV_MAG'][0]
     nuv = dr7qso['NUV_MAG'][0]

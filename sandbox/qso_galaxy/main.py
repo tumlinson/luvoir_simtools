@@ -8,6 +8,7 @@ import astropy.units as u
 from astropy.coordinates import SkyCoord # AstroPy treatment of coordinates
 from astroquery.simbad import Simbad # SIMBAD query functionality 
 import copy 
+import os 
 
 from bokeh.plotting import figure, gridplot, output_file, show
 from bokeh.models import ColumnDataSource, Paragraph, Range1d
@@ -16,6 +17,8 @@ from bokeh.io import curdoc
 from bokeh.models.widgets import Select 
 
 import qso_model as q 
+
+cwd = os.getenv('LUVOIR_SIMTOOLS_DIR')
 
 xqso, yqso, mags = q.qso_model() 
 qso_points = ColumnDataSource(data={'xqso':xqso, 'yqso':-1.*yqso, 'x':xqso, 'y':-1.*yqso, 'mag':mags}) 

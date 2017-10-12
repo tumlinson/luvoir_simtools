@@ -26,7 +26,7 @@ cwd = os.getenv('LUVOIR_SIMTOOLS_DIR')
 
 xqso, yqso, mags = q.cenA_model() 
 qso_points = ColumnDataSource(data={'xqso':xqso, 'yqso':-1.*yqso, 'x':xqso, 'y':-1.*yqso, 'mag':mags}) 
-hist_source = ColumnDataSource(data={'cos':[1.], 'lumos':[1.]}) 
+hist_source = ColumnDataSource(data={'cos':[1.], 'coscolor':['blue'], 'lumos':[1.], 'lumoscolor':['green']}) 
 
 image1 = "http://www.stsci.edu/~tumlinso/cenA-Fermi-noLabel.jpg" 
 p1 = figure(x_range=[0, 586], y_range=[-786, 0], title='Cen A', \
@@ -55,16 +55,14 @@ qso_syms.nonselection_glyph = Circle(fill_alpha=0.2, fill_color="blue", line_col
 hist_plot = figure(plot_height=600, plot_width=250, outline_line_color='black', \
                 x_range=[-0.1,2.2], y_range=[0,300], toolbar_location=None, x_axis_type = None,
                 title='Time Required in Hours')
-hist_plot.quad(top='cos', source=hist_source, bottom=0., left=0, right=1, color='blue', fill_alpha=0.9, line_alpha=1.)  
-hist_plot.quad(top='lumos', source=hist_source, bottom=0., left=1.1, right=2.1, color='green', fill_alpha=0.9, line_alpha=1.)  
+hist_plot.quad(top='cos', source=hist_source, bottom=0., left=0, right=1, color='coscolor', fill_alpha=0.9, line_alpha=1.)  
+hist_plot.quad(top='lumos', source=hist_source, bottom=0., left=1.1, right=2.1, color='lumoscolor', fill_alpha=0.9, line_alpha=1.)  
 hist_plot.background_fill_color = "white"
 hist_plot.text([0.55], [280], ['HST'], text_align='center', text_color='blue')
 hist_plot.text([0.55], [270], ['COS'], text_align='center', text_color='blue')
 hist_plot.text([1.60], [280], ['LUVOIR'], text_align='center', text_color='green')
 hist_plot.text([1.60], [270], ['LUMOS'], text_align='center', text_color='green')
 hist_plot.title.align='center'  
-
-
 
 angular_size_of_150kpc = 150 * 1000. * 206265. / (galaxy['distance'].value * 1e6) / 3600. 
 angular_size_of_300kpc = 300 * 1000. * 206265. / (galaxy['distance'].value * 1e6) / 3600. 
@@ -102,6 +100,8 @@ def qso_updater(attr,old,new):
     print(mags) 
     hist_source.data['cos'] = [np.size(mags) * 20.] 
     hist_source.data['lumos'] = [np.size(mags) * 2.] 
+    if (np.size(mags) * 20. > 250.): hist_source.data['coscolor'] = ['red'] 
+    if (np.size(mags) * 2. > 250.): hist_source.data['coscolor'] = ['red'] 
 
 aperture= Slider(title="Aperture (meters)", value=15., start=3., end=15.0, step=3.0, callback_policy='mouseup', width=550)
 aperture.on_change('value', update_image) 

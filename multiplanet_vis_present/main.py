@@ -241,19 +241,19 @@ def pulse_stars(i):
 # Set up widgets with "fake" callbacks 
 source = ColumnDataSource(data=dict(value=[]))
 source.on_change('data', update_data)
-aperture= Slider(title="Aperture (meters)", value=12., start=4., end=20.0, step=4.0, callback_policy='mouseup', width=450)
+aperture= Slider(title="Aperture (meters)", value=12., start=4., end=20.0, step=4.0, callback_policy='mouseup', width=420)
 aperture.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-contrast = Slider(title="Log (Contrast)", value=-10, start=-11.0, end=-9, step=1.0, callback_policy='mouseup', width=450)
+contrast = Slider(title="Log (Contrast)", value=-10, start=-11.0, end=-9, step=1.0, callback_policy='mouseup', width=420)
 contrast.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-iwa = Slider(title="Inner Working Angle (l/D)", value=1.5, start=1.5, end=4.0, step=0.5, callback_policy='mouseup', width=450)
+iwa = Slider(title="Inner Working Angle (l/D)", value=1.5, start=1.5, end=4.0, step=0.5, callback_policy='mouseup', width=420)
 iwa.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-regenerate = Button(label='Regenerate the Sample of Detected Candidates', width=450, button_type='success') 
+regenerate = Button(label='Regenerate the Sample of Detected Candidates', width=420, button_type='success') 
 regenerate.on_click(recalc) 
 
 #######

@@ -9,7 +9,7 @@ import phot_compute_snr as phot_etc
 from bokeh.plotting import Figure
 from bokeh.resources import CDN
 from bokeh.embed import components, autoload_server 
-from bokeh.models import ColumnDataSource, HBox, HoverTool, Paragraph, Range1d 
+from bokeh.models import ColumnDataSource, HoverTool, Paragraph, Range1d 
 from bokeh.models.callbacks import CustomJS
 from bokeh.layouts import column, row, WidgetBox 
 from bokeh.models.widgets import Slider, Tabs, Div, Panel, Select 

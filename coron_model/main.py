@@ -23,7 +23,7 @@ from bokeh.client import push_session
 from bokeh.themes import Theme 
 import yaml 
 from bokeh.plotting import Figure
-from bokeh.models import ColumnDataSource, HBox, HoverTool, Paragraph, Range1d, DataRange1d, Label, DataSource
+from bokeh.models import ColumnDataSource, HoverTool, Paragraph, Range1d, DataRange1d, Label, DataSource
 from bokeh.models.glyphs import Text, Rect
 from bokeh.layouts import column, row, WidgetBox 
 from bokeh.models.widgets import Slider, Panel, Tabs, Div, TextInput, RadioButtonGroup, Select, RadioButtonGroup
@@ -190,16 +190,16 @@ nir_bandpasses = ColumnDataSource(data=dict(x=x_nir, y=y_nir, width=x_nirwidth))
 ################################
 #plots spectrum and exposure time
 snr_plot = Figure(plot_height=500, plot_width=750, 
-                  tools="crosshair,pan,reset,resize,save,box_zoom,wheel_zoom,hover",
+                  tools="crosshair,pan,reset,save,box_zoom,wheel_zoom,hover",
                   toolbar_location='right', x_range=[0.2, 3.0], y_range=[0, 0.2])
 
 exp_plot = Figure(plot_height=500, plot_width=750, 
-                  tools="crosshair,pan,reset,resize,save,box_zoom,wheel_zoom,hover",
+                  tools="crosshair,pan,reset,save,box_zoom,wheel_zoom,hover",
                   toolbar_location='right', x_range=[0.2, 3.0], y_range=[1e-3, 1e10],
                   y_axis_type="log")
 
 counts_plot = Figure(plot_height=500, plot_width=750, 
-                  tools="crosshair,pan,reset,resize,save,box_zoom,wheel_zoom,hover",
+                  tools="crosshair,pan,reset,save,box_zoom,wheel_zoom,hover",
                   toolbar_location='right', x_range=[0.2, 3.0], y_range=[1e-3, 1e6],
                   y_axis_type="log")
 

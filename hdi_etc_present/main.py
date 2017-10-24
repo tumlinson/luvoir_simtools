@@ -2,7 +2,6 @@
 '''
 from __future__ import print_function
 import numpy as np
-from bokeh.io import output_file, gridplot 
 
 import phot_compute_snr as phot_etc 
 
@@ -54,7 +53,7 @@ hover = HoverTool(point_policy="snap_to_data",
 
 
 # Set up plot
-snr_plot = Figure(plot_height=400, plot_width=800, 
+snr_plot = Figure(plot_height=400, plot_width=600, 
               tools="crosshair,pan,reset,save,box_zoom,wheel_zoom",
               x_range=[120, 2300], y_range=[0, 40], toolbar_location='right')
 snr_plot.x_range = Range1d(100, 2300, bounds=(120, 2300)) 
@@ -75,7 +74,7 @@ snr_plot.circle('x', 'y', source=source3, fill_color='white', line_color='red', 
 spectrum_template = ColumnDataSource(data=dict(w=spec_dict[template_to_start_with].wave, f=spec_dict[template_to_start_with].flux, \
                                    w0=spec_dict[template_to_start_with].wave, f0=spec_dict[template_to_start_with].flux))
 
-sed_plot = Figure(plot_height=400, plot_width=800, 
+sed_plot = Figure(plot_height=400, plot_width=600, 
               tools="crosshair,pan,reset,save,box_zoom,wheel_zoom",
               x_range=[120, 2300], y_range=[35, 21], toolbar_location='right')
 sed_plot.x_range = Range1d(100, 2300, bounds=(120, 2300)) 
@@ -84,9 +83,6 @@ sed_plot.background_fill_alpha = 0.5
 sed_plot.yaxis.axis_label = 'AB Mag'
 sed_plot.xaxis.axis_label = 'Wavelength (nm)'
 sed_plot.line('w','f',line_color='orange', line_width=3, source=spectrum_template, line_alpha=1.0)  
-
-
-
 
 def update_data(attrname, old, new):
 
@@ -127,7 +123,6 @@ def update_data(attrname, old, new):
     sed_plot.y_range.start = np.min(ss.flux)+5. 
     sed_plot.y_range.end = np.min(ss.flux)-5. 
 
-
 # fake source for managing callbacks 
 source = ColumnDataSource(data=dict(value=[]))
 source.on_change('data', update_data)
@@ -159,9 +154,7 @@ controls_tab = Panel(child=controls, title='Controls')
 help_tab = Panel(child=Div(text = h.help()), title='Info')
 inputs = Tabs(tabs=[ controls_tab, help_tab]) 
 
-plots = Tabs(tabs=[ Panel(child=snr_plot, title='SNR',width=200), Panel(child=sed_plot, title='SED',width=200)]) 
+plots = Tabs(tabs=[ Panel(child=snr_plot, title='SNR',width=300), Panel(child=sed_plot, title='SED',width=300)], width=620) 
 
-# Set up layouts and add to document
 curdoc().add_root(row(children=[inputs, plots])) 
 curdoc().add_root(source) 
-curdoc().add_root(source1) 

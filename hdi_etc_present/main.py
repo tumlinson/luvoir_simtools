@@ -13,6 +13,7 @@ from bokeh.models import ColumnDataSource, HoverTool, Paragraph, Range1d
 from bokeh.models.callbacks import CustomJS
 from bokeh.layouts import column, row, WidgetBox 
 from bokeh.models.widgets import Slider, Tabs, Div, Panel, Select 
+from bokeh.models import Slider
 from bokeh.io import curdoc
 from bokeh.embed import file_html
 
@@ -115,11 +116,6 @@ def update_data(attrname, old, new):
     
     snr = phot_etc.compute_snr(luvoir, hdi, exptime.value, mag_arr)
     
-    print('SNR') 
-    print(mag_arr) 
-    print(snr) 
-    print('SNR') 
-
     wave = hdi.pivotwave 
     source1.data = dict(x=wave[2:-3], y=snr[2:-3], desc=hdi.bandnames[2:-3]) 
     source2.data = dict(x=hdi.pivotwave[0:2], y=snr[0:2], desc=hdi.bandnames[0:2]) 
@@ -132,34 +128,28 @@ def update_data(attrname, old, new):
     sed_plot.y_range.end = np.min(ss.flux)-5. 
 
 
-def fake_function(attrname, old, new):
-    print("THIS IS JUST A FAKE CALLBACK FUNCTION", magnitude.value) 
-
 # fake source for managing callbacks 
 source = ColumnDataSource(data=dict(value=[]))
 source.on_change('data', update_data)
 
 # Set up widgets
-aperture= Slider(title="Aperture (meters)", value=12., start=2., end=20.0, step=1.0, tags=[4,5,6,6],callback_policy='mouseup') 
+aperture= Slider(title="Aperture (meters)", value=12., start=2., end=20.0, step=1.0, width=250, tags=[4,5,6,6],callback_policy='mouseup') 
 aperture.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-exptime = Slider(title="Exptime (hours)", value=1., start=0.1, end=10.0, step=0.1, callback_policy='mouseup')
+exptime = Slider(title="Exptime (hours)", value=1., start=0.1, end=10.0, step=0.1, width=250, callback_policy='mouseup')
 exptime.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-magnitude = Slider(title="V Magnitude (AB)", value=30.0, start=20.0, end=35., callback_policy='mouseup') 
+magnitude = Slider(title="V Magnitude (AB)", value=30.0, start=20.0, end=35., width=250, callback_policy='mouseup') 
 magnitude.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
 template = Select(title="Template Spectrum", value="Flat (AB)", 
                 options=["Flat (AB)", "Blackbody (5000K)", "O5V Star", \
-                         "B5V Star", "G2V Star", "M2V Star", "Orion Nebula", "Elliptical Galaxy", "Sbc Galaxy", \
-                         "Starburst Galaxy", "NGC 1068"]) 
-#redshift = Slider(title="Redshift", value=0., start=0.0, end=1.0, step=0.1, callback_policy='mouseup')
-#redshift.callback = CustomJS(args=dict(source=source), code="""
-#    source.data = { value: [cb_obj.value] }
-#""")
+                         "B5V Star", "G2V Star", "M2V Star", "Orion Nebula", \
+                         "Elliptical Galaxy", "Sbc Galaxy", \
+                         "Starburst Galaxy", "NGC 1068"], width=250) 
 
 for w in [template]: # iterate on changes to parameters 
     w.on_change('value', update_data)
@@ -169,7 +159,7 @@ controls_tab = Panel(child=controls, title='Controls')
 help_tab = Panel(child=Div(text = h.help()), title='Info')
 inputs = Tabs(tabs=[ controls_tab, help_tab]) 
 
-plots = Tabs(tabs=[ Panel(child=snr_plot, title='SNR',width=100), Panel(child=sed_plot, title='SED',width=100)]) 
+plots = Tabs(tabs=[ Panel(child=snr_plot, title='SNR',width=200), Panel(child=sed_plot, title='SED',width=200)]) 
 
 # Set up layouts and add to document
 curdoc().add_root(row(children=[inputs, plots])) 

@@ -24,7 +24,7 @@ from bokeh.client import push_session
 from bokeh.themes import Theme 
 import yaml 
 from bokeh.plotting import Figure
-from bokeh.models import ColumnDataSource, HBox, HoverTool, Paragraph, Range1d, DataRange1d, Label, DataSource
+from bokeh.models import ColumnDataSource, HoverTool, Paragraph, Range1d, DataRange1d, Label, DataSource
 from bokeh.models.glyphs import Text
 from bokeh.layouts import column, row, WidgetBox 
 from bokeh.models.widgets import Slider, Panel, Tabs, Div, TextInput, RadioButtonGroup, Select, RadioButtonGroup
@@ -1287,7 +1287,6 @@ def update_data(attrname, old, new):
 
     exp_plot.yaxis.axis_label='Integration time for SNR = '+str(want_snr.value)+' [hours]' 
 
-    
     if comparison.value != 'none':
        snr_plot.title.text = 'Planet Spectrum: '+template.value +' and comparison spectrum '+comparison.value
        exp_plot.title.text = 'Planet Spectrum: '+template.value +' and comparison spectrum '+comparison.value
@@ -1312,67 +1311,67 @@ def update_data(attrname, old, new):
 
 source = ColumnDataSource(data=dict(value=[]))
 source.on_change('data', update_data)
-exptime  = Slider(title="Integration Time (hours)", value=24., start=1., end=1000.0, step=1.0, callback_policy='mouseup')
+exptime  = Slider(title="Integration Time (hours)", value=24., start=1., end=1000.0, step=1.0, callback_policy='mouseup', width=200)
 exptime.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-distance = Slider(title="Distance (parsec)", value=10., start=1.28, end=50.0, step=0.2, callback_policy='mouseup') 
+distance = Slider(title="Distance (parsec)", value=10., start=1.28, end=50.0, step=0.2, callback_policy='mouseup', width=200) 
 distance.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-radius   = Slider(title="Planet Radius (R_Earth)", value=1.0, start=0.5, end=20., step=0.1, callback_policy='mouseup') 
+radius   = Slider(title="Planet Radius (R_Earth)", value=1.0, start=0.5, end=20., step=0.1, callback_policy='mouseup', width=200) 
 radius.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-semimajor= Slider(title="Semi-major axis of orbit (AU)", value=1.0, start=0.01, end=20., step=0.01, callback_policy='mouseup') 
+semimajor= Slider(title="Semi-major axis of orbit (AU)", value=1.0, start=0.01, end=20., step=0.01, callback_policy='mouseup', width=200) 
 semimajor.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-exozodi  = Slider(title="Number of Exozodi", value = 3.0, start=1.0, end=10., step=1., callback_policy='mouseup') 
+exozodi  = Slider(title="Number of Exozodi", value = 3.0, start=1.0, end=10., step=1., callback_policy='mouseup', width=200) 
 exozodi.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-diameter  = Slider(title="Mirror Diameter (meters)", value = 12.2, start=0.5, end=50., step=0.5, callback_policy='mouseup') 
+diameter  = Slider(title="Mirror Diameter (meters)", value = 12.2, start=0.5, end=50., step=0.5, callback_policy='mouseup', width=200) 
 diameter.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-resolution  = Slider(title="Telescope Visible Resolution (R)", value = 150.0, start=10.0, end=300., step=5., callback_policy='mouseup') 
+resolution  = Slider(title="Telescope Visible Resolution (R)", value = 150.0, start=10.0, end=300., step=5., callback_policy='mouseup', width=200) 
 resolution.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-resolution_UV  = Slider(title="Telescope UV Resolution (R)", value = 20.0, start=10.0, end=300., step=5., callback_policy='mouseup') 
+resolution_UV  = Slider(title="Telescope UV Resolution (R)", value = 20.0, start=10.0, end=300., step=5., callback_policy='mouseup', width=200) 
 resolution_UV.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-resolution_NIR  = Slider(title="Telescope NIR Resolution (R)", value = 100.0, start=10.0, end=300., step=5., callback_policy='mouseup') 
+resolution_NIR  = Slider(title="Telescope NIR Resolution (R)", value = 100.0, start=10.0, end=300., step=5., callback_policy='mouseup', width=200) 
 resolution_NIR.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-temperature  = Slider(title="Telescope Temperature (K)", value = 270.0, start=90.0, end=400., step=10., callback_policy='mouseup') 
+temperature  = Slider(title="Telescope Temperature (K)", value = 270.0, start=90.0, end=400., step=10., callback_policy='mouseup', width=200) 
 temperature.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-inner  = Slider(title="Inner Working Angle factor x lambda/D", value = 2.0, start=1.22, end=4., step=0.2, callback_policy='mouseup') 
+inner  = Slider(title="Inner Working Angle factor x lambda/D", value = 2.0, start=1.22, end=4., step=0.2, callback_policy='mouseup', width=200) 
 inner.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-outer  = Slider(title="Outer Working Angle factor x lambda/D", value = 30.0, start=20, end=100., step=1, callback_policy='mouseup') 
+outer  = Slider(title="Outer Working Angle factor x lambda/D", value = 30.0, start=20, end=100., step=1, callback_policy='mouseup', width=200) 
 outer.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-darkcurrent  = Slider(title="Dark current (counts/s)", value = 1e-4, start=1e-5, end=1e-3, step=1e-5, callback_policy='mouseup') 
+darkcurrent  = Slider(title="Dark current (counts/s)", value = 1e-4, start=1e-5, end=1e-3, step=1e-5, callback_policy='mouseup', width=200) 
 darkcurrent.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-readnoise  = Slider(title="Read noise (counts/pixel)", value = 0.1, start=0.01, end=1, step=0.05, callback_policy='mouseup') 
+readnoise  = Slider(title="Read noise (counts/pixel)", value = 0.1, start=0.01, end=1, step=0.05, callback_policy='mouseup', width=200) 
 readnoise.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-dtmax  = Slider(title="Maximum single exposure time (hours)", value = 1, start=0.1, end=10., step=0.5, callback_policy='mouseup') 
+dtmax  = Slider(title="Maximum single exposure time (hours)", value = 1, start=0.1, end=10., step=0.5, callback_policy='mouseup', width=200) 
 dtmax.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-want_snr  = Slider(title="Desired signal-to-noise ratio? (only used for exposure time plot)", value = 10, start=0.5, end=100., step=0.5, callback_policy='mouseup') 
+want_snr  = Slider(title="Desired signal-to-noise ratio? (only used for exposure time plot)", value = 10, start=0.5, end=100., step=0.5, callback_policy='mouseup', width=200) 
 want_snr.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
@@ -1380,24 +1379,24 @@ want_snr.callback = CustomJS(args=dict(source=source), code="""
 ground_based = Select(title="Simulate ground-based observation?", value="No", options=["No",  "Yes"])
 
 #select menu for planet
-template = Select(title="Planet Spectrum", value="Earth", options=["Earth",  "Archean Earth", "Hazy Archean Earth", "1% PAL O2 Proterozoic Earth", "0.1% PAL O2 Proterozoic Earth","Venus", "Early Mars", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune",'----','Warm Neptune at 2 AU', 'Warm Neptune w/o Clouds at 1 AU', 'Warm Neptune w/ Clouds at 1 AU','Warm Jupiter at 0.8 AU', 'Warm Jupiter at 2 AU',"False O2 Planet (F2V star)", '-----', 'Proxima Cen b 10 bar 95% O2 dry', 'Proxima Cen b 10 bar 95% O2 wet', 'Proxima Cen b 10 bar O2-CO2', 'Proxima Cen b 90 bar O2-CO2', 'Proxima Cen b 90 bar Venus', 'Proxima Cen b 10 bar Venus', 'Proxima Cen b CO2/CO/O2 dry', 'Proxima Cen b Earth', 'Proxima Cen b Archean Earth', 'Proxima Cen b hazy Archean Earth' ])
+template = Select(title="Planet Spectrum", value="Earth", width=200, options=["Earth",  "Archean Earth", "Hazy Archean Earth", "1% PAL O2 Proterozoic Earth", "0.1% PAL O2 Proterozoic Earth","Venus", "Early Mars", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune",'----','Warm Neptune at 2 AU', 'Warm Neptune w/o Clouds at 1 AU', 'Warm Neptune w/ Clouds at 1 AU','Warm Jupiter at 0.8 AU', 'Warm Jupiter at 2 AU',"False O2 Planet (F2V star)", '-----', 'Proxima Cen b 10 bar 95% O2 dry', 'Proxima Cen b 10 bar 95% O2 wet', 'Proxima Cen b 10 bar O2-CO2', 'Proxima Cen b 90 bar O2-CO2', 'Proxima Cen b 90 bar Venus', 'Proxima Cen b 10 bar Venus', 'Proxima Cen b CO2/CO/O2 dry', 'Proxima Cen b Earth', 'Proxima Cen b Archean Earth', 'Proxima Cen b hazy Archean Earth' ])
 #select menu for comparison spectrum
-comparison = Select(title="Show comparison spectrum?", value ="none", options=["none", "Earth",  "Archean Earth", "Hazy Archean Earth", "1% PAL O2 Proterozoic Earth", "0.1% PAL O2 Proterozoic Earth","Venus", "Early Mars", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune",'----','Warm Neptune at 2 AU', 'Warm Neptune w/o Clouds at 1 AU', 'Warm Neptune w/ Clouds at 1 AU','Warm Jupiter at 0.8 AU', 'Warm Jupiter at 2 AU', "False O2 Planet (F2V star)", '-----', 'Proxima Cen b 10 bar 95% O2 dry', 'Proxima Cen b 10 bar 95% O2 wet', 'Proxima Cen b 10 bar O2-CO2', 'Proxima Cen b 90 bar O2-CO2', 'Proxima Cen b 90 bar Venus', 'Proxima Cen b 10 bar Venus', 'Proxima Cen b CO2/CO/O2 dry', 'Proxima Cen b Earth', 'Proxima Cen b Archean Earth', 'Proxima Cen b hazy Archean Earth'])
+comparison = Select(title="Show comparison spectrum?", value ="none", width=200, options=["none", "Earth",  "Archean Earth", "Hazy Archean Earth", "1% PAL O2 Proterozoic Earth", "0.1% PAL O2 Proterozoic Earth","Venus", "Early Mars", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune",'----','Warm Neptune at 2 AU', 'Warm Neptune w/o Clouds at 1 AU', 'Warm Neptune w/ Clouds at 1 AU','Warm Jupiter at 0.8 AU', 'Warm Jupiter at 2 AU', "False O2 Planet (F2V star)", '-----', 'Proxima Cen b 10 bar 95% O2 dry', 'Proxima Cen b 10 bar 95% O2 wet', 'Proxima Cen b 10 bar O2-CO2', 'Proxima Cen b 90 bar O2-CO2', 'Proxima Cen b 90 bar Venus', 'Proxima Cen b 10 bar Venus', 'Proxima Cen b CO2/CO/O2 dry', 'Proxima Cen b Earth', 'Proxima Cen b Archean Earth', 'Proxima Cen b hazy Archean Earth'])
 
 
-oo = column(children=[Div(text="""Choose telescope integration time per coronagraphic bandpass, mirror diameter, spectrograph resolution for UV-VIS-NIR channels, telescope temperature, and whether to turn on a ground-based simulator.""") , exptime, diameter, resolution]) 
+oo = column(children=[Div(text="""Choose telescope integration time per coronagraphic bandpass, mirror diameter, and spectrograph resolution.""", width=200) , exptime, diameter, resolution]) 
 pp = column(children=[template, comparison, distance, radius, semimajor, exozodi]) 
 qq = column(children=[instruction0, text_input, instruction1, format_button_group, instruction2, link_box])
 ii = column(children=[Div(text="""Choose the scaling factor for the inner working angle (IWA), the outer working angle (OWA), and the maximum length of time for a single exposure.<br><br>"""), inner, outer,  dtmax])
 
 ee = column(children=[want_snr])
 
-observation_tab = Panel(child=oo, title='Observation')
-planet_tab = Panel(child=pp, title='Planet')
-instrument_tab = Panel(child=ii, title='Instrumentation')
-download_tab = Panel(child=qq, title='Download')
-time_tab = Panel(child=ee, title='Exposure Time Calculator')
-info_tab = Panel(child=Div(text=h.help()), title='Info')
+observation_tab = Panel(child=oo, title='Observation', width=220)
+planet_tab = Panel(child=pp, title='Planet', width=220)
+instrument_tab = Panel(child=ii, title='Instrumentation', width=220)
+download_tab = Panel(child=qq, title='Download', width=220)
+time_tab = Panel(child=ee, title='Exposure Time Calculator', width=220)
+info_tab = Panel(child=Div(text=h.help()), title='Info', width=220)
 
 for w in [text_input]: 
     w.on_change('value', change_filename)
@@ -1412,8 +1411,7 @@ for www in [comparison]:
 for gg in [ground_based]: 
     gg.on_change('value', update_data)
 
-
-inputs = Tabs(tabs=[ planet_tab, observation_tab])
+inputs = Tabs(tabs=[ planet_tab, observation_tab], width=240)
 
 curdoc().add_root(row(inputs, snr_plot)) 
 curdoc().add_root(source)

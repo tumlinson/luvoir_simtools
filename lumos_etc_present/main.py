@@ -113,25 +113,28 @@ source = ColumnDataSource(data=dict(value=[]))
 source.on_change('data', update_data)
 
 # Set up widgets and their callbacks (faking the mouseup policy via "source" b/c functional callback doesn't do that. 
-template = Select(title="Template Spectrum", value="QSO", 
-                options=["Flat in F_lambda", "QSO", "10 Myr Starburst", "O5V Star", "G2V Star", "G191B2B (WD)", "GD71 (WD)", "GD153 (WD)", "Classical T Tauri", "M1 Dwarf", "Orion Nebula", \
-                         "Starburst, No Dust", "Starburst, E(B-V) = 0.6", "Galaxy with f_esc, HI=1, HeI=1", "Galaxy with f_esc, HI=0.001, HeI=1"])
+template = Select(title="Template Spectrum", value="QSO", width=200, \
+                options=["Flat in F_lambda", "QSO", "10 Myr Starburst", "O5V Star", \
+                         "G2V Star", "G191B2B (WD)", "GD71 (WD)", "GD153 (WD)", \
+                         "Classical T Tauri", "M1 Dwarf", "Orion Nebula", \
+                         "Starburst, No Dust", "Starburst, E(B-V) = 0.6", \
+                         "Galaxy with f_esc, HI=1, HeI=1", "Galaxy with f_esc, HI=0.001, HeI=1"])
 
-redshift = Slider(title="Redshift", value=0.0, start=0., end=3.0, step=0.05, callback_policy='mouseup')
+redshift = Slider(title="Redshift", value=0.0, start=0., end=3.0, step=0.05, callback_policy='mouseup', width=200)
 redshift.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-magnitude = Slider(title="Magnitude [AB]", value=21., start=15., end=30.0, step=0.1, callback_policy='mouseup')
+magnitude = Slider(title="AB Magnitude", value=21., start=15., end=30.0, step=0.1, callback_policy='mouseup', width=200)
 magnitude.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-grating = Select(title="Grating / Setting", value="G150M (R = 30,000)", \
+grating = Select(title="Grating / Setting", value="G150M (R = 30,000)", width=200, \
                  options=["G120M (R = 30,000)", "G150M (R = 30,000)", "G180M (R = 30,000)", "G155L (R = 5,000)", "G145LL (R = 500)"])
-aperture= Slider(title="Aperture (meters)", value=15., start=2., end=20.0, step=1.0, callback_policy='mouseup')
+aperture= Slider(title="Aperture (meters)", value=15., start=2., end=20.0, step=1.0, callback_policy='mouseup', width=200)
 aperture.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-exptime = Slider(title="Exposure Time [hr]", value=1.0, start=0.1, end=10.0, step=0.1, callback_policy='mouseup')
+exptime = Slider(title="Exposure Time [hr]", value=1.0, start=0.1, end=10.0, step=0.1, callback_policy='mouseup', width=200)
 exptime.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
@@ -140,20 +143,20 @@ exptime.callback = CustomJS(args=dict(source=source), code="""
 for w in [template, grating]:  w.on_change('value', update_data)
  
 # Set up layouts and add to document
+help_text = Div(text = h.help()) 
 source_inputs = WidgetBox(children=[template, redshift, magnitude])
-controls_tab = Panel(child=source_inputs, title='Controls')
-help = Div(text = h.help()) 
-help_tab = Panel(child=help, title='Info')
-source_inputs = Tabs(tabs=[ controls_tab, help_tab]) 
+controls_panel = Panel(child=source_inputs, title='Controls')
+help_panel = Panel(child=help_text, title='Info')
+source_inputs = Tabs(tabs=[ controls_panel, help_panel]) 
 
 exposure_inputs = WidgetBox(children=[grating, aperture, exptime])
-
+exposure_panel = Panel(child=exposure_inputs, title='Exposure', width=200)
+exposure_inputs = Tabs(tabs=[ exposure_panel ]) 
 
 row1 = Row(children=[source_inputs, flux_plot])
 row2 = Row(children=[exposure_inputs, sn_plot])
 
 curdoc().add_root(Column(children=[row1, row2]))
-curdoc().add_root(source) 
 
 
 

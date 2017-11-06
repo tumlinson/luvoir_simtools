@@ -1,0 +1,53 @@
+---
+file: /Users/tumlinson/Dropbox/LUVOIR/SYOTools/luvoir_simtools/data/basic_ssp.fits
+
+axes: 
+  - name: r vs. g-r 
+    xaxis: g-r
+    yaxis: UVIS_F814W 
+    xtitle: 'g-r'
+    ytitle: 'r'
+    initial_extent:
+      xmin: -5. 
+      ymin: -20. 
+      xmax: 5. 
+      ymax: 20.  
+
+  - name: g vs. r  
+    xaxis: UVIS_F606W
+    yaxis: UVIS_F814W
+    xtitle: 'g'
+    ytitle: 'r'
+    initial_extent:
+      xmin: -20. 
+      xmax: 20. 
+      ymin: -50. 
+      ymax:  50.  
+
+  - name: Lbol vs. Age 
+    xaxis: LOGAGE
+    yaxis: LOGLBOL
+    xtitle: 'Age'
+    ytitle: 'Lbol'
+    initial_extent:
+      xmin: -1. 
+      ymin: 30. 
+      xmax: 1. 
+      ymax: 18.  
+
+  - name: Lbol vs. Mass
+    xaxis: MASS
+    yaxis: LOGLBOL
+    xtitle: 'Mass'
+    ytitle: 'Lbol'
+    initial_extent:
+      xmin: -1. 
+      ymin: 30. 
+      xmax: 1. 
+      ymax: 18.  
+
+summary_fields:
+  - name: IMF_Weight
+    field: LOGIMFWEIGHT
+  - name: Age
+    field: LOGAGE

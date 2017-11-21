@@ -1,13 +1,16 @@
 from __future__ import print_function
 import numpy as np
 import copy 
+import os 
 from bokeh.plotting import Figure
 from bokeh.models import ColumnDataSource, HoverTool, Range1d 
 from bokeh.layouts import Column, Row, WidgetBox
-from bokeh.models.widgets import Slider, TextInput, Select, Tabs, Panel, Div 
+from bokeh.models.widgets import Slider, TextInput, Select, Tabs, Panel, Div, RadioButtonGroup
 from bokeh.io import curdoc
 from bokeh.models.callbacks import CustomJS
 import astropy.constants as const
+from astropy.table import Table 
+from astropy.io import fits, ascii 
 import get_lumos_spectra
 import Telescope as T 
 import lumos_help as h 
@@ -35,11 +38,10 @@ def simulate_exposure(telescope, spectrograph, wave, flux, exptime):
     for sdf in signal_to_noise: print(sdf) 
     return signal_to_noise 
 
-##### START FOR NEW WAY TO GET TEMPLATE SPECTRA 
 spec_dict = get_lumos_spectra.add_spectrum_to_library() 
 template_to_start_with = 'QSO' 
 spec_dict[template_to_start_with].wave 
-spec_dict[template_to_start_with].flux # <---- these are the variables you need 
+spec_dict[template_to_start_with].flux 
 
 signal_to_noise = simulate_exposure(luvoir, lumos, spec_dict[template_to_start_with].wave, spec_dict[template_to_start_with].flux, 1.0) 
 
@@ -140,6 +142,44 @@ exptime.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
 
+# set up the download tab 
+def change_filename(attrname, old, new):
+   format_button_group.active = None
+
+instruction0 = Div(text="""<left>Specify a filename here:
+                           (no special characters):""", width=300, height=15)
+text_input = TextInput(value="filename", title=" ", width=20)
+instruction1 = Div(text="""<left>Then choose a file format here:""", width=300, height=15)
+format_button_group = RadioButtonGroup(labels=["txt", "fits"])
+instruction2 = Div(text="""<left>The link to download your file will appear here:""", width=300, height=15)
+link_box  = Div(text=""" """, width=300, height=15)
+
+def i_clicked_a_button(new):
+    filename=text_input.value + {0:'.txt', 1:'.fits'}[format_button_group.active]
+    print("Your format is   ", format_button_group.active, {0:'txt', 1:'fits'}[format_button_group.active]) 
+    print("Your filename is: ", filename) 
+    fileformat={0:'txt', 1:'fits'}[format_button_group.active]
+    link_box.text = """Working"""
+
+
+    out_table = Table([spectrum_template.data['w'],spectrum_template.data['f'],spectrum_template.data['w']], \
+                         names=('wave','flux','sn')) 
+   
+    if (format_button_group.active == 1): out_table.write(filename, overwrite=True)
+    if (format_button_group.active == 0): ascii.write(out_table, filename)
+
+    os.system('gzip -f ' +filename)
+    os.system('cp -rp '+filename+'.gz /home/jtastro/jt-astro.science/outputs')
+    print("""Your file is <a href='http://jt-astro.science/outputs/"""+filename+""".gz'>"""+filename+""".gz</a>. """) 
+    link_box.text = """Your file is <a href='http://jt-astro.science/outputs/"""+filename+""".gz'>"""+filename+""".gz</a>. """
+
+for w in [text_input]:
+    w.on_change('value', change_filename)
+format_button_group.on_click(i_clicked_a_button)
+
+qq = Column(children=[instruction0, text_input, instruction1, format_button_group, instruction2, link_box])
+download_tab = Panel(child=qq, title='Download')
+
 # iterate on changes to parameters 
 for w in [template, grating]:  w.on_change('value', update_data)
  
@@ -148,10 +188,9 @@ source_inputs = WidgetBox(children=[template, redshift, magnitude])
 controls_tab = Panel(child=source_inputs, title='Controls')
 help = Div(text = h.help()) 
 help_tab = Panel(child=help, title='Info')
-source_inputs = Tabs(tabs=[ controls_tab, help_tab]) 
+source_inputs = Tabs(tabs=[ controls_tab, help_tab, download_tab]) 
 
 exposure_inputs = WidgetBox(children=[grating, aperture, exptime])
-
 
 row1 = Row(children=[source_inputs, flux_plot])
 row2 = Row(children=[exposure_inputs, sn_plot])

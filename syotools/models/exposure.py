@@ -105,6 +105,18 @@ class Exposure(PersistentModel):
         self._unknown = new_unknown
         self.calculate()
     
+    def _ensure_array(self, quant):
+        """
+        Ensure that the given Quantity is an array, propagating if necessary.
+        """
+        q = pre_encode(quant)
+        val = q[1]['value']
+        if not isinstance(val, list):
+            nb = self.recover('camera.n_bands')
+            q[1]['value'] = np.full(nb, val).tolist()
+        
+        return q
+    
     @property
     def exptime(self):
         return self.recover('_exptime')
@@ -113,7 +125,7 @@ class Exposure(PersistentModel):
     def exptime(self, new_exptime):
         if self.unknown == "exptime":
             return
-        self._exptime = pre_encode(new_exptime)
+        self._exptime = self._ensure_array(new_exptime)
         self.calculate()
     
     @property
@@ -124,7 +136,7 @@ class Exposure(PersistentModel):
     def snr(self, new_snr):
         if self.unknown == "snr":
             return
-        self._snr = pre_encode(new_snr)
+        self._snr = self._ensure_array(new_snr)
         self.calculate()
     
     @property
@@ -158,7 +170,7 @@ class Exposure(PersistentModel):
     def magnitude(self, new_magnitude):
         if self.unknown == "magnitude":
             return
-        self._magnitude = pre_encode(new_magnitude)
+        self._magnitude = self._ensure_array(new_magnitude)
         self.calculate()
         
     def calculate(self):

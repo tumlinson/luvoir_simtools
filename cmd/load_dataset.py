@@ -5,7 +5,7 @@ import numpy as np
 def convert_to_catalog(table, initial_mass): 
 
     # takes in astropy table containing the CMD 
-    number_of_stars = 100000. 
+    number_of_stars = 10000. 
     
     out_table = Table([[0], [0.], [0.], [0.], [0.], [0.]], 
                           names=('ageindex', 'logage', 'Mass','gmag','rmag', 'grcolor')) 

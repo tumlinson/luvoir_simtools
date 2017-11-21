@@ -44,6 +44,7 @@ class Telescope(PersistentModel):
         """
         Convert the diffraction limit from nm to arcseconds.
         """
+        
         diff_limit_wavelength, aperture = self.recover('diff_limit_wavelength',
                                                        'aperture')
         

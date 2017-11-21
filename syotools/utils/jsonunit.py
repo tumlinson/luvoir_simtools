@@ -9,6 +9,7 @@ from __future__ import (print_function, division, absolute_import, with_statemen
                         nested_scopes, generators)
 
 import astropy.units as u
+import pysynphot as pys
 import numpy as np
 
 u.magnitude_zero_points.enable()
@@ -102,6 +103,82 @@ class JsonUnit(object):
         junit._value = judict["value"]
         return junit
 
+class JsonSpectrum(object):
+    """
+    A version of JsonUnit to handle pysynphot spectra.
+    """
+    def __init__(self, spectrum=None):
+        if spectrum is not None:
+            self._wave = spectrum.wave
+            self._wunit = spectrum.waveunits.name
+            self._flux = spectrum.flux
+            self._funit = spectrum.fluxunits.name
+    
+    def encode_json(self):
+        return ['JsonSpectrum', {'wave': self._wave.tolist(),
+                                 'wunit': self._wunit,
+                                 'flux': self._flux.tolist(),
+                                 'funit': self._funit}]
+    
+    @classmethod
+    def decode_json(cls, serialized):
+        if not isinstance(serialized, list) or "JsonSpectrum" not in serialized:
+            raise ValueError("Serialized element is not a JsonSpectrum")
+        jspec = cls()
+        jsdict = serialized[1]
+        jspec._wave = jsdict['wave']
+        jspec._wunit = jsdict['wunit']
+        jspec._flux = jsdict['flux']
+        jspec._funit = jsdict['funit']
+        return jspec
+    
+    @property
+    def use(self):
+        spec = pys.ArraySpectrum(wave=self._wave, flux=self._flux,
+                                 waveunits=self._wunit, 
+                                 fluxunits=self._funit)
+        return spec
+    
+    @use.setter
+    def use(self, new_spec):
+        if not isinstance(new_spec, pys.spectrum.SourceSpectrum):
+            raise TypeError("JsonSpectrum.use expects a pysynphot.spectrum.SourceSpectrum object.")
+        self._wave = new_spec.wave
+        self._wunit = new_spec.waveunits.name
+        self._flux = new_spec.flux
+        self._funit = new_spec.fluxunits.name
+    
+    @property
+    def wave(self):
+        return self._wave * u.Unit(self._wunit)
+    
+    @wave.setter
+    def wave(self, new_wave):
+        if not isinstance(new_wave, list):
+            new_wave = pre_encode(new_wave)
+        if new_wave[0] == 'JsonUnit':
+            self._wave = np.array(new_wave[1]['value'])
+            if new_wave[1]['unit']:
+                self._wunit = new_wave[1]['unit']
+        else:
+            self._wave = np.array(new_wave)
+    
+    @property
+    def flux(self):
+        return self._flux * u.Unit(self._funit)
+    
+    @flux.setter
+    def flux(self, new_flux):
+        if not isinstance(new_flux, list):
+            new_flux = pre_encode(new_flux)
+        if new_flux[0] == 'JsonUnit':
+            self._flux = np.array(new_flux[1]['value'])
+            if new_flux[1]['unit']:
+                self._funit = new_flux[1]['unit']
+        else:
+            self._flux = np.array(new_flux)
+
+
 def recover_quantities(*args):
     """
     Utility function to convert a number of JsonUnit instances into their
@@ -112,7 +189,12 @@ def recover_quantities(*args):
 def pre_encode(quant):
     """
     We only REALLY want to store the JSON serialization, a lot of the time.
+    
+    Same for JsonSpectra.
     """
+    
+    if isinstance(quant, pys.spectrum.SourceSpectrum):
+        return JsonSpectrum(quant).encode_json()
     
     if not isinstance(quant, u.Quantity):
         return quant
@@ -123,7 +205,15 @@ def pre_decode(serialized):
     """
     Often, we don't actually need to store a JsonUnit representation of
     a quantity, we just want the Quantity version.
+    
+    Same for JsonSpectra.
     """
+    
+    try:
+        spec = JsonSpectrum.decode_json(serialized)
+        return spec.use
+    except (AttributeError, ValueError, TypeError):
+        pass #not a JsonSpectrum serialization
     
     try:
         quant = JsonUnit.decode_json(serialized)

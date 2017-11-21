@@ -16,7 +16,7 @@ def set_plot_options(plot):
     plot.outline_line_color = 'white' 
 
 
-    plot.axis.visible = False # use this to flip the axis labeling on and off 
+    plot.axis.visible = True # use this to flip the axis labeling on and off 
 
     y_label_source = ColumnDataSource(data={'x': [-1.5,-1.5,-1.5,-1.5,-1.5],
                                         'y': [-10-0.4,-5-0.4,0-0.4,5-0.4,10-0.4], 'text':['10','5','0','-5','-10']})

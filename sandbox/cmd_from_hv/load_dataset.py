@@ -19,6 +19,7 @@ def load_datasets(): #load in the basic CMD / FSPS dataset
         data_table['dropoff_x'] = data_table['g-r']
         data_table['dropoff_y'] = -1 * data_table['UVIS_F814W']
         data_table['dropoff_age'] = data_table['LOGAGE']
+        data_table['stage'] = data_table['PHASE']
         data_table['UVIS_F814W'] *= -1.
         data_table['UVIS_F606W'] *= -1.
         dataframe = data_table.to_pandas()

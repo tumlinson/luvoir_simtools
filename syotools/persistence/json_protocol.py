@@ -10,12 +10,14 @@ from __future__ import (print_function, division, absolute_import,
 
 #Protocols:
 import json
+from collections import OrderedDict
 
 #Base class:
 from .protocol import Protocol
 from ..utils import JsonUnit
 
 ####JSON protocol implementation
+# 2017-11-20: converted to OrderedDict, to preserve attribute order.
 
 class JSON(Protocol):
     
@@ -31,7 +33,7 @@ class JSON(Protocol):
         if isinstance(entry, JsonUnit):
             return entry.encode_json()
         elif isinstance(entry, dict):
-            return {k: self.encode(v) for k,v in entry.items()}
+            return OrderedDict([(k, self.encode(v)) for k,v in entry.items()])
         else:
             return entry
     
@@ -50,10 +52,10 @@ class JSON(Protocol):
             attribute if one is available, otherwise use 
             astropy.units.UnrecognizedUnit.
         """
-        if not isinstance(entry, (dict, tuple)):
+        if not isinstance(entry, (dict, tuple, OrderedDict)):
             return entry #This doesn't have units.
-        if isinstance(entry, dict):
-            return {k: self.decode(k, v) for k,v in entry.items()}
+        if isinstance(entry, (dict, OrderedDict)):
+            return OrderedDict([(k, self.decode(k, v)) for k,v in entry.items()])
         if "JsonUnit" in entry:
             return JsonUnit.decode_json(entry)
     
@@ -69,7 +71,7 @@ class JSON(Protocol):
     
         try:
             with open(source) as f:
-                profile_dict = json.load(f)
+                profile_dict = json.load(f, object_pairs_hook=OrderedDict)
         except FileNotFoundError:
             print("File {} not found; using default profile.".format(source))
         
@@ -113,10 +115,10 @@ class JSON(Protocol):
                 profile[attr] = self.decode(attr, entry)
         except NotImplementedError:
             print("This protocol is not implemented; using default profile.")
-            profile = {}
+            profile = OrderedDict()
         except json.JSONDecodeError:
             print("Unable to decode source; using default profile.")
-            profile = {}
+            profile = OrderedDict()
         
         return model_class(**profile)
             

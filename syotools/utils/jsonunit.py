@@ -92,7 +92,7 @@ class JsonUnit(object):
     
     @classmethod
     def decode_json(cls, serialized):
-        if "JsonUnit" not in serialized:
+        if isinstance(serialized, np.ndarray) or "JsonUnit" not in serialized:
             raise ValueError("Serialized element is not a JsonUnit")
         junit = cls()
         judict = serialized[1]
@@ -127,7 +127,7 @@ def pre_decode(serialized):
     
     try:
         quant = JsonUnit.decode_json(serialized)
-    except (AttributeError, ValueError):
+    except (AttributeError, ValueError, TypeError):
         return serialized #not a JsonUnit serialization
     
     return quant.use

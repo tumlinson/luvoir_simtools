@@ -1,0 +1,113 @@
+Telescope:
+    name: "LUVOIR"
+    aperture: 
+        - JsonUnit
+        - {value: 10.0, unit: "m"}
+    temperature: 
+        - JsonUnit
+        - {value: 270.0, unit: "K"}
+    ota_emissivity:
+        - JsonUnit
+        - {value: 0.09, unit: ""}
+    diff_limit_wavelength:
+        - JsonUnit
+        - {value: 500.0, unit: "nm"}
+Camera:
+    name: "HDI"
+    pivotwave: 
+        - JsonUnit
+        - {value: [155., 228., 360., 440., 550., 640., 790., 1260., 1600., 2220.], unit: "nm"}
+    bandnames: ["FUV", "NUV", "U","B","V","R","I", "J", "H", "K"]
+    channels: [[[0,1], 2], [[2, 3, 4, 5, 6], 2], [[7, 8, 9], 7]]
+    ab_zeropoint:
+        - JsonUnit
+        - {value: [35548.0, 24166.0, 15305.0, 12523.0, 10018.0, 8609.0, 6975.0, 4373.0, 3444.0, 2482.0], unit: "ph / (cm2 nm s)"}
+    total_qe:
+        - JsonUnit
+        - {value: [0.1, 0.1, 0.15, 0.45, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6], unit: "electron / ph"}
+    ap_corr:
+        - JsonUnit
+        - {value: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0], unit: ""}
+    bandpass_r:
+        - JsonUnit
+        - {value: [5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0], unit: ""}
+    dark_current:
+        - JsonUnit
+        - {value: [0.0005, 0.0005, 0.001, 0.001, 0.001, 0.001, 0.001, 0.002, 0.002, 0.002], unit: "electron / (pix s)"}
+    detector_rn:
+        - JsonUnit
+        - {value: [3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 4.0, 4.0, 4.0], unit: "electron(1/2) / pix(1/2)"}
+Exposure:
+    sed:
+        - JsonUnit
+        - {value: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], unit: "mag(AB)"}
+    sed_id: "fab"
+    n_exp: 1
+    exptime:
+        - JsonUnit
+        - {value: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0], unit: "h"}
+    snr:
+        - JsonUnit
+        - {value: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], unit: ""}
+    magnitude:
+        - {value: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], unit: "mag(AB)"}
+    unknown: "snr"
+Spectrograph:
+    name: "LUMOS"
+    modes:
+        G120M: "Med_Res_BEF"
+        G150M: "Med_Res_BEF"
+        G180M: "Med_Res_BEF"
+        G155L: "Low_Res_BEF"
+        G145LL: "LL_Mode_BEF"
+    befs: 
+        Med_Res:
+            - JsonUnit
+            - {value: !spec "Med_Res_BEF", unit: "erg / (s cm3 sr)"}
+        Low_Res:
+            - JsonUnit
+            - {value: !spec "Low_Res_BEF", unit: "erg / (s cm3 sr)"}
+        LL_mode:
+            - JsonUnit
+            - {value: !spec "LL_mode_BEF", unit: "erg / (s cm3 sr)"}
+    Rs: 
+        120M:
+            - JsonUnit
+            - {value: 30000.0, unit: ""}
+        G150M:
+            - JsonUnit
+            - {value: 30000.0, unit: ""}
+        G180M:
+            - JsonUnit
+            - {value: 30000.0, unit: ""}
+        G155L:
+            - JsonUnit
+            - {value: 5000.0, unit: ""}
+        G145LL:
+            - JsonUnit
+            - {value: 500.0, unit: ""}
+    ranges: 
+        G120M:
+            - JsonUnit
+            - {value: [1000., 1425.], unit: "Angstrom"}
+        G150M:
+            - JsonUnit
+            - {value: [1225., 1600.], unit: "Angstrom"}
+        G180M:
+            - JsonUnit
+            - {value: [1550., 1900.], unit: "Angstrom"}
+        G155L:
+            - JsonUnit
+            - {value: [1000., 2000.], unit: "Angstrom"}
+        G145LL:
+            - JsonUnit
+            - {value: [900., 1425.], unit: "Angstrom"}
+    mode: "G150M"
+    wave:
+        - JsonUnit
+        - {value: !spec "Wave", unit: "Angstrom"}
+    aeff:
+        - JsonUnit
+        - {value: !spec "A_eff", unit: "m2"}
+Coronagraph: {}
+    

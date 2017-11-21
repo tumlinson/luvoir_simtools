@@ -1,4 +1,4 @@
-from os import path
+import os
 from astropy.table import Table, vstack 
 import numpy as np 
 
@@ -9,6 +9,8 @@ def convert_to_catalog(table, initial_mass):
     
     out_table = Table([[0], [0.], [0.], [0.], [0.], [0.]], 
                           names=('ageindex', 'logage', 'Mass','gmag','rmag', 'grcolor')) 
+
+
 
     ages = np.unique(table['LOGAGE'])  
     print("unique values: ", ages) 
@@ -43,14 +45,15 @@ def convert_to_catalog(table, initial_mass):
 
 def load_datasets(): #load in the basic CMD / FSPS dataset 
 
-    data_path = '/Users/tumlinson/Dropbox/LUVOIR/SYOTools/luvoir_simtools/data/basic_ssp.fits'
+    cwd = os.getenv('LUVOIR_SIMTOOLS_DIR')
+    data_path = cwd+'/data/basic_ssp.fits'
 
     print('Loading Data from {} ! '.format(data_path))
-    if not path.isabs(data_path):
-        config_dir = path.split(self.config_path)[0]
-        data_path = path.join(config_dir, data_path)
+    if not os.path.isabs(data_path):
+        config_dir = os.path.split(self.config_path)[0]
+        data_path = os.path.join(config_dir, data_path)
 
-    if not path.exists(data_path):
+    if not os.path.exists(data_path):
         raise IOError('Unable to find input dataset: "{}"'.format(data_path))
 
     if data_path.endswith(".fits"):

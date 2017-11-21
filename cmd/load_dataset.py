@@ -38,8 +38,6 @@ def convert_to_catalog(table, initial_mass):
        
         out_table = vstack([out_table, age_table]) 
 
-    out_table.write('imf.fits', overwrite=True) 
-    print out_table
     return out_table
    
 

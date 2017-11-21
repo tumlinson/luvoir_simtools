@@ -29,8 +29,12 @@ def convert_to_catalog(table, initial_mass):
         random_variates = np.random.random(number_of_stars) 
         random_masses = np.interp(random_variates, cumimf, table['MASS'][iage]) 
     
-        interpolated_rmag = np.interp(random_masses, table['MASS'][iage], table['UVIS_F814W'][iage]) + np.random.normal(0.0, 0.05, np.size(random_masses)) 
-        interpolated_gmag = np.interp(random_masses, table['MASS'][iage], table['UVIS_F606W'][iage]) + np.random.normal(0.0, 0.05, np.size(random_masses)) 
+        interpolated_rmag = np.interp(random_masses, table['MASS'][iage], table['UVIS_F814W'][iage]) 
+        r_noise = np.random.normal(0.0, 0.01, np.size(random_masses)) * interpolated_rmag # TOTALLY MADE UP NOISE DO NOT RELY ON THIS 
+        interpolated_rmag = interpolated_rmag + r_noise 
+        interpolated_gmag = np.interp(random_masses, table['MASS'][iage], table['UVIS_F606W'][iage]) 
+        g_noise = np.random.normal(0.0, 0.01, np.size(random_masses)) * interpolated_gmag # TOTALLY MADE UP NOISE DO NOT RELY ON THIS 
+        interpolated_gmag = interpolated_gmag + g_noise 
     
         ages = random_masses * 0.0 + unique_age 
         index = np.full(np.size(random_masses), age_index, dtype=int)

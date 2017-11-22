@@ -1,54 +1,26 @@
-# Plot ranges
-- !Range1d: &snr_xrange
-    ref: "snr_xrange"
-    start: 100
-    end: 2300
-    bounds: !!python/tuple [120, 2300]
-- !Range1d: &sed_xrange
-    ref: "sed_xrange"
-    start: 100
-    end: 2300
-    bounds: !!python/tuple [120, 2300]
-# Hover Tooltip
-- !HoverTool: &hover
-    ref: "hover"
-    point_policy: "snap_to_data"
-    tooltips: !self.hover_tooltip
-#Data sources
-- !ColumnDataSource: &source_blue
-    ref: "source_blue"
-    data:
-        x: !self._pivotwave[2:-3]
-        y: !self._snr[2:-3]
-        desc: !self.camera.bandnames[2:-3]
-- !ColumnDataSource: &source_orange
-    ref: "source_orange"
-    data:
-        x: !self._pivotwave[:2]
-        y: !self._snr[:2]
-        desc: !self.camera.bandnames[:2]
-- !ColumnDataSource: &source_red
-    ref: "source_red"
-    data:
-        x: !self._pivotwave[-3:]
-        y: !self._snr[-3:]
-        desc: !self.camera.bandnames[-3:]
-- !ColumnDataSource: &spectrum_template
-    ref: "spectrum_template"
-    data:
-        x: !self.template_wave
-        y: !self.template_flux
+#Dummy sources for input control flow
 - !ColumnDataSource: &dummy_source
     ref: "dummy_source"
     data:
         value: []
     on_change: ['data', !self.controller ]
+- !ColumnDataSource: &tab_source
+    ref: "tab_source"
+    data:
+        value: []
+    on_change: ['data', !self.tab_change ]
 #In-browser callback to allow for on_release updates instead of instantaneous
 - !CustomJS: &callback
     ref: "js_callback"
     args:
         source: *dummy_source
     code: "\n    source.data = { value: [cb_obj.value] }\n"
+#In-browser callback for switching tabs
+- !CustomJS: &tab_callback
+    ref: "tab_callback"
+    args:
+        source: *tab_source
+    code: "\n    source.data = { value: [cb_obj.active] }\n"
 #Inputs (sliders, dropdowns, etc.)
 - !Slider: &ap_slider
     ref: "ap_slider"
@@ -69,32 +41,175 @@
     value: 30.0
     range: !!python/tuple [20.0, 35.0, 0.1]
     callback: *callback
+- !Slider: &snr_slider
+    ref: "snr_slider"
+    title: "Desired S/N"
+    value: 30.0
+    range: !!python/tuple [5.0, 100.0, 5.0]
+    callback: *callback
 - !Select: &template_select
     ref: "template_select"
     title: "Template Spectrum"
     value: "Flat (AB)"
     options: !self.template_options
     on_change: ['value', !self.controller ]
-#Figures
+#--> SNR Figure
+#----> SNR ----> Data sources
+- !ColumnDataSource: &snr_source_blue
+    ref: "snr_source_blue"
+    data:
+        x: !self._pivotwave[2:-3]
+        y: !self._snr[2:-3]
+        desc: !self.camera.bandnames[2:-3]
+- !ColumnDataSource: &snr_source_orange
+    ref: "snr_source_orange"
+    data:
+        x: !self._pivotwave[:2]
+        y: !self._snr[:2]
+        desc: !self.camera.bandnames[:2]
+- !ColumnDataSource: &snr_source_red
+    ref: "snr_source_red"
+    data:
+        x: !self._pivotwave[-3:]
+        y: !self._snr[-3:]
+        desc: !self.camera.bandnames[-3:]
+#----> SNR ----> Plot range
+- !Range1d: &snr_xrange
+    ref: "snr_xrange"
+    start: 100
+    end: 2300
+    bounds: !!python/tuple [120, 2300]
+#----> SNR ----> Hover Tooltip
+- !HoverTool: &snr_hover
+    ref: "snr_hover"
+    point_policy: "snap_to_data"
+    tooltips: !self.snr_hover_tooltip
+#----> SNR ----> Figure
 - !Figure: &snr_figure
     ref: "snr_figure"
     x_range: *snr_xrange
     y_range: !!python/tuple [0, 40]
     y_axis_label: 'SNR'
     x_axis_label: 'Wavelength (nm)'
-    add_tools: !!python/list [*hover]
+    add_tools: !!python/list [*snr_hover]
     text:
         loc: !!python/tuple [5500, 20]
         text: !!python/tuple ['V']
         text_align: 'center'
         text_color: 'red'
     elements:
-        - {'kind': 'line', 'source': *source_blue, 'line_color': 'blue'}
-        - {'kind': 'circle', 'source': *source_blue, 'line_color': 'blue', 'size': 10}
-        - {'kind': 'line', 'source': *source_orange, 'line_color': 'orange'}
-        - {'kind': 'circle', 'source': *source_orange, 'line_color': 'orange', 'size': 8}
-        - {'kind': 'line', 'source': *source_red, 'line_color': 'red'}
-        - {'kind': 'circle', 'source': *source_red, 'line_color': 'red', 'size': 8}
+        - {'kind': 'line', 'source': *snr_source_blue, 'line_color': 'blue'}
+        - {'kind': 'circle', 'source': *snr_source_blue, 'line_color': 'blue', 'size': 10}
+        - {'kind': 'line', 'source': *snr_source_orange, 'line_color': 'orange'}
+        - {'kind': 'circle', 'source': *snr_source_orange, 'line_color': 'orange', 'size': 8}
+        - {'kind': 'line', 'source': *snr_source_red, 'line_color': 'red'}
+        - {'kind': 'circle', 'source': *snr_source_red, 'line_color': 'red', 'size': 8}
+#--> Limiting Magnitude figure
+#----> Mag ----> Data sources
+- !ColumnDataSource: &mag_source_blue
+    ref: "mag_source_blue"
+    data:
+        x: !self._pivotwave[2:-3]
+        y: !self._mag[2:-3]
+        desc: !self.camera.bandnames[2:-3]
+- !ColumnDataSource: &mag_source_orange
+    ref: "mag_source_orange"
+    data:
+        x: !self._pivotwave[:2]
+        y: !self._mag[:2]
+        desc: !self.camera.bandnames[:2]
+- !ColumnDataSource: &mag_source_red
+    ref: "mag_source_red"
+    data:
+        x: !self._pivotwave[-3:]
+        y: !self._mag[-3:]
+        desc: !self.camera.bandnames[-3:]
+#----> Mag ----> Plot range
+- !Range1d: &mag_xrange
+    ref: "mag_xrange"
+    start: 100
+    end: 2300
+    bounds: !!python/tuple [120, 2300]
+#----> Mag ----> Hover Tooltip
+- !HoverTool: &mag_hover
+    ref: "mag_hover"
+    point_policy: "snap_to_data"
+    tooltips: !self.mag_hover_tooltip
+#----> Mag ----> Figure
+- !Figure: &mag_figure
+    ref: "mag_figure"
+    x_range: *mag_xrange
+    y_range: !!python/tuple [0, 40]
+    y_axis_label: 'Limiting Magnitude'
+    x_axis_label: 'Wavelength (nm)'
+    add_tools: !!python/list [*mag_hover]
+    elements:
+        - {'kind': 'line', 'source': *mag_source_blue, 'line_color': 'blue'}
+        - {'kind': 'circle', 'source': *mag_source_blue, 'line_color': 'blue', 'size': 10}
+        - {'kind': 'line', 'source': *mag_source_orange, 'line_color': 'orange'}
+        - {'kind': 'circle', 'source': *mag_source_orange, 'line_color': 'orange', 'size': 8}
+        - {'kind': 'line', 'source': *mag_source_red, 'line_color': 'red'}
+        - {'kind': 'circle', 'source': *mag_source_red, 'line_color': 'red', 'size': 8}
+#--> Exposure Time figure
+#----> Exp ----> Data sources
+- !ColumnDataSource: &exp_source_blue
+    ref: "exp_source_blue"
+    data:
+        x: !self._pivotwave[2:-3]
+        y: !self._exp[2:-3]
+        desc: !self.camera.bandnames[2:-3]
+- !ColumnDataSource: &exp_source_orange
+    ref: "exp_source_orange"
+    data:
+        x: !self._pivotwave[:2]
+        y: !self._exp[:2]
+        desc: !self.camera.bandnames[:2]
+- !ColumnDataSource: &exp_source_red
+    ref: "exp_source_red"
+    data:
+        x: !self._pivotwave[-3:]
+        y: !self._exp[-3:]
+        desc: !self.camera.bandnames[-3:]
+#----> Exp ----> Plot range
+- !Range1d: &exp_xrange
+    ref: "exp_xrange"
+    start: 100
+    end: 2300
+    bounds: !!python/tuple [120, 2300]
+#----> Exp ----> Hover Tooltip
+- !HoverTool: &exp_hover
+    ref: "exp_hover"
+    point_policy: "snap_to_data"
+    tooltips: !self.exp_hover_tooltip
+#----> Exp ----> Figure
+- !Figure: &exp_figure
+    ref: "exp_figure"
+    x_range: *exp_xrange
+    y_range: !!python/tuple [0, 40]
+    y_axis_label: 'Exposure Time'
+    x_axis_label: 'Wavelength (nm)'
+    add_tools: !!python/list [*exp_hover]
+    elements:
+        - {'kind': 'line', 'source': *exp_source_blue, 'line_color': 'blue'}
+        - {'kind': 'circle', 'source': *exp_source_blue, 'line_color': 'blue', 'size': 10}
+        - {'kind': 'line', 'source': *exp_source_orange, 'line_color': 'orange'}
+        - {'kind': 'circle', 'source': *exp_source_orange, 'line_color': 'orange', 'size': 8}
+        - {'kind': 'line', 'source': *exp_source_red, 'line_color': 'red'}
+        - {'kind': 'circle', 'source': *exp_source_red, 'line_color': 'red', 'size': 8}
+#--> SED figure
+#----> SED ----> Figure
+- !ColumnDataSource: &spectrum_template
+    ref: "spectrum_template"
+    data:
+        x: !self.template_wave
+        y: !self.template_flux
+#----> SED ----> Plot range
+- !Range1d: &sed_xrange
+    ref: "sed_xrange"
+    start: 100
+    end: 2300
+    bounds: !!python/tuple [120, 2300]
+#----> SED ----> Figure
 - !Figure: &sed_figure
     ref: "sed_figure"
     x_range: *sed_xrange
@@ -143,11 +258,12 @@
             - !Panel:
                 title: 'Controls'
                 child: 
-                    !WidgetBox:
+                    !widgetbox:
                         children:
                         - *ap_slider
                         - *exp_slider
                         - *mag_slider
+                        - *snr_slider
                         - *template_select
             - !Panel:
                 title: 'Info'
@@ -174,11 +290,21 @@
                         - *load_button
                         - *load_message
         - !Tabs:
+            ref: "figure_tabs"
+            callback: *tab_callback
             tabs:
             - !Panel:
                 title: "SNR"
                 width: 800
                 child: *snr_figure
+            - !Panel:
+                title: "ExpTime"
+                width: 800
+                child: *exp_figure
+            - !Panel:
+                title: "Magnitude"
+                width: 800
+                child: *mag_figure
             - !Panel:
                 title: 'SED'
                 width: 800

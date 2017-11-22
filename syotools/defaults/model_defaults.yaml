@@ -50,6 +50,7 @@ Exposure:
         - JsonUnit
         - {value: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], unit: ""}
     magnitude:
+        - JsonUnit
         - {value: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], unit: "mag(AB)"}
     unknown: "snr"
 Spectrograph:

@@ -126,9 +126,9 @@ class JsonSpectrum(object):
             raise ValueError("Serialized element is not a JsonSpectrum")
         jspec = cls()
         jsdict = serialized[1]
-        jspec._wave = jsdict['wave']
+        jspec._wave = np.array(jsdict['wave'])
         jspec._wunit = jsdict['wunit']
-        jspec._flux = jsdict['flux']
+        jspec._flux = np.array(jsdict['flux'])
         jspec._funit = jsdict['funit']
         return jspec
     
@@ -208,7 +208,6 @@ def pre_decode(serialized):
     
     Same for JsonSpectra.
     """
-    
     try:
         spec = JsonSpectrum.decode_json(serialized)
         return spec.use

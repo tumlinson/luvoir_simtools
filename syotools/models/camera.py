@@ -243,7 +243,7 @@ class Camera(PersistentModel):
         #serialize with JsonUnit for transportation
         return pre_encode(result)
     
-    def interpolate_to_bands(self, sed):
+    def interpolate_at_bands(self, sed):
         """
         Interpolate an SED to obtain magnitudes for the camera's wavebands.
         """

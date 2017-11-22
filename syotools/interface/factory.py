@@ -5,9 +5,11 @@ Created on Mon Feb 20 14:05:03 2017
 @author: gkanarek
 """
 
-from bokeh.layouts import column, row, WidgetBox, gridplot
+from bokeh.layouts import column, row, widgetbox, gridplot
 from bokeh.plotting import Figure
-from bokeh.models import ColumnDataSource, HoverTool, Range1d
+from bokeh.models.tools import HoverTool
+from bokeh.models.ranges import Range1d
+from bokeh.models.sources import ColumnDataSource
 from bokeh.models.callbacks import CustomJS
 from bokeh.models.widgets import (Slider, Tabs, Div, Panel, Select, TextInput,
                                   Button, Toggle)
@@ -22,7 +24,7 @@ mappings = {'CustomJS': CustomJS,
             'Div': Div,
             'Select': Select,
             'Tabs': Tabs,
-            'WidgetBox': WidgetBox,
+            'widgetbox': widgetbox,
             'TextInput': TextInput,
             'Button': Button,
             'gridplot': gridplot,

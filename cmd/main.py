@@ -6,11 +6,12 @@ import numpy as np
 from colorcet import cm
 from bokeh.layouts import layout
 from bokeh.io import curdoc
-from bokeh.models import ColumnDataSource, Range1d, Slider, Panel, Tabs, Column 
+from bokeh.models import ColumnDataSource, Range1d, Slider, Panel, Tabs, Column, Div 
 from holoviews.operation.datashader import datashade
 
 import load_dataset as l 
 import set_plot_options as sp 
+import cmd_help as h
 
 hv.extension('bokeh')
 renderer = hv.renderer('bokeh').instance(mode='server')
@@ -42,11 +43,13 @@ widget = parambokeh.Widgets(cmap_picker, mode='raw') # the color picker
 shaded = datashade(dmap, streams=[hv.streams.RangeXY, cmap_picker], y_range=(-13,7), y_sampling=0.05, x_sampling=0.025, height=1000) # "sampling" parameters control "pixel size" 
 hv.opts("RGB [width=400 height=800 xaxis=bottom yaxis=left fontsize={'title': '14pt'}]")
 hv.opts("Curve [width=150 yaxis=None show_frame=False] (color='black') {+framewise} Layout [shared_axes=False]")
+hv.opts("Points [tools=['box_select']]")
 
 plot = renderer.get_plot(shaded, doc=curdoc())     ### Pass the HoloViews object to the renderer
 
-#def age_slider_update(attrname, old, new):             
-#    age_stream.event(age=new)
+mag_label_source = ColumnDataSource(data={'x': [3.0,3.0,3.0,3.0,3.0],
+                        'y': [-10-0.4,-5-0.4,0-0.4,5-0.4,10-0.4], 'text':['35.0','30.0','25.0','20.0','15.0']}) 
+plot.state.text('x','y','text', source=mag_label_source, text_font_size='12pt', text_color='deepskyblue', text_align='right')
 
 def actual_age_slider_update(attrname, old, new):             
     # this is necessary because the table of values often have non-exact age values, e.g. 9.45000001 
@@ -55,6 +58,10 @@ def actual_age_slider_update(attrname, old, new):
     for entry, integer in zip(age_list, np.arange(94)): 
         age_slider_dict[str(entry)] = integer 
     age_stream.event(age=age_slider_dict[str(new)]) 
+
+def distance_slider_update(attrname, old, new):             
+    distmod = 5. * np.log10((new+1e-5) * 1e6) - 5. 
+    mag_label_source.data['text'] = (distmod+np.array([10,5,0,-5,-10])).astype('|S5')
 
 def mass_slider_update(attrname, old, new):             
     mass_stream.event(mass=new)
@@ -69,13 +76,13 @@ astro_controls = []
 exposure_controls = [] 
 visual_controls = [widget] 
 
-#age_slider = Slider(start=1, end=93, value=80, step=1, title="Age")
-#age_slider.on_change('value', age_slider_update)
-#astro_controls.append(age_slider) 
-
-actual_age_slider = Slider(start=5.5, end=10., value=9., step=0.05, title="Age")
+actual_age_slider = Slider(start=5.5, end=10.15, value=10., step=0.05, title="Log(Age in Gyr)")
 actual_age_slider.on_change('value', actual_age_slider_update)
 astro_controls.append(actual_age_slider) 
+
+distance_slider = Slider(start=0.0, end=20., value=1., step=0.5, title="Distance [Mpc]")
+distance_slider.on_change('value', distance_slider_update)
+astro_controls.append(distance_slider) 
 
 mass_slider = Slider(start=0.1, end=10., value=1., step=0.05, title="Mass")
 mass_slider.on_change('value', mass_slider_update)
@@ -89,13 +96,16 @@ aperture_slider = Slider(start=1, end=20, value=15, step=1, title="Aperture (not
 aperture_slider.on_change('value', aperture_slider_update)
 exposure_controls.append(aperture_slider) 
 
-
 sp.set_plot_options(plot.state) # plot.state has type Figure from bokeh, so can be manipulated in the usual way 
 
 astro_tab = Panel(child=Column(children=astro_controls), title='Stars') 
 exposure_tab = Panel(child=Column(children=exposure_controls), title='Exposure') 
+info_tab = Panel(child=Div(text = h.help(), width=300), title='Info') 
 visual_tab = Panel(child=Column(children=[widget]), title='Visuals') 
-controls = Tabs(tabs=[astro_tab, exposure_tab, visual_tab], width=350)
+controls = Tabs(tabs=[astro_tab, exposure_tab, visual_tab, info_tab], width=350)
 
 layout = layout([[controls, plot.state]], sizing_mode='fixed')
 curdoc().add_root(layout)
+
+
+

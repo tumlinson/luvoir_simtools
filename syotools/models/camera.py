@@ -137,9 +137,9 @@ class Camera(PersistentModel):
         pivotwave, aperture = self.recover('pivotwave','telescope.aperture')
         
         fwhm = (1.22 * u.rad * pivotwave / aperture).to(u.arcsec)
-        
+        fwhm = np.clip(fwhm, 0.007 * u.arcsec, None)
         #serialize with JsonUnit for transportation.
-        return pre_encode(fwhm.clip(min=0.007))
+        return pre_encode(fwhm)
     
     def _print_initcon(self, verbose):
         if verbose: #These are our initial conditions

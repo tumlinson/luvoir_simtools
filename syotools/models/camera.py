@@ -46,12 +46,12 @@ class Camera(PersistentModel):
         bandnames    - names of bands (string list)
         channels     - grouping of bands into channels [UV, Optical, IR], 
                        and indicating the reference band for pixel size (list of tuples)
-        ab_zeropoint - flux zero-point for each band in photons/s/cm2/nm (float array)
         total_qe     - total quantum efficiency in each band (float array)
         ap_corr      - magnitude correction factor for aperture size (float array)
         bandpass_r   - resolution in each bandpass (float array)
         dark_current - dark current values in each band (float array)
         detector_rn  - read noise for the detector in each band (float array)
+        sky_sigma    - sky background emission (float array)
         
         _default_model - used by PersistentModel
         
@@ -68,12 +68,13 @@ class Camera(PersistentModel):
     pivotwave = pre_encode(np.zeros(1, dtype=float) * u.nm)
     bandnames = ['']
     channels = [([],0)]
-    ab_zeropoint = pre_encode(np.zeros(1, dtype=float) * (u.photon / u.s / u.cm**2 / u.nm))
+    
     total_qe = pre_encode(np.zeros(1, dtype=float) * u.dimensionless_unscaled)
     ap_corr = pre_encode(np.zeros(1, dtype=float) * u.dimensionless_unscaled)
     bandpass_r = pre_encode(np.zeros(1, dtype=float) * u.dimensionless_unscaled)
     dark_current = pre_encode(np.zeros(1, dtype=float) * (u.electron / u.s / u.pixel))
     detector_rn = pre_encode(np.zeros(1, dtype=float) * (u.electron / u.pixel)**0.5)
+    sky_sigma = pre_encode(np.zeros(1, dtype=float) * u.dimensionless_unscaled)
     
     @property
     def pixel_size(self):
@@ -117,6 +118,17 @@ class Camera(PersistentModel):
         return pre_encode(pivotwave / bandpass_r)
     
     @property
+    def ab_zeropoint(self):
+        """
+        AB-magnitude zero points as per Marc Postman's equation.
+        """
+        pivotwave = self.recover('pivotwave').to(u.nm)
+        abzp = 5509900. * (u.photon / u.s / u.cm**2) / pivotwave
+        
+        return pre_encode(abzp)
+        
+    
+    @property
     def fwhm_psf(self):
         """
         Calculate the FWHM of the camera's PSF.
@@ -125,8 +137,9 @@ class Camera(PersistentModel):
         pivotwave, aperture = self.recover('pivotwave','telescope.aperture')
         
         fwhm = (1.22 * u.rad * pivotwave / aperture).to(u.arcsec)
+        
         #serialize with JsonUnit for transportation.
-        return pre_encode(fwhm)
+        return pre_encode(fwhm.clip(min=0.007))
     
     def _print_initcon(self, verbose):
         if verbose: #These are our initial conditions
@@ -148,14 +161,10 @@ class Camera(PersistentModel):
         Calculate the sky flux as per Eq 6 in the SNR equation paper.
         """
         
-        (f0, D, dlam, Phi, fwhm, diff) = self.recover('ab_zeropoint', 
+        (f0, D, dlam, Phi, fwhm, diff, Sigma) = self.recover('ab_zeropoint', 
                 'telescope.aperture', 'derived_bandpass', 'pixel_size', 
-                'fwhm_psf', 'telescope.diff_limit_arcsec')
+                'fwhm_psf', 'telescope.diff_limit_arcsec', 'sky_sigma')
         
-        #Should this actually be hardcoded in this function? 
-        #Or can we store/calculate it somewhere? Maybe in defaults?
-        Sigma = np.array([23.807, 25.517, 22.627, 22.307, 21.917, 
-                          22.257, 21.757, 21.567, 22.417, 22.537])
         D = D.to(u.cm)
         m = 10.**(-0.4 * Sigma) / u.arcsec**2
         Npix = self._sn_box(False)

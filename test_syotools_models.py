@@ -12,6 +12,8 @@ Or, to save the output in a file:
 """
 from __future__ import print_function
 
+from syotools import cdbs
+
 from syotools.models import Exposure, Camera, Telescope
 from pprint import pprint
 

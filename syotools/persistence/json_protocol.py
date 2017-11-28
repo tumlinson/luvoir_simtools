@@ -14,7 +14,7 @@ from collections import OrderedDict
 
 #Base class:
 from .protocol import Protocol
-from ..utils import JsonUnit
+from ..utils import JsonUnit, JsonSpectrum
 
 ####JSON protocol implementation
 # 2017-11-20: converted to OrderedDict, to preserve attribute order.
@@ -30,7 +30,7 @@ class JSON(Protocol):
         We'll use JsonUnit as the means of encoding/decoding astropy.unit.Quantity
         objects.
         """
-        if isinstance(entry, JsonUnit):
+        if isinstance(entry, (JsonUnit, JsonSpectrum)):
             return entry.encode_json()
         elif isinstance(entry, dict):
             return OrderedDict([(k, self.encode(v)) for k,v in entry.items()])
@@ -96,7 +96,7 @@ class JSON(Protocol):
         Store a model profile as a dictionary, which can be saved in a file.
         """
         profile = {}
-        
+
         for attr in model._tracked_attributes:
             val = getattr(model, attr)
             profile[attr] = self.encode(val)

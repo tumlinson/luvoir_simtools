@@ -11,9 +11,23 @@ from __future__ import (print_function, division, absolute_import, with_statemen
 import astropy.units as u
 #from astropy.modeling.functional_models import Box1D
 #import numpy as np
+import pysynphot as pys
 
 #Define a new unit for spectral flux density
 flambda = u.def_unit(["flambda","flam"], (u.photon / u.s / u.cm**2 / u.nm))
+
+def renorm_sed(sed, new_magnitude):
+    """
+    Utility to renormalize an SED to a new manitude.
+    """
+    band = pys.ObsBandpass('johnson,v')
+    band.convert('nm')
+        
+    new_sed = sed.renorm((new_magnitude + 2.5*u.mag('AB')).value, 'abmag', band)
+    new_sed.convert('nm')
+    new_sed.convert('abmag')
+    
+    return new_sed
 
 def mag_from_sed(sed, camera):
     """

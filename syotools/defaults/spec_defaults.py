@@ -14,6 +14,7 @@ import syotools.cdbs
 
 import pysynphot as pys
 import astropy.io.ascii as asc
+from syotools.utils import pre_encode
 
 #pathlib is not supported in python 2
 try:
@@ -40,7 +41,7 @@ def load_txtfile(spec):
     sp = sp.renorm(30., 'abmag', pys.ObsBandpass(band))
     sp.convert('abmag')
     sp.convert('nm')
-    return sp
+    return pre_encode(sp)
 
 def load_pysfits(spec):
     fname = spec['file']
@@ -56,7 +57,7 @@ def load_pysfits(spec):
     sp = sp.renorm(30., 'abmag', pys.ObsBandpass(band))
     sp.convert('abmag')
     sp.convert('nm')
-    return sp
+    return pre_encode(sp)
 
 specs = {'ctts': {'desc': 'Classical T-Tauri Star', 
                   'file': [data_base, 'CTTS_etc_d140pc_101116.txt'],
@@ -129,11 +130,11 @@ flatsp = pys.FlatSpectrum(30, fluxunits='abmag')
 flatsp = flatsp.renorm(30., 'abmag', pys.ObsBandpass('johnson,v'))
 flatsp.convert('abmag') 
 flatsp.convert('nm') 
-default_spectra['specs']['fab'] = flatsp
+default_spectra['specs']['fab'] = pre_encode(flatsp)
 default_spectra['descs']['fab'] = 'Flat (AB)'
 
 bb = pys.BlackBody(5000)
 bb.convert('abmag') 
 bb.convert('nm') 
-default_spectra['specs']['bb'] = bb
+default_spectra['specs']['bb'] = pre_encode(bb)
 default_spectra['descs']['bb'] = 'Blackbody (5000K)'

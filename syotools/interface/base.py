@@ -47,7 +47,12 @@ class SYOTool(object):
     save_ext = '.json'
     save_dir = "saves"
     save_models = [] #must be set by the subclass
-    save_params = [] #must be set by the subclass
+    save_params = {} #must be set by the subclass
+    load_mismatch = False #do the loaded models and parameters match?
+    
+    #storing the existing save JSON dictionary, in case of cross-tool calculations
+    _save_json = {'models':{}}
+    
         
     def self_constructor(self, loader, tag_suffix, node):
         """
@@ -167,15 +172,13 @@ class SYOTool(object):
         
         if not savefile:
             postfix = ''.join(sample(digits + ascii_letters, 8))
-            savefile = "{}.{}.{}".format(self.user_prefix, self.tool_prefix, 
-                                            postfix)
+            savefile = "{}.{}".format(self.user_prefix, postfix)
             testfile = savefile + self.save_ext
             
         while not overwrite and os.path.exists(os.path.join(self.save_dir, 
                                                             testfile)):
             postfix = sample(digits + ascii_letters, 8)
-            savefile = "{}.{}.{}".format(self.user_prefix, self.tool_prefix, 
-                                            postfix)
+            savefile = "{}.{}".format(self.user_prefix, postfix)
             testfile = savefile + self.save_ext
         
         return savefile
@@ -183,17 +186,38 @@ class SYOTool(object):
     def save_file(self, savefile="", overwrite=False):
         """
         Save the relevant models and parameters to a file.
+        
+        As of 2017-10-30, this is being reworked to implement the following
+        save/load scheme:
+            
+        - Top-level dictionary split into two sub-dictionaries: 
+            - "tools", including a dictionary for the parameters associated 
+              with each individual SYOTool subclass which has used the same 
+              save file;
+            - "models", including a dictionary for the parameters associated 
+              with the individual model instances involved in a calculation.
+        
+        When saving from a particular tool instance, the model parameters will
+        be updated (overwriting the previous parameters, if any), and the tool
+        parameters FOR THAT TOOL ONLY will be updated.
+        
+        An individual calculation is identified by its exposure id (stored in
+        the Exposure.exp_id parameter), which is also used to construct the
+        filename. Whenever a new calculation file is saved, a new exp_id is
+        generated for the Exposure model.
         """
             
         if (not self.save_params and not self.save_models):
             raise NotImplementedError("No models or parameters to save.")
             
         #Collect parameters and models we want to save
-        output = {}
-        output['params'] = {param: getattr(self, param) \
-                              for param in self.save_params}
-        output['models'] = {model: getattr(self, model).encode() \
-                              for model in self.save_models}
+        par_key = '{}_params'.format(self.tool_prefix)
+        self._save_json[par_key] = {param: getattr(self, param) \
+                                       for param in self.save_params}
+        
+        #Only update models that are tracked by this tool
+        for model in self.save_models:
+            self._save_json['models'][model] = getattr(self, model).encode()
         
         #Make sure we have a workable filename
         filename = self.validate_filename(savefile, overwrite=overwrite)
@@ -202,11 +226,24 @@ class SYOTool(object):
         try:
             #Dump to the indicated file
             with open(os.path.join(self.save_dir, outfile), 'w') as f:
-                json.dump(output, f)
+                json.dump(self._save_json, f)
         except Exception as e:
             print(e)
             return ""
+        
+        self.load_mismatch = False #by definition, it now matches
         return filename
+    
+    def _check_param(self, param_name, model_name, model_attr):
+        """
+        Verify that the value of the indicated parameter matches the value
+        stored in the mapped model attribute.
+        """
+        
+        par = getattr(self, param_name)
+        model = getattr(self, model_name)
+        
+        return par == getattr(model, model_attr)
     
     def load_file(self, savefile):
         """
@@ -214,6 +251,32 @@ class SYOTool(object):
         successful load; 1 means the savefile doesn't exist, 2 means there was
         an error retrieving the save state; 3 means an error in loading param
         and model values.
+        
+        As of 2017-10-30, this is being reworked to implement the following
+        save/load scheme:
+            
+        - Top-level dictionary split into two sub-dictionaries: 
+            - "tools", including a dictionary for the parameters associated 
+              with each individual SYOTool subclass which has used the same 
+              save file;
+            - "models", including a dictionary for the parameters associated 
+              with the individual model instances involved in a calculation.
+        
+        When loading into a particular tool instance, the model parameters will
+        be loaded, and will be used to set the parameters of the tool, if 
+        possible. Three notes:
+            - Any tool parameters which are not set by model parameters will
+              revert to the values in the save dict (as long as they don't
+              cause some sort of conflict).
+            - If there is no save dictionary for the current tool included in
+              the save file, a warning will be provided to the user, and any 
+              model-independent parameters will be set to the default values 
+              for that tool.
+            - If there is a save dictionary for the current tool included in
+              the save file, and if the model-dependent tool parameters do not
+              match the values in their respective model dictionaries, then
+              a warning will be provided to the user, and the model values will
+              take priority.
         """
         
         if (not self.save_params and not self.save_models):
@@ -232,16 +295,23 @@ class SYOTool(object):
             return 2
         try:
             #Restore tracked parameters and models from the savestate (leave alone
-            #anything which is not included in the savestate)
-            for param in self.save_params:
-                if param in state['params']:
-                    setattr(self, param, state['params'][param])
-            
+            #anything which is not included in the savestate). Also check for
+            #consistency between any save_params mapped to particular model 
+            #attributes
             for model in self.save_models:
                 if model in state['models']:
                     model_state = getattr(self, model)
                     model_state.decode(state['models'][model])
                     setattr(self, model, model_state)
+            
+            par_key = '{}_params'.format(self.tool_prefix)
+            if par_key not in state:
+                return 0
+            for param, model_map in self.save_params.items():
+                if param in state[par_key]:
+                    setattr(self, param, state[par_key][param])
+                    if not self.load_mismatch and model_map is not None:
+                        self.load_mismatch = self._check_param(param, *model_map)
         except Exception as e:
             print(e)
             return 3

@@ -16,6 +16,7 @@ from syotools.models.base import PersistentModel
 from syotools.defaults import default_exposure
 from syotools.utils import pre_encode, pre_decode
 from syotools.spectra import SpectralLibrary
+from syotools.spectra.utils import renorm_sed
 
 def nice_print(arr):
     """
@@ -85,12 +86,14 @@ class Exposure(PersistentModel):
     _unknown = '' #one of 'snr', 'magnitude', 'exptime'
     
     verbose = False #set this for debugging purposes only
+    _disable = False #set this to disable recalculating (when updating several attributes at the same time)
     
-    def __init__(self, **kw):
-        """
-        We need to ensure that the initial SED is set correctly from the 
-        """
-        super(Exposure, self).__init__(**kw)
+    def disable(self):
+        self._disable = True
+    
+    def enable(self):
+        self._disable = False
+        self.calculate()
     
     #Property wrappers for the three possible uknowns, so that we can auto-
     #calculate whenever they're set, and to prevent overwriting previous
@@ -110,6 +113,8 @@ class Exposure(PersistentModel):
         Ensure that the given Quantity is an array, propagating if necessary.
         """
         q = pre_encode(quant)
+        if len(q) < 2:
+            import pdb; pdb.set_trace()
         val = q[1]['value']
         if not isinstance(val, list):
             nb = self.recover('camera.n_bands')
@@ -119,7 +124,7 @@ class Exposure(PersistentModel):
     
     @property
     def exptime(self):
-        return self.recover('_exptime')
+        return self._exptime
     
     @exptime.setter
     def exptime(self, new_exptime):
@@ -130,7 +135,7 @@ class Exposure(PersistentModel):
     
     @property
     def snr(self):
-        return self.recover('_snr')
+        return self._snr
     
     @snr.setter
     def snr(self, new_snr):
@@ -141,7 +146,7 @@ class Exposure(PersistentModel):
     
     @property
     def sed(self):
-        return self.recover('_sed')
+        return self._sed
     
     @sed.setter
     def sed(self, new_sed):
@@ -157,14 +162,26 @@ class Exposure(PersistentModel):
         self._sed_id = new_sed_id
         self._sed = pre_encode(SpectralLibrary.get(new_sed_id, SpectralLibrary.fab))
         self.calculate()
+        
+    def renorm_sed(self, new_mag):
+        sed = self.recover('sed')
+        self.sed = renorm_sed(sed, pre_decode(new_mag))
+    
+    @property
+    def interpolated_sed(self):
+        """
+        The exposure's SED interpolated at the camera bandpasses.
+        """
+        sed = self.recover('sed')
+        return pre_encode(self.camera.interpolate_at_bands(sed))
     
     @property
     def magnitude(self):
         if self.unknown == "magnitude":
-            return self.recover('_magnitude')
+            return self._magnitude
         #If magnitude is not unknown, it should be interpolated from the SED
         #at the camera bandpasses. 
-        return pre_encode(self.camera.interpolate_to_bands(self.sed))
+        return self.interpolated_sed
     
     @magnitude.setter
     def magnitude(self, new_magnitude):
@@ -179,6 +196,8 @@ class Exposure(PersistentModel):
         based on the other two. The "unknown" attribute controls which of these
         parameters is calculated.
         """
+        if self._disable:
+            return False
         if self.camera is None or self.telescope is None:
             return False
         status = {'magnitude': self._update_magnitude,
@@ -219,7 +238,7 @@ class Exposure(PersistentModel):
         #attributes instead.
                
         #Convert JsonUnits to Quantities for calculations
-        (_snr, _nexp) = self.recover('_snr', 'n_exp')
+        (_snr, _nexp) = self.recover('snr', 'n_exp')
         (_total_qe, _detector_rn, _dark_current) = self.recover('camera.total_qe', 
                 'camera.detector_rn', 'camera.dark_current')
         
@@ -236,7 +255,7 @@ class Exposure(PersistentModel):
         texp = ((-b + np.sqrt(b**2 - 4*a*c)) / (2*a)).to(u.s)
         
         #serialize with JsonUnit for transportation
-        self.exptime = pre_encode(texp)
+        self._exptime = pre_encode(texp)
         
         return True #completed successfully
         
@@ -252,7 +271,7 @@ class Exposure(PersistentModel):
         #attributes instead.
             
         #Grab values for calculation
-        (_snr, _exptime, _nexp) = self.recover('_snr', '_exptime', 'n_exp')
+        (_snr, _exptime, _nexp) = self.recover('snr', 'exptime', 'n_exp')
         (f0, c_ap, D, dlam) = self.recover('camera.ab_zeropoint', 
                                            'camera.ap_corr', 
                                            'telescope.aperture', 
@@ -314,7 +333,7 @@ class Exposure(PersistentModel):
         read_noise = _detector_rn**2 * sn_box * number_of_exposures
         dark_noise = sn_box * _dark_current * desired_exp_time
 
-        thermal = pre_decode(self.camera.c_thermal(sn_box))
+        thermal = pre_decode(self.camera.c_thermal(verbose=self.verbose))
         
         thermal_counts = desired_exp_time * thermal
         
@@ -334,7 +353,7 @@ class Exposure(PersistentModel):
             print()
             print('SNR: {}'.format(snr))
             print('Max SNR: {} in {} band'.format(snr.max(), self.camera.bandnames[snr.argmax()]))
-            
+        
         #serialize with JsonUnit for transportation
         self._snr = pre_encode(snr)
         

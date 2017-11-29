@@ -139,7 +139,7 @@
 - !Figure: &mag_figure
     ref: "mag_figure"
     x_range: *mag_xrange
-    y_range: !!python/tuple [0, 40]
+    y_range: !!python/tuple [25, 35]
     y_axis_label: 'Limiting Magnitude'
     x_axis_label: 'Wavelength (nm)'
     add_tools: !!python/list [*mag_hover]
@@ -185,7 +185,7 @@
 - !Figure: &exp_figure
     ref: "exp_figure"
     x_range: *exp_xrange
-    y_range: !!python/tuple [0, 40]
+    y_range: !!python/tuple [0, 2]
     y_axis_label: 'Exposure Time'
     x_axis_label: 'Wavelength (nm)'
     add_tools: !!python/list [*exp_hover]

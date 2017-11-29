@@ -65,6 +65,12 @@ hover_tooltip = """
         </div>
 """
 
+#establish simtools dir
+if 'LUVOIR_SIMTOOLS_DIR' not in os.environ:
+    fdir = os.path.abspath(__file__)
+    basedir = os.path.abspath(os.path.join(fdir, '..'))
+    os.environ['LUVOIR_SIMTOOLS_DIR'] = basedir
+
 class HDI_ETC(SYOTool):
     
     tool_prefix = "hdi"

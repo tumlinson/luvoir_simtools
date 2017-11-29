@@ -292,6 +292,7 @@
         - !Tabs:
             ref: "figure_tabs"
             callback: *tab_callback
+            width: 400
             tabs:
             - !Panel:
                 title: "SNR"

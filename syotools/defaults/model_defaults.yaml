@@ -16,12 +16,12 @@ Camera:
     name: "HDI"
     pivotwave: 
         - JsonUnit
-        - {value: [225., 275., 360., 440., 550., 640., 790., 1260., 1600., 2220.], unit: "nm"}
+        - {value: [225., 275., 336., 475., 606., 775., 850., 1260., 1600., 2220.], unit: "nm"}
     bandnames: ["FUV", "NUV", "U","B","V","R","I", "J", "H", "K"]
     channels: [[[0,1], 2], [[2, 3, 4, 5, 6], 2], [[7, 8, 9], 7]]
     total_qe:
         - JsonUnit
-        - {value: [0.08, 0.10, 0.15, 0.18, 0.18, 0.18, 0.12, 0.35, 0.35, 0.34], unit: "electron / ph"}
+        - {value: [0.11, 0.13, 0.20, 0.24, 0.24, 0.24, 0.16, 0.46, 0.46, 0.45], unit: "electron / ph"}
     ap_corr:
         - JsonUnit
         - {value: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0], unit: ""}
@@ -42,7 +42,7 @@ Exposure:
         - JsonUnit
         - {value: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], unit: "mag(AB)"}
     sed_id: "fab"
-    n_exp: 1
+    n_exp: 3
     exptime:
         - JsonUnit
         - {value: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0], unit: "h"}

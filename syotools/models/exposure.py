@@ -271,7 +271,7 @@ class PhotometricExposure(Exposure):
         mag = self.recover('magnitude')
         (f0, c_ap, D, dlam) = self.recover('camera.ab_zeropoint', 
                                            'camera.ap_corr', 
-                                           'telescope.aperture', 
+                                           'telescope.effective_aperture', 
                                            'camera.derived_bandpass')
         
         m = 10.**(-0.4*(mag.value))
@@ -330,7 +330,7 @@ class PhotometricExposure(Exposure):
         (_snr, _exptime, _nexp) = self.recover('snr', 'exptime', 'n_exp')
         (f0, c_ap, D, dlam) = self.recover('camera.ab_zeropoint', 
                                            'camera.ap_corr', 
-                                           'telescope.aperture', 
+                                           'telescope.effective_aperture', 
                                            'camera.derived_bandpass')
         (QE, RN, DC) = self.recover('camera.total_qe', 
                                     'camera.detector_rn', 
@@ -392,7 +392,6 @@ class PhotometricExposure(Exposure):
         thermal = pre_decode(self.camera.c_thermal(verbose=self.verbose))
         
         thermal_counts = desired_exp_time * thermal
-        
         snr = signal_counts / np.sqrt(signal_counts + sky_counts + read_noise
                                       + dark_noise + thermal_counts)
         

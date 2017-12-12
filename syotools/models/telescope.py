@@ -11,6 +11,7 @@ from syotools.models.base import PersistentModel
 from syotools.defaults import default_telescope
 from syotools.utils import pre_encode
 import astropy.units as u #for unit conversions
+import numpy as np
 
 
 class Telescope(PersistentModel):
@@ -21,6 +22,7 @@ class Telescope(PersistentModel):
     Attributes: #adapted from the original in Telescope.py
         name - The name of the telescope (string)
         aperture - The size of the primary telescope aperture, in meters (float)
+        unobscured_fraction - The fraction of the primary mirror which is not obscured (float)
         temperature - instrument temperature, in Kelvin (float)
         ota_emissivity - emissivity factor for a TMA (float)
         diff_limit_wavelength - diffraction limit wavelength, in nm (float)
@@ -39,18 +41,25 @@ class Telescope(PersistentModel):
     temperature = pre_encode(0. * u.K)
     ota_emissivity = pre_encode(0. * u.dimensionless_unscaled)
     diff_limit_wavelength = pre_encode(0. * u.nm)
+    unobscured_fraction = pre_encode(1. * u.dimensionless_unscaled)
         
     @property
-    def diff_limit_arcsec(self):
+    def diff_limit_fwhm(self):
         """
-        Convert the diffraction limit from nm to arcseconds.
+        Diffraction-limited PSF FWHM.
         """
         
         diff_limit_wavelength, aperture = self.recover('diff_limit_wavelength',
                                                        'aperture')
         
-        result = (1.22 * u.rad * diff_limit_wavelength / aperture).to(u.arcsec)
+        #result = (1.22 * u.rad * diff_limit_wavelength / aperture).to(u.arcsec)
+        result = (1.03 * u.rad * diff_limit_wavelength / aperture).to(u.arcsec)
         return pre_encode(result)
+    
+    @property
+    def effective_aperture(self):
+        unobscured, aper = self.recover('unobscured_fraction', 'aperture')
+        return pre_encode(np.sqrt(unobscured) * aper)
     
     def add_camera(self, camera):
         self.cameras.append(camera)

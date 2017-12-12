@@ -211,12 +211,12 @@ class LUMOS_ETC(SYOTool):
                 
         self.refs["flux_yrange"].start = 0.
         self.refs["flux_yrange"].end = 1.5 * tflux.max()
-        self.refs["flux_xrange"].start = min(bwave.min(), twave.min())
-        self.refs["flux_xrange"].end = max(bwave.max(), twave.max())
+        #self.refs["flux_xrange"].start = min(bwave.min(), twave.min())
+        #self.refs["flux_xrange"].end = max(bwave.max(), twave.max())
         self.refs["snr_yrange"].start = 0.
         self.refs["snr_yrange"].end = 1.5 * snr.max()
-        self.refs["snr_xrange"].start = min(bwave.min(), twave.min())
-        self.refs["snr_xrange"].end = max(bwave.max(), twave.max())
+        #self.refs["snr_xrange"].start = min(bwave.min(), twave.min())
+        #self.refs["snr_xrange"].end = max(bwave.max(), twave.max())
         
         self.refs["snr_source"].data = {'y': snr, 'x': bwave}
         self.refs["spectrum_template"].data = {'x': twave, 'y': tflux}

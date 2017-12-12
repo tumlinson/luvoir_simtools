@@ -95,8 +95,8 @@
 - !Range1d: &flux_xrange
     ref: "flux_xrange"
     start: 900.0
-    end: 4000.0
-    bounds: !!python/tuple [900.0, 4000.0]
+    end: 3000.0
+    bounds: !!python/tuple [900.0, 3000.0]
 - !Range1d: &flux_yrange
     ref: "flux_yrange"
     start: 0.0
@@ -123,8 +123,8 @@
 - !Range1d: &snr_xrange
     ref: "snr_xrange"
     start: 900.0
-    end: 4000.0
-    bounds: !!python/tuple [900.0, 4000.0]
+    end: 3000.0
+    bounds: !!python/tuple [900.0, 3000.0]
 - !Range1d: &snr_yrange
     ref: "snr_yrange"
     start: 0.0

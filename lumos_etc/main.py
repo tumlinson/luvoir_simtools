@@ -162,7 +162,7 @@ def i_clicked_a_button(new):
     link_box.text = """Working"""
 
 
-    out_table = Table([spectrum_template.data['w'],spectrum_template.data['f'],spectrum_template.data['w']], \
+    out_table = Table([spectrum_template.data['w'],spectrum_template.data['f'],spectrum_template.data['sn']], \
                          names=('wave','flux','sn')) 
    
     if (format_button_group.active == 1): out_table.write(filename, overwrite=True)

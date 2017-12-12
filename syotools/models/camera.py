@@ -46,6 +46,7 @@ class Camera(PersistentModel):
         bandnames    - names of bands (string list)
         channels     - grouping of bands into channels [UV, Optical, IR], 
                        and indicating the reference band for pixel size (list of tuples)
+        fiducials    - fiducial wavelength of the band, for reference (float array)
         total_qe     - total quantum efficiency in each band (float array)
         ap_corr      - magnitude correction factor for aperture size (float array)
         bandpass_r   - resolution in each bandpass (float array)
@@ -68,7 +69,7 @@ class Camera(PersistentModel):
     pivotwave = pre_encode(np.zeros(1, dtype=float) * u.nm)
     bandnames = ['']
     channels = [([],0)]
-    
+    fiducials = pre_encode(np.zeros(1, dtype=float) * u.nm)
     total_qe = pre_encode(np.zeros(1, dtype=float) * u.dimensionless_unscaled)
     ap_corr = pre_encode(np.zeros(1, dtype=float) * u.dimensionless_unscaled)
     bandpass_r = pre_encode(np.zeros(1, dtype=float) * u.dimensionless_unscaled)
@@ -88,10 +89,10 @@ class Camera(PersistentModel):
         pixsize = np.zeros(self.n_bands, dtype=float)
         
         #Convert from JsonUnit to Quantity for calculation purposes.
-        pivotwave, aperture = self.recover('pivotwave', 'telescope.aperture')
+        fiducials, aperture = self.recover('fiducials', 'telescope.aperture')
         
-        for bands, ref in self.channels:
-            pxs = (0.61 * u.rad * pivotwave[ref] / aperture).to(u.arcsec)
+        for ref, bands in enumerate(self.channels):
+            pxs = (0.5 * fiducials[ref] * u.rad / aperture).to(u.arcsec).value
             pixsize[bands] = pxs
         
         #serialize with JsonUnit for transportation purposes.
@@ -134,16 +135,22 @@ class Camera(PersistentModel):
         Calculate the FWHM of the camera's PSF.
         """
         #Convert to Quantity for calculations.
-        pivotwave, aperture = self.recover('pivotwave','telescope.aperture')
+        pivotwave, aperture = self.recover('pivotwave', 'telescope.aperture')
+        diff_limit, diff_fwhm = self.recover('telescope.diff_limit_wavelength',
+                                             'telescope.diff_limit_fwhm')
         
-        fwhm = (1.22 * u.rad * pivotwave / aperture).to(u.arcsec)
-        fwhm = np.clip(fwhm, 0.007 * u.arcsec, None)
+        #fwhm = (1.22 * u.rad * pivotwave / aperture).to(u.arcsec)
+        fwhm = (1.03 * u.rad * pivotwave / aperture).to(u.arcsec)
+        
+        #only use these values where the wavelength is greater than the diffraction limit
+        fwhm = np.where(pivotwave > diff_limit, fwhm, diff_fwhm) * u.arcsec
+        
         #serialize with JsonUnit for transportation.
         return pre_encode(fwhm)
     
     def _print_initcon(self, verbose):
         if verbose: #These are our initial conditions
-            print('Telescope diffraction limit: {}'.format(pre_decode(self.telescope.diff_limit_arcsec)))
+            print('Telescope diffraction limit: {}'.format(pre_decode(self.telescope.diff_limit_wavelength)))
             print('Telescope aperture: {}'.format(pre_decode(self.telescope.aperture)))
             print('Telescope temperature: {}'.format(pre_decode(self.telescope.temperature)))
             print('Pivot waves: {}'.format(nice_print(self.pivotwave)))
@@ -161,9 +168,9 @@ class Camera(PersistentModel):
         Calculate the sky flux as per Eq 6 in the SNR equation paper.
         """
         
-        (f0, D, dlam, Phi, fwhm, diff, Sigma) = self.recover('ab_zeropoint', 
-                'telescope.aperture', 'derived_bandpass', 'pixel_size', 
-                'fwhm_psf', 'telescope.diff_limit_arcsec', 'sky_sigma')
+        (f0, D, dlam, Phi, fwhm, Sigma) = self.recover('ab_zeropoint', 
+                'telescope.effective_aperture', 'derived_bandpass', 
+                'pixel_size', 'fwhm_psf', 'sky_sigma')
         
         D = D.to(u.cm)
         m = 10.**(-0.4 * Sigma) / u.arcsec**2
@@ -181,9 +188,7 @@ class Camera(PersistentModel):
         Calculate the number of pixels in the SNR computation box.
         """
 
-        (Phi, fwhm, diff) = self.recover('pixel_size', 'fwhm_psf', 
-                                         'telescope.diff_limit_arcsec')
-        fwhm_psf = np.maximum(fwhm, diff)
+        (Phi, fwhm_psf) = self.recover('pixel_size', 'fwhm_psf')
         sn_box = np.round(3. * fwhm_psf / Phi)
         
         if verbose:
@@ -200,8 +205,8 @@ class Camera(PersistentModel):
         #Convert to Quantities for calculation.
         (bandpass, pivotwave, aperture, ota_emissivity, 
          total_qe, pixel_size) = self.recover('derived_bandpass', 'pivotwave', 
-                'telescope.aperture',  'telescope.ota_emissivity', 'total_qe',
-                'pixel_size')
+                'telescope.effective_aperture',  'telescope.ota_emissivity', 
+                'total_qe', 'pixel_size')
         
         box = self._sn_box(verbose)
         

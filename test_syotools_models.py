@@ -16,6 +16,8 @@ from syotools import cdbs
 
 from syotools.models import Camera, Telescope, Spectrograph, PhotometricExposure, SpectrographicExposure
 from syotools.utils.jsonunit import str_jsunit
+import astropy.units as u 
+from syotools.utils import pre_encode
 #from pprint import pprint
 
 def test_photetc(print_models=True):
@@ -107,6 +109,24 @@ def test_specetc(print_models=True):
     e.unknown = "exptime"
     print("\nExptime: {}".format(e.exptime))"""
 
+def test_camera():
+    c = Camera()
+    t = Telescope()
+    t.aperture = pre_encode(15.08 * u.m)
+    t.add_camera(c)
+    sval = [49.70, 11.58, 257.88, 530.75, 962.04, 2075.26, 1819.15, 8058.30, 11806.49, 15819.07]
+    
+    expt = 3600. * u.s
+    qe = c.recover('total_qe')
+    fsky = c._fsky()
+    wav = c.recover("pivotwave")
+    print("Sky counts:")
+    for i in range(c.n_bands):
+        skc = (fsky[i] * expt * qe[i]).value
+        rat = skc / sval[i] * 100.
+        print("{:8.2f} ({:5.1f}% of spreadsheet value) at {:4.0f}".format(skc, rat, wav[i]))
+
 if __name__ == "__main__":
     #test_photetc()
-    test_specetc()
+    #test_specetc()
+    test_camera()

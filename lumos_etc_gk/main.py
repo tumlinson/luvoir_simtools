@@ -230,13 +230,17 @@ class LUMOS_ETC(SYOTool):
         self.dl_filename = self.refs["dl_textinput"].value
         self.refs["dl_format_button_group"].active = None
     
-    def dl_execute(self, attr, old, new):
+    def dl_execute(self, *arg):
         which_format = self.refs["dl_format_button_group"].active
         ext = ['.txt', '.fits'][which_format]
         fmt = ['ascii', 'fits'][which_format]
-        outfile = self.dl_filename + '.' + ext
+        outfile = self.dl_filename + ext
         self.refs["dl_linkbox"].text = "Please wait..."
-        out_table = Table([self.template_wave, self.template_flux, self.snr],
+        twave = self.template_wave
+        swave = self.background_wave
+        snr = self._snr
+        out_snr = np.interp(twave, swave, snr, left=0., right=0.)
+        out_table = Table([twave, self.template_flux, out_snr],
                          names=('wave','flux','sn'))
         out_table.write(outfile, format=fmt, overwrite=True)
         os.system('gzip -f ' + outfile)

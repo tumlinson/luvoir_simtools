@@ -131,7 +131,7 @@ hist_plot.xaxis.axis_line_color = 'black'
 hist_plot.yaxis.axis_line_color = 'black'
 hist_plot.border_fill_color = "white"
 hist_plot.min_border_left = 0
-hist_plot.image_url(url=["http://jt-astro.science/planets.jpg"], x=[-0.05], y=[305], w=[3.0], h=[305])
+hist_plot.image_url(url=["http://jt-astro.science/luvoir_simtools/data/planets.jpg"], x=[-0.05], y=[305], w=[3.0], h=[305])
 hist_plot.text([0.45], [280], ['Rocky'], text_align='center') 
 hist_plot.text([1.45], [280], ['Neptunes'], text_align='center') 
 hist_plot.text([2.45], [280], ['Jupiters'], text_align='center') 

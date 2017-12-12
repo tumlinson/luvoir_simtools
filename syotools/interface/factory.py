@@ -12,7 +12,7 @@ from bokeh.models.ranges import Range1d
 from bokeh.models.sources import ColumnDataSource
 from bokeh.models.callbacks import CustomJS
 from bokeh.models.widgets import (Slider, Tabs, Div, Panel, Select, TextInput,
-                                  Button, Toggle)
+                                  Button, Toggle, RadioButtonGroup)
 from bokeh.io import curdoc
 
 mappings = {'CustomJS': CustomJS,
@@ -28,7 +28,8 @@ mappings = {'CustomJS': CustomJS,
             'TextInput': TextInput,
             'Button': Button,
             'gridplot': gridplot,
-            'Toggle': Toggle
+            'Toggle': Toggle,
+            'RadioButtonGroup': RadioButtonGroup
             }
 
 sequences = {'column': column,

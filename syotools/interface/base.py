@@ -48,6 +48,7 @@ class SYOTool(object):
     save_dir = "saves"
     save_models = [] #must be set by the subclass
     save_params = {} #must be set by the subclass
+    tool_defaults = {}
     load_mismatch = False #do the loaded models and parameters match?
     
     #storing the existing save JSON dictionary, in case of cross-tool calculations
@@ -84,7 +85,9 @@ class SYOTool(object):
     
     def __init__(self):
         """
-        We need to initialize two dictionary attributes:
+        First step is to set all the tool default parameters.
+        
+        Then, we need to initialize two dictionary attributes:
             
             self.formats, to include any formatting keywords which are set 
                 in a separate string
@@ -95,9 +98,14 @@ class SYOTool(object):
         Then, we need to register all the constructors that we need.
         """
         
+        #Parse tool parameter defaults.
+        for param, val in self.tool_defaults.items():
+            setattr(self, param, val)
+        
         #Allow for pre-init stuff from the tool subclass.
         if self.tool_preinit is not None:
             self.tool_preinit()
+        
         
         #Handle YAML construction
         self.formats = {}

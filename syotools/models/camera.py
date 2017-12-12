@@ -258,7 +258,6 @@ class Camera(PersistentModel):
         """
         return mag_from_sed(sed, self)
         
-    
     def add_exposure(self, exposure):
         self.exposures.append(exposure)
         exposure.camera = self

@@ -16,7 +16,7 @@ import astropy.units as u
 
 from syotools import cdbs
 
-from syotools.models import Telescope, Camera, Exposure
+from syotools.models import Telescope, Camera, PhotometricExposure as Exposure
 from syotools.interface import SYOTool
 from syotools.spectra import SpectralLibrary
 from syotools.utils import pre_encode, pre_decode
@@ -85,7 +85,12 @@ class HDI_ETC(SYOTool):
     
     save_dir = os.path.join(os.environ['LUVOIR_SIMTOOLS_DIR'],'saves')
     
-    tool_defaults = {'exptime': pre_encode(1.0 * u.hour)}
+    #must include this to set defaults before the interface is constructed
+    tool_defaults = {'exptime': pre_encode(1.0 * u.hour),
+                     'snratio': pre_encode(30.0 * u.electron**0.5),
+                     'renorm_magnitude': pre_encode(30.0 * u.mag('AB')),
+                     'aperture': pre_encode(12.0 * u.m),
+                     'spectrum_type': 'fab'}
     
     def tool_preinit(self):
         """
@@ -107,12 +112,7 @@ class HDI_ETC(SYOTool):
         self.mag_hover_tooltip = hover_tooltip.format("Magnitude")
         self.exp_hover_tooltip = hover_tooltip.format("Exptime")
         
-        #set default input values
-        self.exptime = pre_encode(1.0 * u.hour)
-        self.snratio = pre_encode(30.0 * u.electron**0.5)
-        self.renorm_magnitude = pre_encode(30.0 * u.mag('AB'))
-        self.aperture = pre_encode(12.0 * u.m)
-        self.spectrum_type = 'fab'
+        #update default exposure based on tool_defaults
         self.update_exposure()
         
         #Formatting & interface stuff:
@@ -147,6 +147,8 @@ class HDI_ETC(SYOTool):
         #set the correct exposure unknown:
         if active_tab < 3:
             self.exposure.unknown = ["snr", "exptime", "magnitude"][active_tab]
+        
+        self.controller(None, None, None)
     
     def controller(self, attr, old, new):
         #Grab values from the inputs

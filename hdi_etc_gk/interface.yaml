@@ -197,7 +197,7 @@
         - {'kind': 'line', 'source': *exp_source_red, 'line_color': 'red'}
         - {'kind': 'circle', 'source': *exp_source_red, 'line_color': 'red', 'size': 8}
 #--> SED figure
-#----> SED ----> Figure
+#----> SED ----> Data source
 - !ColumnDataSource: &spectrum_template
     ref: "spectrum_template"
     data:

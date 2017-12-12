@@ -15,44 +15,35 @@ except ImportError:
     import os
     use_pathlib = False
 
-
-import astropy.io.ascii as asc #to read .dat files
-from syotools.utils import ordered_load, OrderedLoader
+from collections import OrderedDict
+from syotools.utils import ordered_load
 
 
 #Load data from ascii table file (need a better method? maybe a FITS table?)
 #and establish the default file path
 if use_pathlib:
-    spec_default_path = str(Path('data') / 'LUMOS_vals.dat')
+    spec_default_path = str(Path('data') / 'LUMOS_ETC.fits')
     yaml_default_path = str(Path('defaults') / 'model_defaults.yaml')
 else:
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    spec_default_path = os.path.join(current_dir, '..', 'data', 'LUMOS_vals.dat')
+    spec_default_path = os.path.join(current_dir, '..', 'data', 'LUMOS_ETC.fits')
     yaml_default_path = os.path.join(current_dir, 'model_defaults.yaml')
-spec_default = asc.read(spec_default_path)
-
-
-def spec_constructor(loader, node):
-    """
-    YAML constructor to load defaults from spec_default.
-    """
-    value = loader.construct_scalar(node)
-    return spec_default[value].data
-
-OrderedLoader.add_constructor(u"!spec", spec_constructor)
 
 #Now we load the defaults from model_defaults.yaml
 #We use LUVOIR prelim values as defaults for the telescope & camera, and
 #LUMOS prelim values as defaults for the spectrograph.
 #Default exposure parameters are taken from the default HDI_ETC tool values
 #   --> the _sed, _snr, and _magnitude default values are placeholders
+#Default spectrograph parameters are taken from the default LUMOS_ETC tool values
+#   --> the description, bef, R, wrange, wave, and aeff default values are placeholders
 with open(yaml_default_path, 'r') as stream:
     all_defaults = ordered_load(stream)
     
 default_telescope = all_defaults['Telescope']
 default_camera = all_defaults['Camera']
 default_exposure = all_defaults['Exposure']
-default_spectrograph = all_defaults['Spectrograph']
+default_spectrograph = OrderedDict([("_lumos_default_file", spec_default_path)])
+default_spectrograph.update(all_defaults['Spectrograph'])
 default_coronagraph = all_defaults['Coronagraph'] #placeholder
 
 """

@@ -52,63 +52,33 @@ Exposure:
     magnitude:
         - JsonUnit
         - {value: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], unit: "mag(AB)"}
+    redshift: 0.
     unknown: "snr"
 Spectrograph:
     name: "LUMOS"
-    modes:
-        G120M: "Med_Res_BEF"
-        G150M: "Med_Res_BEF"
-        G180M: "Med_Res_BEF"
-        G155L: "Low_Res_BEF"
-        G145LL: "LL_Mode_BEF"
-    befs: 
-        Med_Res:
-            - JsonUnit
-            - {value: !spec "Med_Res_BEF", unit: "erg / (s cm3 sr)"}
-        Low_Res:
-            - JsonUnit
-            - {value: !spec "Low_Res_BEF", unit: "erg / (s cm3 sr)"}
-        LL_mode:
-            - JsonUnit
-            - {value: !spec "LL_mode_BEF", unit: "erg / (s cm3 sr)"}
-    Rs: 
-        120M:
-            - JsonUnit
-            - {value: 30000.0, unit: ""}
-        G150M:
-            - JsonUnit
-            - {value: 30000.0, unit: ""}
-        G180M:
-            - JsonUnit
-            - {value: 30000.0, unit: ""}
-        G155L:
-            - JsonUnit
-            - {value: 5000.0, unit: ""}
-        G145LL:
-            - JsonUnit
-            - {value: 500.0, unit: ""}
-    ranges: 
-        G120M:
-            - JsonUnit
-            - {value: [1000., 1425.], unit: "Angstrom"}
-        G150M:
-            - JsonUnit
-            - {value: [1225., 1600.], unit: "Angstrom"}
-        G180M:
-            - JsonUnit
-            - {value: [1550., 1900.], unit: "Angstrom"}
-        G155L:
-            - JsonUnit
-            - {value: [1000., 2000.], unit: "Angstrom"}
-        G145LL:
-            - JsonUnit
-            - {value: [900., 1425.], unit: "Angstrom"}
-    mode: "G150M"
+    modes: ['G120M', 'G150M', 'G180M','G155L', 'G145LL', 'G300M']
+    descriptions:
+        G120M: "G120M (R = 30,400)" 
+        G150M: "G150M (R = 37,800)"
+        G180M: "G180M (R = 40,800)"
+        G155L: "G155L (R = 11,600)"
+        G145LL: "G145LL (R = 500)"
+        G300M: "G300M (R = 28,000)"
+    bef:
+        - JsonUnit
+        - {value: [0.0], unit: "cm-2 erg Angstrom-1 s-1"}
+    R:
+        - JsonUnit
+        - {value: 0.0, unit: "pix"}
+    wrange:
+        - JsonUnit
+        - {value: [0.0, 1.0], unit: "Angstrom"}
     wave:
         - JsonUnit
-        - {value: !spec "Wave", unit: "Angstrom"}
+        - {value: [0.0], unit: "Angstrom"}
     aeff:
         - JsonUnit
-        - {value: !spec "A_eff", unit: "m2"}
+        - {value: [0.0], unit: "cm2"}
+    mode: "G150M"
 Coronagraph: {}
     

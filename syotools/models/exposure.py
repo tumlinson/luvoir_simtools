@@ -455,10 +455,15 @@ class SpectrographicExposure(Exposure):
                                                          'spectrograph.R',
                                                          'spectrograph.wrange')
         exptime = _exptime.to(u.s)[0] #assume that all are the same
-        funit = 'mag(AB)' if sed.fluxunits.name == 'abmag' else sed.fluxunits.name
+        if sed.fluxunits.name == "abmag":
+            funit = u.ABmag
+        elif sed.fluxunits.name == "photlam":
+            funit = u.ph / u.s / u.cm**2 / u.AA
+        else:
+            funit = u.Unit(sed.fluxunits.name)
         wave = _wave.to(u.AA)
         swave = (sed.wave * u.Unit(sed.waveunits.name)).to(u.AA)
-        sflux = (sed.flux * u.Unit(funit)).to(u.erg / u.s / u.cm**2 / u.AA, equivalencies=u.spectral_density(swave))
+        sflux = (sed.flux * funit).to(u.erg / u.s / u.cm**2 / u.AA, equivalencies=u.spectral_density(swave))
         wave = wave.to(swave.unit)
         
         delta_lambda = self.recover('spectrograph.delta_lambda').to(u.AA / u.pix)

@@ -119,24 +119,22 @@ hist_plot = Figure(plot_height=400, plot_width=480, tools="reset,save,tap", outl
                 x_range=[-0.1,3], y_range=[0,300], toolbar_location='below', x_axis_type = None, 
                 title='Expected Total Yield in One Year Survey') 
 hist_plot.title.text_font_size = '14pt'
-hist_plot.background_fill_color = "white"
+hist_plot.title.text_color='white' 
+hist_plot.background_fill_color = "black"
 hist_plot.background_fill_alpha = 1.0
-hist_plot.yaxis.axis_label = 'X'
-hist_plot.yaxis.axis_label_text_font= 'PT Serif' 
-hist_plot.yaxis.major_label_text_font = 'PT Serif' 
-hist_plot.xaxis.axis_label = 'Y'
+hist_plot.yaxis.axis_label = 'Yield'
+hist_plot.xaxis.axis_label = ' '
 hist_plot.xaxis.axis_line_width = 2
 hist_plot.yaxis.axis_line_width = 2
 hist_plot.xaxis.axis_line_color = 'black'
 hist_plot.yaxis.axis_line_color = 'black'
-hist_plot.border_fill_color = "white"
+hist_plot.border_fill_color = "black"
 hist_plot.min_border_left = 0
 hist_plot.image_url(url=["http://jt-astro.science/planets.jpg"], x=[-0.05], y=[305], w=[3.0], h=[305])
 hist_plot.text([0.45], [280], ['Rocky'], text_align='center') 
 hist_plot.text([1.45], [280], ['Neptunes'], text_align='center') 
 hist_plot.text([2.45], [280], ['Jupiters'], text_align='center') 
 hist_plot.title.align='center' 
-hist_plot.title.text_font='PT Serif' 
 
 # this will place labels in the small plot for the *selected star* - not implemented yet
 star_yield_label = ColumnDataSource(data=dict(yields=[10., 10., 10., 10., 10., 10., 10., 10., 10.],
@@ -240,7 +238,7 @@ def pulse_stars(i):
 # Set up widgets with "fake" callbacks 
 source = ColumnDataSource(data=dict(value=[]))
 source.on_change('data', update_data)
-aperture= Slider(title="Aperture (meters)", value=12., start=4., end=20.0, step=4.0, callback_policy='mouseup', width=450)
+aperture = Slider(title="Aperture (meters)", value=12., start=4., end=20.0, step=4.0, callback_policy='mouseup', width=450)
 aperture.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
@@ -252,7 +250,7 @@ iwa = Slider(title="Inner Working Angle (l/D)", value=1.5, start=1.5, end=4.0, s
 iwa.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-regenerate = Button(label='Regenerate the Sample of Detected Candidates', width=450, button_type='success') 
+regenerate = Button(label='Regenerate the Sample of Detected Candidates', width=420, button_type='success') 
 regenerate.on_click(recalc) 
 
 #######
@@ -284,7 +282,7 @@ plot2_tab = Panel(child=plot2, title='Star', width=800, height=800)
 input_tabs = Tabs(tabs=[control_tab,info_tab,eta_tab], width=450)  
 inputs = Column(hist_plot, input_tabs) 
 plot_tabs = Tabs(tabs=[plot1_tab, plot2_tab], width=800)  
-rowrow =  Row(inputs, plot_tabs)  
+rowrow =  Row(inputs, plot1)  
 
 curdoc().add_root(rowrow) # Set up layouts and add to document
 curdoc().add_root(source) 

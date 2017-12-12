@@ -155,7 +155,13 @@ class LUMOS_ETC(SYOTool):
         """
         sed = self.exposure.recover('sed')
         wave = sed.wave * u.Unit(sed.waveunits.name)
-        flux = (sed.flux * u.ABmag).to(u.erg / u.s / u.cm**2 / u.AA, 
+        if sed.fluxunits.name == "abmag":
+            funit = u.ABmag
+        elif sed.fluxunits.name == "photlam":
+            funit = u.ph / u.s / u.cm**2 / u.AA
+        else:
+            funit = u.Unit(sed.fluxunits.name)
+        flux = (sed.flux * funit).to(u.erg / u.s / u.cm**2 / u.AA, 
                 equivalencies=u.spectral_density(wave))
         return flux.value
     

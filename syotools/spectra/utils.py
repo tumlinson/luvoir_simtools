@@ -16,12 +16,12 @@ import pysynphot as pys
 #Define a new unit for spectral flux density
 flambda = u.def_unit(["flambda","flam"], (u.photon / u.s / u.cm**2 / u.nm))
 
-def renorm_sed(sed, new_magnitude):
+def renorm_sed(sed, new_magnitude, bandpass='johnson,v'):
     """
     Utility to renormalize an SED to a new manitude.
     """
-    band = pys.ObsBandpass('johnson,v')
-    band.convert('nm')
+    band = pys.ObsBandpass(bandpass)
+    band.convert(sed.waveunits)
         
     new_sed = sed.renorm((new_magnitude + 2.5*u.mag('AB')).value, 'abmag', band)
     new_sed.convert('nm')

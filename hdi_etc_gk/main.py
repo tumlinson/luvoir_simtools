@@ -16,7 +16,7 @@ import astropy.units as u
 
 from syotools import cdbs
 
-from syotools.models import Telescope, Camera, Exposure
+from syotools.models import Telescope, Camera, PhotometricExposure as Exposure
 from syotools.interface import SYOTool
 from syotools.spectra import SpectralLibrary
 from syotools.utils import pre_encode, pre_decode
@@ -65,6 +65,12 @@ hover_tooltip = """
         </div>
 """
 
+#establish simtools dir
+if 'LUVOIR_SIMTOOLS_DIR' not in os.environ:
+    fdir = os.path.abspath(__file__)
+    basedir = os.path.abspath(os.path.join(fdir, '..'))
+    os.environ['LUVOIR_SIMTOOLS_DIR'] = basedir
+
 class HDI_ETC(SYOTool):
     
     tool_prefix = "hdi"
@@ -79,7 +85,12 @@ class HDI_ETC(SYOTool):
     
     save_dir = os.path.join(os.environ['LUVOIR_SIMTOOLS_DIR'],'saves')
     
-    tool_defaults = {'exptime': pre_encode(1.0 * u.hour)}
+    #must include this to set defaults before the interface is constructed
+    tool_defaults = {'exptime': pre_encode(1.0 * u.hour),
+                     'snratio': pre_encode(30.0 * u.electron**0.5),
+                     'renorm_magnitude': pre_encode(30.0 * u.mag('AB')),
+                     'aperture': pre_encode(12.0 * u.m),
+                     'spectrum_type': 'fab'}
     
     def tool_preinit(self):
         """
@@ -101,12 +112,7 @@ class HDI_ETC(SYOTool):
         self.mag_hover_tooltip = hover_tooltip.format("Magnitude")
         self.exp_hover_tooltip = hover_tooltip.format("Exptime")
         
-        #set default input values
-        self.exptime = pre_encode(1.0 * u.hour)
-        self.snratio = pre_encode(30.0 * u.electron**0.5)
-        self.renorm_magnitude = pre_encode(30.0 * u.mag('AB'))
-        self.aperture = pre_encode(12.0 * u.m)
-        self.spectrum_type = 'fab'
+        #update default exposure based on tool_defaults
         self.update_exposure()
         
         #Formatting & interface stuff:
@@ -141,6 +147,8 @@ class HDI_ETC(SYOTool):
         #set the correct exposure unknown:
         if active_tab < 3:
             self.exposure.unknown = ["snr", "exptime", "magnitude"][active_tab]
+        
+        self.controller(None, None, None)
     
     def controller(self, attr, old, new):
         #Grab values from the inputs
@@ -160,9 +168,9 @@ class HDI_ETC(SYOTool):
         
         #Update the plots' y-range bounds
         self.refs["snr_figure"].y_range.start = 0
-        self.refs["snr_figure"].y_range.end = 1.3 * max(snr.max(), 5.)
+        self.refs["snr_figure"].y_range.end = max(1.3 * snr.max(), 5.)
         self.refs["exp_figure"].y_range.start = 0
-        self.refs["exp_figure"].y_range.end = 1.3 * max(exp.max(), 5.)
+        self.refs["exp_figure"].y_range.end = max(1.3 * exp.max(), 2.)
         self.refs["mag_figure"].y_range.start = mag.max() + 5.
         self.refs["mag_figure"].y_range.end = mag.min() - 5.
         self.refs["sed_figure"].y_range.start = self.spectrum_template.flux.max() + 5.
@@ -244,7 +252,8 @@ class HDI_ETC(SYOTool):
     
     @property
     def _exp(self):
-        return self.exposure.recover('exptime').value
+        exp = self.exposure.recover('exptime').to(u.h)
+        return exp.value
     
     def update_toggle(self, active):
         if active:

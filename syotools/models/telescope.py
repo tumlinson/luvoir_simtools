@@ -32,6 +32,7 @@ class Telescope(PersistentModel):
     _default_model = default_telescope
     
     cameras = []
+    spectrographs = []
     
     name = ''
     aperture = pre_encode(0. * u.m)
@@ -54,5 +55,9 @@ class Telescope(PersistentModel):
     def add_camera(self, camera):
         self.cameras.append(camera)
         camera.telescope = self
+    
+    def add_spectrograph(self, spectrograph):
+        self.spectrographs.append(spectrograph)
+        spectrograph.telescope = self
     
     

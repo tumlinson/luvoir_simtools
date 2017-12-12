@@ -33,7 +33,10 @@ class JsonUnit(object):
             self._value = self._grab_value(quant)
     
     def __repr__(self):
-        return self.use.__repr__
+        if self._array:
+            val, unit = self.value, self.unit
+            return "{} {}".format(np.array_str(val, precision=3), unit)
+        return str(self.use)
 
     def _grab_from_quantity(self, quantity):
         return self._grab_value(quantity.value), self._grab_unit(quantity.unit)
@@ -98,7 +101,7 @@ class JsonUnit(object):
         junit = cls()
         judict = serialized[1]
         junit._unit = judict["unit"]
-        if isinstance(judict["unit"],list):
+        if isinstance(judict["value"],list):
             junit._array = True
         junit._value = judict["value"]
         return junit
@@ -113,6 +116,7 @@ class JsonSpectrum(object):
             self._wunit = spectrum.waveunits.name
             self._flux = spectrum.flux
             self._funit = spectrum.fluxunits.name
+            
     
     def encode_json(self):
         return ['JsonSpectrum', {'wave': self._wave.tolist(),
@@ -148,6 +152,12 @@ class JsonSpectrum(object):
         self._flux = new_spec.flux
         self._funit = new_spec.fluxunits.name
     
+    def __repr__(self):
+        wave, flux = self.wave, self.flux
+        ww = "{} {}".format(np.array_str(wave.value, precision=3), wave.unit)
+        ff = "{} {}".format(np.array_str(flux.value, precision=3), flux.unit)
+        return "<Spectrum (wave {}; flux {})>".format(ww, ff)
+    
     @property
     def wave(self):
         return self._wave * u.Unit(self._wunit)
@@ -165,6 +175,8 @@ class JsonSpectrum(object):
     
     @property
     def flux(self):
+        if self._funit == 'abmag':
+            return self._flux * u.ABmag
         return self._flux * u.Unit(self._funit)
     
     @flux.setter
@@ -220,5 +232,18 @@ def pre_decode(serialized):
         return serialized #not a JsonUnit serialization
     
     return quant.use
-        
+
+def str_jsunit(jsunit):
+    try:
+        spec = JsonSpectrum.decode_json(jsunit)
+        return str(spec)
+    except (AttributeError, ValueError, TypeError):
+        pass #not a JsonSpectrum serialization
+    
+    try:
+        quant = JsonUnit.decode_json(jsunit)
+    except (AttributeError, ValueError, TypeError):
+        return str(jsunit) #not a JsonUnit serialization
+    
+    return str(quant)
         

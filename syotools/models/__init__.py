@@ -12,4 +12,4 @@ from .telescope import Telescope
 from .camera import Camera
 from .spectrograph import Spectrograph
 from .coron import Coronagraph
-from .exposure import Exposure
+from .exposure import PhotometricExposure, SpectrographicExposure

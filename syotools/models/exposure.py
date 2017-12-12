@@ -11,6 +11,7 @@ from __future__ import (print_function, division, absolute_import, with_statemen
 
 import numpy as np
 import astropy.units as u
+import astropy.constants as const
 
 from syotools.models.base import PersistentModel
 from syotools.defaults import default_exposure
@@ -63,6 +64,7 @@ class Exposure(PersistentModel):
         magnitude    - either the input source magnitude, in which case this is
                        equal to the SED interpolated to the desired wavelengths,
                        or the limiting magnitude of the exposure (float array)
+        redshift     - the redshift of the SED (float)
         unknown      - a flag to indicate which variable should be calculated
                        ('snr', 'exptime', or 'magnitude'). this should generally 
                        be set by the tool, and not be available to users. (string)
@@ -83,6 +85,7 @@ class Exposure(PersistentModel):
     _exptime = pre_encode(np.zeros(1, dtype=float) * u.s)
     _snr = pre_encode(np.zeros(1, dtype=float) * u.dimensionless_unscaled)
     _magnitude = pre_encode(np.zeros(1, dtype=float) * u.ABmag)
+    _redshift = 0.
     _unknown = '' #one of 'snr', 'magnitude', 'exptime'
     
     verbose = False #set this for debugging purposes only
@@ -117,7 +120,10 @@ class Exposure(PersistentModel):
             import pdb; pdb.set_trace()
         val = q[1]['value']
         if not isinstance(val, list):
-            nb = self.recover('camera.n_bands')
+            if self.camera is None:
+                nb = 1
+            else:
+                nb = self.recover('camera.n_bands')
             q[1]['value'] = np.full(nb, val).tolist()
         
         return q
@@ -146,7 +152,14 @@ class Exposure(PersistentModel):
     
     @property
     def sed(self):
-        return self._sed
+        """
+        Return a spectrum, redshifted if necessary. We don't just store the 
+        redshifted spectrum because pysynphot doesn't save the original, it 
+        just returns a new copy of the spectrum with redshifted wavelengths.
+        """
+        sed = pre_decode(self._sed)
+        z = self.recover('redshift')
+        return pre_encode(sed.redshift(z))
     
     @sed.setter
     def sed(self, new_sed):
@@ -159,19 +172,23 @@ class Exposure(PersistentModel):
     
     @sed_id.setter
     def sed_id(self, new_sed_id):
+        if new_sed_id == self._sed_id:
+            return
         self._sed_id = new_sed_id
         self._sed = pre_encode(SpectralLibrary.get(new_sed_id, SpectralLibrary.fab))
         self.calculate()
         
-    def renorm_sed(self, new_mag):
-        sed = self.recover('sed')
-        self.sed = renorm_sed(sed, pre_decode(new_mag))
+    def renorm_sed(self, new_mag, bandpass='johnson,v'):
+        sed = self.recover('_sed')
+        self._sed = renorm_sed(sed, pre_decode(new_mag), bandpass=bandpass)
     
     @property
     def interpolated_sed(self):
         """
         The exposure's SED interpolated at the camera bandpasses.
         """
+        if not self.camera:
+            return self.sed
         sed = self.recover('sed')
         return pre_encode(self.camera.interpolate_at_bands(sed))
     
@@ -190,6 +207,45 @@ class Exposure(PersistentModel):
         self._magnitude = self._ensure_array(new_magnitude)
         self.calculate()
         
+    @property
+    def redshift(self):
+        return self._redshift
+    
+    @redshift.setter
+    def redshift(self, new_redshift):
+        if self._redshift == new_redshift:
+            return
+        self._redshift = new_redshift
+        self.calculate()
+    
+    @property
+    def zmax(self):
+        sed = self.recover('_sed')
+        twave = sed.wave * u.Unit(sed.waveunits.name)
+        bwave = self.recover('spectrograph.wave')
+        return (bwave.max() / twave.min() - 1.0).value
+    
+    @property
+    def zmin(self):
+        sed = self.recover('_sed')
+        twave = sed.wave * u.Unit(sed.waveunits.name)
+        bwave = self.recover('spectrograph.wave')
+        return max((bwave.min() / twave.max() - 1.0).value, 0.0)
+    
+    def calculate(self):
+        """
+        This should have a means of calculating the exposure time, SNR, 
+        and/or limiting magnitude.
+        """
+        
+        raise NotImplementedError
+        
+
+class PhotometricExposure(Exposure):
+    """
+    A subclass of the base Exposure model, for photometric ETC calculations.
+    """
+    
     def calculate(self):
         """
         Wrapper to calculate the exposure time, SNR, or limiting magnitude, 
@@ -358,3 +414,86 @@ class Exposure(PersistentModel):
         self._snr = pre_encode(snr)
         
         return True #completed successfully
+
+class SpectrographicExposure(Exposure):
+    """
+    A subclass of the base Exposure model, for spectroscopic ETC calculations.
+    """
+    
+    def calculate(self):
+        """
+        Wrapper to calculate the exposure time, SNR, or limiting magnitude, 
+        based on the other two. The "unknown" attribute controls which of these
+        parameters is calculated.
+        """
+        if self._disable:
+            return False
+        if self.spectrograph is None or self.telescope is None:
+            return False
+        
+        #At the moment, we only calculate the SNR.
+        if self.unknown != "snr":
+            raise NotImplementedError("Only SNR calculations currently supported")
+        self._update_snr()
+        
+    def _update_snr(self):
+        """
+        Calculate the SNR based on the current SED and spectrograph parameters.
+        """
+        
+        if self.verbose:
+            msg1 = "Creating exposure for {} ({})".format(self.telescope.name,
+                                                           self.telescope.recover('aperture'))
+            msg2 = " with {} in mode {}".format(self.spectrograph.name, self.spectrograph.mode)
+            print(msg1 + msg2)
+            
+        sed, _exptime = self.recover('sed', 'exptime')
+        _wave, aeff, bef, aper, R, wrange = self.recover('spectrograph.wave', 
+                                                         'spectrograph.aeff', 
+                                                         'spectrograph.bef',
+                                                         'telescope.aperture',
+                                                         'spectrograph.R',
+                                                         'spectrograph.wrange')
+        exptime = _exptime.to(u.s)[0] #assume that all are the same
+        if sed.fluxunits.name == "abmag":
+            funit = u.ABmag
+        elif sed.fluxunits.name == "photlam":
+            funit = u.ph / u.s / u.cm**2 / u.AA
+        else:
+            funit = u.Unit(sed.fluxunits.name)
+        wave = _wave.to(u.AA)
+        swave = (sed.wave * u.Unit(sed.waveunits.name)).to(u.AA)
+        sflux = (sed.flux * funit).to(u.erg / u.s / u.cm**2 / u.AA, equivalencies=u.spectral_density(swave))
+        wave = wave.to(swave.unit)
+        
+        delta_lambda = self.recover('spectrograph.delta_lambda').to(u.AA / u.pix)
+        iflux = np.interp(wave, swave, sflux, left=0., right=0.) * (u.erg / u.s / u.cm**2 / u.AA)
+        phot_energy = const.h.to(u.erg * u.s) * const.c.to(u.cm / u.s) / wave.to(u.cm) / u.ct
+        scaled_aeff = aeff * (aper / (15 * u.m))**2
+        source_counts = iflux / phot_energy * scaled_aeff * exptime * delta_lambda
+        bg_counts = bef / phot_energy * scaled_aeff * exptime * delta_lambda
+        
+        """###ORIGINAL CALCULATION
+        wlo, whi = wrange
+        
+        aef_interp = np.interp(swave, wave, aeff, left=0., #interpolated effective areas for input spectrum
+                              right=0.) * aeff.unit * (aper / (15. * u.m))**2
+        bef_interp = np.interp(swave, wave, bef, left=0.,right=0.) * bef.unit  #interpolated background emission
+        phot_energy = const.h.to(u.erg * u.s) * const.c.to(u.cm / u.s) / swave.to(u.cm)
+        
+        #calculate counts from source
+        source_counts = sflux / phot_energy * aef_interp * exptime * swave / R
+        source_counts[(swave < wlo)] = 0.0
+        source_counts[(swave > whi)] = 0.0
+        
+        #calculate counts from background
+        bg_counts = bef_interp / phot_energy * aef_interp * exptime * swave / R"""
+        
+        snr = source_counts / np.sqrt(source_counts + bg_counts)
+        
+        if self.verbose:
+            print("SNR: {}".format(snr))
+        
+        self._snr = pre_encode(snr)
+
+

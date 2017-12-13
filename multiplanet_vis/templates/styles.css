@@ -9,8 +9,10 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
 }
 
 body {
-  background-color: #000;
-  background-image: url(https://image.ibb.co/mPbF7k/background.png);
+  /*background-color: #000; */ 
+  background-color: #1D1B4D; 
+  /* background-image: url(https://image.ibb.co/mPbF7k/background.png); */ 
+  background-image: url(http://jt-astro.science/banner-luvoir1.png);
   background-position: top;
   background-repeat: repeat-x;
   margin-top: 20px;
@@ -75,7 +77,7 @@ h6 {
 
 /*Bokeh Bootstrap Tabs Override*/
 .bk-root .bk-bs-nav-tabs{
-  background-color: #000;
+  background-color: #1D1B4D;
   color: #fff; 
   text-align: left; 
   border: none;
@@ -113,7 +115,7 @@ h6 {
   margin-top: 0px;
 }
 .bk-root .bk-bs-nav-tabs> li.bk-bs-active {
-  border-bottom: 4px solid #428bca;
+  border-bottom: 5px solid #66A0FE;
   position: relative;
 }
 .bk-root .bk-bs-nav-tabs> li.bk-bs-active > a {
@@ -121,7 +123,8 @@ h6 {
   color: #333333;
 }
 .bk-root .bk-bs-nav-tabs> li.bk-bs-active > a > i {
-  color: #404040;
+  /*color: #404040; */ 
+  color: #FF0000;
 }
 .bk-root .bk-slider-parent { 
   background-color: #FF0000;
@@ -131,7 +134,7 @@ h6 {
 }
 /* This controls sliders, etc if they are inside tabs */ 
 .bk-bs-tab-content {
-  background-color: #000;
+  background-color: #1D1B4D;
   color: #fff; 
   border: 0;
   border-top: 1px solid #eee;
@@ -186,4 +189,25 @@ h6 {
 .bk-root .bk-bs-nav-tabs> li.bk-bs-active:hover > a {
     background: #fff !important;
     color: #272727;
+}
+
+.bk-root .bk-bs-btn-success {
+color: #FFFFFF;
+background-color: #0748FF;
+border-color: #0748FF;
+}
+.bk-root .bk-bs-btn-success:focus {
+color: #BAD8FF;
+background-color: #0748FF;
+border-color: #0748FF;
+}
+.bk-root .bk-bs-btn-success:active {
+color: #BAD8FF;
+background-color: #0748FF;
+border-color: #0748FF;
+}
+.bk-root .bk-bs-btn-success:hover {
+color: #FDFEFE;
+background-color: #66A0FE;
+border-color: #66A0FE;
 }

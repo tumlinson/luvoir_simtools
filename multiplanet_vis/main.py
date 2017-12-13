@@ -14,7 +14,7 @@ from bokeh.plotting import Figure
 from bokeh.driving import bounce 
 from bokeh.models import ColumnDataSource, HoverTool, Range1d, Square, Circle
 from bokeh.layouts import Column, Row
-from bokeh.models.widgets import Panel, Tabs, Slider, Div, Button, DataTable, DateFormatter, TableColumn 
+from bokeh.models.widgets import Panel, Tabs, Slider, Div, Button, DataTable, DateFormatter, TableColumn, StringFormatter
 from bokeh.models.callbacks import CustomJS
 
 cwd = os.getenv('LUVOIR_SIMTOOLS_DIR')
@@ -25,22 +25,22 @@ star_points.data['x'][[star_points.data['color'] == 'black']] += 2000. 	# this l
 
 # set up the main plot and do its tweaks 
 plot1 = Figure(plot_height=800, plot_width=800, x_axis_type = None, y_axis_type = None,
-              tools="pan,reset,save,tap,box_zoom,wheel_zoom", outline_line_color='black', 
+              tools="pan,reset,save,tap,box_zoom,wheel_zoom", outline_line_color='#1D1B4D', 
               x_range=[-50, 50], y_range=[-50, 50], toolbar_location='right')
 hover = HoverTool(names=["star_points_to_hover"], mode='mouse', tooltips = get_tooltip.tooltip()) 
 plot1.add_tools(hover) 
 hover = plot1.select(dict(type=HoverTool))
 plot1.x_range=Range1d(-50,50,bounds=(-50,50)) 
 plot1.y_range=Range1d(-50,50,bounds=(-50,50)) 
-plot1.background_fill_color = "black"
+plot1.background_fill_color = "#1D1B4D"
 plot1.background_fill_alpha = 1.0
 plot1.yaxis.axis_label = 'Yield' 
 plot1.xaxis.axis_label = ' ' 
 plot1.xaxis.axis_line_width = 0
 plot1.yaxis.axis_line_width = 0 
-plot1.xaxis.axis_line_color = 'black' 
-plot1.yaxis.axis_line_color = 'black' 
-plot1.border_fill_color = "black"
+plot1.xaxis.axis_line_color = '#1D1B4D' 
+plot1.yaxis.axis_line_color = '#1D1B4D' 
+plot1.border_fill_color = "#1D1B4D"
 plot1.min_border_left = 10
 plot1.min_border_right = 10
 
@@ -92,13 +92,13 @@ plot1.text([48.5], [42.0], ['___________'], text_color="#BAD8FF", text_align="ri
 plot1.text(np.array([48.5]), np.array([39.5]), ["80-100%"], text_color='#F59A0A', text_alpha=0.6+0.2, text_align="right") 
 plot1.text(np.array([48.5]), np.array([39.5-1*2.4]), ["50-80%"], text_color='#F59A0A', text_alpha=0.3+0.2, text_align="right") 
 plot1.text(np.array([48.5]), np.array([39.5-2*2.4]), ["20-50%"], text_color='#F59A0A', text_alpha=0.1+0.2, text_align="right") 
-plot1.text(np.array([48.5]), np.array([39.5-3*2.4]), ["Not Observed"], text_color='black', text_align="right") 
+plot1.text(np.array([48.5]), np.array([39.5-3*2.4]), ["Not Observed"], text_color='#1D1B4D', text_align="right") 
 plot1.text([-49], [46], ['Habitable Candidate Detections'], text_font_size='16pt', text_color='#66A0FE') 
 plot1.text([-49], [43], ['Random Realization for One Year Survey'], text_font_size='16pt', text_color='#66A0FE') 
 plot1.circle([0], [0], radius=0.1, fill_alpha=1.0, line_color='white', fill_color='white') 
 plot1.circle([0], [0], radius=0.5, fill_alpha=0.0, line_color='white') 
 
-sym = plot1.circle(np.array([0., 0., 0., 0.]), np.array([0., 0., 0., 0.]), fill_color='black', line_color='white', 
+sym = plot1.circle(np.array([0., 0., 0., 0.]), np.array([0., 0., 0., 0.]), fill_color='#1D1B4D', line_color='white', 
            line_width=4, radius=[40,30,20,10], line_alpha=0.8, fill_alpha=0.0) 
 sym.glyph.line_dash = [6, 6]
 
@@ -115,20 +115,20 @@ pulse_points = ColumnDataSource(data={'x': yields['x'][iran], 'y':yields['y'][ir
 pulse_syms = plot1.circle('x','y', source=pulse_points, name="pulse_points", fill_color='color',radius='r', line_alpha='alpha', fill_alpha='alpha')
 
 # second plot, the bar chart of yields
-hist_plot = Figure(plot_height=400, plot_width=480, tools="reset,save,tap", outline_line_color='black', \
+hist_plot = Figure(plot_height=400, plot_width=480, tools="reset,save,tap", outline_line_color='#1D1B4D', \
                 x_range=[-0.1,3], y_range=[0,300], toolbar_location='below', x_axis_type = None, 
                 title='Expected Total Yield in One Year Survey') 
 hist_plot.title.text_font_size = '14pt'
 hist_plot.title.text_color='white' 
-hist_plot.background_fill_color = "black"
+hist_plot.background_fill_color = "#1D1B4D"
 hist_plot.background_fill_alpha = 1.0
 hist_plot.yaxis.axis_label = 'Yield'
 hist_plot.xaxis.axis_label = ' '
 hist_plot.xaxis.axis_line_width = 2
 hist_plot.yaxis.axis_line_width = 2
-hist_plot.xaxis.axis_line_color = 'black'
-hist_plot.yaxis.axis_line_color = 'black'
-hist_plot.border_fill_color = "black"
+hist_plot.xaxis.axis_line_color = '#1D1B4D'
+hist_plot.yaxis.axis_line_color = '#1D1B4D'
+hist_plot.border_fill_color = "#1D1B4D"
 hist_plot.min_border_left = 0
 hist_plot.image_url(url=["http://jt-astro.science/luvoir_simtools/data/planets.jpg"], x=[-0.05], y=[305], w=[3.0], h=[305])
 hist_plot.text([0.45], [280], ['Rocky'], text_align='center') 
@@ -166,7 +166,7 @@ total_yield_label.data['labels'] = [str(int(np.sum(yields['complete0'][:]))), st
 hist_plot.quad(top='yields', bottom=0., left='left', right='right', source=total_yield_label, \
                 color='color', fill_alpha=0.9, line_alpha=1., name='total_yield_label_hover')
            
-hist_plot.text('left', 'yields', 'labels', 0., 20, -3, text_align='center', source=total_yield_label, text_color='black')
+hist_plot.text('left', 'yields', 'labels', 0., 20, -3, text_align='center', source=total_yield_label, text_color='#1D1B4D')
 
 yield_hover = HoverTool(names=["total_yield_label_hover"], mode='mouse', tooltips = """ 
             <div>
@@ -263,9 +263,9 @@ eta_table_data = dict(
     )
 eta_table_source = ColumnDataSource(eta_table_data)
 eta_columns = [
-        TableColumn(field="ptype", title="Planet Type"), 
-        TableColumn(field="radii", title="R/R_Earth"),
-        TableColumn(field="eta", title="Eta")] 
+        TableColumn(field="ptype", title="Planet Type", formatter=StringFormatter(text_color='#000000')), 
+        TableColumn(field="radii", title="R/R_Earth", formatter=StringFormatter(text_color='#000000')),
+        TableColumn(field="eta", title="Eta", formatter=StringFormatter(text_color='#000000'))] 
 eta_table = DataTable(source=eta_table_source, columns=eta_columns, width=450, height=980)
 
 #######

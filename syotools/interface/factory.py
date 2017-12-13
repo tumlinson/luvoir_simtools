@@ -6,7 +6,7 @@ Created on Mon Feb 20 14:05:03 2017
 """
 
 from bokeh.layouts import column, row, widgetbox, gridplot
-from bokeh.plotting import Figure
+from bokeh.plotting import figure as Figure
 from bokeh.models.tools import HoverTool
 from bokeh.models.ranges import Range1d
 from bokeh.models.sources import ColumnDataSource
@@ -110,6 +110,7 @@ def figure_constructor(tool, loader, node):
     cmds = []
     ref = fig.pop("ref", "")
     callback = fig.pop("on_change", [])
+    axis = tool.formats.get("Axis", {})
     
     for key in fig:
         val = fig[key]
@@ -136,6 +137,11 @@ def figure_constructor(tool, loader, node):
             circle_fmt = tool.formats.get('Circle', {})
             circle_fmt.update(element)
             figure.circle('x', 'y', **circle_fmt)
+            
+    for attr, val in axis.items():
+        #change axis attributes, hopefully
+        setattr(figure.axis, attr, val)
+    
     if ref:
         tool.refs[ref] = figure
     if callback:

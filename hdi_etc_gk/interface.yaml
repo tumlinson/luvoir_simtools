@@ -90,7 +90,8 @@
     x_range: *snr_xrange
     y_range: !!python/tuple [0, 40]
     y_axis_label: 'SNR'
-    x_axis_label: 'Wavelength (nm)'
+    x_axis_label: 'Wavelength [nm]'
+    border_fill_color: "#BAD8FF"
     add_tools: !!python/list [*snr_hover]
     text:
         loc: !!python/tuple [5500, 20]
@@ -186,8 +187,8 @@
     ref: "exp_figure"
     x_range: *exp_xrange
     y_range: !!python/tuple [0, 2]
-    y_axis_label: 'Exposure Time'
-    x_axis_label: 'Wavelength (nm)'
+    y_axis_label: 'Exposure Time [hours]'
+    x_axis_label: 'Wavelength [nm]'
     add_tools: !!python/list [*exp_hover]
     elements:
         - {'kind': 'line', 'source': *exp_source_blue, 'line_color': 'blue'}
@@ -254,6 +255,7 @@
 - !Document:
     - !row:
         - !Tabs:
+            width: 400
             tabs: 
             - !Panel:
                 title: 'Controls'
@@ -292,7 +294,7 @@
         - !Tabs:
             ref: "figure_tabs"
             callback: *tab_callback
-            width: 400
+            width: 800
             tabs:
             - !Panel:
                 title: "SNR"

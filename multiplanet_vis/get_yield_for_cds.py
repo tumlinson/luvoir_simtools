@@ -18,10 +18,10 @@ def get_yield(aperture_in, contrast_in):
  
     col = copy.deepcopy(targets['TYPE'][0])
     col[:] = 'black'
-    col[where(targets['COMPLETE1'][0] > 0.01*0.1)] = 'gold' # 'red'
-    col[where(targets['COMPLETE1'][0] > 0.2*0.1)] = 'gold' # 'red'
-    col[where(targets['COMPLETE1'][0] > 0.5*0.1)] = 'gold' # 'yellow'
-    col[where(targets['COMPLETE1'][0] > 0.8*0.1)] = 'gold' # 'lightgreen'
+    col[where(targets['COMPLETE1'][0] > 0.01*0.1)] = '#F59A0A' 
+    col[where(targets['COMPLETE1'][0] > 0.2*0.1)] = '#F59A0A' 
+    col[where(targets['COMPLETE1'][0] > 0.5*0.1)] = '#F59A0A' 
+    col[where(targets['COMPLETE1'][0] > 0.8*0.1)] = '#F59A0A' 
     
     alp = copy.deepcopy(targets['TYPE'][0])
     alp[:] = 0.0  

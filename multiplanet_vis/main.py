@@ -55,7 +55,7 @@ plot2.background_fill_color = "white"
 
 star_syms = plot1.circle('x', 'y', source=star_points, name="star_points_to_hover", \
       fill_color='color', line_color='color', radius=0.5, line_alpha='alpha', fill_alpha='alpha')
-star_syms.selection_glyph = Circle(fill_alpha=0.8, fill_color="gold", radius=1.5, line_color='purple', line_width=3)
+star_syms.selection_glyph = Circle(fill_alpha=0.8, fill_color="#F59A0A", radius=1.5, line_color='#BAD8FF', line_width=2)
 
 def SelectCallback(attrname, old, new): 
     inds = np.array(new['1d']['indices'])[0] # this miraculously obtains the index of the slected star within the star_syms CDS 
@@ -85,16 +85,16 @@ star_syms.data_source.on_change('selected', SelectCallback)
 # main glyphs for planet circles  
 plot1.text(0.95*0.707*np.array([10., 20., 30., 40.]), 0.707*np.array([10., 20., 30., 40.]), \
      text=['10 pc', '20 pc', '30 pc', '40 pc'], text_color="white", text_font_style='bold', text_font_size='12pt', text_alpha=0.8) 
-plot1.text([48.5], [47], ['Chance Of Detecting a'], text_color="white", text_align="right") 
-plot1.text([48.5], [44.5], ['Habitable Planet Candidate'], text_color="white", text_align="right") 
-plot1.text([48.5], [42.0], ['if Present'], text_color="white", text_align="right") 
-plot1.text([48.5], [42.0], ['___________'], text_color="white", text_align="right") 
-plot1.text(np.array([48.5]), np.array([39.5]), ["80-100%"], text_color='gold', text_alpha=0.6+0.2, text_align="right") 
-plot1.text(np.array([48.5]), np.array([39.5-1*2.4]), ["50-80%"], text_color='gold', text_alpha=0.3+0.2, text_align="right") 
-plot1.text(np.array([48.5]), np.array([39.5-2*2.4]), ["20-50%"], text_color='gold', text_alpha=0.1+0.2, text_align="right") 
+plot1.text([48.5], [47], ['Chance Of Detecting a'], text_color="#BAD8FF", text_align="right") 
+plot1.text([48.5], [44.5], ['Habitable Planet Candidate'], text_color="#BAD8FF", text_align="right") 
+plot1.text([48.5], [42.0], ['if Present'], text_color="#BAD8FF", text_align="right") 
+plot1.text([48.5], [42.0], ['___________'], text_color="#BAD8FF", text_align="right") 
+plot1.text(np.array([48.5]), np.array([39.5]), ["80-100%"], text_color='#F59A0A', text_alpha=0.6+0.2, text_align="right") 
+plot1.text(np.array([48.5]), np.array([39.5-1*2.4]), ["50-80%"], text_color='#F59A0A', text_alpha=0.3+0.2, text_align="right") 
+plot1.text(np.array([48.5]), np.array([39.5-2*2.4]), ["20-50%"], text_color='#F59A0A', text_alpha=0.1+0.2, text_align="right") 
 plot1.text(np.array([48.5]), np.array([39.5-3*2.4]), ["Not Observed"], text_color='black', text_align="right") 
-plot1.text([-49], [46], ['Habitable Candidate Detections'], text_font_size='16pt', text_color='deepskyblue') 
-plot1.text([-49], [43], ['Random Realization for One Year Survey'], text_font_size='16pt', text_color='deepskyblue') 
+plot1.text([-49], [46], ['Habitable Candidate Detections'], text_font_size='16pt', text_color='#66A0FE') 
+plot1.text([-49], [43], ['Random Realization for One Year Survey'], text_font_size='16pt', text_color='#66A0FE') 
 plot1.circle([0], [0], radius=0.1, fill_alpha=1.0, line_color='white', fill_color='white') 
 plot1.circle([0], [0], radius=0.5, fill_alpha=0.0, line_color='white') 
 
@@ -105,7 +105,7 @@ sym.glyph.line_dash = [6, 6]
 # create pulsing symbols 
 n_stars = np.size(yields['complete1'])  
 col = copy.deepcopy(yields['stype']) 
-col[:] = 'deepskyblue'
+col[:] = '#66A0FE'
 alph = copy.deepcopy(yields['x']) 
 alph[:] = 1.
 random_numbers = np.random.random(n_stars) 
@@ -140,14 +140,14 @@ hist_plot.title.align='center'
 star_yield_label = ColumnDataSource(data=dict(yields=[10., 10., 10., 10., 10., 10., 10., 10., 10.],
                                         left=[0.0, 0.3, 0.6, 1.0, 1.3, 1.6, 2.0, 2.3, 2.6],
                                         right=[0.3, 0.6, 0.9, 1.3, 1.6, 1.9, 2.3, 2.6, 2.9],
-                                        color=['red','green','blue','red','green','blue','red','green','blue'],
+                                        color=['red','#66A0FE','blue','red','green','blue','red','green','blue'],
                                         labels=["0","0","0","0","0","0","0","0","0"],
                                         xvals =[1.5,2.5,3.5,1.5,2.5,3.5,1.5,2.5,3.5],
                                         yvals =[2.9,2.9,2.9,1.9,1.9,1.9,0.9,0.9,0.9,]))
 total_yield_label = ColumnDataSource(data=dict(yields=[0., 0., 0., 0., 0., 0., 0., 0., 0.], \
                                         left=[0.0, 0.3, 0.6, 1.0, 1.3, 1.6, 2.0, 2.3, 2.6],
                                         right=[0.3, 0.6, 0.9, 1.3, 1.6, 1.9, 2.3, 2.6, 2.9],
-                                        color=['red', 'green', 'blue', 'red', 'green', 'blue', 'red', 'green', 'blue'],
+                                        color=['red', '#66A0FE', 'blue', 'red', 'green', 'blue', 'red', 'green', 'blue'],
                                         temp=['Hot','Warm','Cool','Hot','Warm','Cool','Hot','Warm','Cool'], 
                                         mass=['Rocky','Rocky','Rocky','Neptunes','Neptunes','Neptunes','Jupiters','Jupiters','Jupiters'], 
                                         labels=["0","0","0","0","0","0","0","0","0"], \
@@ -202,7 +202,7 @@ def update_data(attrname, old, new):
  
     # regenerate the pulsing blue points 
     col = copy.deepcopy(yields['stype']) 
-    col[:] = 'deepskyblue'
+    col[:] = '#66A0FE'
     alph = copy.deepcopy(yields['x']) 
     alph[:] = 1.
 
@@ -218,7 +218,7 @@ def update_data(attrname, old, new):
 def recalc(): 
     # NOW DRAW RANDOM VARIATES TO GET HIGHLIGHTED STARS
     col = copy.deepcopy(yields['stype']) 
-    col[:] = 'deepskyblue'
+    col[:] = '#66A0FE'
     alph = copy.deepcopy(yields['x']) 
     alph[:] = 1.
     n_stars = np.size(yields['complete1'])  
@@ -238,19 +238,19 @@ def pulse_stars(i):
 # Set up widgets with "fake" callbacks 
 source = ColumnDataSource(data=dict(value=[]))
 source.on_change('data', update_data)
-aperture = Slider(title="Aperture (meters)", value=12., start=4., end=20.0, step=4.0, callback_policy='mouseup', width=450)
+aperture = Slider(title="Aperture (meters)", value=12., start=4., end=20.0, step=4.0, callback_policy='mouseup', width=400)
 aperture.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-contrast = Slider(title="Log (Contrast)", value=-10, start=-11.0, end=-9, step=1.0, callback_policy='mouseup', width=450)
+contrast = Slider(title="Log (Contrast)", value=-10, start=-11.0, end=-9, step=1.0, callback_policy='mouseup', width=400)
 contrast.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-iwa = Slider(title="Inner Working Angle (l/D)", value=1.5, start=1.5, end=4.0, step=0.5, callback_policy='mouseup', width=450)
+iwa = Slider(title="Inner Working Angle (l/D)", value=1.5, start=1.5, end=4.0, step=0.5, callback_policy='mouseup', width=400)
 iwa.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-regenerate = Button(label='Regenerate the Sample of Detected Candidates', width=420, button_type='success') 
+regenerate = Button(label='Regenerate the Sample of Detected Candidates', width=400, button_type='success') 
 regenerate.on_click(recalc) 
 
 #######

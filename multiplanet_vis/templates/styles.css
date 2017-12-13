@@ -77,8 +77,9 @@ h6 {
 .bk-root .bk-bs-nav-tabs{
   background-color: #000;
   color: #fff; 
+  text-align: left; 
   border: none;
-  font-family: Garamond, Baskerville, "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif;
+  font-family: Helvetica, Garamond, Baskerville, "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif;
   margin: 0px;
   padding: 0 10px; 
 }
@@ -123,19 +124,21 @@ h6 {
   color: #404040;
 }
 .bk-root .bk-slider-parent { 
-  background-color: #000000;
+  background-color: #FF0000;
   font-size:20px;
   font-family: Helvetica; 
-  color:#fff;
+  color:#f00;
 }
+/* This controls sliders, etc if they are inside tabs */ 
 .bk-bs-tab-content {
   background-color: #000;
   color: #fff; 
   border: 0;
   border-top: 1px solid #eee;
-  font-family: Garamond, Baskerville, "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif;
+  font-family: Helvetica, Garamond, Baskerville, "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif;
   margin-top: -4px;
   padding: 15px 0;
+  text-align: left; 
   overflow: auto;
 }
 .bk-bs-tab-content p {
@@ -151,10 +154,10 @@ h6 {
   border: none;
 }
 
-/*Bokeh Toolbar Overrides*/
+/*Bokeh Toolbar Overrides - e.g. colors used in bokeh tools */
 .bk-root .bk-toolbar-right .bk-toolbar-button.bk-active, .bk-root .bk-toolbar-left .bk-toolbar-button.bk-active {
-    border-left-color: #428bca;
-    border-right-color: #428bca;
+    border-left-color: #BAD8FF; 
+    border-right-color: #BAD8FF; 
 }
 
 .bk-root .bk-slider-parent input[type="text"] {

@@ -3,26 +3,67 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <style>
-            @import url(https://fonts.googleapis.com/css?family=PT+Serif);
-            body {
-              font-family: 'PT Serif';
-              -webkit-font-smoothing: antialiased;
-              text-rendering: optimizeLegibility;
-              color: #000;
-              background: #FFFFFF;   
-             }
-		h1.text-muted {
-		    text-align: center;
-		}
-		h2.text-muted {
-		    text-align: center;
-		}
-        </style>
         <meta charset="utf-8">
         <title>LUVOIR Coronagraphic Spectra</title>
         {{ bokeh_css }}
         {{ bokeh_js }}
+
+        <style>
+         {% include 'styles.css' %}
+        </style>
+
+ 
+        <style>
+
+img {
+    vertical-align: text-center;
+}
+.bk-root .bk-widget .bk-slider-horizontal {
+  width: 93%;
+  margin-left: 8px;
+  height: 10px;
+}
+.bk-root .bk-bs-nav-tabs {
+  border-bottom: 1px solid #ddd;
+  font-family: 'Helvetica';
+  font-size: 14pt 
+}
+.bk-root .bk-ui-slider { 
+  font-family: 'Helvetica';
+}
+.bk-root .bk-tab-parent {
+  color: #F00; 
+}
+.bk-root .bk-slider-parent input[type="text"] {
+  display: inline-block;
+  border: 0;
+  font-weight: 600;
+  margin-left: 4px;
+  color: #F00; 
+  font-size: 20px;
+  vertical-align: text-bottom;
+  padding: 0;
+  min-width: 20px;
+  font-family: 'Helvetica';
+  /* Add in defaults to counteract bokehplots.com css */
+  background-color: inherit;
+  border-radius: inherit;
+  box-shadow: inherit;
+  box-sizing: inherit;
+  margin-bottom: inherit;
+  transition: inherit;
+  width: inherit;
+}
+.bk-root .bk-ui-slider .bk-ui-slider-handle {
+  position: absolute;
+  z-index: 2;
+  width: 1.2em;
+  height: 1.2em;
+  cursor: default;
+  -ms-touch-action: none;
+  touch-action: none;
+}
+        </style>
     </head>
 
 
@@ -30,41 +71,19 @@
       <div class="header clearfix">
         <nav>
           <ul class="nav nav-pills pull-right">
-            <!-- <li role="presentation" class="active"><a href="#">Home</a></li>
-            <li role="presentation"><a href="#">About</a></li>
-            <li role="presentation"><a href="#">Contact</a></li> --> 
           </ul>
         </nav>
-        <h1 class="text-muted"><a href="https://asd.gsfc.nasa.gov/luvoir/tools/">LUVOIR: The Large UltraViolet Optical Infrared Surveyor</a></h1>
-        <h2 class="text-muted">Coronagraphic Spectra of Various Planets</h2>
+
+        <p><h1 class="text-muted">Spectra of Planets</p> 
+        <p> </p> 
+        <br> 
+        <br> 
       </div>
 
-<!--      <div class="container">
-        <div class="col-lg-6">
-          <p>This is a basic presentation of simulated spectra for several types of planets. </p>
-        </div>
-        <div class="col-lg-6">
-          <p>The underlying model is derived from the python-based version of Tyler Robinson's coronagraphic spectrum and noise model (Robinson et al. 2016). Python by Jacob Lustig-Yaeger. Bokeh rendering by Jason Tumlinson and Giada Arney. </p>
-        </div>
-          <div class="col-lg-6">
-            <p>The "Planet" tab includes options to simulate several types of planetary spectra that can be selected from the "Planet Spectrum" dropdown menu. The telescope-planetary system separation distance can be set using the "Distance" slider. When a target is selected, the "Planet Radius" and "Semi-major axis of orbit" sliders will default to the correct positions for the selected planet. Note that while it is possible to adjust these parameters for each target, changing them can result in spectra representing non-physical targets. Also included under the "Planet" tab is a slider for scaling exozodiacal dust. <br><Br>
-              
-              The "Observation" tab includes sliders for telescope integration time per coronagraphic bandpass, mirror diameter, spectrograph resolution for UV-VIS-NIR channels, telescope temperature, and the option to turn on a ground-based simulator.<br><Br>
-              
-              The "Instrumentation" tab includes sliders for the scaling factor for the inner working angle, the scaling factor for the outer working angle, and the maximum length of time for a single exposure.<br><br>
-              
-              The "Exposure Time Calculator" tab contains a slider to set a desired signal-to-noise ratio. In the "Exposure Time" plot tab, the simulator will display the integration time required to obtain this signal-to-noise ratio for the current telescope and instrumentation setup. Note that this tab applies only to the Exposure Time plot, not to the Spectrum plot. <br><br>
-
-              In the "Download" tab, spectral data can be downloaded in either .txt or .fits format.<br><br>
-
-              For full details, please see the readme file <a href="coron_readme.txt">here</a>.
-            </p>
-        </div>
-      </div> --> 
-
-
     <body>
+     <center>
         {{ plot_div|indent(8) }}
         {{ plot_script|indent(8) }}
+     </center>
     </body>
 </html>

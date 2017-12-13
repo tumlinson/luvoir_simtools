@@ -334,11 +334,11 @@ hover.tooltips = [
    ('thermal', '@cth{int}')
 ]
 
-ptab1 = Panel(child=snr_plot, title='Spectrum')
-ptab2 = Panel(child=exp_plot, title='Exposure Time')
-ptab3 = Panel(child=counts_plot, title='Count Rates')
+ptab1 = Panel(child=snr_plot, title='Spectrum', width=800)
+ptab2 = Panel(child=exp_plot, title='Exposure Time', width=800)
+ptab3 = Panel(child=counts_plot, title='Count Rates', width=800)
 
-ptabs = Tabs(tabs=[ptab1, ptab2, ptab3])
+ptabs = Tabs(tabs=[ptab1, ptab2, ptab3], width=800)
 show(ptabs)
 
 ################################
@@ -1761,19 +1761,19 @@ exptime  = Slider(title="Integration time per bandpass (hours)", value=24., star
 exptime.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-distance = Slider(title="Distance (parsec)", value=10., start=1.28, end=50.0, step=0.2, callback_policy='mouseup') 
+distance = Slider(title="Distance (parsec)", value=10., start=1.28, end=50.0, step=0.2, callback_policy='mouseup', width=250) 
 distance.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-radius   = Slider(title="Planet Radius (R_Earth)", value=1.0, start=0.5, end=20., step=0.1, callback_policy='mouseup') 
+radius   = Slider(title="Planet Radius (R_Earth)", value=1.0, start=0.5, end=20., step=0.1, callback_policy='mouseup', width=250) 
 radius.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-semimajor= Slider(title="Semi-major axis of orbit (AU)", value=1.0, start=0.01, end=20., step=0.01, callback_policy='mouseup') 
+semimajor= Slider(title="Semi-major axis of orbit (AU)", value=1.0, start=0.01, end=20., step=0.01, callback_policy='mouseup', width=250) 
 semimajor.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-exozodi  = Slider(title="Number of Exozodi", value = 3.0, start=1.0, end=10., step=1., callback_policy='mouseup') 
+exozodi  = Slider(title="Number of Exozodi", value = 3.0, start=1.0, end=10., step=1., callback_policy='mouseup', width=250) 
 exozodi.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
@@ -1908,6 +1908,6 @@ for bb in [bandpass]:
 for bb in [observatory]:
     bb.on_change('value', update_data)
 
-inputs = Tabs(tabs=[ planet_tab, observation_tab, telescope_tab, instrument_tab, time_tab, download_tab, info_tab ])
+inputs = Tabs(tabs=[ planet_tab, observation_tab, telescope_tab, instrument_tab, time_tab, download_tab, info_tab ], width=350)
 
 curdoc().add_root(row(inputs, ptabs)) 

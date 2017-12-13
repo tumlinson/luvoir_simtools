@@ -91,7 +91,7 @@
     y_range: !!python/tuple [0, 40]
     y_axis_label: 'SNR'
     x_axis_label: 'Wavelength [nm]'
-    border_fill_color: "#BAD8FF"
+    border_fill_color: "#1D1B4D"
     add_tools: !!python/list [*snr_hover]
     text:
         loc: !!python/tuple [5500, 20]

@@ -87,7 +87,7 @@ h6 {
 }
 .bk-root .bk-bs-nav-tabs> li {
   margin: 0 2px 0 0;
-  font-size:20px;
+  font-size:14px;
 }
 .bk-root .bk-bs-nav-tabs> li > a {
   border: 0;
@@ -128,7 +128,7 @@ h6 {
 }
 .bk-root .bk-slider-parent { 
   background-color: #FF0000;
-  font-size:20px;
+  font-size:14px;
   font-family: Helvetica; 
   color:#f00;
 }

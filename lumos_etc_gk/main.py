@@ -41,6 +41,11 @@ Circle:
     fill_color: 'white'
 Slider:
     callback_policy: 'mouseup'
+Axis:
+    axis_label_text_color: 'white'
+    major_tick_line_color: 'white'
+    minor_tick_line_color: 'white'
+    major_label_text_color: 'white'
 """
 
 help_text = """

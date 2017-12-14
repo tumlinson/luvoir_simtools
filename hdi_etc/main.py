@@ -12,14 +12,11 @@ import os#; os.environ['PYSYN_CDBS'] = os.path.expanduser("~/cdbs")
 
 script_dir = os.path.abspath(os.path.dirname(__file__))
 
-import numpy as np
 import astropy.units as u
 
 from syotools import cdbs
 
-from pysynphot import ObsBandpass
-
-from syotools.models import Telescope, Camera
+from syotools.models import Telescope, Camera, PhotometricExposure as Exposure
 from syotools.interface import SYOTool
 from syotools.spectra import SpectralLibrary
 from syotools.utils import pre_encode, pre_decode
@@ -40,6 +37,11 @@ Circle:
     fill_color: 'white'
 Slider:
     callback_policy: 'mouseup'
+Axis:
+    axis_label_text_color: 'white'
+    major_tick_line_color: 'white'
+    minor_tick_line_color: 'white'
+    major_label_text_color: 'white'
 """
 
 help_text = """
@@ -62,19 +64,38 @@ hover_tooltip = """
                 <span style="font-size: 17px; font-weight: bold; color: #696">@desc band</span>
             </div>
             <div>
-                <span style="font-size: 15px; font-weight: bold; color: #696">S/N = </span>
+                <span style="font-size: 15px; font-weight: bold; color: #696">{} = </span>
                 <span style="font-size: 15px; font-weight: bold; color: #696;">@y</span>
             </div>
         </div>
 """
 
+#establish simtools dir
+if 'LUVOIR_SIMTOOLS_DIR' not in os.environ:
+    fdir = os.path.abspath(__file__)
+    basedir = os.path.abspath(os.path.join(fdir, '..'))
+    os.environ['LUVOIR_SIMTOOLS_DIR'] = basedir
+
 class HDI_ETC(SYOTool):
     
     tool_prefix = "hdi"
-    save_models = ["telescope", "camera"]
-    save_params = ["exptime", "renorm_magnitude", "spectrum_type", "aperture",
-                   "user_prefix"]
+    
+    save_models = ["telescope", "camera", "exposure"]
+    save_params = {"exptime": None, #slider value
+                   "snratio": None, #slider value
+                   "renorm_magnitude": None, #slider value
+                   "spectrum_type": ("exposure", "sed_id"), 
+                   "aperture": ("telescope", "aperture"),
+                   "user_prefix": None}
+    
     save_dir = os.path.join(os.environ['LUVOIR_SIMTOOLS_DIR'],'saves')
+    
+    #must include this to set defaults before the interface is constructed
+    tool_defaults = {'exptime': pre_encode(1.0 * u.hour),
+                     'snratio': pre_encode(30.0 * u.electron**0.5),
+                     'renorm_magnitude': pre_encode(30.0 * u.mag('AB')),
+                     'aperture': pre_encode(12.0 * u.m),
+                     'spectrum_type': 'fab'}
     
     def tool_preinit(self):
         """
@@ -83,21 +104,21 @@ class HDI_ETC(SYOTool):
         #initialize engine objects
         self.telescope = Telescope()
         self.camera = Camera()
+        self.exposure = Exposure()
         self.telescope.add_camera(self.camera)
+        self.camera.add_exposure(self.exposure)
         
         #set interface variables
         self.templates = ['fab', 'bb', 'o5v', 'b5v', 'g2v', 'm2v', 'orion',
                           'elliptical', 'sbc', 'starburst', 'ngc1068']
         self.template_options = [SpectralLibrary[t] for t in self.templates]
         self.help_text = help_text
-        self.hover_tooltip = hover_tooltip
+        self.snr_hover_tooltip = hover_tooltip.format("S/N")
+        self.mag_hover_tooltip = hover_tooltip.format("Magnitude")
+        self.exp_hover_tooltip = hover_tooltip.format("Exptime")
         
-        #set defaults
-        self.exptime = pre_encode(1.0 * u.hour)
-        self.renorm_magnitude = pre_encode(30.0 * u.mag('AB'))
-        self.aperture = pre_encode(12.0 * u.m)
-        self.spectrum_type = 'fab'
-        self.update_sed()
+        #update default exposure based on tool_defaults
+        self.update_exposure()
         
         #Formatting & interface stuff:
         self.format_string = interface_format
@@ -107,75 +128,119 @@ class HDI_ETC(SYOTool):
         self.current_savefile = ""
         self.overwrite_save = False
         
-    #No post-initialization required
-    tool_postinit = None
+    def tool_postinit(self):
+        """
+        Need to disable the SNR slider to start with.
+        """
+        self.refs["snr_slider"].disabled = True
+    
+    #Control methods
+    def tab_change(self, attr, old, new):
+        """
+        Whenever tabs are switched:
+            - Disable the appropriate input slider(s)
+            - Set self.exposure.unknown, if appropriate
+        """
+        active_tab = new['value'][0]
+        all_inputs = ["ap_slider", "exp_slider", "mag_slider", "snr_slider",
+                      "template_select"]
+        inactive = [("snr_slider",), ("exp_slider",), ("mag_slider",), 
+                    ("ap_slider", "exp_slider", "snr_slider")][active_tab]
+        for inp in all_inputs:
+            self.refs[inp].disabled = inp in inactive
+            
+        #set the correct exposure unknown:
+        if active_tab < 3:
+            self.exposure.unknown = ["snr", "exptime", "magnitude"][active_tab]
+        
+        self.controller(None, None, None)
     
     def controller(self, attr, old, new):
         #Grab values from the inputs
-    
         self.exptime = pre_encode(self.refs["exp_slider"].value * u.hour)
         self.renorm_magnitude = pre_encode(self.refs["mag_slider"].value * u.mag('AB'))
+        self.snratio = pre_encode(self.refs["snr_slider"].value * u.electron**0.5)
         self.aperture = pre_encode(self.refs["ap_slider"].value * u.m)
         temp = self.template_options.index(self.refs["template_select"].value)
         self.spectrum_type = self.templates[temp]
         
-        #Update the template SED based on new values
-        self.update_sed()
+        self.update_exposure()
         
         snr = self._snr
+        mag = self._mag
+        exp = self._exp
         pwave = self._pivotwave
         
-        #Update the y ranges & data
+        #Update the plots' y-range bounds
         self.refs["snr_figure"].y_range.start = 0
-        self.refs["snr_figure"].y_range.end = 1.3 * max(snr.max(), 5.)
-        self.refs["sed_figure"].y_range.start = self.spectrum_template.flux.min() + 5.
+        self.refs["snr_figure"].y_range.end = max(1.3 * snr.max(), 5.)
+        self.refs["exp_figure"].y_range.start = 0
+        self.refs["exp_figure"].y_range.end = max(1.3 * exp.max(), 2.)
+        self.refs["mag_figure"].y_range.start = mag.max() + 5.
+        self.refs["mag_figure"].y_range.end = mag.min() - 5.
+        self.refs["sed_figure"].y_range.start = self.spectrum_template.flux.max() + 5.
         self.refs["sed_figure"].y_range.end = self.spectrum_template.flux.min() - 5.
-        self.refs["source_blue"].data = {'x': pwave[2:-3], 
-                                         'y': snr[2:-3],
-                                         'desc': self.camera.bandnames[2:-3]}
-        self.refs["source_orange"].data = {'x': pwave[:2], 
-                                           'y': snr[:2],
-                                           'desc': self.camera.bandnames[:2]}
-        self.refs["source_red"].data = {'x': pwave[-3:], 
-                                        'y': snr[-3:],
-                                        'desc': self.camera.bandnames[-3:]}
+        
+        #Update source data
+        self.refs["snr_source_blue"].data = {'x': pwave[2:-3], 
+                                             'y': snr[2:-3],
+                                             'desc': self.camera.bandnames[2:-3]}
+        self.refs["exp_source_blue"].data = {'x': pwave[2:-3], 
+                                             'y': exp[2:-3],
+                                             'desc': self.camera.bandnames[2:-3]}
+        self.refs["mag_source_blue"].data = {'x': pwave[2:-3], 
+                                             'y': mag[2:-3],
+                                             'desc': self.camera.bandnames[2:-3]}
+        self.refs["snr_source_orange"].data = {'x': pwave[:2], 
+                                               'y': snr[:2],
+                                               'desc': self.camera.bandnames[:2]}
+        self.refs["exp_source_orange"].data = {'x': pwave[:2], 
+                                               'y': exp[:2],
+                                               'desc': self.camera.bandnames[:2]}
+        self.refs["mag_source_orange"].data = {'x': pwave[:2], 
+                                               'y': mag[:2],
+                                               'desc': self.camera.bandnames[:2]}
+        self.refs["snr_source_red"].data = {'x': pwave[-3:], 
+                                            'y': snr[-3:],
+                                            'desc': self.camera.bandnames[-3:]}
+        self.refs["exp_source_red"].data = {'x': pwave[-3:], 
+                                            'y': exp[-3:],
+                                            'desc': self.camera.bandnames[-3:]}
+        self.refs["mag_source_red"].data = {'x': pwave[-3:], 
+                                            'y': mag[-3:],
+                                            'desc': self.camera.bandnames[-3:]}
         self.refs["spectrum_template"].data = {'x': self.template_wave,
                                                'y': self.template_flux}
         
-    def update_sed(self):
-        spectrum = SpectralLibrary.get(self.spectrum_type)
-        band = ObsBandpass('johnson,v')
-        band.convert('nm')
+    def update_exposure(self):
+        """
+        Update the exposure's parameters and recalculate everything.
+        """
+        #We turn off calculation at the beginning so we can update everything 
+        #at once without recalculating every time we change something
+        self.exposure.disable() 
         
-        renorm_mag = pre_decode(self.renorm_magnitude)
-        
-        new_spectrum = spectrum.renorm((renorm_mag + 2.5*u.mag('AB')).value,
-                                       'abmag', band)
-        new_spectrum.convert('nm')
-        new_spectrum.convert('abmag')
-        sed = new_spectrum.sample(self._pivotwave)
-        
-        if np.count_nonzero(~np.isfinite(new_spectrum.flux)):
-            print("Infinite values!")
-
-        self.spectrum_template = new_spectrum
-        self.sed = pre_encode(sed * u.mag('AB'))
-        
-    @property
-    def snr(self):
+        #Update all the parameters
+        self.exposure.n_exp = 3
+        self.exposure.exptime = pre_decode(self.exptime)
+        self.exposure.snr = pre_decode(self.snratio)
+        self.exposure.sed_id = self.spectrum_type
         self.telescope.aperture = self.aperture
-        sed = pre_decode(self.sed)
-        exptime = pre_decode(self.exptime)
-        out = self.camera.signal_to_noise(exptime, 3, sed, verbose=False)
-        return out #already serialized via JsonUnit
+        self.exposure.renorm_sed(pre_decode(self.renorm_magnitude))
+        
+        #Now we turn calculations back on and recalculate
+        self.exposure.enable()
+        
+        #Set the spectrum template
+        self.spectrum_template = pre_decode(self.exposure.sed)
     
     @property
     def template_wave(self):
-        return np.asarray(self.spectrum_template.wave)
+        return self.exposure.recover('sed').wave
     
     @property
     def template_flux(self):
-        return np.asarray(self.spectrum_template.flux)
+        return self.exposure.recover('sed').flux
 
     #Conversions to avoid Bokeh Server trying to serialize Quantities
     @property
@@ -184,7 +249,16 @@ class HDI_ETC(SYOTool):
     
     @property
     def _snr(self):
-        return pre_decode(self.snr).value
+        return self.exposure.recover('snr').value
+    
+    @property
+    def _mag(self):
+        return self.exposure.recover('magnitude').value
+    
+    @property
+    def _exp(self):
+        exp = self.exposure.recover('exptime').to(u.h)
+        return exp.value
     
     def update_toggle(self, active):
         if active:
@@ -243,6 +317,7 @@ class HDI_ETC(SYOTool):
             self.refs["exp_slider"].value = pre_decode(self.exptime).value
             self.refs["mag_slider"].value = pre_decode(self.renorm_magnitude).value
             self.refs["ap_slider"].value = pre_decode(self.aperture).value
+            self.refs["snr_slider"].value = pre_decode(self.snratio).value
             temp = self.templates.index(self.spectrum_type)
             self.refs["template_select"].value = self.template_options[temp]
             self.controller(None, None, None)
@@ -252,6 +327,11 @@ class HDI_ETC(SYOTool):
                   "Load unsuccessful; please contact the administrators.",
                   "There was an error restoring the save state; please contact"
                   " the administrators."][code]
+        if code == 0 and self.load_mismatch:
+            errmsg += "<br><br><b><i>Load Mismatch Warning:</b></i> "\
+                      "The saved model parameters did not match the " \
+                      "parameter values saved for this tool. Saved " \
+                      "model values were given priority."
         self.refs["load_message"].text = errmsg
         
     

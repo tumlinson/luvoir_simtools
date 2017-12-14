@@ -1,204 +1,256 @@
-from __future__ import print_function
+#!/usr/bin/env python2
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Nov 29 13:13:28 2017
+
+@author: gkanarek
+"""
+
+from __future__ import (print_function, division, absolute_import, with_statement,
+                        nested_scopes, generators)
+
+import os
+
+script_dir = os.path.abspath(os.path.dirname(__file__))
+
 import numpy as np
-import copy 
-import os 
-from bokeh.plotting import Figure
-from bokeh.models import ColumnDataSource, HoverTool, Range1d 
-from bokeh.layouts import Column, Row, WidgetBox
-from bokeh.models.widgets import Slider, TextInput, Select, Tabs, Panel, Div, RadioButtonGroup
-from bokeh.io import curdoc
-from bokeh.models.callbacks import CustomJS
-import astropy.constants as const
-from astropy.table import Table 
-from astropy.io import fits, ascii 
-import get_lumos_spectra
-import Telescope as T 
-import lumos_help as h 
+import astropy.units as u
+from astropy.table import Table
 
+from syotools import cdbs
 
-luvoir = T.Telescope(15., 280., 500.) # set up LUVOIR with 15 meters, T = 280, and diff limit at 500 nm 
-lumos = T.Spectrograph() # set up LUVOIR with 10 meters, T = 280, and diff limit at 500 nm 
-lumos.set_mode('G120M') 
+from syotools.models import Telescope, Spectrograph, SpectrographicExposure as Exposure
+from syotools.interface import SYOTool
+from syotools.spectra import SpectralLibrary
+from syotools.utils import pre_encode, pre_decode
 
-def simulate_exposure(telescope, spectrograph, wave, flux, exptime): 
-    print("Attempting to create an exposure for Telescope: ", telescope.name, telescope.aperture, ' m') 
-    print("                                 and Spectrograph: ", spectrograph.name, " in mode ", spectrograph.mode_name) 
+#We're going to just use the default values for LUVOIR
+interface_format = """
+Line:
+    line_width: 3
+    line_alpha: 0.7
+Figure:
+    plot_height: 400
+    plot_width: 800
+    tools: "crosshair,pan,reset,save,box_zoom,wheel_zoom,hover"
+    toolbar_location: "right"
+    background_fill_color: "beige"
+    background_fill_alpha: 0.5
+    outline_line_color: "black"
+Circle:
+    fill_color: 'white'
+Slider:
+    callback_policy: 'mouseup'
+Axis:
+    axis_label_text_color: 'white'
+    major_tick_line_color: 'white'
+    minor_tick_line_color: 'white'
+    major_label_text_color: 'white'
+"""
 
-    # obtain the interpolated effective areas for the input spectrum 
-    aeff_interp = np.interp(wave, spectrograph.wave, spectrograph.aeff, left=0., right=0.) * (telescope.aperture/15.)**2 
-    bef_interp = np.interp(wave, spectrograph.wave, spectrograph.bef, left=0., right=0.) # background to use 
-    phot_energy = const.h.to('erg s').value * const.c.to('cm/s').value / (wave * 1e-8) # now convert from erg cm^-2 s^-1 A^-1  
-    source_counts = flux / phot_energy * aeff_interp * (exptime*3600.) * (wave / lumos.R) 
+help_text = """
 
-    source_counts[(wave < spectrograph.lambda_range[0])] = 0. 
-    source_counts[(wave > spectrograph.lambda_range[1])] = 0. 
+      <div class="container"> 
+          <p>This is the basic ETC for UV spectroscopy with LUMOS.<br> 
+          <p>The top controls model the source spectrum with various templates, an optional redshift, and magnitude normalization. All template spectra are normalized to the given magnitude in the GALEX FUV band. 
+          <p>The top plot shows the input source spectrum in dark red and the "Background Equivalent Flux" for that mode. 
+          
+          <p>The lower panel shows the signal-to-noise ratio for the selected grating, aperture, and exposure time. 
+      </div>
+"""
 
-    background_counts = bef_interp / phot_energy * aeff_interp * (exptime*3600.) * (wave / lumos.R) 
-    signal_to_noise = source_counts / (source_counts + background_counts)** 0.5 
-    for sdf in signal_to_noise: print(sdf) 
-    return signal_to_noise 
+#establish simtools dir
+if 'LUVOIR_SIMTOOLS_DIR' not in os.environ:
+    fdir = os.path.abspath(__file__)
+    basedir = os.path.abspath(os.path.join(fdir, '..'))
+    os.environ['LUVOIR_SIMTOOLS_DIR'] = basedir
 
-spec_dict = get_lumos_spectra.add_spectrum_to_library() 
-template_to_start_with = 'QSO' 
-spec_dict[template_to_start_with].wave 
-spec_dict[template_to_start_with].flux 
+class LUMOS_ETC(SYOTool):
+    
+    tool_prefix = "lumos"
+    
+    save_models = ["telescope", "camera", "spectrograph", "exposure"]
+    save_params = {"redshift": None, #slider value
+                   "renorm_magnitude": None, #slider value
+                   "exptime": None, #slider value
+                   "grating": ("spectrograph", "mode"), #drop-down selection
+                   "aperture": ("telescope", "aperture"), #slider value
+                   "spectrum_type": ("exposure", "sed_id"), #drop-down selection
+                   "user_prefix": None}
+    
+    save_dir = os.path.join(os.environ['LUVOIR_SIMTOOLS_DIR'],'saves')
+    
+    #must include this to set defaults before the interface is constructed
+    tool_defaults = {'redshift': pre_encode(0.0 * u.dimensionless_unscaled),
+                     'renorm_magnitude': pre_encode(21.0 * u.mag('AB')),
+                     'exptime': pre_encode(1.0 * u.hour),
+                     'grating': "G120M",
+                     'aperture': pre_encode(15.0 * u.m),
+                     'spectrum_type': 'qso'}
+    
+    def tool_preinit(self):
+        """
+        Pre-initialize any required attributes for the interface.
+        """
+        #initialize engine objects
+        self.telescope = Telescope(temperature=pre_encode(280.0*u.K))
+        self.spectrograph = Spectrograph()
+        self.exposure = Exposure()
+        self.telescope.add_spectrograph(self.spectrograph)
+        self.spectrograph.add_exposure(self.exposure)
+        
+        #set interface variables
+        self.templates = ['flam', 'qso', 's99', 'o5v', 'g2v', 'g191b2b', 
+                          'gd71', 'gd153', 'ctts', 'mdwarf', 'orion', 'nodust',
+                          'ebv6', 'hi1hei1', 'hi0hei1']
+        self.template_options = [SpectralLibrary[t] for t in self.templates]
+        self.help_text = help_text
+        self.gratings = self.spectrograph.modes
+        self.grating_options = [self.spectrograph.descriptions[g] for g in self.gratings]
+        self.dl_filename = ""
+        
+        #set default input values
+        self.update_exposure()
+        
+        #Formatting & interface stuff:
+        self.format_string = interface_format
+        self.interface_file = os.path.join(script_dir, "interface.yaml")
+        
+        #For saving calculations
+        self.current_savefile = ""
+        self.overwrite_save = False
+        
+    tool_postinit = None
+    
+    def update_exposure(self):
+        """
+        Update the exposure's parameters and recalculate everything.
+        """
+        #We turn off calculation at the beginning so we can update everything 
+        #at once without recalculating every time we change something
+        
+        self.exposure.disable()
+        
+        #Update all the parameters
+        self.telescope.aperture = self.aperture
+        self.spectrograph.mode = self.grating
+        self.exposure.exptime = pre_decode(self.exptime)
+        self.exposure.redshift = pre_decode(self.redshift)
+        self.exposure.sed_id = self.spectrum_type
+        self.exposure.renorm_sed(pre_decode(self.renorm_magnitude), 
+                                 bandpass='galex,fuv')
+        
+        #Now we turn calculations back on and recalculate
+        self.exposure.enable()
+        
+        #Set the spectrum template
+        self.spectrum_template = pre_decode(self.exposure.sed)
+    
+    @property
+    def template_wave(self):
+        """
+        Easy SED wavelength access for the Bokeh widgets.
+        """
+        return self.exposure.recover('sed').wave
+    
+    @property
+    def template_flux(self):
+        """
+        Easy SED flux access for the Bokeh widgets.
+        """
+        sed = self.exposure.recover('sed')
+        wave = sed.wave * u.Unit(sed.waveunits.name)
+        if sed.fluxunits.name == "abmag":
+            funit = u.ABmag
+        elif sed.fluxunits.name == "photlam":
+            funit = u.ph / u.s / u.cm**2 / u.AA
+        else:
+            funit = u.Unit(sed.fluxunits.name)
+        flux = (sed.flux * funit).to(u.erg / u.s / u.cm**2 / u.AA, 
+                equivalencies=u.spectral_density(wave))
+        return flux.value
+    
+    @property
+    def background_wave(self):
+        """
+        Easy instrument wavelength access for the Bokeh widgets.
+        """
+        bwave = self.spectrograph.recover('wave').to(u.AA)
+        return bwave.value
+    
+    @property
+    def background_flux(self):
+        """
+        Easy instrument background flux access for the Bokeh widgets.
+        """
+        bef = self.spectrograph.recover('bef').to(u.erg / u.s / u.cm**2 / u.AA)
+        return bef.value
+    
+    @property
+    def _snr(self):
+        return np.nan_to_num(self.exposure.recover('snr').value)
+        
+    
+    def controller(self, attr, old, new):
+        """
+        Callback to recalculate everything for the figures whenever an input's
+        value is changed
+        """
+        
+        #Grab values from the inputs
+        self.exptime = pre_encode(self.refs["exp_slider"].value * u.hour)
+        self.renorm_magnitude = pre_encode(self.refs["mag_slider"].value * u.mag('AB'))
+        self.redshift = pre_encode(self.refs["red_slider"].value)
+        self.aperture = pre_encode(self.refs["ap_slider"].value * u.m)
+        temp = self.template_options.index(self.refs["template_select"].value)
+        self.spectrum_type = self.templates[temp]
+        grat = self.grating_options.index(self.refs["grating_select"].value)
+        self.grating = self.gratings[grat]
+        
+        #update the exposure and grab all our relevant values.
+        self.update_exposure()
+        
+        snr = self._snr #SNR at bwave
+        bwave, bflux = self.background_wave, self.background_flux
+        twave, tflux = self.template_wave, self.template_flux
+                
+        self.refs["flux_yrange"].start = 0.
+        self.refs["flux_yrange"].end = 1.5 * tflux.max()
+        #self.refs["flux_xrange"].start = min(bwave.min(), twave.min())
+        #self.refs["flux_xrange"].end = max(bwave.max(), twave.max())
+        self.refs["snr_yrange"].start = 0.
+        self.refs["snr_yrange"].end = 1.5 * snr.max()
+        #self.refs["snr_xrange"].start = min(bwave.min(), twave.min())
+        #self.refs["snr_xrange"].end = max(bwave.max(), twave.max())
+        
+        self.refs["snr_source"].data = {'y': snr, 'x': bwave}
+        self.refs["spectrum_template"].data = {'x': twave, 'y': tflux}
+        self.refs["instrument_background"].data = {'x':bwave, 'y':bflux}
+        
+        self.refs["red_slider"].start = self.exposure.zmin
+        self.refs["red_slider"].end = self.exposure.zmax
+        
+    
+    def dl_change_filename(self, attr, old, new):
+        self.dl_filename = self.refs["dl_textinput"].value
+        self.refs["dl_format_button_group"].active = None
+    
+    def dl_execute(self, *arg):
+        which_format = self.refs["dl_format_button_group"].active
+        ext = ['.txt', '.fits'][which_format]
+        fmt = ['ascii', 'fits'][which_format]
+        outfile = self.dl_filename + ext
+        self.refs["dl_linkbox"].text = "Please wait..."
+        twave = self.template_wave
+        swave = self.background_wave
+        snr = self._snr
+        out_snr = np.interp(twave, swave, snr, left=0., right=0.)
+        out_table = Table([twave, self.template_flux, out_snr],
+                         names=('wave','flux','sn'))
+        out_table.write(outfile, format=fmt, overwrite=True)
+        os.system('gzip -f ' + outfile)
+        os.system('cp -rp ' + outfile + '.gz /home/jtastro/jt-astro.science/outputs')
+        out_msg = "Your file is <a href='http://jt-astro.science/outputs/{0}.gz'>{0}.gz</a>. "
+        self.refs["dl_linkbox"].text = out_msg.format(outfile)
 
-signal_to_noise = simulate_exposure(luvoir, lumos, spec_dict[template_to_start_with].wave, spec_dict[template_to_start_with].flux, 1.0) 
-
-flux_cut = spec_dict[template_to_start_with].flux 
-flux_cut[spec_dict[template_to_start_with].wave < lumos.lambda_range[0]] = -999.  
-flux_cut[spec_dict[template_to_start_with].wave > lumos.lambda_range[0]] = -999.  
-
-spectrum_template = ColumnDataSource(data=dict(w=spec_dict[template_to_start_with].wave, f=spec_dict[template_to_start_with].flux, \
-                                   w0=spec_dict[template_to_start_with].wave, f0=spec_dict[template_to_start_with].flux, \
-                                   flux_cut=flux_cut, sn=signal_to_noise)) 
-
-instrument_info = ColumnDataSource(data=dict(wave=lumos.wave, bef=lumos.bef))
-
-# set up the flux plot 
-flux_plot = Figure(plot_height=400, plot_width=800, 
-              tools="crosshair,hover,pan,reset,save,box_zoom,wheel_zoom", outline_line_color='black', 
-              x_range=[900, 2000], y_range=[0, 4e-16], toolbar_location='right') 
-flux_plot.x_range=Range1d(900,4000,bounds=(900,4000))
-flux_plot.y_range=Range1d(0,4e-16,bounds=(0,None)) 
-flux_plot.background_fill_color = "beige"
-flux_plot.background_fill_alpha = 0.5 
-flux_plot.yaxis.axis_label = 'Flux [erg / s / cm2 / Ang]' 
-flux_plot.xaxis.axis_label = 'Wavelength [Angstrom]' 
-flux_plot.line('w', 'f', source=spectrum_template, line_width=3, line_color='firebrick', line_alpha=0.7, legend='Source Flux')
-flux_plot.line('wave', 'bef', source=instrument_info, line_width=3, line_color='darksalmon', line_alpha=0.7, legend='Background')
-
-# set up the flux plot 
-sn_plot = Figure(plot_height=400, plot_width=800, 
-              tools="crosshair,hover,pan,reset,save,box_zoom,wheel_zoom", outline_line_color='black', 
-              x_range=[900, 2000], y_range=[0, 40], toolbar_location='right')
-sn_plot.x_range=Range1d(900,4000,bounds=(900,4000))
-sn_plot.y_range=Range1d(0,40,bounds=(0,None)) 
-sn_plot.line('w', 'sn', source=spectrum_template, line_width=3, line_color='orange', line_alpha=0.7, legend='S/N per resel')
-sn_plot.background_fill_color = "beige"
-sn_plot.background_fill_alpha = 0.5 
-sn_plot.xaxis.axis_label = 'Wavelength [Angstrom]' 
-sn_plot.yaxis.axis_label = 'S/N per resel' 
-
-def update_data(attrname, old, new): # use this one for updating pysynphot tempaltes 
-   
-    print("You have chosen template ", template.value, np.size(spec_dict[template.value].wave)) 
-    print('Selected grating = ', grating.value) 
-    luvoir.aperture = aperture.value 
-    print('Your telescope is set to', luvoir.aperture) 
-    lumos.set_mode(grating.value) 
-
-    new_w0 = spec_dict[template.value].wave 
-    new_f0 = spec_dict[template.value].flux 
- 
-    #OOPS, SHOULD USE PYSYNPHOT FOR REDSHIFT HERE, THE NORMALIZATION IS NOT QUITE CORRECT 
-    new_w = np.array(new_w0) * (1. + redshift.value)
-    new_f = np.array(new_f0) * 10.**( (21.-magnitude.value) / 2.5)
-    new_sn = np.nan_to_num(simulate_exposure(luvoir, lumos, new_w, new_f, exptime.value)) 
-
-    flux_cut = copy.deepcopy(new_f) 
-    flux_cut[new_w < lumos.lambda_range[0]] = -999.  
-    flux_cut[new_w > lumos.lambda_range[1]] = -999.  
-    print('RANGE', lumos.lambda_range[0], lumos.lambda_range[1]) 
-
-    new_dict = {'w':new_w, 'f':new_f, 'w0':new_w0, 'f0':new_f0, 'flux_cut':flux_cut, 'sn':new_sn} 
-    spectrum_template.data = new_dict 
-
-    # set the axes to autoscale appropriately 
-    flux_plot.y_range.start = 0 
-    flux_plot.y_range.end = 1.5*np.max(new_f0)
-    sn_plot.y_range.start = 0 
-    sn_plot.y_range.end = 1.3*np.max(spectrum_template.data['sn'])
-    print('MAX MAX', np.max(spectrum_template.data['f']), np.max(flux_cut)) 
-
-    instrument_info.data['wave'] = lumos.wave 
-    instrument_info.data['bef'] = lumos.bef  
-
-# fake source for managing callbacks 
-source = ColumnDataSource(data=dict(value=[]))
-source.on_change('data', update_data)
-
-# Set up widgets and their callbacks (faking the mouseup policy via "source" b/c functional callback doesn't do that. 
-template = Select(title="Template Spectrum", value="QSO", 
-                options=["Flat in F_lambda", "QSO", "10 Myr Starburst", "O5V Star", "G2V Star", "G191B2B (WD)", "GD71 (WD)", "GD153 (WD)", "Classical T Tauri", "M1 Dwarf", "Orion Nebula", \
-                         "Starburst, No Dust", "Starburst, E(B-V) = 0.6", "Galaxy with f_esc, HI=1, HeI=1", "Galaxy with f_esc, HI=0.001, HeI=1"])
-
-redshift = Slider(title="Redshift", value=0.0, start=0., end=3.0, step=0.05, callback_policy='mouseup')
-redshift.callback = CustomJS(args=dict(source=source), code="""
-    source.data = { value: [cb_obj.value] }
-""")
-magnitude = Slider(title="Magnitude [AB]", value=21., start=15., end=30.0, step=0.1, callback_policy='mouseup')
-magnitude.callback = CustomJS(args=dict(source=source), code="""
-    source.data = { value: [cb_obj.value] }
-""")
-grating = Select(title="Grating / Setting", value="G120M (R = 30,400)", \
-                 options=["G120M (R = 30,400)", "G150M (R = 37,800)", "G180M (R = 40,800)", "G155L (R = 11,600)", "G145LL (R=500)", "G300M (R = 28,000)"])
-aperture= Slider(title="Aperture (meters)", value=15., start=2., end=20.0, step=1.0, callback_policy='mouseup')
-aperture.callback = CustomJS(args=dict(source=source), code="""
-    source.data = { value: [cb_obj.value] }
-""")
-exptime = Slider(title="Exposure Time [hr]", value=1.0, start=0.1, end=10.0, step=0.1, callback_policy='mouseup')
-exptime.callback = CustomJS(args=dict(source=source), code="""
-    source.data = { value: [cb_obj.value] }
-""")
-
-# set up the download tab 
-def change_filename(attrname, old, new):
-   format_button_group.active = None
-
-instruction0 = Div(text="""<left>Specify a filename here:
-                           (no special characters):""", width=300, height=15)
-text_input = TextInput(value="filename", title=" ", width=20)
-instruction1 = Div(text="""<left>Then choose a file format here:""", width=300, height=15)
-format_button_group = RadioButtonGroup(labels=["txt", "fits"])
-instruction2 = Div(text="""<left>The link to download your file will appear here:""", width=300, height=15)
-link_box  = Div(text=""" """, width=300, height=15)
-
-def i_clicked_a_button(new):
-    filename=text_input.value + {0:'.txt', 1:'.fits'}[format_button_group.active]
-    print("Your format is   ", format_button_group.active, {0:'txt', 1:'fits'}[format_button_group.active]) 
-    print("Your filename is: ", filename) 
-    fileformat={0:'txt', 1:'fits'}[format_button_group.active]
-    link_box.text = """Working"""
-
-
-    out_table = Table([spectrum_template.data['w'],spectrum_template.data['f'],spectrum_template.data['sn']], \
-                         names=('wave','flux','sn')) 
-   
-    if (format_button_group.active == 1): out_table.write(filename, overwrite=True)
-    if (format_button_group.active == 0): ascii.write(out_table, filename)
-
-    os.system('gzip -f ' +filename)
-    os.system('cp -rp '+filename+'.gz /home/jtastro/jt-astro.science/outputs')
-    print("""Your file is <a href='http://jt-astro.science/outputs/"""+filename+""".gz'>"""+filename+""".gz</a>. """) 
-    link_box.text = """Your file is <a href='http://jt-astro.science/outputs/"""+filename+""".gz'>"""+filename+""".gz</a>. """
-
-for w in [text_input]:
-    w.on_change('value', change_filename)
-format_button_group.on_click(i_clicked_a_button)
-
-qq = Column(children=[instruction0, text_input, instruction1, format_button_group, instruction2, link_box])
-download_tab = Panel(child=qq, title='Download')
-
-# iterate on changes to parameters 
-for w in [template, grating]:  w.on_change('value', update_data)
- 
-# Set up layouts and add to document
-source_inputs = WidgetBox(children=[template, redshift, magnitude])
-controls_tab = Panel(child=source_inputs, title='Controls')
-help = Div(text = h.help()) 
-help_tab = Panel(child=help, title='Info')
-source_inputs = Tabs(tabs=[ controls_tab, help_tab, download_tab]) 
-
-exposure_inputs = WidgetBox(children=[grating, aperture, exptime])
-
-row1 = Row(children=[source_inputs, flux_plot])
-row2 = Row(children=[exposure_inputs, sn_plot])
-
-curdoc().add_root(Column(children=[row1, row2]))
-curdoc().add_root(source) 
-
-
-
-
-
+LUMOS_ETC()

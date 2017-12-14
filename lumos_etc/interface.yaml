@@ -1,0 +1,180 @@
+#Dummy source for input control flow
+- !ColumnDataSource: &dummy_source
+    ref: "dummy_source"
+    data:
+        value: []
+    on_change: ['data', !self.controller ]
+#In-browser callback to allow for on_release updates instead of instantaneous
+- !CustomJS: &callback
+    ref: "js_callback"
+    args:
+        source: *dummy_source
+    code: "\n    source.data = { value: [cb_obj.value] }\n"
+#Inputs (sliders, dropdowns, etc.)
+- !Slider: &ap_slider
+    ref: "ap_slider"
+    title: "Aperture (meters)"
+    value: 15.
+    range: !!python/tuple [2.0, 20.0, 1.0]
+    tags: [4, 5, 6, 6]
+    callback: *callback
+- !Slider: &exp_slider
+    ref: "exp_slider"
+    title: "Exptime (hours)"
+    value: 1.0
+    range: !!python/tuple [0.1, 10.0, 0.1]
+    callback: *callback
+- !Slider: &mag_slider
+    ref: "mag_slider"
+    title: "Magnitude [AB]"
+    value: 21.0
+    range: !!python/tuple [15.0, 30.0, 0.1]
+    callback: *callback
+- !Slider: &red_slider
+    ref: "red_slider"
+    title: "Redshift"
+    value: 0.0
+    range: !!python/tuple [!self.exposure.zmin , !self.exposure.zmax , 0.05]
+    callback: *callback
+- !Select: &template_select
+    ref: "template_select"
+    title: "Template Spectrum"
+    value: "QSO"
+    options: !self.template_options
+    on_change: ['value', !self.controller ]
+- !Select: &grating_select
+    ref: "grating_select"
+    title: "Grating / Setting"
+    value: "G120M (R = 30,400)"
+    options: !self.grating_options
+    on_change: ['value', !self.controller ]
+#Widgets for download tab
+- !Div: &dl_instruction0
+    ref: "dl_instruction0"
+    text: "<left>Specify a filename here (no special characters):"
+    width: 300
+    height: 15
+- !TextInput: &dl_textinput
+    ref: "dl_textinput"
+    value: "filename"
+    title: " "
+    width: 20
+    on_change: ["value", !self.dl_change_filename ]
+- !Div: &dl_instruction1
+    ref: "dl_instruction1"
+    text: "<left>Then choose a file format here:"
+    width: 300
+    height: 15
+- !RadioButtonGroup: &dl_format_button_group
+    ref: "dl_format_button_group"
+    labels: ["txt", "fits"]
+    on_click: !self.dl_execute
+- !Div: &dl_instruction2
+    ref: "dl_instruction2"
+    text: "<left>The link to download your file will appear here:"
+    width: 300
+    height: 15
+- !Div: &dl_linkbox
+    ref: "dl_linkbox"
+    text: " "
+    width: 300
+    height: 15
+#--> Flux figure
+#----> Flux ----> Data sources
+- !ColumnDataSource: &spectrum_template
+    ref: "spectrum_template"
+    data:
+        x: !self.template_wave
+        y: !self.template_flux
+- !ColumnDataSource: &instrument_background
+    ref: "instrument_background"
+    data:
+        x: !self.background_wave
+        y: !self.background_flux
+#----> Flux ----> Plot ranges
+- !Range1d: &flux_xrange
+    ref: "flux_xrange"
+    start: 900.0
+    end: 3000.0
+    bounds: !!python/tuple [900.0, 3000.0]
+- !Range1d: &flux_yrange
+    ref: "flux_yrange"
+    start: 0.0
+    end: 4.0e-16
+    bounds: !!python/tuple [0.0, null]
+#----> Flux ----> Figure
+- !Figure: &flux_figure
+    ref: "flux_figure"
+    x_range: *flux_xrange
+    y_range: *flux_yrange
+    y_axis_label: 'Flux [erg / s / cm2 / Ang]'
+    x_axis_label: 'Wavelength [Angstrom]'
+    border_fill_color: "#1D1B4D"
+    elements:
+        - {'kind': 'line', 'source': *spectrum_template, 'line_color': 'firebrick', 'legend': 'Source Flux'}
+        - {'kind': 'line', 'source': *instrument_background, 'line_color': 'darksalmon', 'legend': 'Background'}
+#--> SNR figure
+#----> SNR ----> Data source
+- !ColumnDataSource: &snr_source
+    ref: "snr_source"
+    data:
+        x: !self.background_wave
+        y: !self._snr
+#----> SNR ----> Plot ranges
+- !Range1d: &snr_xrange
+    ref: "snr_xrange"
+    start: 900.0
+    end: 3000.0
+    bounds: !!python/tuple [900.0, 3000.0]
+- !Range1d: &snr_yrange
+    ref: "snr_yrange"
+    start: 0.0
+    end: 40.0
+    bounds: !!python/tuple [0.0, null]
+#----> SNR ----> Figure
+- !Figure: &snr_figure
+    ref: "snr_figure"
+    x_range: *snr_xrange
+    y_range: *snr_yrange
+    y_axis_label: 'S/N per resel'
+    x_axis_label: 'Wavelength [Angstrom]'
+    border_fill_color: "#1D1B4D"
+    elements:
+        - {'kind': 'line', 'source': *snr_source, 'line_color': 'orange', 'legend': 'S/N per resel'}
+#Document structure
+- !Document:
+    - !column:
+        - !row:
+            - !Tabs:
+                tabs:
+                - !Panel:
+                    title: 'Controls'
+                    child:
+                        !widgetbox:
+                            children:
+                            - *template_select
+                            - *red_slider
+                            - *mag_slider
+                - !Panel:
+                    title: 'Info'
+                    child:
+                        !Div:
+                            text: !self.help_text
+                - !Panel:
+                    title: 'Download'
+                    child:
+                        !column:
+                            - *dl_instruction0
+                            - *dl_textinput
+                            - *dl_instruction1
+                            - *dl_format_button_group
+                            - *dl_instruction2
+                            - *dl_linkbox
+            - *flux_figure
+        - !row:
+            - !widgetbox:
+                children:
+                - *grating_select
+                - *ap_slider
+                - *exp_slider
+            - *snr_figure

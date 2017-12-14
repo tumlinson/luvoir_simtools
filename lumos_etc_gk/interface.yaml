@@ -109,6 +109,7 @@
     y_range: *flux_yrange
     y_axis_label: 'Flux [erg / s / cm2 / Ang]'
     x_axis_label: 'Wavelength [Angstrom]'
+    border_fill_color: "#1D1B4D"
     elements:
         - {'kind': 'line', 'source': *spectrum_template, 'line_color': 'firebrick', 'legend': 'Source Flux'}
         - {'kind': 'line', 'source': *instrument_background, 'line_color': 'darksalmon', 'legend': 'Background'}
@@ -137,6 +138,7 @@
     y_range: *snr_yrange
     y_axis_label: 'S/N per resel'
     x_axis_label: 'Wavelength [Angstrom]'
+    border_fill_color: "#1D1B4D"
     elements:
         - {'kind': 'line', 'source': *snr_source, 'line_color': 'orange', 'legend': 'S/N per resel'}
 #Document structure

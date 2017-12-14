@@ -205,21 +205,39 @@ counts_plot = Figure(plot_height=500, plot_width=750,
 
 snr_plot.background_fill_color = "beige"
 snr_plot.background_fill_alpha = 0.5
+snr_plot.border_fill_color = "#1D1B4D"
 snr_plot.yaxis.axis_label='F_p/F_s (x10^9)' 
 snr_plot.xaxis.axis_label='Wavelength [micron]'
 snr_plot.title.text = 'Planet Spectrum: Earth' #initial spectrum is Earth
+snr_plot.title.text_color='#BAD8FF' 
+snr_plot.yaxis.axis_label_text_color = 'white' 
+snr_plot.xaxis.axis_label_text_color = 'white' 
+snr_plot.yaxis.major_label_text_color = 'white' 
+snr_plot.xaxis.major_label_text_color = 'white' 
 
 exp_plot.background_fill_color = "beige"
 exp_plot.background_fill_alpha = 0.5
+exp_plot.border_fill_color = "#1D1B4D"
 exp_plot.yaxis.axis_label='Integration time for SNR = 10 [hours]' 
 exp_plot.xaxis.axis_label='Wavelength [micron]'
 exp_plot.title.text = 'Planet Spectrum: Earth' #initial spectrum is Earth
+exp_plot.title.text_color='#BAD8FF' 
+exp_plot.yaxis.axis_label_text_color = 'white' 
+exp_plot.xaxis.axis_label_text_color = 'white' 
+exp_plot.yaxis.major_label_text_color = 'white' 
+exp_plot.xaxis.major_label_text_color = 'white' 
 
 counts_plot.background_fill_color = "beige"
 counts_plot.background_fill_alpha = 0.5
+counts_plot.border_fill_color = "#1D1B4D"
 counts_plot.yaxis.axis_label='Counts [photons/sec]' 
 counts_plot.xaxis.axis_label='Wavelength [micron]'
 counts_plot.title.text = 'Count rates' #initial spectrum is Earth
+counts_plot.title.text_color='#BAD8FF' 
+counts_plot.yaxis.axis_label_text_color = 'white' 
+counts_plot.xaxis.axis_label_text_color = 'white' 
+counts_plot.yaxis.major_label_text_color = 'white' 
+counts_plot.xaxis.major_label_text_color = 'white' 
 
 snr_plot.line('lam','cratio',source=compare,line_width=2.0, color="navy", alpha=0.7)
 snr_plot.line('lam','cratio',source=planet,line_width=2.0, color="darkgreen", alpha=0.7)

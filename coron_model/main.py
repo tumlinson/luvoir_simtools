@@ -31,15 +31,13 @@ from bokeh.io import curdoc, output_file, show
 from bokeh.models.callbacks import CustomJS
 from bokeh.embed import components, autoload_server
 
-
-
 import coronagraph as cg  # Import coronagraph model
 
 cwd = os.getenv('LUVOIR_SIMTOOLS_DIR')
 
 #allow it to run it from other folders and still know where planet folder is
-planetdir = "../coronagraph-master/planets/" #new path compared to before
-stardir = "../coronagraph-master/star_galaxy/" #new path compared to before
+planetdir = "planets/" #new path compared to before
+stardir = "star_galaxy/" #new path compared to before
 relpath = os.path.join(os.path.dirname(__file__), planetdir)
 relpath2 = os.path.join(os.path.dirname(__file__), stardir)
 
@@ -239,10 +237,10 @@ counts_plot.xaxis.axis_label_text_color = 'white'
 counts_plot.yaxis.major_label_text_color = 'white' 
 counts_plot.xaxis.major_label_text_color = 'white' 
 
-snr_plot.line('lam','cratio',source=compare,line_width=2.0, color="navy", alpha=0.7)
-snr_plot.line('lam','cratio',source=planet,line_width=2.0, color="darkgreen", alpha=0.7)
-snr_plot.circle('lam', 'spec', source=planet, fill_color='lightgreen', line_color='black', size=8) 
-snr_plot.segment('lam', 'downerr', 'lam', 'uperr', source=planet, line_width=1, line_color='grey', line_alpha=0.5)
+snr_plot.line('lam','cratio',source=compare,line_width=2.0, color="#F59A0A", alpha=0.7)
+snr_plot.line('lam','cratio',source=planet,line_width=2.0, color="#212685", alpha=0.7)
+snr_plot.circle('lam', 'spec', source=planet, fill_color='#BAD8FF', line_color='black', size=8) 
+snr_plot.segment('lam', 'downerr', 'lam', 'uperr', source=planet, line_width=1, line_color='#BAD8FF', line_alpha=0.5)
 
 exp_plot.line('lam','DtSNR',source=expcompare,line_width=2.0, color="navy", alpha=0.7) #arg
 exp_plot.line('lam','DtSNR',source=expplanet,line_width=2.0, color="darkgreen", alpha=0.7)
@@ -352,12 +350,6 @@ hover.tooltips = [
    ('thermal', '@cth{int}')
 ]
 
-ptab1 = Panel(child=snr_plot, title='Spectrum', width=800)
-ptab2 = Panel(child=exp_plot, title='Exposure Time', width=800)
-ptab3 = Panel(child=counts_plot, title='Count Rates', width=800)
-
-ptabs = Tabs(tabs=[ptab1, ptab2, ptab3], width=800)
-show(ptabs)
 
 ################################
 #  PROGRAMS
@@ -1866,16 +1858,12 @@ info_text = Div(text="""
 
 The "Planet" tab includes options to simulate several types of planetary spectra that can be selected from the "Planet Spectrum" dropdown menu. The telescope-planetary system separation distance can be set using the "Distance" slider. When a target is selected, the "Planet Radius" and "Semi-major axis of orbit" sliders will default to the correct positions for the selected planet. Note that while it is possible to adjust these parameters for each target, changing them can result in spectra representing non-physical targets. Also included under the "Planet" tab is a slider for scaling exozodiacal dust.
 <br><br>
-The "Observation" tab controls telescope integration time per coronagraphic bandpass, maximum single exposure time, and the ability to turn on a ground-based simulator that includes thermal radiation from the sky and Earth's atmospheric transmission.
+The "Observation" tab controls telescope integration time per coronagraphic bandpass, maximum single exposure time, and the ability to turn on a ground-based simulator that includes thermal radiation from the sky and Earth's atmospheric transmission. There is also a slider to set a desired signal-to-noise ratio. In the "Exposure Time" plot tab, the simulator will display the integration time required to obtain this signal-to-noise ratio for the current telescope and instrumentation setup. Note that this tab applies only to the Exposure Time plot, not to the Spectrum plot.
 <br><br>
 The "Telescope" tab controls whether to simulate specific observatory architecture,  mirror diameter,  telescope temperature, the number of thermal surfaces, and whether to show the currently considered LUVOIR bandpasses.
 <br><Br>
-The "Instrumentation" tab controls the instrument inner working angle (IWA), outer working angle (OWA), both in terms of lambda/D, the spectrograph resolution for UV-VIS-NIR channels, and the detector gain factor.
+The "Instrument" tab controls the instrument inner working angle (IWA), outer working angle (OWA), both in terms of lambda/D, the spectrograph resolution for UV-VIS-NIR channels, and the detector gain factor.
 <br><Br>
-The "Exposure Time Calculator" tab contains a slider to set a desired signal-to-noise ratio. In the "Exposure Time" plot tab, the simulator will display the integration time required to obtain this signal-to-noise ratio for the current telescope and instrumentation setup. Note that this tab applies only to the Exposure Time plot, not to the Spectrum plot.
-<br><br>
-In the "Download" tab, spectral data can be downloaded in either .txt or .fits format.
-<br><br>
 The underlying model is derived from the python-based version of Tyler Robinson's coronagraphic spectrum and noise model (Robinson et al. 2016). Python by Jacob Lustig-Yaeger. Bokeh rendering by Jason Tumlinson and Giada Arney.
 <br><br>
 For full details, please see the readme file <a href="coron_readme.txt">here</a>.
@@ -1891,21 +1879,19 @@ ins_text = Div(text="""Choose the scaling factor for the inner working angle (IW
 
 #
 
-oo = column(children=[obs_text,exptime,dtmax, ground_based]) 
+oo = column(children=[obs_text,exptime,dtmax, ground_based, want_snr]) 
 pp = column(children=[planet_text, template, comparison, distance, radius, semimajor, exozodi]) 
 qq = column(children=[instruction0, text_input, instruction1, format_button_group, instruction2, link_box])
 ii = column(children=[ins_text, inner, outer,  resolution_UV, resolution, resolution_NIR, gain])
 tt = column(children=[tel_text, observatory,diameter,temperature, ntherm, bandpass])
-ee = column(children=[want_snr])
 info = column(children=[info_text])
 
-observation_tab = Panel(child=oo, title='Observation')
-planet_tab = Panel(child=pp, title='Planet')
-telescope_tab = Panel(child=tt, title='Telescope')
-instrument_tab = Panel(child=ii, title='Instrumentation')
-download_tab = Panel(child=qq, title='Download')
-time_tab = Panel(child=ee, title='Exposure Time Calculator')
-info_tab = Panel(child=info, title='Info')
+observation_tab = Panel(child=oo, title='Observation', width=400)
+planet_tab = Panel(child=pp, title='Planet', width=400)
+telescope_tab = Panel(child=tt, title='Telescope', width=400)
+instrument_tab = Panel(child=ii, title='Instrument', width=400)
+download_tab = Panel(child=qq, title='Download', width=400)
+info_tab = Panel(child=info, title='Info', width=400)
 
 for w in [text_input]: 
     w.on_change('value', change_filename)
@@ -1926,6 +1912,12 @@ for bb in [bandpass]:
 for bb in [observatory]:
     bb.on_change('value', update_data)
 
-inputs = Tabs(tabs=[ planet_tab, observation_tab, telescope_tab, instrument_tab, time_tab, download_tab, info_tab ], width=350)
+inputs = Tabs(tabs=[ planet_tab, observation_tab, telescope_tab, instrument_tab], width=450)
+
+ptab1 = Panel(child=snr_plot, title='Spectrum', width=800)
+ptab2 = Panel(child=exp_plot, title='Exposure Time', width=800)
+ptab3 = Panel(child=counts_plot, title='Count Rates', width=800)
+ptabs = Tabs(tabs=[ptab1, ptab2, ptab3, info_tab, download_tab], width=800)
+
 
 curdoc().add_root(row(inputs, ptabs)) 

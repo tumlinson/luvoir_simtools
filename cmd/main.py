@@ -8,6 +8,9 @@ from bokeh.layouts import layout
 from bokeh.io import curdoc
 from bokeh.models import ColumnDataSource, Range1d, Slider, Panel, Tabs, Column, Div 
 from holoviews.operation.datashader import datashade
+import astropy.units as u 
+
+from syotools.models import Camera, Telescope, Spectrograph, PhotometricExposure, SpectrographicExposure
 
 import load_dataset as l 
 import set_plot_options as sp 
@@ -47,9 +50,40 @@ hv.opts("Points [tools=['box_select']]")
 
 plot = renderer.get_plot(shaded, doc=curdoc())     ### Pass the HoloViews object to the renderer
 
+
+
+###########################################
+# CREATE THE SYOTOOLS ELEMENTS AND MODELS # 
+###########################################
+e, c, t = PhotometricExposure(), Camera(), Telescope()
+t.add_camera(c)
+t.aperture = 15.0 * u.meter 
+c.add_exposure(e)
+e.unknown = 'magnitude'
+
+print("\n\n==Setting spectrum to Flat AB & calculating==\n")
+e.sed_id = 'fab'
+e.snr = 5. * (u.electron**0.5) 
+e.exptime = 3600. * u.s 
+print("\n\n==Setting unknown to 'magnitude'==\n")
+print("\nInput Exptime: {}".format(e.exptime))
+print("\nInput SNR: {}".format(e.snr))
+print("\nOutput Magnitude: {}".format(e.magnitude))
+
+###########################################
+# DONE WITH SYOTOOLS ELEMENTS AND MODELS # 
+###########################################
+
+# results of ETC are stored weirdly the list of AB mags =  e.magnitude[1]['value'][:] 
+etc_label_source = ColumnDataSource(data={'mags': map(lambda n: '%.2f'%n, e.magnitude[1]['value'][:]), 
+					'x': map(lambda n: 2., e.magnitude[1]['value'][:]), 
+					'y': [-5*(i-2)-0.4 for i in range(5)]}) 
+plot.state.text('x','y','mags', source=etc_label_source, text_font_size='15pt', text_color='red', text_align='right')
+
 mag_label_source = ColumnDataSource(data={'x': [3.0,3.0,3.0,3.0,3.0],
                         'y': [-10-0.4,-5-0.4,0-0.4,5-0.4,10-0.4], 'text':['35.0','30.0','25.0','20.0','15.0']}) 
 plot.state.text('x','y','text', source=mag_label_source, text_font_size='12pt', text_color='deepskyblue', text_align='right')
+
 
 def actual_age_slider_update(attrname, old, new):             
     # this is necessary because the table of values often have non-exact age values, e.g. 9.45000001 
@@ -69,8 +103,15 @@ def mass_slider_update(attrname, old, new):
 def phase_slider_update(attrname, old, new):             
     phase_stream.event(phase=new)
 
-def aperture_slider_update(attrname, old, new):             
-    print("aperture not ready yet") 
+def exposure_update(attrname, old, new):             
+    print("calling updater with aperture = ", aperture_slider.value, '   and exptime = ', exptime_slider.value) 
+    t.aperture = aperture_slider.value * u.meter 
+    e.exptime = exptime_slider.value * 3600. * u.s 
+    e.unknown = 'magnitude' 
+    etc_label_source.data = {'mags': map(lambda n: '%.2f'%n, e.magnitude[1]['value'][:]), 
+					'x': map(lambda n: 2., e.magnitude[1]['value'][:]),
+					'y': [-5*(i-2)-0.4 for i in range(5)]}  
+
 
 astro_controls = [] 
 exposure_controls = [] 
@@ -92,9 +133,15 @@ phase_slider = Slider(start=0, end=5, value=0, step=1, title="Evolutionary Stage
 phase_slider.on_change('value', phase_slider_update)
 #astro_controls.append(phase_slider) 
 
-aperture_slider = Slider(start=1, end=20, value=15, step=1, title="Aperture (not active yet)")
-aperture_slider.on_change('value', aperture_slider_update)
+aperture_slider = Slider(start=1, end=20, value=15, step=1, title="Aperture [meters]")
+aperture_slider.on_change('value', exposure_update)
 exposure_controls.append(aperture_slider) 
+
+exptime_slider = Slider(title="Exptime [hours]", value=1., start=0.1, end=50.0, step=0.1, callback_policy='mouseup')
+exptime_slider.on_change('value', exposure_update)
+exposure_controls.append(exptime_slider) 
+
+
 
 sp.set_plot_options(plot.state) # plot.state has type Figure from bokeh, so can be manipulated in the usual way 
 
@@ -102,10 +149,11 @@ astro_tab = Panel(child=Column(children=astro_controls), title='Stars')
 exposure_tab = Panel(child=Column(children=exposure_controls), title='Exposure') 
 info_tab = Panel(child=Div(text = h.help(), width=300), title='Info') 
 visual_tab = Panel(child=Column(children=[widget]), title='Visuals') 
-controls = Tabs(tabs=[astro_tab, exposure_tab, visual_tab, info_tab], width=350)
+controls = Tabs(tabs=[astro_tab, exposure_tab, visual_tab, info_tab], width=400)
 
 layout = layout([[controls, plot.state]], sizing_mode='fixed')
 curdoc().add_root(layout)
+
 
 
 

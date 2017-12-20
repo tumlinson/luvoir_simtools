@@ -234,8 +234,6 @@ class Camera(PersistentModel):
         thermal = (ota_emissivity * planck / energy_per_photon * 
     			(np.pi / 4. * D**2) * total_qe * Omega * bandwidth )
         
-        import pdb; pdb.set_trace()
-        
         #serialize with JsonUnit for transportation
         return pre_encode(thermal) 
     

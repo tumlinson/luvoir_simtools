@@ -50,6 +50,14 @@ hv.opts("Points [tools=['box_select']]")
 
 plot = renderer.get_plot(shaded, doc=curdoc())     ### Pass the HoloViews object to the renderer
 
+mag_label_source = ColumnDataSource(data={'x': [3.8,3.8,3.8,3.8,3.8], # a data source for the apparent magnitudes displayed on the plot 
+                        'y': [-10-0.4,-5-0.4,0-0.4,5-0.4,10-0.4], 
+			'mags':[35., 30., 25., 20., 15.], 
+                        'text':['35.0','30.0','25.0','20.0','15.0']}) 
+plot.state.text('x','y','text', source=mag_label_source, text_font_size='11pt', text_color='deepskyblue', text_align='right')
+plot.state.text([3.8],[5+0.7],['Apparent'], text_font_size='11pt', text_color='deepskyblue', text_align='right')
+plot.state.text([3.8],[5+0.2],['Mag'], text_font_size='11pt', text_color='deepskyblue', text_align='right')
+plot.state.text([3.2],[5+0.2],['S/N'], text_font_size='11pt', text_color='red', text_align='right')
 
 
 ###########################################
@@ -59,31 +67,32 @@ e, c, t = PhotometricExposure(), Camera(), Telescope()
 t.add_camera(c)
 t.aperture = 15.0 * u.meter 
 c.add_exposure(e)
-e.unknown = 'magnitude'
-
-print("\n\n==Setting spectrum to Flat AB & calculating==\n")
 e.sed_id = 'fab'
-e.snr = 5. * (u.electron**0.5) 
+t.aperture = 15. * u.meter 
 e.exptime = 3600. * u.s 
-print("\n\n==Setting unknown to 'magnitude'==\n")
-print("\nInput Exptime: {}".format(e.exptime))
-print("\nInput SNR: {}".format(e.snr))
-print("\nOutput Magnitude: {}".format(e.magnitude))
+
+for imag in mag_label_source.data['mags']:
+    e.disable() #since we're updating more than one parameter, turn off calculations
+    e.magnitude = imag * u.ABmag 
+    e.exptime = 3600. * u.s 
+    e.unknown = 'snr' 
+    e.enable() #turn calculations back on again
+    print(e.magnitude) 
+    print(e.snr) 
+
 
 ###########################################
 # DONE WITH SYOTOOLS ELEMENTS AND MODELS # 
 ###########################################
 
 # results of ETC are stored weirdly the list of AB mags =  e.magnitude[1]['value'][:] 
-etc_label_source = ColumnDataSource(data={'mags': map(lambda n: '%.2f'%n, e.magnitude[1]['value'][:]), 
-					'x': map(lambda n: 2., e.magnitude[1]['value'][:]), 
-					'y': [-5*(i-2)-0.4 for i in range(5)]}) 
-plot.state.text('x','y','mags', source=etc_label_source, text_font_size='15pt', text_color='red', text_align='right')
-
-mag_label_source = ColumnDataSource(data={'x': [3.0,3.0,3.0,3.0,3.0],
-                        'y': [-10-0.4,-5-0.4,0-0.4,5-0.4,10-0.4], 'text':['35.0','30.0','25.0','20.0','15.0']}) 
-plot.state.text('x','y','text', source=mag_label_source, text_font_size='12pt', text_color='deepskyblue', text_align='right')
-
+# the initial setup of the SNRs and labels 
+etc_label_source = ColumnDataSource(data={'mags': mag_label_source.data['mags'], 
+                                        'snr': map(lambda n: e.snr, mag_label_source.data['mags']), # change this for range ofmags 
+                                        'snr_label': map(lambda n: str(np.round(e.snr[1]['value'][4]))[0:2], mag_label_source.data['mags']), # change this for range ofmags 
+					'x': map(lambda n: 3.2, range(5)), 
+					'y': [-10-0.4,-5-0.4,0-0.4,5-0.4,10-0.4]  }) 
+plot.state.text('x','y','snr_label', source=etc_label_source, text_font_size='11pt', text_color='red', text_align='right')
 
 def actual_age_slider_update(attrname, old, new):             
     # this is necessary because the table of values often have non-exact age values, e.g. 9.45000001 
@@ -95,7 +104,8 @@ def actual_age_slider_update(attrname, old, new):
 
 def distance_slider_update(attrname, old, new):             
     distmod = 5. * np.log10((new+1e-5) * 1e6) - 5. 
-    mag_label_source.data['text'] = (distmod+np.array([10,5,0,-5,-10])).astype('|S5')
+    mag_label_source.data['mags'] = distmod+np.array([10.,5.,0.,-5.,-10.])
+    mag_label_source.data['text'] = mag_label_source.data['mags'].astype('|S4')
 
 def mass_slider_update(attrname, old, new):             
     mass_stream.event(mass=new)
@@ -105,13 +115,26 @@ def phase_slider_update(attrname, old, new):
 
 def exposure_update(attrname, old, new):             
     print("calling updater with aperture = ", aperture_slider.value, '   and exptime = ', exptime_slider.value) 
+    e.disable() #since we're updating more than one parameter, turn off calculations
     t.aperture = aperture_slider.value * u.meter 
     e.exptime = exptime_slider.value * 3600. * u.s 
-    e.unknown = 'magnitude' 
-    etc_label_source.data = {'mags': map(lambda n: '%.2f'%n, e.magnitude[1]['value'][:]), 
-					'x': map(lambda n: 2., e.magnitude[1]['value'][:]),
-					'y': [-5*(i-2)-0.4 for i in range(5)]}  
+    e.magnitude = mag_label_source.data['mags'][4] * u.ABmag 	# index 4 is for the V band 
+    e.unknown = 'snr' 
+    e.enable() #since we're updating more than one parameter, turn off calculations
 
+    for imag in mag_label_source.data['mags']:
+        print("MAG in EXPOSURE_UPDATE", imag) 
+        e.renorm_sed(imag * u.ABmag) 	# index 4 is for the V band 
+        print("SNR in EXPOSURE_UPDATE", e.snr[1]['value'][4]) 
+    
+    etc_label_source.data = {'mags': mag_label_source.data['mags'], 
+                             'snr': map(lambda n: e.snr, mag_label_source.data['mags']), # change this for range ofmags 
+                             'snr_label': map(lambda n: str(np.round(e.snr[1]['value'][4]))[0:4], mag_label_source.data['mags']), # change this for range ofmags 
+			'x': map(lambda n: 3.2, range(5)), 
+			'y': [-10-0.4,-5-0.4,0-0.4,5-0.4,10-0.4]  }  
+
+
+    
 
 astro_controls = [] 
 exposure_controls = [] 
@@ -140,8 +163,6 @@ exposure_controls.append(aperture_slider)
 exptime_slider = Slider(title="Exptime [hours]", value=1., start=0.1, end=50.0, step=0.1, callback_policy='mouseup')
 exptime_slider.on_change('value', exposure_update)
 exposure_controls.append(exptime_slider) 
-
-
 
 sp.set_plot_options(plot.state) # plot.state has type Figure from bokeh, so can be manipulated in the usual way 
 

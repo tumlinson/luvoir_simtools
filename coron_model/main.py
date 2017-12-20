@@ -190,7 +190,7 @@ nir_bandpasses = ColumnDataSource(data=dict(x=x_nir, y=y_nir, width=x_nirwidth))
 ################################
 #plots spectrum and exposure time
 snr_plot = Figure(plot_height=500, plot_width=750, 
-                  tools="crosshair,pan,reset,save,box_zoom,wheel_zoom,hover",
+                  tools="crosshair,pan,reset,save,box_zoom,wheel_zoom",
                   toolbar_location='right', x_range=[0.2, 3.0], y_range=[0, 0.2])
 
 exp_plot = Figure(plot_height=500, plot_width=750, 
@@ -241,7 +241,7 @@ counts_plot.xaxis.major_label_text_color = 'white'
 
 snr_plot.line('lam','cratio',source=compare,line_width=2.0, color="#F59A0A", alpha=0.7)
 snr_plot.line('lam','cratio',source=planet,line_width=2.0, color="#212685", alpha=0.7)
-snr_plot.circle('lam', 'spec', source=planet, fill_color='#B4D9FF', line_color='black', size=8) 
+snr_plot.circle('lam', 'spec', source=planet, fill_color='#B4D9FF', line_color='black', size=8, name='snr_plot_circle_hover') 
 snr_plot.segment('lam', 'downerr', 'lam', 'uperr', source=planet, line_width=1, line_color='#82AFF6', line_alpha=0.5)
 
 exp_plot.line('lam','DtSNR',source=expcompare,line_width=2.0, color="#F59A0A", alpha=0.7) #arg
@@ -341,17 +341,58 @@ snr_plot.add_glyph(nir_bandpasses, nir_rect)
 exp_plot.add_glyph(nir_bandpasses, nir_rect1)
 
 #hovertool
-hover = snr_plot.select(dict(type=HoverTool))
-hover.tooltips = [
-   ('planet', '@cp{int}'),
-   ('wavelength', '@lam microns'),
-   ('zodi', '@cz{int}'),
-   ('exozodi', '@cez{int}'),
-   ('dark current', '@cD{int}'),
-   ('read noise', '@cR{int}'),
-   ('speckle noise', '@csp{int}'),
-   ('thermal', '@cth{int}')
-]
+#hover = snr_plot.select(dict(type=HoverTool))
+#hover.tooltips = [
+#   ('planet', '@cp{int}'),
+#   ('wavelength', '@lam microns'),
+#   ('zodi', '@cz{int}'),
+#   ('exozodi', '@cez{int}'),
+#   ('dark current', '@cD{int}'),
+#   ('read noise', '@cR{int}'),
+#   ('speckle noise', '@csp{int}'),
+#   ('thermal', '@cth{int}')
+#]
+snr_hover = HoverTool(names=['snr_plot_circle_hover'], mode='mouse', tooltips = """ 
+            <div>
+                <span style="font-size: 14px; font-weight: bold; color: #1D1B4D">wavelength: @lam microns</span>
+            </div>
+            <div>
+                <span style="font-size: 14px; font-weight: bold; color: #1D1B4D">planet: @cp{int} counts </span>
+            </div>
+            <div>
+                <span style="font-size: 14px; font-weight: bold; color: #1D1B4D">zodi: @cz{int} counts</span>
+            </div>
+            <div>
+                <span style="font-size: 14px; font-weight: bold; color: #1D1B4D">exozodi: @cez{int} counts </span>
+            </div>
+            <div>
+                <span style="font-size: 14px; font-weight: bold; color: #1D1B4D">dark current: @cD{int} counts </span>
+            </div>
+            <div>
+                <span style="font-size: 14px; font-weight: bold; color: #1D1B4D">read noise: @cR{int} counts </span>
+            </div>
+            <div>
+                <span style="font-size: 14px; font-weight: bold; color: #1D1B4D">speckle noise: @csp{int} counts </span>
+            </div>
+            <div>
+                <span style="font-size: 14px; font-weight: bold; color: #1D1B4D">thermal: @cth{int} counts </span>
+            </div>
+              """)
+snr_plot.add_tools(snr_hover)
+
+
+#yield_hover = HoverTool(names=["total_yield_label_hover"], mode='mouse', tooltips = """ 
+#            <div>
+#                <span style="font-size: 20px; font-weight: bold; color:@color">N = </span>
+#                <span style="font-size: 20px; font-weight: bold; color:@color">@yields</span>
+#            </div>
+#            <div>
+#                <span style="font-size: 20px; font-weight: bold; color:@color">@temp </span>
+#            </div>
+#            <div>
+#                <span style="font-size: 20px; font-weight: bold; color:@color">@mass</span>
+#            </div>
+#              """)
 
 
 ################################

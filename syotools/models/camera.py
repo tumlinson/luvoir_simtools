@@ -13,6 +13,7 @@ import astropy.constants as const
 import astropy.units as u
 
 from syotools.models.base import PersistentModel
+from syotools.models.exposure import PhotometricExposure
 from syotools.defaults import default_camera
 from syotools.utils import pre_encode, pre_decode
 from syotools.spectra.utils import mag_from_sed
@@ -219,7 +220,7 @@ class Camera(PersistentModel):
     
         D = aperture.to(u.cm) # telescope diameter in cm 
         
-        Omega = (2.3504e-11 * pixel_size**2 * box * u.pix).to(u.sr)
+        Omega = (pixel_size**2 * box * u.pix).to(u.sr)
         
         planck = pre_decode(self.planck)
         qepephot = total_qe * planck / energy_per_photon
@@ -232,6 +233,8 @@ class Camera(PersistentModel):
     
         thermal = (ota_emissivity * planck / energy_per_photon * 
     			(np.pi / 4. * D**2) * total_qe * Omega * bandwidth )
+        
+        import pdb; pdb.set_trace()
         
         #serialize with JsonUnit for transportation
         return pre_encode(thermal) 
@@ -262,6 +265,11 @@ class Camera(PersistentModel):
         Interpolate an SED to obtain magnitudes for the camera's wavebands.
         """
         return mag_from_sed(sed, self)
+    
+    def create_exposure(self):
+        new_exposure = PhotometricExposure()
+        self.add_exposure(new_exposure)
+        return new_exposure
         
     def add_exposure(self, exposure):
         self.exposures.append(exposure)

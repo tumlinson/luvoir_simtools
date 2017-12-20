@@ -1,6 +1,0 @@
-# adding symlinks so that jane's candelize_lensed_galaxies.py can find the PSF files.  Kludge!
-ln -s F606W_psf.fits  F0.606_psf.fits
-ln -s F105W_psf.fits F1.05_psf.fits
-ln -s F160W_psf.fits  F1.6_psf.fits
-ln -s F390W_psf.fits  F0.39_psf.fits
-ln -s F125W_psf.fits   F1.25_psf.fits

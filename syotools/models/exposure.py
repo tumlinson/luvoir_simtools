@@ -181,6 +181,7 @@ class Exposure(PersistentModel):
     def renorm_sed(self, new_mag, bandpass='johnson,v'):
         sed = self.recover('_sed')
         self._sed = renorm_sed(sed, pre_decode(new_mag), bandpass=bandpass)
+        self.calculate()
     
     @property
     def interpolated_sed(self):

@@ -13,6 +13,7 @@ import astropy.units as u
 from astropy.table import QTable
 
 from syotools.models.base import PersistentModel
+from syotools.models.exposure import SpectrographicExposure
 from syotools.defaults import default_spectrograph
 from syotools.utils import pre_encode
 
@@ -87,6 +88,11 @@ class Spectrograph(PersistentModel):
     def delta_lambda(self):
         wave, R = self.recover('wave', 'R')
         return pre_encode(wave / R)
+    
+    def create_exposure(self):
+        new_exposure = SpectrographicExposure()
+        self.add_exposure(new_exposure)
+        return new_exposure
     
     def add_exposure(self, exposure):
         self.exposures.append(exposure)

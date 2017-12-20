@@ -9,6 +9,8 @@ from bokeh.io import curdoc
 from bokeh.models import ColumnDataSource, Range1d, Slider, Panel, Tabs, Column, Div 
 from holoviews.operation.datashader import datashade
 import astropy.units as u 
+from bokeh.models.callbacks import CustomJS
+
 
 from syotools.models import Camera, Telescope, Spectrograph, PhotometricExposure, SpectrographicExposure
 
@@ -37,7 +39,7 @@ dmap = hv.util.Dynamic(cmd_points, operation=select_stars,    # select_stars is 
 
 # set up the colormap picker 
 class ColormapPicker(hv.streams.Stream):
-    colormap   = param.ObjectSelector(default=cm["bgy"], # sets the default colormap to "blues" 
+    colormap   = param.ObjectSelector(default=cm["kbc"], # sets the default colormap to "blues" 
                                       objects=[cm[k] for k in cm.keys() if not '_' in k])
 
 cmap_picker = ColormapPicker(rename={'colormap': 'cmap'}, name='')
@@ -71,28 +73,22 @@ e.sed_id = 'fab'
 t.aperture = 15. * u.meter 
 e.exptime = 3600. * u.s 
 
-for imag in mag_label_source.data['mags']:
-    e.disable() #since we're updating more than one parameter, turn off calculations
-    e.magnitude = imag * u.ABmag 
-    e.exptime = 3600. * u.s 
-    e.unknown = 'snr' 
-    e.enable() #turn calculations back on again
-    print(e.magnitude) 
-    print(e.snr) 
-
-
-###########################################
-# DONE WITH SYOTOOLS ELEMENTS AND MODELS # 
-###########################################
+new_snrs = np.arange(5) 
+for ii in [0,1,2,3,4]:
+    e.renorm_sed(mag_label_source.data['mags'][ii] * u.ABmag) 	
+    new_snrs[ii] = e.snr[1]['value'][4] 
 
 # results of ETC are stored weirdly the list of AB mags =  e.magnitude[1]['value'][:] 
 # the initial setup of the SNRs and labels 
 etc_label_source = ColumnDataSource(data={'mags': mag_label_source.data['mags'], 
-                                        'snr': map(lambda n: e.snr, mag_label_source.data['mags']), # change this for range ofmags 
-                                        'snr_label': map(lambda n: str(np.round(e.snr[1]['value'][4]))[0:2], mag_label_source.data['mags']), # change this for range ofmags 
+                                        'snr': new_snrs, 
+                                        'snr_label': new_snrs.astype('|S4'), 
 					'x': map(lambda n: 3.2, range(5)), 
 					'y': [-10-0.4,-5-0.4,0-0.4,5-0.4,10-0.4]  }) 
 plot.state.text('x','y','snr_label', source=etc_label_source, text_font_size='11pt', text_color='red', text_align='right')
+###########################################
+# DONE WITH SYOTOOLS ELEMENTS AND MODELS # 
+###########################################
 
 def actual_age_slider_update(attrname, old, new):             
     # this is necessary because the table of values often have non-exact age values, e.g. 9.45000001 
@@ -115,26 +111,27 @@ def phase_slider_update(attrname, old, new):
 
 def exposure_update(attrname, old, new):             
     print("calling updater with aperture = ", aperture_slider.value, '   and exptime = ', exptime_slider.value) 
-    e.disable() #since we're updating more than one parameter, turn off calculations
+    #e.disable() #since we're updating more than one parameter, turn off calculations
     t.aperture = aperture_slider.value * u.meter 
     e.exptime = exptime_slider.value * 3600. * u.s 
-    e.magnitude = mag_label_source.data['mags'][4] * u.ABmag 	# index 4 is for the V band 
+    #e.magnitude = mag_label_source.data['mags'][4] * u.ABmag 	# index 4 is for the V band 
     e.unknown = 'snr' 
-    e.enable() #since we're updating more than one parameter, turn off calculations
-
-    for imag in mag_label_source.data['mags']:
-        print("MAG in EXPOSURE_UPDATE", imag) 
-        e.renorm_sed(imag * u.ABmag) 	# index 4 is for the V band 
-        print("SNR in EXPOSURE_UPDATE", e.snr[1]['value'][4]) 
+    #e.enable() #since we're updating more than one parameter, turn off calculations
+    
+    new_snrs = np.arange(5) 
+    for ii in [0,1,2,3,4]:
+        e.renorm_sed(mag_label_source.data['mags'][ii] * u.ABmag) 	
+        new_snrs[ii] = e.snr[1]['value'][4] 
     
     etc_label_source.data = {'mags': mag_label_source.data['mags'], 
-                             'snr': map(lambda n: e.snr, mag_label_source.data['mags']), # change this for range ofmags 
-                             'snr_label': map(lambda n: str(np.round(e.snr[1]['value'][4]))[0:4], mag_label_source.data['mags']), # change this for range ofmags 
-			'x': map(lambda n: 3.2, range(5)), 
-			'y': [-10-0.4,-5-0.4,0-0.4,5-0.4,10-0.4]  }  
+                             'snr': new_snrs, 
+                             'snr_label': new_snrs.astype('|S4'), 
+			     'x': map(lambda n: 3.2, range(5)), 				
+			     'y': [-10-0.4,-5-0.4,0-0.4,5-0.4,10-0.4]  }  		        
 
 
-    
+fake_callback_source = ColumnDataSource(data=dict(value=[]))
+fake_callback_source.on_change('data', exposure_update)
 
 astro_controls = [] 
 exposure_controls = [] 
@@ -146,6 +143,7 @@ astro_controls.append(actual_age_slider)
 
 distance_slider = Slider(start=0.0, end=20., value=1., step=0.5, title="Distance [Mpc]")
 distance_slider.on_change('value', distance_slider_update)
+distance_slider.on_change('value', exposure_update)
 astro_controls.append(distance_slider) 
 
 mass_slider = Slider(start=0.1, end=10., value=1., step=0.05, title="Mass")
@@ -160,8 +158,11 @@ aperture_slider = Slider(start=1, end=20, value=15, step=1, title="Aperture [met
 aperture_slider.on_change('value', exposure_update)
 exposure_controls.append(aperture_slider) 
 
-exptime_slider = Slider(title="Exptime [hours]", value=1., start=0.1, end=50.0, step=0.1, callback_policy='mouseup')
-exptime_slider.on_change('value', exposure_update)
+exptime_slider = Slider(title="Exptime [hours]", value=1., start=0.1, end=50.0, step=0.1, callback_policy='mouseup') 
+#exptime_slider.on_change('value', exposure_update)
+exptime_slider.callback = CustomJS(args=dict(source=fake_callback_source), code="""
+    source.data = { value: [cb_obj.value] }
+""")
 exposure_controls.append(exptime_slider) 
 
 sp.set_plot_options(plot.state) # plot.state has type Figure from bokeh, so can be manipulated in the usual way 

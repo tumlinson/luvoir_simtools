@@ -55,7 +55,7 @@ plot2.background_fill_color = "white"
 
 star_syms = plot1.circle('x', 'y', source=star_points, name="star_points_to_hover", \
       fill_color='color', line_color='color', radius=0.5, line_alpha='alpha', fill_alpha='alpha')
-star_syms.selection_glyph = Circle(fill_alpha=0.8, fill_color="#F59A0A", radius=1.5, line_color='#BAD8FF', line_width=2)
+star_syms.selection_glyph = Circle(fill_alpha=0.8, fill_color="#F59A0A", radius=2.0, line_color='#BAD8FF', line_width=2)
 
 def SelectCallback(attrname, old, new): 
     inds = np.array(new['1d']['indices'])[0] # this miraculously obtains the index of the slected star within the star_syms CDS 
@@ -102,17 +102,24 @@ sym = plot1.circle(np.array([0., 0., 0., 0.]), np.array([0., 0., 0., 0.]), fill_
            line_width=4, radius=[40,30,20,10], line_alpha=0.8, fill_alpha=0.0) 
 sym.glyph.line_dash = [6, 6]
 
-# create pulsing symbols 
+eta_life = 0.1 
+
+# create pulsing symbols for detected Earths - probability given by yields 
 n_stars = np.size(yields['complete1'])  
 col = copy.deepcopy(yields['stype']) 
-col[:] = '#66A0FE'
+col[:] = '#BAD8FF'
+life_col = copy.deepcopy(yields['stype']) 
+life_col[:] = 'darkgreen' 
 alph = copy.deepcopy(yields['x']) 
 alph[:] = 1.
 random_numbers = np.random.random(n_stars) 
 indices = np.arange(n_stars) 
-iran = indices[ random_numbers < yields['complete1'] ] 
-pulse_points = ColumnDataSource(data={'x': yields['x'][iran], 'y':yields['y'][iran], 'r':0.8+0.0*yields['y'][iran], 'color':col[iran], 'alpha':np.array(alph)[iran]}) 
-pulse_syms = plot1.circle('x','y', source=pulse_points, name="pulse_points", fill_color='color',radius='r', line_alpha='alpha', fill_alpha='alpha')
+iearth = indices[ random_numbers < yields['complete1'] ] 
+iliving = indices[ random_numbers < eta_life * yields['complete1'] ] 
+earth_points=ColumnDataSource(data={'x':yields['x'][iearth],'y':yields['y'][iearth],'r':0.8+0.0*yields['y'][iearth],'color':col[iearth],'alpha':np.array(alph)[iearth]}) 
+earth_syms = plot1.circle('x','y', source=earth_points, name="earth_points", fill_color='color',radius='r', line_alpha='alpha', fill_alpha='alpha')
+life_points=ColumnDataSource(data={'x':yields['x'][iliving],'y':yields['y'][iliving],'r':2.0+0.0*yields['y'][iliving],'color':life_col[iliving],'alpha':np.array(alph)[iliving]}) 
+life_syms = plot1.circle('x','y', source=life_points, name="life_points", fill_color='color',radius='r', line_alpha='alpha', fill_alpha='alpha') 
 
 # second plot, the bar chart of yields
 hist_plot = Figure(plot_height=400, plot_width=480, tools="reset,save,tap", outline_line_color='#1D1B4D', \
@@ -184,7 +191,7 @@ hist_plot.add_tools(yield_hover)
 
 def update_data(attrname, old, new):
 
-    print('APERTURE A = ', aperture.value, ' CONTRAST C = ', contrast.value, ' IWA I = ', iwa.value) 
+    print('APERTURE A = ', aperture.value, ' CONTRAST C = ', contrast.value, ' IWA I = ', iwa.value, "Eta_life = ", eta_life.value) 
     yields = gy.get_yield(aperture.value, contrast.value) 
     star_points.data = yields 
 
@@ -198,42 +205,56 @@ def update_data(attrname, old, new):
                                         str(int(np.sum(yields['complete4'][:]))), str(int(np.sum(yields['complete5'][:]))), 
                                         str(int(np.sum(yields['complete6'][:]))), str(int(np.sum(yields['complete7'][:]))), 
                                         str(int(np.sum(yields['complete8'][:])))]
-    print(total_yield_label.data['labels']) 
+
+    #DON'T REGNERATE SAMPLE OF SIMPLY CHANGING ETA LIFE!!!! 
+    #RESAMPLE LIVING ONLY 
  
     # regenerate the pulsing blue points 
     col = copy.deepcopy(yields['stype']) 
-    col[:] = '#66A0FE'
+    col[:] = '#BAD8FF'
+    life_col = copy.deepcopy(yields['stype']) 
+    life_col[:] = 'darkgreen'
     alph = copy.deepcopy(yields['x']) 
     alph[:] = 1.
 
-    # NOW DRAW RANDOM VARIATES TO GET HIGHLIGHTED STARS
     n_stars = np.size(yields['complete1'])  
     random_numbers = np.random.random(n_stars) 
     indices = np.arange(n_stars) 
-    iran = indices[ random_numbers < yields['complete1'] ] 
-    print('NSTARS INSIDE UPDATE DATA', n_stars, iran) 
-    new_dict = {'x': yields['x'][iran], 'y':yields['y'][iran], 'r':0.8+0.0*yields['y'][iran], 'color':col[iran], 'alpha':np.array(alph)[iran]} 
-    pulse_points.data = new_dict  
+    iearth = indices[ random_numbers < yields['complete1'] ] 
+    print('ETA LIFE IN UPDATE DATA', eta_life.value) 
+    iliving = indices[ random_numbers < eta_life.value * yields['complete1'] ]
+    new_dict = {'x': yields['x'][iearth], 'y':yields['y'][iearth], 'r':0.8+0.0*yields['y'][iearth], 'color':col[iearth], 'alpha':np.array(alph)[iearth]} 
+    newer_dict = {'x': yields['x'][iliving], 'y':yields['y'][iliving], 'r':2.0+0.0*yields['y'][iliving], 'color':life_col[iliving], 'alpha':np.array(alph)[iliving]} 
+    earth_points.data = new_dict  
+    life_points.data = newer_dict 
 
 def recalc(): 
     # NOW DRAW RANDOM VARIATES TO GET HIGHLIGHTED STARS
-    col = copy.deepcopy(yields['stype']) 
-    col[:] = '#66A0FE'
-    alph = copy.deepcopy(yields['x']) 
-    alph[:] = 1.
-    n_stars = np.size(yields['complete1'])  
-    random_numbers = np.random.random(n_stars) 
-    indices = np.arange(n_stars) 
-    iran = np.array(indices[ random_numbers < star_points.data['complete1'] ]) 
-    new_dict = {'x': star_points.data['x'][iran], 'y':star_points.data['y'][iran], 'r':0.8+0.0*star_points.data['y'][iran], 'color':col[iran], 'alpha':np.array(alph)[iran]} 
-    pulse_points.data = new_dict  
-
+    print('ETA LIFE IN RECALC', eta_life.value) 
+    print('NEED TO FIX!!!!!!!') 
+    #col = copy.deepcopy(yields['stype']) 
+    #col[:] = '#BAD8FF'
+    #life_col = copy.deepcopy(yields['stype']) 
+    #life_col[:] = 'darkgreen' 
+    #alph = copy.deepcopy(yields['stype']) 
+    #alph[:] = 1.
+    #n_stars = np.size(yields['complete1'])  
+    #random_numbers = np.random.random(n_stars) 
+    #indices = np.arange(n_stars) 
+    #iearth = np.array(indices[ random_numbers < star_points.data['complete1'] ]) 
+    #iliving = indices[ random_numbers < 0.1 * yields['complete1'] ]
+    #new_dict = {'x': star_points.data['x'][iearth], 'y':star_points.data['y'][iearth], 'r':0.8+0.0*star_points.data['y'][iearth], 'color':col[iearth], 'alpha':np.array(alph)[iearth]} 
+    #newer_dict = {'x': yields['x'][iliving], 'y':yields['y'][iliving], 'r':2.0+0.0*yields['y'][iliving], 'color':col[iliving], 'alpha':np.array(alph)[iliving]} 
+    #earth_points.data = new_dict  
+    #life_points.data = newer_dict 
 
 # Make the blue stars pulse 
 @bounce([0,0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9])
 def pulse_stars(i):
-    pulse_points.data['alpha'] = np.array(pulse_points.data['alpha']) * 0. + 1. * i 
-    pulse_points.data['r'] = np.array(pulse_points.data['alpha']) * 0. + (0.3 * i + 0.5) 
+    #earth_points.data['alpha'] = np.array(earth_points.data['alpha']) * 0. + 1. * i 
+    #earth_points.data['r'] = np.array(earth_points.data['alpha']) * 0. + (0.3 * i + 0.5) 
+    life_points.data['alpha'] = np.array(life_points.data['alpha']) * 0. + 1. * i 
+    life_points.data['r'] = np.array(life_points.data['alpha']) * 0. + (0.3 * i + 0.5) 
     
 # Set up widgets with "fake" callbacks 
 source = ColumnDataSource(data=dict(value=[]))
@@ -250,7 +271,11 @@ iwa = Slider(title="Inner Working Angle (l/D)", value=1.5, start=1.5, end=4.0, s
 iwa.callback = CustomJS(args=dict(source=source), code="""
     source.data = { value: [cb_obj.value] }
 """)
-regenerate = Button(label='Regenerate the Sample of Detected Candidates', width=400, button_type='success') 
+eta_life = Slider(title="Probability of Life", value=0.1, start=0.01, end=1.0, step=0.01, callback_policy='mouseup', width=400)
+eta_life.callback = CustomJS(args=dict(source=source), code="""
+    source.data = { value: [cb_obj.value] }
+""")
+regenerate = Button(label='Regenerate the Sample of Detected Candidates - DISABLED', width=400, button_type='success') 
 regenerate.on_click(recalc) 
 
 #######
@@ -272,7 +297,7 @@ eta_table = DataTable(source=eta_table_source, columns=eta_columns, width=450, h
 
 
 # Set up control widgets and their layout 
-input_sliders = Column(children=[aperture, contrast, regenerate]) 
+input_sliders = Column(children=[aperture, contrast, eta_life, regenerate]) 
 control_tab = Panel(child=input_sliders, title='Controls', width=450)
 div = Div(text=h.help(),width=450, height=2000)
 info_tab = Panel(child=div, title='Info', width=450, height=300)
@@ -286,4 +311,4 @@ rowrow =  Row(inputs, plot1)
 
 curdoc().add_root(rowrow) # Set up layouts and add to document
 curdoc().add_root(source) 
-curdoc().add_periodic_callback(pulse_stars, 100)
+curdoc().add_periodic_callback(pulse_stars, 50)

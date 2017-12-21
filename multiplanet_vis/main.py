@@ -33,6 +33,7 @@ hover = plot1.select(dict(type=HoverTool))
 plot1.x_range=Range1d(-50,50,bounds=(-50,50)) 
 plot1.y_range=Range1d(-50,50,bounds=(-50,50)) 
 plot1.background_fill_color = "#1D1B4D"
+plot1.background_fill_color = "black"
 plot1.background_fill_alpha = 1.0
 plot1.yaxis.axis_label = 'Expected Number of Detected Planets' 
 plot1.xaxis.axis_label = ' ' 
@@ -128,14 +129,14 @@ life_points=ColumnDataSource(data={'x':yields['x'][iliving],'y':yields['y'][iliv
 life_syms = plot1.circle('x','y', source=life_points, name="life_points", fill_color='color',radius='r', line_alpha='alpha', fill_alpha='alpha') 
 
 # second plot, the bar chart of yields
-hist_plot = Figure(plot_height=400, plot_width=480, tools="reset,save,tap", outline_line_color='#1D1B4D', \
-                x_range=[-0.1,5], y_range=[0,300], toolbar_location='below', x_axis_type = None, 
+hist_plot = Figure(plot_height=350, plot_width=480, tools="reset,save,tap", outline_line_color='#1D1B4D', \
+                x_range=[-0.1,5], y_range=[0,300], toolbar_location='right', x_axis_type = None, 
                 title='Expected Total Yield in One Year Survey') 
 hist_plot.title.text_font_size = '14pt'
 hist_plot.title.text_color='white' 
 hist_plot.background_fill_color = "#1D1B4D"
 hist_plot.background_fill_alpha = 1.0
-hist_plot.yaxis.axis_label = 'Yield'
+hist_plot.yaxis.axis_label = 'Number of Detected Planets'
 hist_plot.xaxis.axis_label = ' '
 hist_plot.xaxis.axis_line_width = 2
 hist_plot.yaxis.axis_line_width = 2
@@ -143,7 +144,7 @@ hist_plot.xaxis.axis_line_color = '#1D1B4D'
 hist_plot.yaxis.axis_line_color = '#1D1B4D'
 hist_plot.border_fill_color = "#1D1B4D"
 hist_plot.min_border_left = 0
-hist_plot.image_url(url=["http://jt-astro.science/luvoir_simtools/data/planets.jpg"], x=[-0.05], y=[305], w=[5.0], h=[305])
+#hist_plot.image_url(url=["http://jt-astro.science/luvoir_simtools/data/planets.jpg"], x=[-0.05], y=[205], w=[5.0], h=[450])
 hist_plot.text([0.45], [265], ['Rocky'], text_align='center', text_font_size='12pt', text_color='white') 
 hist_plot.text([1.45], [280], ['Super-Earths'], text_align='center', text_font_size='12pt', text_color='white') 
 hist_plot.text([2.45], [265], ['SubNeptunes'], text_align='center', text_font_size='12pt', text_color='white') 
@@ -186,7 +187,7 @@ total_yield_label.data['labels'] = [str(int(np.sum(yields['complete0'][:]))), st
 hist_plot.quad(top='yields', bottom=0., left='left', right='right', source=total_yield_label, \
                 color='color', fill_alpha=0.9, line_alpha=1., name='total_yield_label_hover')
            
-hist_plot.text('xlabels', 'yields', 'labels', 0., 20, -3, text_align='center', source=total_yield_label, text_color='#1D1B4D')
+hist_plot.text('xlabels', 'yields', 'labels', 0., 20, -3, text_align='center', source=total_yield_label, text_color='white')
 
 yield_hover = HoverTool(names=["total_yield_label_hover"], mode='mouse', tooltips = """ 
             <div>
@@ -300,26 +301,26 @@ regenerate.on_click(recalc)
 #######
 
 eta_table_data = dict(
-        ptype=['Hot Rocky', 'Warm Rocky', 'Cold Rocky', 'Hot Sup-Earth', 'Warm Sup-Earth', 'Cold Sup-Earth', 
-               'Hot sub-Neptunes', 'Warm sub-Neptunes','Cold sub-Neptunes', 
+        ptype=['Hot Rocky', 'Warm Rocky', 'Cold Rocky', 'Hot SuperEarths', 'Warm SuperEarths', 'Cold SuperEarths', 
+               'Hot SubNeptunes', 'Warm SubNeptunes','Cold SubNeptunes', 
                 'Hot Neptunes', 'Warm Neptunes', 'Cold Neptunes','Hot Jupiters','Warm Jupiters','Cold Jupiters'], 
-        radii=['0.5-1.0','0.5-1.0','0.5-1.0', 
-               '1.-1.75','1.-1.75','1.-1.75', 
-               '1.75-3.5','1.75-3.5','1.75-3.5', 
+        radii=['0.5-1.0','0.5-1.0','0.5-1.0',
+               '1.-1.75','1.-1.75','1.-1.75',
+               '1.75-3.5','1.75-3.5','1.75-3.5',
                '3.5-6','3.5-6','3.5-6',
                '6-14.3','6-14.3','6-14.3'], 
-        eta=['0.68','0.30','1.6','0.47','0.21','1.16', '0.48', '0.22',  '1.33', '0.078', '0.074', '0.95', '0.048', '0.045', '0.58'] 
-        a = ['0.74-0.97','0.97-1.86','1.86-17.7',
-             '0.073-0.94','0.94-1.80','1.80-18.26',
+        eta=['0.68','0.30','1.6','0.47','0.21','1.16', '0.48', '0.22',  '1.33', '0.078', '0.074', '0.95', '0.048', '0.045', '0.58'], 
+        a = ['0.74-0.97','0.97-1.86','1.86-17.7','0.073-0.94','0.94-1.80','1.80-18.26', 
              '0.070-0.85','0.85-1.62','1.62-18.26',
              '0.067-0.78','0.78-1.54','1.54-19.24',
              '0.067-0.77','0.77-1.54','1.54-20.']
-    )
+         )
 
 eta_table_source = ColumnDataSource(eta_table_data)
 eta_columns = [
         TableColumn(field="ptype", title="Planet Type", formatter=StringFormatter(text_color='#000000')), 
         TableColumn(field="radii", title="R/R_Earth", formatter=StringFormatter(text_color='#000000')),
+        TableColumn(field="a", title="a", formatter=StringFormatter(text_color='#000000')), 
         TableColumn(field="eta", title="Eta", formatter=StringFormatter(text_color='#000000'))] 
 eta_table = DataTable(source=eta_table_source, columns=eta_columns, width=450, height=980)
 

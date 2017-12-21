@@ -111,7 +111,7 @@ sym.glyph.line_dash = [6, 6]
 eta_life = 0.1 
 
 # create pulsing symbols for detected Earths - probability given by yields 
-n_stars = np.size(yields['complete1'])  
+n_stars = np.size(yields['eec_complete'])  
 col = copy.deepcopy(yields['stype']) 
 col[:] = '#BAD8FF'
 life_col = copy.deepcopy(yields['stype']) 
@@ -120,8 +120,8 @@ alph = copy.deepcopy(yields['x'])
 alph[:] = 1.
 random_numbers = np.random.random(n_stars) 
 indices = np.arange(n_stars) 
-iearth = indices[ random_numbers < yields['complete1'] ] 
-iliving = indices[ random_numbers < eta_life * yields['complete1'] ] 
+iearth = indices[ random_numbers < yields['eec_complete'] ] 
+iliving = indices[ random_numbers < eta_life * yields['eec_complete'] ] 
 earth_points=ColumnDataSource(data={'x':yields['x'][iearth],'y':yields['y'][iearth],'r':0.8+0.0*yields['y'][iearth],'color':col[iearth],'alpha':np.array(alph)[iearth]}) 
 earth_syms = plot1.circle('x','y', source=earth_points, name="earth_points", fill_color='color',radius='r', line_alpha='alpha', fill_alpha='alpha')
 life_points=ColumnDataSource(data={'x':yields['x'][iliving],'y':yields['y'][iliving],'r':2.0+0.0*yields['y'][iliving],'color':life_col[iliving],'alpha':np.array(alph)[iliving]}) 
@@ -226,7 +226,7 @@ def update_data(attrname, old, new):
                                         str(int(np.sum(yields['complete14'][:])))] 
 
     #DON'T REGNERATE SAMPLE OF SIMPLY CHANGING ETA LIFE!!!! 
-    #RESAMPLE LIVING ONLY 
+    #RESAMPLE LIVING ONLY WHEN THE BUTTON IS CLICKED 
  
     # regenerate the pulsing blue points 
     col = copy.deepcopy(yields['stype']) 
@@ -236,12 +236,12 @@ def update_data(attrname, old, new):
     alph = copy.deepcopy(yields['x']) 
     alph[:] = 1.
 
-    n_stars = np.size(yields['complete1'])  
+    n_stars = np.size(yields['eec_complete'])  
     random_numbers = np.random.random(n_stars) 
     indices = np.arange(n_stars) 
-    iearth = indices[ random_numbers < yields['complete1'] ] 
+    iearth = indices[ random_numbers < yields['eec_complete'] ] 
     print('ETA LIFE IN UPDATE DATA', eta_life.value) 
-    iliving = indices[ random_numbers < eta_life.value * yields['complete1'] ]
+    iliving = indices[ random_numbers < eta_life.value * yields['eec_complete'] ]
     new_dict = {'x': yields['x'][iearth], 'y':yields['y'][iearth], 'r':0.8+0.0*yields['y'][iearth], 'color':col[iearth], 'alpha':np.array(alph)[iearth]} 
     newer_dict = {'x': yields['x'][iliving], 'y':yields['y'][iliving], 'r':2.0+0.0*yields['y'][iliving], 'color':life_col[iliving], 'alpha':np.array(alph)[iliving]} 
     earth_points.data = new_dict  
@@ -257,11 +257,11 @@ def recalc():
     #life_col[:] = 'darkgreen' 
     #alph = copy.deepcopy(yields['stype']) 
     #alph[:] = 1.
-    #n_stars = np.size(yields['complete1'])  
+    #n_stars = np.size(yields['eec_complete'])  
     #random_numbers = np.random.random(n_stars) 
     #indices = np.arange(n_stars) 
-    #iearth = np.array(indices[ random_numbers < star_points.data['complete1'] ]) 
-    #iliving = indices[ random_numbers < 0.1 * yields['complete1'] ]
+    #iearth = np.array(indices[ random_numbers < star_points.data['eec_complete'] ]) 
+    #iliving = indices[ random_numbers < 0.1 * yields['eec_complete'] ]
     #new_dict = {'x': star_points.data['x'][iearth], 'y':star_points.data['y'][iearth], 'r':0.8+0.0*star_points.data['y'][iearth], 'color':col[iearth], 'alpha':np.array(alph)[iearth]} 
     #newer_dict = {'x': yields['x'][iliving], 'y':yields['y'][iliving], 'r':2.0+0.0*yields['y'][iliving], 'color':col[iliving], 'alpha':np.array(alph)[iliving]} 
     #earth_points.data = new_dict  

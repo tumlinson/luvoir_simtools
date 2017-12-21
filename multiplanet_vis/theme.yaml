@@ -1,7 +1,7 @@
 attrs:
     Figure:
-        background_fill_color: '#FFFFFF'
-        background_fill_alpha: 0.02 
+        background_fill_color: 'black'
+        background_fill_alpha: 1.00 
         border_fill_color: '#000000'
         outline_line_color: '#444444'
     Text: 

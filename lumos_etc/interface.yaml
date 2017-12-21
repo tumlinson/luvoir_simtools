@@ -17,36 +17,42 @@
     value: 15.
     range: !!python/tuple [2.0, 20.0, 1.0]
     tags: [4, 5, 6, 6]
+    width: 200 
     callback: *callback
 - !Slider: &exp_slider
     ref: "exp_slider"
     title: "Exptime (hours)"
     value: 1.0
     range: !!python/tuple [0.1, 10.0, 0.1]
+    width: 200 
     callback: *callback
 - !Slider: &mag_slider
     ref: "mag_slider"
     title: "Magnitude [AB]"
     value: 21.0
     range: !!python/tuple [15.0, 30.0, 0.1]
+    width: 200 
     callback: *callback
 - !Slider: &red_slider
     ref: "red_slider"
     title: "Redshift"
     value: 0.0
     range: !!python/tuple [!self.exposure.zmin , !self.exposure.zmax , 0.05]
+    width: 200 
     callback: *callback
 - !Select: &template_select
     ref: "template_select"
     title: "Template Spectrum"
     value: "QSO"
     options: !self.template_options
+    width: 200 
     on_change: ['value', !self.controller ]
 - !Select: &grating_select
     ref: "grating_select"
     title: "Grating / Setting"
     value: "G120M (R = 30,400)"
     options: !self.grating_options
+    width: 200 
     on_change: ['value', !self.controller ]
 #Widgets for download tab
 - !Div: &dl_instruction0
@@ -155,6 +161,9 @@
                             - *template_select
                             - *red_slider
                             - *mag_slider
+                            - *ap_slider
+                            - *grating_select
+                            - *exp_slider
                 - !Panel:
                     title: 'Info'
                     child:
@@ -174,7 +183,4 @@
         - !row:
             - !widgetbox:
                 children:
-                - *grating_select
-                - *ap_slider
-                - *exp_slider
             - *snr_figure

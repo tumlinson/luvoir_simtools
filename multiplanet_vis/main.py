@@ -34,7 +34,7 @@ plot1.x_range=Range1d(-50,50,bounds=(-50,50))
 plot1.y_range=Range1d(-50,50,bounds=(-50,50)) 
 plot1.background_fill_color = "#1D1B4D"
 plot1.background_fill_alpha = 1.0
-plot1.yaxis.axis_label = 'Yield' 
+plot1.yaxis.axis_label = 'Expected Number of Detected Planets' 
 plot1.xaxis.axis_label = ' ' 
 plot1.xaxis.axis_line_width = 0
 plot1.yaxis.axis_line_width = 0 
@@ -299,14 +299,23 @@ regenerate.on_click(recalc)
 
 #######
 
-print("STILL NEED TO FIX THE TABLE") 
-
 eta_table_data = dict(
-        ptype=['Hot Rock', 'Warm Rock', 'Cold Rock', 'Hot Neptunes', 'Warm Neptunes', 'Cold Neptunes','Hot Jupiters','Warm Jupiters','Cold Jupiters'], 
-        radii=['0.5-1.4','0.5-1.4','0.5-1.4','1.4-4','1.4-4','1.4-4','4-11.6','4-11.6','4-11.6'], 
-        eta=['0.82','0.41','0.41','0.69','0.35','0.35','0.09','0.09','0.09'], 
-        a=['0.074-0.816','0.816-1.62','1.62-12.4','0.735-0.791','0.791-1.54','1.54-12.4','0.0735-0.803','0.803-1.58','1.58-13.5'] 
+        ptype=['Hot Rocky', 'Warm Rocky', 'Cold Rocky', 'Hot Sup-Earth', 'Warm Sup-Earth', 'Cold Sup-Earth', 
+               'Hot sub-Neptunes', 'Warm sub-Neptunes','Cold sub-Neptunes', 
+                'Hot Neptunes', 'Warm Neptunes', 'Cold Neptunes','Hot Jupiters','Warm Jupiters','Cold Jupiters'], 
+        radii=['0.5-1.0','0.5-1.0','0.5-1.0', 
+               '1.-1.75','1.-1.75','1.-1.75', 
+               '1.75-3.5','1.75-3.5','1.75-3.5', 
+               '3.5-6','3.5-6','3.5-6',
+               '6-14.3','6-14.3','6-14.3'], 
+        eta=['0.68','0.30','1.6','0.47','0.21','1.16', '0.48', '0.22',  '1.33', '0.078', '0.074', '0.95', '0.048', '0.045', '0.58'] 
+        a = ['0.74-0.97','0.97-1.86','1.86-17.7',
+             '0.073-0.94','0.94-1.80','1.80-18.26',
+             '0.070-0.85','0.85-1.62','1.62-18.26',
+             '0.067-0.78','0.78-1.54','1.54-19.24',
+             '0.067-0.77','0.77-1.54','1.54-20.']
     )
+
 eta_table_source = ColumnDataSource(eta_table_data)
 eta_columns = [
         TableColumn(field="ptype", title="Planet Type", formatter=StringFormatter(text_color='#000000')), 

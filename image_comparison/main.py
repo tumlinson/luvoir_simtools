@@ -14,7 +14,7 @@ image2 = "http://www.stsci.edu/~tumlinso/HST_source_z2.jpg"
 
 p1 = figure(x_range=[0, 10], y_range=[-10, 0], tools="pan,save,box_zoom,wheel_zoom,reset",toolbar_location='above', \
 			title='LUVOIR (12 m)')
-p1.background_fill_color = "white"
+p1.background_fill_color = "#1D1B4D"
 p1.image_url(url=[image1], x=[0], y=[0], w=10, h=10)
 p1.x_range = Range1d(0, 10, bounds=(0, 10))  
 p1.y_range = Range1d(-10, 0, bounds=(-10,0))
@@ -23,7 +23,7 @@ p3 = figure(x_range=[0, 10], y_range=[-10, 0], tools="pan,save,box_zoom,wheel_zo
 			title='Hubble')
 p3.y_range = p1.y_range 
 p3.x_range = p1.x_range 
-p3.background_fill_color = "white"
+p3.background_fill_color = "#1D1B4D"
 p3.image_url(url=[image2], x=[0], y=[0.1], w=10, h=10)
 
 def update_image(attr,old,new): 

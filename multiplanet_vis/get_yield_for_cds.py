@@ -13,7 +13,7 @@ def get_yield(aperture_in, contrast_in):
     apertures = {'4.0':'4.0','4':'4.0','8':'8.0','8.0':'8.0','12':'12.0','12.0':'12.0',\
                  '14.0':'14.0','16':'16.0','20':'20.0','20.0':'20.0'} 
     contrasts = {'-11':'1.00E-11','-10':'1.00E-10','-9':'1.00E-09'} 
-    filename = cwd+'multiplanet_vis/data/stark_multiplanet/'+'run_'+apertures[str(aperture_in)]+'_'+contrasts[str(contrast_in)]+'_0.10_3.0.fits' 
+    filename = cwd+'multiplanet_vis/data/stark_multiplanet/'+'run_'+apertures[str(aperture_in)]+'_'+contrasts[str(contrast_in)]+'_0.24_3.0.fits' 
     targets = Table.read(filename) 
  
     col = copy.deepcopy(targets['TYPE'][0])
@@ -39,7 +39,7 @@ def get_yield(aperture_in, contrast_in):
                 x  = xx, \
                 y  = targets['Y'][0], \
                 r  = targets['DISTANCE'][0], \
-                hip=targets['HIP'][0], \
+                hip=targets['STARID'][0], \
                 stype=targets['TYPE'][0], \
                 tspec=targets['TSPEC'][0], \
                 color=col, \
@@ -53,4 +53,10 @@ def get_yield(aperture_in, contrast_in):
                 complete6=targets['COMPLETE6'][0], \
                 complete7=targets['COMPLETE7'][0], \
                 complete8=targets['COMPLETE8'][0], \
+                complete9=targets['COMPLETE9'][0], \
+                complete10=targets['COMPLETE10'][0], \
+                complete11=targets['COMPLETE11'][0], \
+                complete12=targets['COMPLETE12'][0], \
+                complete13=targets['COMPLETE13'][0], \
+                complete14=targets['COMPLETE14'][0], \
                 ) 

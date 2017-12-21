@@ -67,15 +67,21 @@ def SelectCallback(attrname, old, new):
  			               str(star_points.data['complete5'][inds])[0:6], \
  			               str(star_points.data['complete6'][inds])[0:6], \
  			               str(star_points.data['complete7'][inds])[0:6], \
- 			               str(star_points.data['complete8'][inds])[0:6]] 
+ 			               str(star_points.data['complete8'][inds])[0:6], \
+ 			               str(star_points.data['complete9'][inds])[0:6], \
+ 			               str(star_points.data['complete10'][inds])[0:6], \
+ 			               str(star_points.data['complete11'][inds])[0:6], \
+ 			               str(star_points.data['complete12'][inds])[0:6], \
+ 			               str(star_points.data['complete13'][inds])[0:6], \
+ 			               str(star_points.data['complete14'][inds])[0:6]] 
 
     # now change the image in the "Star" tab to show the selected star  
-    print('You have selected star HIP', star_points.data['hip'][inds]) 
+    print('You have selected star STARID', star_points.data['starid'][inds]) 
     print('You have a telescope of size: ', str(aperture.value * 10. / 10.)) 
     print('You have a telescope with contrast: ', contrast.value) 
     image_prefix = 'http://www.stsci.edu/~tumlinso/stark_luvoir_yields/tumlinson-multiplanet_results-'+ \
                        str(aperture.value*10./10.)+'_1.00E'+str(contrast.value)+'_0.10_3.0/' 
-    image_file = 'HIP_'+str(int(star_points.data['hip'][inds]))+'.png' 
+    image_file = 'starid_'+str(int(star_points.data['hip'][inds]))+'.png' 
     print('I need to go get file: ', image_prefix + image_file) 
     plot2.image_url(url=[image_prefix+image_file], x=[-50], y=[50], w=100, h=130)
     
@@ -123,7 +129,7 @@ life_syms = plot1.circle('x','y', source=life_points, name="life_points", fill_c
 
 # second plot, the bar chart of yields
 hist_plot = Figure(plot_height=400, plot_width=480, tools="reset,save,tap", outline_line_color='#1D1B4D', \
-                x_range=[-0.1,3], y_range=[0,300], toolbar_location='below', x_axis_type = None, 
+                x_range=[-0.1,5], y_range=[0,300], toolbar_location='below', x_axis_type = None, 
                 title='Expected Total Yield in One Year Survey') 
 hist_plot.title.text_font_size = '14pt'
 hist_plot.title.text_color='white' 
@@ -137,43 +143,50 @@ hist_plot.xaxis.axis_line_color = '#1D1B4D'
 hist_plot.yaxis.axis_line_color = '#1D1B4D'
 hist_plot.border_fill_color = "#1D1B4D"
 hist_plot.min_border_left = 0
-hist_plot.image_url(url=["http://jt-astro.science/luvoir_simtools/data/planets.jpg"], x=[-0.05], y=[305], w=[3.0], h=[305])
-hist_plot.text([0.45], [280], ['Rocky'], text_align='center') 
-hist_plot.text([1.45], [280], ['Neptunes'], text_align='center') 
-hist_plot.text([2.45], [280], ['Jupiters'], text_align='center') 
+hist_plot.image_url(url=["http://jt-astro.science/luvoir_simtools/data/planets.jpg"], x=[-0.05], y=[305], w=[5.0], h=[305])
+hist_plot.text([0.45], [265], ['Rocky'], text_align='center', text_font_size='12pt', text_color='white') 
+hist_plot.text([1.45], [280], ['Super-Earths'], text_align='center', text_font_size='12pt', text_color='white') 
+hist_plot.text([2.45], [265], ['SubNeptunes'], text_align='center', text_font_size='12pt', text_color='white') 
+hist_plot.text([3.45], [280], ['Neptunes'], text_align='center', text_font_size='12pt', text_color='white') 
+hist_plot.text([4.45], [265], ['Jupiters'], text_align='center', text_font_size='12pt', text_color='white') 
 hist_plot.title.align='center' 
 
 # this will place labels in the small plot for the *selected star* - not implemented yet
-star_yield_label = ColumnDataSource(data=dict(yields=[10., 10., 10., 10., 10., 10., 10., 10., 10.],
-                                        left=[0.0, 0.3, 0.6, 1.0, 1.3, 1.6, 2.0, 2.3, 2.6],
-                                        right=[0.3, 0.6, 0.9, 1.3, 1.6, 1.9, 2.3, 2.6, 2.9],
-                                        color=['red','#66A0FE','blue','red','green','blue','red','green','blue'],
-                                        labels=["0","0","0","0","0","0","0","0","0"],
-                                        xvals =[1.5,2.5,3.5,1.5,2.5,3.5,1.5,2.5,3.5],
-                                        yvals =[2.9,2.9,2.9,1.9,1.9,1.9,0.9,0.9,0.9,]))
-total_yield_label = ColumnDataSource(data=dict(yields=[0., 0., 0., 0., 0., 0., 0., 0., 0.], \
-                                        left=[0.0, 0.3, 0.6, 1.0, 1.3, 1.6, 2.0, 2.3, 2.6],
-                                        right=[0.3, 0.6, 0.9, 1.3, 1.6, 1.9, 2.3, 2.6, 2.9],
-                                        color=['red', '#66A0FE', 'blue', 'red', 'green', 'blue', 'red', 'green', 'blue'],
-                                        temp=['Hot','Warm','Cool','Hot','Warm','Cool','Hot','Warm','Cool'], 
-                                        mass=['Rocky','Rocky','Rocky','Neptunes','Neptunes','Neptunes','Jupiters','Jupiters','Jupiters'], 
-                                        labels=["0","0","0","0","0","0","0","0","0"], \
-                                        xvals =[1.5,2.5,3.5,1.5,2.5,3.5,1.5,2.5,3.5], \
-                                        yvals =[2.5,2.5,2.5,1.5,1.5,1.5,0.5,0.5,0.5,]))
+star_yield_label = ColumnDataSource(data=dict(yields=[10., 10., 10., 10., 10., 10., 10., 10., 10., 10., 10., 10., 10., 10., 10.],
+                                        left=[0.0,0.3,0.6,  1.0,1.3,1.6,  2.0,2.3,2.6, 3.0,3.3,3.6, 4.0,4.3,4.6],
+                                        right=[0.3,0.6,0.9, 1.3,1.6,1.9,  2.3,2.6,2.9, 3.3,3.6,3.9, 4.3,4.6,4.9],
+                                        color=['red','green','blue','red','green','blue','red','green','blue', 'red','green','blue', 'red','green','blue'],
+                                        labels=["0", "0", "0", "0", "0", "0", "0", "0","0","0","0","0","0","0","0"])) 
+total_yield_label = ColumnDataSource(data=dict(yields=[0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.], \
+                                        left=[0.0,0.3,0.6,  1.0,1.3,1.6,  2.0,2.3,2.6, 3.0,3.3,3.6, 4.0,4.3,4.6],
+                                        right=[0.3,0.6,0.9, 1.3,1.6,1.9,  2.3,2.6,2.9, 3.3,3.6,3.9, 4.3,4.6,4.9],
+                                        color=['red', 'green', 'blue', 'red', 'green', 'blue', 'red', 'green', 'blue', 'red','green','blue', 'red','green','blue'],
+                                        temp=['Hot','Warm','Cool','Hot','Warm','Cool','Hot','Warm','Cool', 'Hot','Warm','Cool', 'Hot','Warm','Cool'], 
+                                        mass=['Rocky','Rocky','Rocky','SuperEarth','SuperEarth','SuperEarth','Sub-Neptune','Sub-Neptune','Sub-Neptune','Neptunes','Neptunes','Neptunes','Jupiters','Jupiters','Jupiters'], 
+                                        labels=["0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"], 
+                                        xlabels=np.array([0.15,0.45,0.75, 1.15,1.45,1.75, 2.15,2.45,2.75, 3.15,3.45,3.75, 4.15,4.45,4.75])-0.25 )) 
+                                         
 total_yield_label.data['yields'] = [np.sum(yields['complete0'][:]), np.sum(yields['complete1'][:]), 
                                         np.sum(yields['complete2'][:]), np.sum(yields['complete3'][:]), 
                                         np.sum(yields['complete4'][:]), np.sum(yields['complete5'][:]), 
                                         np.sum(yields['complete6'][:]), np.sum(yields['complete7'][:]), 
-                                        np.sum(yields['complete8'][:])]
+                                        np.sum(yields['complete8'][:]), np.sum(yields['complete9'][:]), 
+                                        np.sum(yields['complete10'][:]), np.sum(yields['complete11'][:]), 
+                                        np.sum(yields['complete12'][:]), np.sum(yields['complete13'][:]), 
+                                        np.sum(yields['complete14'][:])] 
 total_yield_label.data['labels'] = [str(int(np.sum(yields['complete0'][:]))), str(int(np.sum(yields['complete1'][:]))), 
                                         str(int(np.sum(yields['complete2'][:]))), str(int(np.sum(yields['complete3'][:]))), 
                                         str(int(np.sum(yields['complete4'][:]))), str(int(np.sum(yields['complete5'][:]))), 
                                         str(int(np.sum(yields['complete6'][:]))), str(int(np.sum(yields['complete7'][:]))), 
-                                        str(int(np.sum(yields['complete8'][:])))]
+                                        str(int(np.sum(yields['complete8'][:]))), str(int(np.sum(yields['complete9'][:]))),
+                                        str(int(np.sum(yields['complete10'][:]))), str(int(np.sum(yields['complete11'][:]))),
+                                        str(int(np.sum(yields['complete12'][:]))), str(int(np.sum(yields['complete13'][:]))),
+                                        str(int(np.sum(yields['complete14'][:])))] 
+
 hist_plot.quad(top='yields', bottom=0., left='left', right='right', source=total_yield_label, \
                 color='color', fill_alpha=0.9, line_alpha=1., name='total_yield_label_hover')
            
-hist_plot.text('left', 'yields', 'labels', 0., 20, -3, text_align='center', source=total_yield_label, text_color='#1D1B4D')
+hist_plot.text('xlabels', 'yields', 'labels', 0., 20, -3, text_align='center', source=total_yield_label, text_color='#1D1B4D')
 
 yield_hover = HoverTool(names=["total_yield_label_hover"], mode='mouse', tooltips = """ 
             <div>
@@ -199,12 +212,18 @@ def update_data(attrname, old, new):
                                         np.sum(yields['complete2'][:]), np.sum(yields['complete3'][:]), 
                                         np.sum(yields['complete4'][:]), np.sum(yields['complete5'][:]), 
                                         np.sum(yields['complete6'][:]), np.sum(yields['complete7'][:]), 
-                                        np.sum(yields['complete8'][:])]
+                                        np.sum(yields['complete8'][:]), np.sum(yields['complete9'][:]), 
+                                        np.sum(yields['complete10'][:]), np.sum(yields['complete11'][:]), 
+                                        np.sum(yields['complete12'][:]), np.sum(yields['complete12'][:]), 
+                                        np.sum(yields['complete14'][:])] 
     total_yield_label.data['labels'] = [str(int(np.sum(yields['complete0'][:]))), str(int(np.sum(yields['complete1'][:]))), 
                                         str(int(np.sum(yields['complete2'][:]))), str(int(np.sum(yields['complete3'][:]))), 
                                         str(int(np.sum(yields['complete4'][:]))), str(int(np.sum(yields['complete5'][:]))), 
                                         str(int(np.sum(yields['complete6'][:]))), str(int(np.sum(yields['complete7'][:]))), 
-                                        str(int(np.sum(yields['complete8'][:])))]
+                                        str(int(np.sum(yields['complete8'][:]))), str(int(np.sum(yields['complete9'][:]))),
+                                        str(int(np.sum(yields['complete10'][:]))), str(int(np.sum(yields['complete11'][:]))),
+                                        str(int(np.sum(yields['complete12'][:]))), str(int(np.sum(yields['complete13'][:]))),
+                                        str(int(np.sum(yields['complete14'][:])))] 
 
     #DON'T REGNERATE SAMPLE OF SIMPLY CHANGING ETA LIFE!!!! 
     #RESAMPLE LIVING ONLY 
@@ -279,6 +298,8 @@ regenerate = Button(label='Regenerate the Sample of Detected Candidates - DISABL
 regenerate.on_click(recalc) 
 
 #######
+
+print("STILL NEED TO FIX THE TABLE") 
 
 eta_table_data = dict(
         ptype=['Hot Rock', 'Warm Rock', 'Cold Rock', 'Hot Neptunes', 'Warm Neptunes', 'Cold Neptunes','Hot Jupiters','Warm Jupiters','Cold Jupiters'], 

@@ -1,6 +1,5 @@
 from __future__ import print_function
 import numpy as np
-import math 
 from astropy.table import Table 
 import copy  
 import os 
@@ -12,51 +11,38 @@ import get_tooltip
 from bokeh.io import curdoc 
 from bokeh.plotting import Figure
 from bokeh.driving import bounce 
-from bokeh.models import ColumnDataSource, HoverTool, Range1d, Square, Circle
+from bokeh.models import ColumnDataSource, HoverTool, Circle
 from bokeh.layouts import Column, Row
 from bokeh.models.widgets import Panel, Tabs, Slider, Div, Button, DataTable, DateFormatter, TableColumn, StringFormatter
 from bokeh.models.callbacks import CustomJS
 
+import set_plot_options as sp, eta_table as et 
+
 cwd = os.getenv('LUVOIR_SIMTOOLS_DIR')
 
-yields = gy.get_yield('12.0', '-10') # this is the starting yield set, 12 m with contrast = 1e-10 
+yields = gy.get_yield('12.0', '-10') # this is the starting yield set, 12 m with contrast = 1e-10, returns a dictionary 
 star_points = ColumnDataSource(data = yields)  
 star_points.data['x'][[star_points.data['color'] == 'black']] += 2000. 	# this line shifts the black points with no yield off the plot 
 
 # set up the main plot and do its tweaks 
-plot1 = Figure(plot_height=800, plot_width=800, x_axis_type = None, y_axis_type = None,
+bullseye_plot = Figure(plot_height=800, plot_width=800, x_axis_type = None, y_axis_type = None,
               tools="pan,reset,save,tap,box_zoom,wheel_zoom", outline_line_color='#1D1B4D', 
               x_range=[-50, 50], y_range=[-50, 50], toolbar_location='right')
 hover = HoverTool(names=["star_points_to_hover"], mode='mouse', tooltips = get_tooltip.tooltip()) 
-plot1.add_tools(hover) 
-hover = plot1.select(dict(type=HoverTool))
-plot1.x_range=Range1d(-50,50,bounds=(-50,50)) 
-plot1.y_range=Range1d(-50,50,bounds=(-50,50)) 
-plot1.background_fill_color = "#1D1B4D"
-plot1.background_fill_color = "black"
-plot1.background_fill_alpha = 1.0
-plot1.yaxis.axis_label = 'Expected Number of Detected Planets' 
-plot1.xaxis.axis_label = ' ' 
-plot1.xaxis.axis_line_width = 0
-plot1.yaxis.axis_line_width = 0 
-plot1.xaxis.axis_line_color = '#1D1B4D' 
-plot1.yaxis.axis_line_color = '#1D1B4D' 
-plot1.border_fill_color = "#1D1B4D"
-plot1.min_border_left = 10
-plot1.min_border_right = 10
+bullseye_plot.add_tools(hover) 
+hover = bullseye_plot.select(dict(type=HoverTool))
+sp.set_bullseye_plot_options(bullseye_plot)
 
-plot2 = Figure(plot_height=800, plot_width=800, x_axis_type = None, y_axis_type = None,
-              tools="pan,reset,save,tap,box_zoom,wheel_zoom", outline_line_color='white', 
-              x_range=[-50, 50], y_range=[-50, 50], toolbar_location='right')
-image1 = 'http://www.stsci.edu/~tumlinso/stark_luvoir_yields/tumlinson-multiplanet_results-12.0_1.00E-10_0.10_3.0/HIP_9829.png'
-plot2.image_url(url=[image1], x=[-50], y=[50], w=100, h=130)
-plot2.border_fill_color = "white"
-plot2.background_fill_color = "white"
-
-
-star_syms = plot1.circle('x', 'y', source=star_points, name="star_points_to_hover", \
+star_syms = bullseye_plot.circle('x', 'y', source=star_points, name="star_points_to_hover", \
       fill_color='color', line_color='color', radius=0.5, line_alpha='alpha', fill_alpha='alpha')
 star_syms.selection_glyph = Circle(fill_alpha=0.8, fill_color="#F59A0A", radius=2.0, line_color='#BAD8FF', line_width=2)
+
+# this is not currently being used - it is intended to show the image of each system 
+plot2 = Figure(plot_height=800, plot_width=800, x_axis_type = None, y_axis_type = None,
+              tools="pan,reset,save,tap,box_zoom,wheel_zoom", outline_line_color='white', 
+              x_range=[-50, 50], y_range=[-50, 50], toolbar_location='right', border_fill_color='white', background_fill_color='white')
+image1 = 'http://www.stsci.edu/~tumlinso/stark_luvoir_yields/tumlinson-multiplanet_results-12.0_1.00E-10_0.10_3.0/HIP_9829.png'
+plot2.image_url(url=[image1], x=[-50], y=[50], w=100, h=130)
 
 def SelectCallback(attrname, old, new): 
     inds = np.array(new['1d']['indices'])[0] # this miraculously obtains the index of the slected star within the star_syms CDS 
@@ -85,27 +71,10 @@ def SelectCallback(attrname, old, new):
     image_file = 'starid_'+str(int(star_points.data['hip'][inds]))+'.png' 
     print('I need to go get file: ', image_prefix + image_file) 
     plot2.image_url(url=[image_prefix+image_file], x=[-50], y=[50], w=100, h=130)
-    
 
 star_syms.data_source.on_change('selected', SelectCallback)
 
-# main glyphs for planet circles  
-plot1.text(0.95*0.707*np.array([10., 20., 30., 40.]), 0.707*np.array([10., 20., 30., 40.]), \
-     text=['10 pc', '20 pc', '30 pc', '40 pc'], text_color="white", text_font_style='bold', text_font_size='12pt', text_alpha=0.8) 
-plot1.text([48.5], [47], ['Chance Of Detecting a'], text_color="#BAD8FF", text_align="right") 
-plot1.text([48.5], [44.5], ['Habitable Planet Candidate'], text_color="#BAD8FF", text_align="right") 
-plot1.text([48.5], [42.0], ['if Present'], text_color="#BAD8FF", text_align="right") 
-plot1.text([48.5], [42.0], ['___________'], text_color="#BAD8FF", text_align="right") 
-plot1.text(np.array([48.5]), np.array([39.5]), ["80-100%"], text_color='#F59A0A', text_alpha=0.6+0.2, text_align="right") 
-plot1.text(np.array([48.5]), np.array([39.5-1*2.4]), ["50-80%"], text_color='#F59A0A', text_alpha=0.3+0.2, text_align="right") 
-plot1.text(np.array([48.5]), np.array([39.5-2*2.4]), ["20-50%"], text_color='#F59A0A', text_alpha=0.1+0.2, text_align="right") 
-plot1.text(np.array([48.5]), np.array([39.5-3*2.4]), ["Not Observed"], text_color='#1D1B4D', text_align="right") 
-plot1.text([-49], [46], ['Habitable Candidate Detections'], text_font_size='16pt', text_color='#66A0FE') 
-plot1.text([-49], [43], ['Random Realization for One Year Survey'], text_font_size='16pt', text_color='#66A0FE') 
-plot1.circle([0], [0], radius=0.1, fill_alpha=1.0, line_color='white', fill_color='white') 
-plot1.circle([0], [0], radius=0.5, fill_alpha=0.0, line_color='white') 
-
-sym = plot1.circle(np.array([0., 0., 0., 0.]), np.array([0., 0., 0., 0.]), fill_color='#1D1B4D', line_color='white', 
+sym = bullseye_plot.circle(np.array([0., 0., 0., 0.]), np.array([0., 0., 0., 0.]), fill_color='#1D1B4D', line_color='white', 
            line_width=4, radius=[40,30,20,10], line_alpha=0.8, fill_alpha=0.0) 
 sym.glyph.line_dash = [6, 6]
 
@@ -124,46 +93,29 @@ indices = np.arange(n_stars)
 iearth = indices[ random_numbers < yields['eec_complete'] ] 
 iliving = indices[ random_numbers < eta_life * yields['eec_complete'] ] 
 earth_points=ColumnDataSource(data={'x':yields['x'][iearth],'y':yields['y'][iearth],'r':0.8+0.0*yields['y'][iearth],'color':col[iearth],'alpha':np.array(alph)[iearth]}) 
-earth_syms = plot1.circle('x','y', source=earth_points, name="earth_points", fill_color='color',radius='r', line_alpha='alpha', fill_alpha='alpha')
+earth_syms = bullseye_plot.circle('x','y', source=earth_points, name="earth_points", fill_color='color',radius='r', line_alpha='alpha', fill_alpha='alpha')
 life_points=ColumnDataSource(data={'x':yields['x'][iliving],'y':yields['y'][iliving],'r':2.0+0.0*yields['y'][iliving],'color':life_col[iliving],'alpha':np.array(alph)[iliving]}) 
-life_syms = plot1.circle('x','y', source=life_points, name="life_points", fill_color='color',radius='r', line_alpha='alpha', fill_alpha='alpha') 
+life_syms = bullseye_plot.circle('x','y', source=life_points, name="life_points", fill_color='color',radius='r', line_alpha='alpha', fill_alpha='alpha') 
 
 # second plot, the bar chart of yields
-hist_plot = Figure(plot_height=350, plot_width=480, tools="reset,save,tap", outline_line_color='#1D1B4D', \
+hist_plot = Figure(plot_height=330, plot_width=480, tools="reset,save,tap", outline_line_color='#1D1B4D', \
                 x_range=[-0.1,5], y_range=[0,300], toolbar_location='right', x_axis_type = None, 
                 title='Expected Total Yield in One Year Survey') 
-hist_plot.title.text_font_size = '14pt'
-hist_plot.title.text_color='white' 
-hist_plot.background_fill_color = "#1D1B4D"
-hist_plot.background_fill_alpha = 1.0
-hist_plot.yaxis.axis_label = 'Number of Detected Planets'
-hist_plot.xaxis.axis_label = ' '
-hist_plot.xaxis.axis_line_width = 2
-hist_plot.yaxis.axis_line_width = 2
-hist_plot.xaxis.axis_line_color = '#1D1B4D'
-hist_plot.yaxis.axis_line_color = '#1D1B4D'
-hist_plot.border_fill_color = "#1D1B4D"
-hist_plot.min_border_left = 0
-#hist_plot.image_url(url=["http://jt-astro.science/luvoir_simtools/data/planets.jpg"], x=[-0.05], y=[205], w=[5.0], h=[450])
-hist_plot.text([0.45], [265], ['Rocky'], text_align='center', text_font_size='12pt', text_color='white') 
-hist_plot.text([1.45], [280], ['Super-Earths'], text_align='center', text_font_size='12pt', text_color='white') 
-hist_plot.text([2.45], [265], ['SubNeptunes'], text_align='center', text_font_size='12pt', text_color='white') 
-hist_plot.text([3.45], [280], ['Neptunes'], text_align='center', text_font_size='12pt', text_color='white') 
-hist_plot.text([4.45], [265], ['Jupiters'], text_align='center', text_font_size='12pt', text_color='white') 
-hist_plot.title.align='center' 
+sp.set_hist_plot_options(hist_plot) 
 
 # this will place labels in the small plot for the *selected star* - not implemented yet
 star_yield_label = ColumnDataSource(data=dict(yields=[10., 10., 10., 10., 10., 10., 10., 10., 10., 10., 10., 10., 10., 10., 10.],
                                         left=[0.0,0.3,0.6,  1.0,1.3,1.6,  2.0,2.3,2.6, 3.0,3.3,3.6, 4.0,4.3,4.6],
                                         right=[0.3,0.6,0.9, 1.3,1.6,1.9,  2.3,2.6,2.9, 3.3,3.6,3.9, 4.3,4.6,4.9],
-                                        color=['red','green','blue','red','green','blue','red','green','blue', 'red','green','blue', 'red','green','blue'],
+                                        color=['#FB0006','#118CFF','#B7E0FF','#FB0006','#118CFF','#B7E0FF','#FB0006','#118CFF','#B7E0FF', '#FB0006','#118CFF','#B7E0FF', '#FB0006','#118CFF','#B7E0FF'],
                                         labels=["0", "0", "0", "0", "0", "0", "0", "0","0","0","0","0","0","0","0"])) 
 total_yield_label = ColumnDataSource(data=dict(yields=[0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.], \
                                         left=[0.0,0.3,0.6,  1.0,1.3,1.6,  2.0,2.3,2.6, 3.0,3.3,3.6, 4.0,4.3,4.6],
                                         right=[0.3,0.6,0.9, 1.3,1.6,1.9,  2.3,2.6,2.9, 3.3,3.6,3.9, 4.3,4.6,4.9],
-                                        color=['red', 'green', 'blue', 'red', 'green', 'blue', 'red', 'green', 'blue', 'red','green','blue', 'red','green','blue'],
+                                        color=['FB0006', '#118CFF', '#B7E0FF', 'FB0006', '#118CFF', '#B7E0FF', 'FB0006', '#118CFF', '#B7E0FF', 'FB0006','#118CFF','#B7E0FF', 'FB0006','#118CFF','#B7E0FF'],
                                         temp=['Hot','Warm','Cool','Hot','Warm','Cool','Hot','Warm','Cool', 'Hot','Warm','Cool', 'Hot','Warm','Cool'], 
-                                        mass=['Rocky','Rocky','Rocky','SuperEarth','SuperEarth','SuperEarth','Sub-Neptune','Sub-Neptune','Sub-Neptune','Neptunes','Neptunes','Neptunes','Jupiters','Jupiters','Jupiters'], 
+                                        mass=['Rocky','Rocky','Rocky','SuperEarth','SuperEarth','SuperEarth',
+                                              'Sub-Neptune','Sub-Neptune','Sub-Neptune','Neptunes','Neptunes','Neptunes','Jupiters','Jupiters','Jupiters'], 
                                         labels=["0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"], 
                                         xlabels=np.array([0.15,0.45,0.75, 1.15,1.45,1.75, 2.15,2.45,2.75, 3.15,3.45,3.75, 4.15,4.45,4.75])-0.25 )) 
                                          
@@ -187,7 +139,7 @@ total_yield_label.data['labels'] = [str(int(np.sum(yields['complete0'][:]))), st
 hist_plot.quad(top='yields', bottom=0., left='left', right='right', source=total_yield_label, \
                 color='color', fill_alpha=0.9, line_alpha=1., name='total_yield_label_hover')
            
-hist_plot.text('xlabels', 'yields', 'labels', 0., 20, -3, text_align='center', source=total_yield_label, text_color='white')
+hist_plot.text('xlabels', 'yields', 'labels', 0., 20, -3, text_align='center', source=total_yield_label, text_color='black')
 
 yield_hover = HoverTool(names=["total_yield_label_hover"], mode='mouse', tooltips = """ 
             <div>
@@ -271,8 +223,6 @@ def recalc():
 # Make the blue stars pulse 
 @bounce([0,0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9])
 def pulse_stars(i):
-    #earth_points.data['alpha'] = np.array(earth_points.data['alpha']) * 0. + 1. * i 
-    #earth_points.data['r'] = np.array(earth_points.data['alpha']) * 0. + (0.3 * i + 0.5) 
     life_points.data['alpha'] = np.array(life_points.data['alpha']) * 0. + 1. * i 
     life_points.data['r'] = np.array(life_points.data['alpha']) * 0. + (0.3 * i + 0.5) 
     
@@ -298,25 +248,8 @@ eta_life.callback = CustomJS(args=dict(source=source), code="""
 regenerate = Button(label='Regenerate the Sample of Detected Candidates - DISABLED', width=400, button_type='success') 
 regenerate.on_click(recalc) 
 
-#######
-
-eta_table_data = dict(
-        ptype=['Hot Rocky', 'Warm Rocky', 'Cold Rocky', 'Hot SuperEarths', 'Warm SuperEarths', 'Cold SuperEarths', 
-               'Hot SubNeptunes', 'Warm SubNeptunes','Cold SubNeptunes', 
-                'Hot Neptunes', 'Warm Neptunes', 'Cold Neptunes','Hot Jupiters','Warm Jupiters','Cold Jupiters'], 
-        radii=['0.5-1.0','0.5-1.0','0.5-1.0',
-               '1.-1.75','1.-1.75','1.-1.75',
-               '1.75-3.5','1.75-3.5','1.75-3.5',
-               '3.5-6','3.5-6','3.5-6',
-               '6-14.3','6-14.3','6-14.3'], 
-        eta=['0.68','0.30','1.6','0.47','0.21','1.16', '0.48', '0.22',  '1.33', '0.078', '0.074', '0.95', '0.048', '0.045', '0.58'], 
-        a = ['0.74-0.97','0.97-1.86','1.86-17.7','0.073-0.94','0.94-1.80','1.80-18.26', 
-             '0.070-0.85','0.85-1.62','1.62-18.26',
-             '0.067-0.78','0.78-1.54','1.54-19.24',
-             '0.067-0.77','0.77-1.54','1.54-20.']
-         )
-
-eta_table_source = ColumnDataSource(eta_table_data)
+# create the table of planet bins
+eta_table_source = ColumnDataSource(et.eta_table())
 eta_columns = [
         TableColumn(field="ptype", title="Planet Type", formatter=StringFormatter(text_color='#000000')), 
         TableColumn(field="radii", title="R/R_Earth", formatter=StringFormatter(text_color='#000000')),
@@ -324,22 +257,19 @@ eta_columns = [
         TableColumn(field="eta", title="Eta", formatter=StringFormatter(text_color='#000000'))] 
 eta_table = DataTable(source=eta_table_source, columns=eta_columns, width=450, height=980)
 
-#######
-
-
 # Set up control widgets and their layout 
 input_sliders = Column(children=[aperture, contrast, eta_life, regenerate]) 
 control_tab = Panel(child=input_sliders, title='Controls', width=450)
 div = Div(text=h.help(),width=450, height=2000)
 info_tab = Panel(child=div, title='Info', width=450, height=300)
 eta_tab = Panel(child=eta_table, title='Planets', width=450, height=300)
-plot1_tab = Panel(child=plot1, title='View', width=800, height=800)
+plot1_tab = Panel(child=bullseye_plot, title='View', width=800, height=800)
 plot2_tab = Panel(child=plot2, title='Star', width=800, height=800)
 input_tabs = Tabs(tabs=[control_tab,info_tab,eta_tab], width=450)  
 inputs = Column(hist_plot, input_tabs) 
 plot_tabs = Tabs(tabs=[plot1_tab, plot2_tab], width=800)  
-rowrow =  Row(inputs, plot1)  
+rowrow =  Row(inputs, bullseye_plot)  
 
-curdoc().add_root(rowrow) # Set up layouts and add to document
+curdoc().add_root(rowrow) # Add layouts to document
 curdoc().add_root(source) 
-curdoc().add_periodic_callback(pulse_stars, 50)
+curdoc().add_periodic_callback(pulse_stars, 50) # periodic callback to make the living planets flash 

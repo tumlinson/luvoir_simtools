@@ -9,8 +9,8 @@ from bokeh.io import curdoc
 from bokeh.models import ColumnDataSource, Range1d, Slider, Panel, Tabs, Column, Div 
 from holoviews.operation.datashader import datashade
 import astropy.units as u 
+import pandas as pd 
 from bokeh.models.callbacks import CustomJS
-
 
 from syotools.models import Camera, Telescope, Spectrograph, PhotometricExposure, SpectrographicExposure
 
@@ -18,36 +18,43 @@ import load_dataset as l
 import set_plot_options as sp 
 import cmd_help as h
 
+pars = curdoc().session_context.request.arguments # how to get paramters in off the URL 
+
 hv.extension('bokeh')
 renderer = hv.renderer('bokeh').instance(mode='server')
 
-cmd_frame = l.load_datasets() # this is the CMD dataset 
+#cmd_frame = l.load_datasets()                                # this is the CMD dataset, returned from load_datasets as a pandas dataframe 
+#cmd_frame.to_pickle('cmd/cmd_frame_large.pkl')
+cmd_frame = pd.read_pickle('cmd/cmd_frame_large.pkl')
+
 cmd_points = hv.Points(cmd_frame, kdims=['grcolor', 'rmag']) # this is the inital creation of the HV "Points" object that will be shaded 
+							     # by default this will shade all ages and metallicities 
 
+def select_stars(obj, age, metallicity, phase):               # received "obj" of type "Points" and "age" of type ordinary float 
+    print("age / metallicity inside select_stars", age, metallicity) 
 
-def select_stars(obj, age, mass, phase):               # received "obj" of type "Points" and "age" of type ordinary float 
-    print("we now have age / mass inside select_stars", age, mass, phase) 
-    #print(obj.select(logage=age).dframe())  
-    return obj.select(ageindex=age) # this returns "Points", so could be anything here that munges it 
+    # this line will return a dataframe screened by the criteria in the lambda function   
+    new_frame = cmd_frame.loc[lambda cmd_frame: (cmd_frame.metalindex == metallicity) & (cmd_frame.ageindex == age)]   
+    cmd_points = hv.Points(new_frame, kdims=['grcolor', 'rmag']) 
+    return cmd_points # this returns a subset of the hv.Points object 
+    #return obj.sample(ageindex=age) # this returns a subset of the hv.Points object - was the original pre-metallicity selector 
 
 # shading and streaming is here 
 age_stream = hv.streams.Stream.define('AgeSelect', age=80)()
-mass_stream = hv.streams.Stream.define('MassSelect', mass=1.)()
+metallicity_stream = hv.streams.Stream.define('MetallicitySelect', metallicity=0)()
 phase_stream = hv.streams.Stream.define('StageSelect', phase=0.)()
 dmap = hv.util.Dynamic(cmd_points, operation=select_stars,    # select_stars is the function that will take cmd_points and munge it 
-           streams=[age_stream, mass_stream, phase_stream])   # unsurprisingly, dmap has type "Dynamic Map" 
+           streams=[age_stream, metallicity_stream, phase_stream])   # unsurprisingly, dmap has type "Dynamic Map" 
 
-# set up the colormap picker 
-class ColormapPicker(hv.streams.Stream):
+class ColormapPicker(hv.streams.Stream):                      # set up the colormap picker 
     colormap   = param.ObjectSelector(default=cm["kbc"], # sets the default colormap to "blues" 
                                       objects=[cm[k] for k in cm.keys() if not '_' in k])
 
 cmap_picker = ColormapPicker(rename={'colormap': 'cmap'}, name='')
 widget = parambokeh.Widgets(cmap_picker, mode='raw') # the color picker 
 
-shaded = datashade(dmap, streams=[hv.streams.RangeXY, cmap_picker], y_range=(-13,7), y_sampling=0.05, x_sampling=0.025, height=1000) # "sampling" parameters control "pixel size" 
+shaded = datashade(dmap, streams=[hv.streams.RangeXY,cmap_picker],y_range=(-13,7),y_sampling=0.05,x_sampling=0.025,height=1000) # "sampling" parameters control "pixel size" 
 hv.opts("RGB [width=400 height=800 xaxis=bottom yaxis=left fontsize={'title': '14pt'}]")
-hv.opts("Curve [width=150 yaxis=None show_frame=False] (color='black') {+framewise} Layout [shared_axes=False]")
 hv.opts("Points [tools=['box_select']]")
 
 plot = renderer.get_plot(shaded, doc=curdoc())     ### Pass the HoloViews object to the renderer
@@ -61,6 +68,9 @@ plot.state.text([3.8],[5+0.7],['Apparent'], text_font_size='11pt', text_color='d
 plot.state.text([3.8],[5+0.2],['Mag'], text_font_size='11pt', text_color='deepskyblue', text_align='right')
 plot.state.text([3.2],[5+0.2],['S/N'], text_font_size='11pt', text_color='red', text_align='right')
 
+confusion_limit_source = ColumnDataSource(data={'top':[0.], 'textx':[-0.5], 'texty':[-0.2], 'text':['Crowding Limit']}) # a data source for the apparent magnitudes displayed on the plot 
+plot.state.quad(top='top', bottom=-13.0, left=-1.2, right=4.0, source=confusion_limit_source, fill_alpha=0.2, fill_color='black', line_alpha=0.2, line_width=1, line_color='black') 
+plot.state.text('textx', 'texty', 'text', source=confusion_limit_source, text_color='black') 
 
 ###########################################
 # CREATE THE SYOTOOLS ELEMENTS AND MODELS # 
@@ -73,7 +83,7 @@ e.sed_id = 'fab'
 t.aperture = 15. * u.meter 
 e.exptime = 3600. * u.s 
 
-new_snrs = np.arange(5) 
+new_snrs = np.arange(5) # derives the S/N at various magnitude limits 
 for ii in [0,1,2,3,4]:
     e.renorm_sed(mag_label_source.data['mags'][ii] * u.ABmag) 	
     new_snrs[ii] = e.snr[1]['value'][4] 
@@ -86,10 +96,10 @@ etc_label_source = ColumnDataSource(data={'mags': mag_label_source.data['mags'],
 					'x': map(lambda n: 3.2, range(5)), 
 					'y': [-10-0.4,-5-0.4,0-0.4,5-0.4,10-0.4]  }) 
 plot.state.text('x','y','snr_label', source=etc_label_source, text_font_size='11pt', text_color='red', text_align='right')
-###########################################
-# DONE WITH SYOTOOLS ELEMENTS AND MODELS # 
-###########################################
 
+###########################################
+#         CONTROLS AND CALLBACKS          #
+###########################################
 def actual_age_slider_update(attrname, old, new):             
     # this is necessary because the table of values often have non-exact age values, e.g. 9.45000001 
     age_slider_dict = {'9.1':72,'9.15':73, '9.2':74, '9.25':75, '6':10, '7':30,'8':50,'9':70,'10':90} 
@@ -98,16 +108,21 @@ def actual_age_slider_update(attrname, old, new):
         age_slider_dict[str(entry)] = integer 
     age_stream.event(age=age_slider_dict[str(new)]) 
 
+def metallicity_slider_update(attrname, old, new):             
+    metallicity_slider_dict = {'-2.0':0, '-2':0, '-1.5':1, '-1.0':2, '-1':2, '-0.5':3, '0.0':4, '0':4} 
+    print('metallicity selected by slider = ', metallicity_slider_dict[str(metallicity_slider.value)]) 
+    metallicity_stream.event(metallicity=metallicity_slider_dict[str(metallicity_slider.value)])
+
 def distance_slider_update(attrname, old, new):             
     distmod = 5. * np.log10((new+1e-5) * 1e6) - 5. 
     mag_label_source.data['mags'] = distmod+np.array([10.,5.,0.,-5.,-10.])
     mag_label_source.data['text'] = mag_label_source.data['mags'].astype('|S4')
 
-def mass_slider_update(attrname, old, new):             
-    mass_stream.event(mass=new)
-
 def phase_slider_update(attrname, old, new):             
     phase_stream.event(phase=new)
+
+def crowding_slider_update(attrname, old, new):             
+    confusion_limit_source.data = {'top':[crowding_slider.value], 'textx':[-0.5], 'texty':[crowding_slider.value-0.2], 'text':['Crowding Limit']}  
 
 def exposure_update(attrname, old, new):             
     print("calling updater with aperture = ", aperture_slider.value, '   and exptime = ', exptime_slider.value) 
@@ -141,14 +156,18 @@ actual_age_slider = Slider(start=5.5, end=10.15, value=10., step=0.05, title="Lo
 actual_age_slider.on_change('value', actual_age_slider_update)
 astro_controls.append(actual_age_slider) 
 
+metallicity_slider = Slider(start=-2., end=0.0, value=0., step=0.5, title="Log(Z/Zsun)")
+metallicity_slider.on_change('value', metallicity_slider_update)
+astro_controls.append(metallicity_slider) 
+
 distance_slider = Slider(start=0.0, end=20., value=1., step=0.5, title="Distance [Mpc]")
 distance_slider.on_change('value', distance_slider_update)
 distance_slider.on_change('value', exposure_update)
 astro_controls.append(distance_slider) 
 
-mass_slider = Slider(start=0.1, end=10., value=1., step=0.05, title="Mass")
-mass_slider.on_change('value', mass_slider_update)
-#astro_controls.append(mass_slider) 
+crowding_slider = Slider(start=-10, end=5., value=0., step=0.1, title="Crowding Limit")
+crowding_slider.on_change('value', crowding_slider_update)
+astro_controls.append(crowding_slider) 
 
 phase_slider = Slider(start=0, end=5, value=0, step=1, title="Evolutionary Stage")
 phase_slider.on_change('value', phase_slider_update)

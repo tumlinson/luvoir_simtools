@@ -9,6 +9,7 @@ from bokeh.io import curdoc
 from bokeh.models import ColumnDataSource, Range1d, Slider, Panel, Tabs, Column, Div 
 from holoviews.operation.datashader import datashade
 import astropy.units as u 
+import os 
 import pandas as pd 
 from bokeh.models.callbacks import CustomJS
 
@@ -19,6 +20,8 @@ import set_plot_options as sp
 import cmd_help as h
 import get_crowding_limit as crowd
 
+cwd = os.getenv('LUVOIR_SIMTOOLS_DIR')
+
 pars = curdoc().session_context.request.arguments # how to get paramters in off the URL 
 
 hv.extension('bokeh')
@@ -26,7 +29,7 @@ renderer = hv.renderer('bokeh').instance(mode='server')
 
 #cmd_frame = l.load_datasets()                                # this is the CMD dataset, returned from load_datasets as a pandas dataframe 
 #cmd_frame.to_pickle('cmd/cmd_frame_large.pkl') 
-cmd_frame = pd.read_pickle('cmd/cmd_frame_large.pkl') 
+cmd_frame = pd.read_pickle(cwd+'data/cmd_frame_large.pkl') 
 
 cmd_points = hv.Points(cmd_frame, kdims=['grcolor', 'rmag']) # this is the inital creation of the HV "Points" object that will be shaded 
 							     # by default this will shade all ages and metallicities 

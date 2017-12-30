@@ -22,7 +22,7 @@ def convert_to_catalog(table, initial_mass): # takes in astropy table containing
         age_indices = np.arange(np.size(ages), dtype=int) 
         for unique_age, age_index in zip(ages, age_indices): 
 
-            print("computing a catalog for age = ", age_index, unique_age) 
+            print("computing a catalog for age = ", age_index, unique_age, ' metallicity = ', metallicity) 
     
             iage = [(ztable['LOGAGE'] > unique_age-0.01) & (ztable['LOGAGE'] < unique_age+0.01)] 
     
@@ -30,7 +30,6 @@ def convert_to_catalog(table, initial_mass): # takes in astropy table containing
             cumimf = cumimf / np.max(cumimf) 
      
             # still need to work out normalization for number of stars given input mass 
-        
             random_variates = np.random.random(number_of_stars) 
             random_masses = np.interp(random_variates, cumimf, ztable['MASS'][iage]) 
         
@@ -45,12 +44,6 @@ def convert_to_catalog(table, initial_mass): # takes in astropy table containing
             ages_for_table = random_masses * 0.0 + unique_age 
             metallicities_for_table = ages_for_table * 0.0 + metallicity 
             metal_indices_for_table = index * 0 + metal_index 
-            print('index',np.size(index))
-            print('ages',np.size(ages_for_table))
-            print('metal',np.size(metallicities_for_table)) 
-            print('random',np.size(random_masses)) 
-            print('interpg',np.size(interpolated_gmag))
-            print('interpr',np.size(interpolated_rmag))
             age_table = Table([index, metal_indices_for_table, ages_for_table, metallicities_for_table, random_masses,  
                                 interpolated_gmag, interpolated_rmag, interpolated_gmag-interpolated_rmag], 
                                 names=('ageindex', 'metalindex', 'logage', 'logz', 'Mass','gmag','rmag', 'grcolor')) 

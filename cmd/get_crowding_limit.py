@@ -2,10 +2,10 @@ import numpy as np
 import pandas as pd 
 import astropy.units as u 
 
-def get_crowding_limit(crowding_apparent_magnitude, distance, cmd_frame): 
+def get_crowding_limit(crowding_apparent_magnitude, telescope_aperture, distance, cmd_frame): 
 
     g_solar = 4.487 
-    luvoir_stars_per_arcsec_limit = 100.  # (JD1) 
+    luvoir_stars_per_arcsec_limit = 10. * ( telescope_aperture / 2.4)**2 # (JD1) 
 
     distmod = 5. * np.log10((distance+1e-5) * 1e6) - 5.
 

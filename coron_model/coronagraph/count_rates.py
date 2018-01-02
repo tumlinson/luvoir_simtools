@@ -23,7 +23,12 @@ def count_rates(Ahr, lamhr, solhr,
                 Res    = 70.0,
                 diam   = 10.0,
                 collect_area = -1,
-                Tput   = 0.20,
+                Tput   = 0.15,
+                Tput_uv = 0.15,
+                Tput_nir = 0.15,
+                o_Tput_uv = 0.12,
+                o_Tput_vis = 0.32,
+                o_Tput_nir = 0.60,
                 C      = 1e-10,
                 IWA    = 3.0,
                 OWA    = 20.0,
@@ -54,7 +59,7 @@ def count_rates(Ahr, lamhr, solhr,
                 ssOWA = -1, #switched off if negative
                 wantsnr=10.0, FIX_OWA = False, COMPUTE_LAM = False,
                 SILENT = False, NIR = True, UV=True, THERMAL = True,
-                GROUND = False, writeout=False, writeoutpath=''):
+                GROUND = False, writeout=False, writeoutpath='', LUVOIR_A = False):
     """
     Runs coronagraph model (Robinson et al., 2016) to calculate planet and noise
     photon count rates for specified telescope and system parameters.
@@ -251,7 +256,7 @@ def count_rates(Ahr, lamhr, solhr,
         ssOWArad = ssIWA * (np.pi/648000.) # ssIWA in radians
     else:
         ssOWArad = -1
-    T = set_throughput(lam, Tput, diam, sep, IWA, OWA, ssIWArad, ssOWArad, lammin, mirror, ntherm,FIX_OWA=FIX_OWA, SILENT=SILENT)
+    T = set_throughput(lam, Tput, Tput_uv, Tput_nir, o_Tput_vis, o_Tput_uv, o_Tput_nir, diam, sep, IWA, OWA, ssIWArad, ssOWArad, lammin, mirror, ntherm,FIX_OWA=FIX_OWA, SILENT=SILENT, lammin_uv=lammin_uv, lammin_vis=lammin_vis, lammin_nir=lammin_nir, LUVOIR_A = LUVOIR_A)
 
 
     # Modify throughput by atmospheric transmission if GROUND-based

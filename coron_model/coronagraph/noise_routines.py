@@ -740,7 +740,7 @@ def set_quantum_efficiency(lam, qe, NIR=False, qe_nir=0.9):
 
     return q
 
-def set_dark_current(lam, De_UV, De_VIS, De_NIR, lammax, Tdet, NIR=False, De_nir=1e-3, lammin_uv=0.2, lammin_vis=0.4, lammin_nir=0.85):
+def set_dark_current(lam, De_UV, De_VIS, De_NIR, lammax, Tdet, NIR=False, De_nir=1e-3, lammin_uv=0.2, lammin_vis=0.4, lammin_nir=0.82):
     """
     Set dark current grid as a function of wavelength
 
@@ -871,8 +871,8 @@ def set_lenslet(lam, lammin, diam,
     return theta
 
 
-def set_throughput(lam, Tput, diam, sep, IWA, OWA, ssIWArad, ssOWArad, lammin, mirror, ntherm,
-                   FIX_OWA=False, SILENT=False):
+def set_throughput(lam, Tput, Tput_uv, Tput_nir, o_Tput_vis, o_Tput_uv, o_Tput_nir, diam, sep, IWA, OWA, ssIWArad, ssOWArad, lammin, mirror, ntherm, FIX_OWA=False, SILENT=False, lammin_uv=0.2, lammin_vis=0.4, lammin_nir=0.82, LUVOIR_A = False):
+
     """
     Set wavelength-dependent telescope throughput
 
@@ -906,7 +906,13 @@ def set_throughput(lam, Tput, diam, sep, IWA, OWA, ssIWArad, ssOWArad, lammin, m
     from scipy.interpolate import interp1d
     
     Nlam = len(lam)
-    T    = Tput + np.zeros(Nlam)
+    T    = 1 + np.zeros(Nlam)
+
+    #wavelength ranges 
+    iUV = (lam < lammin_vis)
+    iVIS = (lam >= lammin_vis) & (lam <= lammin_nir)
+    iNIR = (lam > lammin_nir)
+
     iIWA = ( sep < IWA*lam/diam/1.e6 )
     if (True if True in iIWA else False):
         T[iIWA] = 0. #zero transmission for points inside IWA have no throughput
@@ -923,11 +929,36 @@ def set_throughput(lam, Tput, diam, sep, IWA, OWA, ssIWArad, ssOWArad, lammin, m
             T[iOWA] = 0. #points outside OWA have no throughput
             if ~SILENT:
                 print 'WARNING: portions of spectrum outside OWA'
+    #throughputs
+    Tuv = Tput_uv * o_Tput_uv
+    Tvis = Tput * o_Tput_vis
+    Tnir =  Tput_nir * o_Tput_nir
 
 
-    #apply wavelength-dependent mirror coatings:
-    if mirror == 'perfect':
-        T = T
+    #throughput (just this if it's a "perfect" mirror)
+    if LUVOIR_A == False: 
+        T[iUV] = T[iUV] * Tuv
+        T[iVIS] = T[iVIS] * Tvis
+        T[iNIR] = T[iNIR] * Tnir
+
+    if LUVOIR_A == True:
+       import os
+       datadir = 'data/'
+       datadir = os.path.join(os.path.dirname(__file__), datadir)
+       fn = 'optical_throughput.txt'
+       fn = os.path.join(datadir, fn)
+       values = np.loadtxt(fn, skiprows=1)
+       wlT = values[:,2]
+       wlT = wlT / 1000.
+       optTput_ = values[:,3]
+       from scipy import interpolate
+       interpfunc = interpolate.interp1d(wlT, optTput_, kind='linear')
+       optTput=interpfunc(lam)
+       T[iUV] = T[iUV] * Tput_uv * optTput[iUV]
+       T[iVIS] = T[iVIS] * Tput * optTput[iVIS]
+       T[iNIR] =  T[iNIR] * Tput_nir * optTput[iNIR]
+
+    """
     import os
     datadir = 'data/'
     datadir = os.path.join(os.path.dirname(__file__), datadir)
@@ -941,8 +972,22 @@ def set_throughput(lam, Tput, diam, sep, IWA, OWA, ssIWArad, ssOWArad, lammin, m
         from scipy import interpolate
         interpfunc = interpolate.interp1d(wlT, reflect, kind='linear')
         refl=interpfunc(lam)
-        mirror_trans = refl**ntherm
-        T = T * mirror_trans
+ #       mirror_trans = refl**ntherm
+
+        T = T * refl
+ # now scale the wavelength dependent tput to match the desired values at each wl
+        #scalings
+        TscaleUV = T[induv]/Tuv
+        TscaleVIS = T[indvis]/Tvis
+        TscaleNIR = T[indnir]/Tnir
+
+        T[iUV] = T[iUV] * TscaleUV
+        T[iVIS] = T[iVIS] * TscaleVIS
+        T[iNIR] = T[iNIR] * TscaleNIR
+        
+        import pdb; pdb.set_trace()     
+        
+  
    
     if mirror == 'Au':
         fn = 'Au_reflect.csv'
@@ -953,9 +998,19 @@ def set_throughput(lam, Tput, diam, sep, IWA, OWA, ssIWArad, ssOWArad, lammin, m
         from scipy import interpolate
         interpfunc = interpolate.interp1d(wlT, reflect, kind='linear')
         refl=interpfunc(lam)
-        mirror_trans = refl**ntherm
-        T = T * mirror_trans        
-        
+ #       mirror_trans = refl**ntherm
+        T = T * refl
+
+        # now scale the wavelength dependent tput to match the desired values at each wl
+        #scalings
+        TscaleUV = T[induv]/Tuv
+        TscaleVIS = T[indvis]/Tvis
+        TscaleNIR = T[indnir]/Tnir
+
+        T[iUV] = T[iUV] * TscaleUV
+        T[iVIS] = T[iVIS] * TscaleVIS
+        T[iNIR] = T[iNIR] * TscaleNIR
+    """        
     print 'T is:', T
 
     if ssIWArad != -1:

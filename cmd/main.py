@@ -69,7 +69,7 @@ plot.state.text([3.2],[5+0.2],['S/N'], text_font_size='11pt', text_color='red', 
 
 initial_crowding_limit = -12.5 
 confusion_limit_source = ColumnDataSource(data={'top':[initial_crowding_limit], 'textx':[-0.8],  
-                                                'texty':[initial_crowding_limit-0.2], 'text':['Crowding Limit (390 stars)']}) 
+                                                'texty':[initial_crowding_limit-0.2], 'text':['Crowding: 390 stars sq. arcsec)']}) 
 plot.state.quad(top='top', bottom=-13.0, left=-1.2, right=4.0, source=confusion_limit_source, fill_alpha=0.2,  
                   fill_color='black', line_alpha=0.2, line_width=1, line_color='black') 
 plot.state.text('textx', 'texty', 'text', source=confusion_limit_source, text_align='left', text_color='black') 
@@ -135,7 +135,7 @@ def crowding_slider_update(attrname, old, new):
     new_frame = cmd_frame.loc[lambda cmd_frame: (cmd_frame.metalindex == metallicity_index_to_select) & (cmd_frame.ageindex == age_index_to_select)]
     number_of_stars_per_arcsec = int(10. * (aperture_slider.value / 2.4)**2) 
     crowding_limit = crowd.get_crowding_limit(crowding_slider.value, aperture_slider.value, distance_slider.value, new_frame)
-    confusion_limit_source.data = {'top':[-1. * crowding_limit], 'textx':[-0.8], 'texty':[-1.*crowding_limit-0.2], 'text':['Crowding Limit ('+str(number_of_stars_per_arcsec)+' stars)']}  
+    confusion_limit_source.data = {'top':[-1. * crowding_limit], 'textx':[-0.8], 'texty':[-1.*crowding_limit-0.2], 'text':['Crowding: ('+str(number_of_stars_per_arcsec)+' stars / sq. arsec)']}  
 
 def exposure_update(attrname, old, new):             
     print("calling exposure update with aperture = ", aperture_slider.value, '   and exptime = ', exptime_slider.value) 

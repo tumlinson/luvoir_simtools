@@ -1083,11 +1083,11 @@ def update_data(attrname, old, new):
        y_uv = [0,0,0,0,0,0]
        x_vis = [0,0,0,0,0,0]
        y_vis = [0,0,0,0,0,0]
-       x_nir = [0,0,0,0,0,0,0,0]
-       y_nir = [0,0,0,0,0,0,0,0]
+       x_nir = [0,0,0,0,0,0,0,0,0]
+       y_nir = [0,0,0,0,0,0,0,0,0]
        x_uvwidth = [0,0,0,0,0,0]
        x_viswidth = [0,0,0,0,0,0]
-       x_nirwidth = [0,0,0,0,0,0,0,0]
+       x_nirwidth = [0,0,0,0,0,0,0,0,0]
 
        uv_bandpasses.data = dict(x=x_uv, y=y_uv, width=x_uvwidth)
        vis_bandpasses.data = dict(x=x_vis, y=y_vis, width=x_viswidth)
@@ -1103,10 +1103,10 @@ def update_data(attrname, old, new):
        x_vis = [x * 0.5 for x in sum]
        x_viswidth = [a - b for a, b in zip(x_vis2, x_vis1)] 
            
-       x_nir1 = [0.820, 0.890, 1.0, 1.09, 1.31, 1.5]
-       x_nir2 = [0.9, 1.07, 1.1, 1.32, 1.58, 1.8]
+       x_nir1 = [0.82, 0.89, 1.0, 1.09, 1.31, 1.5, 1.77, 1.97, 2.23]
+       x_nir2 = [0.90, 1.07, 1.1, 1.32, 1.58, 1.8, 2.00, 2.26, 2.50]
        sum = [a + b for a, b in zip(x_nir2, x_nir1)] 
-       x_nir = [0,0,0,0,0,0]
+       x_nir = [0,0,0,0,0,0,0,0,0]
        x_nir = [x * 0.5 for x in sum]
        x_nirwidth = [a - b for a, b in zip(x_nir2, x_nir1)] 
 
@@ -1116,7 +1116,7 @@ def update_data(attrname, old, new):
       # x_uv=[0.220, 0.240, 0.270, 0.305, 0.345, 0.390]
        y_uv = [0,0,0,0,0,0]
        y_vis = [0,0,0,0,0,0]
-       y_nir = [0,0,0,0,0,0,0,0]
+       y_nir = [0,0,0,0,0,0,0,0,0]
       # x_uvwidth=[0.03, 0.04, 0.04, 0.05, 0.05, 0.06]
 
        

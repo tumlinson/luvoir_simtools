@@ -173,9 +173,9 @@ class HDI_ETC(SYOTool):
         
         #Update the plots' y-range bounds
         self.refs["snr_figure"].y_range.start = 0
-        self.refs["snr_figure"].y_range.end = max(1.3 * snr.max(), 5.)
+        self.refs["snr_figure"].y_range.end = max(1.3 * snr[:-1].max(), 5.)
         self.refs["exp_figure"].y_range.start = 0
-        self.refs["exp_figure"].y_range.end = max(1.3 * exp.max(), 2.)
+        self.refs["exp_figure"].y_range.end = max(1.3 * exp[:-1].max(), 2.)
         self.refs["mag_figure"].y_range.start = mag.max() + 5.
         self.refs["mag_figure"].y_range.end = mag.min() - 5.
         self.refs["sed_figure"].y_range.start = self.spectrum_template.flux.max() + 5.

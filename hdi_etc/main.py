@@ -299,7 +299,7 @@ class HDI_ETC(SYOTool):
             return
         
         self.refs["save_message"].text = "This calculation was saved with " \
-            "the ID {}.".format(self.current_savefile)
+            "the ID {}".format(self.current_savefile)
         self.refs["update_save"].disabled = False
         
     

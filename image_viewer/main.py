@@ -12,7 +12,7 @@ from bokeh.models.widgets import Select
 from holoviews.operation.datashader import datashade, aggregate, shade
 from holoviews.plotting.util import fire
 
-import set_plot_options as sp 
+import image_plot_options as sp 
 
 shade.cmap = fire
 

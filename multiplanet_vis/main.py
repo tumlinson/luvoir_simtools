@@ -89,6 +89,7 @@ life_col[:] = 'darkgreen'
 alph = copy.deepcopy(yields['x']) 
 alph[:] = 1.
 random_numbers = np.random.random(n_stars) 
+yields['random_variates'] = random_numbers 
 indices = np.arange(n_stars) 
 iearth = indices[ random_numbers < yields['eec_complete'] ] 
 iliving = indices[ random_numbers < eta_life * yields['eec_complete'] ] 
@@ -178,9 +179,6 @@ def update_data(attrname, old, new):
                                         str(int(np.sum(yields['complete12'][:]))), str(int(np.sum(yields['complete13'][:]))),
                                         str(int(np.sum(yields['complete14'][:])))] 
 
-    #DON'T REGNERATE SAMPLE OF SIMPLY CHANGING ETA LIFE!!!! 
-    #RESAMPLE LIVING ONLY WHEN THE BUTTON IS CLICKED 
- 
     # regenerate the pulsing blue points 
     col = copy.deepcopy(yields['stype']) 
     col[:] = '#BAD8FF'
@@ -196,29 +194,24 @@ def update_data(attrname, old, new):
     print('ETA LIFE IN UPDATE DATA', eta_life.value) 
     iliving = indices[ random_numbers < eta_life.value * yields['eec_complete'] ]
     new_dict = {'x': yields['x'][iearth], 'y':yields['y'][iearth], 'r':0.8+0.0*yields['y'][iearth], 'color':col[iearth], 'alpha':np.array(alph)[iearth]} 
-    newer_dict = {'x': yields['x'][iliving], 'y':yields['y'][iliving], 'r':2.0+0.0*yields['y'][iliving], 'color':life_col[iliving], 'alpha':np.array(alph)[iliving]} 
+    newer_dict = {'x': yields['x'][iliving], 'y':yields['y'][iliving], 'r':0.8+0.0*yields['y'][iliving], 'color':life_col[iliving], 'alpha':np.array(alph)[iliving]} 
+    earth_points.data = new_dict  
+    life_points.data = newer_dict 
+
+def update_eta(attrname, old, new):
+    # HERE WE WILL RESAMPLE BASED ON ETA LIFE WITHOUT CHANGING THE ETA_EARTH 
+    print('ETA LIFE IN UPDATE ETA', eta_life.value) 
+    indices = np.arange(n_stars) 
+    iearth = indices[ yields['random_variates'] < yields['eec_complete'] ] 
+    iliving = indices[ random_numbers < eta_life.value * yields['eec_complete'] ]
+    new_dict = {'x': yields['x'][iearth], 'y':yields['y'][iearth], 'r':0.8+0.0*yields['y'][iearth], 'color':col[iearth], 'alpha':np.array(alph)[iearth]} 
+    newer_dict = {'x': yields['x'][iliving], 'y':yields['y'][iliving], 'r':0.8+0.0*yields['y'][iliving], 'color':life_col[iliving], 'alpha':np.array(alph)[iliving]} 
     earth_points.data = new_dict  
     life_points.data = newer_dict 
 
 def recalc(): 
-    # NOW DRAW RANDOM VARIATES TO GET HIGHLIGHTED STARS
-    print('ETA LIFE IN RECALC', eta_life.value) 
-    print('NEED TO FIX!!!!!!!') 
-    #col = copy.deepcopy(yields['stype']) 
-    #col[:] = '#BAD8FF'
-    #life_col = copy.deepcopy(yields['stype']) 
-    #life_col[:] = 'darkgreen' 
-    #alph = copy.deepcopy(yields['stype']) 
-    #alph[:] = 1.
-    #n_stars = np.size(yields['eec_complete'])  
-    #random_numbers = np.random.random(n_stars) 
-    #indices = np.arange(n_stars) 
-    #iearth = np.array(indices[ random_numbers < star_points.data['eec_complete'] ]) 
-    #iliving = indices[ random_numbers < 0.1 * yields['eec_complete'] ]
-    #new_dict = {'x': star_points.data['x'][iearth], 'y':star_points.data['y'][iearth], 'r':0.8+0.0*star_points.data['y'][iearth], 'color':col[iearth], 'alpha':np.array(alph)[iearth]} 
-    #newer_dict = {'x': yields['x'][iliving], 'y':yields['y'][iliving], 'r':2.0+0.0*yields['y'][iliving], 'color':col[iliving], 'alpha':np.array(alph)[iliving]} 
-    #earth_points.data = new_dict  
-    #life_points.data = newer_dict 
+    update_data('barf', 0.0, 0.0) 
+
 
 # Make the blue stars pulse 
 @bounce([0,0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9])
@@ -227,25 +220,27 @@ def pulse_stars(i):
     life_points.data['r'] = np.array(life_points.data['alpha']) * 0. + (0.3 * i + 0.5) 
     
 # Set up widgets with "fake" callbacks 
-source = ColumnDataSource(data=dict(value=[]))
-source.on_change('data', update_data)
+fake_callback_source1 = ColumnDataSource(data=dict(value=[]))
+fake_callback_source1.on_change('data', update_data)
 aperture = Slider(title="Aperture (meters)", value=12., start=4., end=20.0, step=4.0, callback_policy='mouseup', width=400)
-aperture.callback = CustomJS(args=dict(source=source), code="""
+aperture.callback = CustomJS(args=dict(source=fake_callback_source1), code="""
     source.data = { value: [cb_obj.value] }
 """)
 contrast = Slider(title="Log (Contrast)", value=-10, start=-11.0, end=-9, step=1.0, callback_policy='mouseup', width=400)
-contrast.callback = CustomJS(args=dict(source=source), code="""
+contrast.callback = CustomJS(args=dict(source=fake_callback_source1), code="""
     source.data = { value: [cb_obj.value] }
 """)
 iwa = Slider(title="Inner Working Angle (l/D)", value=1.5, start=1.5, end=4.0, step=0.5, callback_policy='mouseup', width=400)
-iwa.callback = CustomJS(args=dict(source=source), code="""
+iwa.callback = CustomJS(args=dict(source=fake_callback_source1), code="""
     source.data = { value: [cb_obj.value] }
 """)
+fake_callback_source2 = ColumnDataSource(data=dict(value=[]))
+fake_callback_source2.on_change('data', update_eta)
 eta_life = Slider(title="Probability of Life", value=0.1, start=0.01, end=1.0, step=0.01, callback_policy='mouseup', width=400)
-eta_life.callback = CustomJS(args=dict(source=source), code="""
+eta_life.callback = CustomJS(args=dict(source=fake_callback_source2), code="""
     source.data = { value: [cb_obj.value] }
 """)
-regenerate = Button(label='Regenerate the Sample of Detected Candidates - DISABLED', width=400, button_type='success') 
+regenerate = Button(label='Regenerate the Sample of Detected Candidates', width=400, button_type='success') 
 regenerate.on_click(recalc) 
 
 # create the table of planet bins
@@ -271,5 +266,5 @@ plot_tabs = Tabs(tabs=[plot1_tab, plot2_tab], width=800)
 rowrow =  Row(inputs, bullseye_plot)  
 
 curdoc().add_root(rowrow) # Add layouts to document
-curdoc().add_root(source) 
+curdoc().add_root(fake_callback_source1) 
 curdoc().add_periodic_callback(pulse_stars, 50) # periodic callback to make the living planets flash 

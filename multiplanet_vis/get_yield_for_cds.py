@@ -60,4 +60,5 @@ def get_yield(aperture_in, contrast_in):
                 complete12=targets['COMPLETE12'][0], \
                 complete13=targets['COMPLETE13'][0], \
                 complete14=targets['COMPLETE14'][0], \
+                random_variates=xx * 0. # it will sometimes be useful to carry the random variates around, so make room for them here 
                 ) 

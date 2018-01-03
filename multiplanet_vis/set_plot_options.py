@@ -49,11 +49,11 @@ def set_hist_plot_options(plot):
     plot.min_border_left = 0
     plot.min_border_bottom = 20
     plot.image_url(url=["http://www.jt-astro.science/planet_background_v1.png"], x=[-0.05], y=[300], w=[5.0], h=[300])
-    plot.text([0.45], [265], ['Rocky'], text_align='center', text_font_size='12pt', text_color='black')
-    plot.text([1.45], [280], ['Super-Earths'], text_align='center', text_font_size='12pt', text_color='black')
-    plot.text([2.45], [265], ['SubNeptunes'], text_align='center', text_font_size='12pt', text_color='black')
-    plot.text([3.45], [280], ['Neptunes'], text_align='center', text_font_size='12pt', text_color='black')
-    plot.text([4.45], [265], ['Jupiters'], text_align='center', text_font_size='12pt', text_color='black')
+    plot.text([0.45], [265], ['Rocky'], text_align='center', text_font_size='11pt', text_color='black')
+    plot.text([1.45], [280], ['Super-Earths'], text_align='center', text_font_size='11pt', text_color='black')
+    plot.text([2.45], [265], ['Sub-Neptunes'], text_align='center', text_font_size='11pt', text_color='black')
+    plot.text([3.45], [280], ['Neptunes'], text_align='center', text_font_size='11pt', text_color='black')
+    plot.text([4.45], [265], ['Jupiters'], text_align='center', text_font_size='11pt', text_color='black')
     plot.title.align='center'
 
 

@@ -16,7 +16,7 @@ from bokeh.models.callbacks import CustomJS
 from syotools.models import Camera, Telescope, Spectrograph, PhotometricExposure, SpectrographicExposure
 
 import load_dataset as l 
-import set_plot_options as sp 
+import cmd_plot_options as sp 
 import cmd_help as h
 import get_crowding_limit as crowd
 

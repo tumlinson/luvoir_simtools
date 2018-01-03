@@ -11,7 +11,7 @@ from bokeh.models import WMTSTileSource, Range1d
 from holoviews.operation.datashader import datashade, aggregate, shade
 from holoviews.plotting.util import fire
 
-import set_plot_options as sp 
+import foggie_plot_options as sp 
 
 shade.cmap = fire
 
@@ -19,7 +19,8 @@ hv.extension('bokeh')
 renderer = hv.renderer('bokeh').instance(mode='server')
 
 ddf = dd.read_parquet('/Users/tumlinson/Dropbox/jupytercon2017-holoviews-tutorial/data/nyc_taxi_short_hours.parq/').persist() 
-density_url = 'http://jt-astro.science/CGM_bigbox_tile/density_tiles/{Z}/{X}/{Y}.png'
+#density_url = 'http://jt-astro.science/CGM_bigbox_tile/density_tiles/{Z}/{X}/{Y}.png'
+density_url = 'http://jt-astro.science/halo_008508_tile/density_tiles/{Z}/{X}/{Y}.png'
 temp_url = 'http://jt-astro.science/CGM_bigbox_tile/temperature_tiles/{Z}/{X}/{Y}.png'
 metallicity_url = 'http://jt-astro.science/CGM_bigbox_tile/metallicity_tiles/{Z}/{X}/{Y}.png'
 HI_density_url = 'http://jt-astro.science/CGM_bigbox_tile/HI_Density_tiles/{Z}/{X}/{Y}.png'

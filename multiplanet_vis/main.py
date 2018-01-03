@@ -16,7 +16,7 @@ from bokeh.layouts import Column, Row
 from bokeh.models.widgets import Panel, Tabs, Slider, Div, Button, DataTable, DateFormatter, TableColumn, StringFormatter
 from bokeh.models.callbacks import CustomJS
 
-import set_plot_options as sp, eta_table as et 
+import multiplanet_plot_options as sp, eta_table as et 
 
 cwd = os.getenv('LUVOIR_SIMTOOLS_DIR')
 

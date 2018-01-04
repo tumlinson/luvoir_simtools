@@ -27,7 +27,7 @@ pars = curdoc().session_context.request.arguments # how to get paramters in off 
 hv.extension('bokeh')
 renderer = hv.renderer('bokeh').instance(mode='server')
 
-#cmd_frame = l.load_datasets()                                # this is the CMD dataset, returned from load_datasets as a pandas dataframe 
+cmd_frame = l.load_datasets()                                # this is the CMD dataset, returned from load_datasets as a pandas dataframe 
 #cmd_frame.to_pickle('cmd/cmd_frame_large.pkl') 
 cmd_frame = pd.read_pickle(cwd+'data/cmd_frame_large.pkl') 
 

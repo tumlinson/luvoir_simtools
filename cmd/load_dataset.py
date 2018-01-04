@@ -6,7 +6,7 @@ def convert_to_catalog(table, initial_mass): # takes in astropy table containing
     
     number_of_stars = 10000  
     out_table = Table([[0], [0], [0.], [0.], [0.], [0.], [0.], [0.], [0.]], 
-                          names=('ageindex', 'metalindex', 'logage', 'logz', 'Mass','gmag','rmag', 'grcolor','delta_mag')) 
+                          names=('ageindex', 'metalindex', 'logage', 'logz', 'Mass','gmag','rmag', 'grcolor', 'noise_basis')) 
 
     metallicities = np.unique(table['LOGZ'])  
     print("unique metallicities: ", metallicities) 
@@ -40,16 +40,16 @@ def convert_to_catalog(table, initial_mass): # takes in astropy table containing
             g_noise = np.random.normal(0.0, 0.01, np.size(random_masses)) * interpolated_gmag # TOTALLY MADE UP NOISE DO NOT RELY ON THIS 
             interpolated_gmag = interpolated_gmag + g_noise 
     
-            delta_mag = 10. - interpolated_rmag 
-            #noise_basis = 1. / (delta_mag / 2.5 / 2.) ** 0.5 # this is a scale factor that we will use to derive noise later on 
+            delta_mag = 30. - interpolated_rmag 
+            noise_basis = 1. / 10.**(delta_mag / 2.5 / 2.) # this is a scale factor that we will use to derive noise later on 
         
             index = np.full(np.size(random_masses), age_index, dtype=int)
             ages_for_table = random_masses * 0.0 + unique_age 
             metallicities_for_table = ages_for_table * 0.0 + metallicity 
             metal_indices_for_table = index * 0 + metal_index 
             age_table = Table([index, metal_indices_for_table, ages_for_table, metallicities_for_table, random_masses,  
-                                interpolated_gmag, interpolated_rmag, interpolated_gmag-interpolated_rmag, delta_mag], 
-                                names=('ageindex', 'metalindex', 'logage', 'logz', 'Mass','gmag','rmag', 'grcolor', 'delta_mag')) 
+                                interpolated_gmag, interpolated_rmag, interpolated_gmag-interpolated_rmag, noise_basis], 
+                                names=('ageindex', 'metalindex', 'logage', 'logz', 'Mass','gmag','rmag', 'grcolor', 'noise_basis')) 
        
             out_table = vstack([out_table, age_table]) 
 

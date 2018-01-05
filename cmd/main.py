@@ -30,7 +30,7 @@ renderer = hv.renderer('bokeh').instance(mode='server')
 
 #cmd_frame = l.load_datasets()                                # this is the CMD dataset, returned from load_datasets as a pandas dataframe 
 #cmd_frame.to_pickle('cmd/cmd_frame_large_no_noise.pkl') 
-cmd_frame = pd.read_pickle(cwd+'data/cmd_frame_large.pkl') # this one has noise in it 
+#cmd_frame = pd.read_pickle(cwd+'data/cmd_frame_large.pkl') # this one has noise in it 
 cmd_frame = pd.read_pickle(cwd+'data/cmd_frame_large_no_noise.pkl') 
 
 cmd_points = hv.Points(cmd_frame, kdims=['grcolor', 'rmag']) # this is the inital creation of the HV "Points" object that will be shaded 

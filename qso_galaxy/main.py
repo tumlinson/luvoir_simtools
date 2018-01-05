@@ -93,6 +93,7 @@ def update_image(attr,old,new):
     xx = copy.deepcopy(xqso) 
     xx[imag] = xx[imag] + 10000. 
     qso_points.data['x'] = xx 
+    print("DONE WITH UPDATE_IMAGE") 
 
 def qso_updater(attr,old,new): 
     indexes = np.array(new['1d']['indices'], dtype='int') # the indices of the selected QSOs. 
@@ -102,11 +103,12 @@ def qso_updater(attr,old,new):
     hist_source.data['lumos'] = [np.size(mags) * 2.] 
     if (np.size(mags) * 20. > 250.): hist_source.data['coscolor'] = ['red'] 
     if (np.size(mags) * 2. > 250.): hist_source.data['coscolor'] = ['red'] 
+    print("DONE WITH QSO_UPDATER") 
 
 aperture= Slider(title="Aperture (meters)", value=15., start=3., end=15.0, step=3.0, callback_policy='mouseup', width=550)
 aperture.on_change('value', update_image) 
 
-qso_syms.data_source.on_change('selected', qso_updater)
+#qso_syms.data_source.on_change('selected', qso_updater)
 
 #plot1_tab = Panel(child=[p1], title='CenA', width=550, height=800)
 #plot2_tab = Panel(child=[p2], title=galaxy['name'], width=550, height=800)

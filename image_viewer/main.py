@@ -2,6 +2,7 @@ import dask.dataframe as dd
 import holoviews as hv
 import geoviews as gv
 import param
+import os 
 from colorcet import cm
 from bokeh.models import Slider, Button
 from bokeh.layouts import layout
@@ -19,7 +20,9 @@ shade.cmap = fire
 hv.extension('bokeh')
 renderer = hv.renderer('bokeh').instance(mode='server')
 
-ddf = dd.read_parquet('/Users/tumlinson/Dropbox/jupytercon2017-holoviews-tutorial/data/nyc_taxi_short_hours.parq/').persist() 
+cwd = os.getenv('LUVOIR_SIMTOOLS_DIR')
+
+ddf = dd.read_parquet(cwd+'/data/nyc_taxi_short_hours.parq/').persist() 
 panel1_url = 'http://jt-astro.science/PHATZoom/phat_0pix_padded/{Z}/{X}/{Y}.png'
 panel2_url =    'http://jt-astro.science/PHATZoom/phat_5pix_padded/{Z}/{X}/{Y}.png'
 panel1 = gv.WMTS(WMTSTileSource(url=panel1_url)) 

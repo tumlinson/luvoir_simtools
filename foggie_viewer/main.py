@@ -7,6 +7,7 @@ from bokeh.models import Slider, Button
 from bokeh.layouts import layout
 from bokeh.io import curdoc
 from bokeh.models import WMTSTileSource, Range1d
+import os 
 
 from holoviews.operation.datashader import datashade, aggregate, shade
 from holoviews.plotting.util import fire
@@ -15,10 +16,13 @@ import foggie_plot_options as sp
 
 shade.cmap = fire
 
+cwd = os.getenv('LUVOIR_SIMTOOLS_DIR')
+
+
 hv.extension('bokeh')
 renderer = hv.renderer('bokeh').instance(mode='server')
 
-ddf = dd.read_parquet('/Users/tumlinson/Dropbox/jupytercon2017-holoviews-tutorial/data/nyc_taxi_short_hours.parq/').persist() 
+ddf = dd.read_parquet(cwd+'/data/nyc_taxi_short_hours.parq/').persist() 
 #density_url = 'http://jt-astro.science/CGM_bigbox_tile/density_tiles/{Z}/{X}/{Y}.png'
 density_url = 'http://jt-astro.science/halo_008508_tile/density_tiles/{Z}/{X}/{Y}.png'
 temp_url = 'http://jt-astro.science/CGM_bigbox_tile/temperature_tiles/{Z}/{X}/{Y}.png'

@@ -23,8 +23,10 @@ renderer = hv.renderer('bokeh').instance(mode='server')
 cwd = os.getenv('LUVOIR_SIMTOOLS_DIR')
 
 ddf = dd.read_parquet(cwd+'/data/nyc_taxi_short_hours.parq/').persist() 
-panel1_url = 'http://jt-astro.science/PHATZoom/phat_0pix_padded/{Z}/{X}/{Y}.png'
-panel2_url =    'http://jt-astro.science/PHATZoom/phat_5pix_padded/{Z}/{X}/{Y}.png'
+#panel1_url = 'http://jt-astro.science/PHATZoom/phat_0pix_padded/{Z}/{X}/{Y}.png'
+#panel2_url =    'http://jt-astro.science/PHATZoom/phat_5pix_padded/{Z}/{X}/{Y}.png'
+panel1_url = 'http://jt-astro.science/PHATZoom/PHAT_Zoom_Full_Pad_0pix/{Z}-{X}-{Y}.png'
+panel2_url =    'http://jt-astro.science/PHATZoom/PHAT_Zoom_Full_Pad_5pix/{Z}-{X}-{Y}.png'
 panel1 = gv.WMTS(WMTSTileSource(url=panel1_url)) 
 panel2 = gv.WMTS(WMTSTileSource(url=panel2_url)) 
 

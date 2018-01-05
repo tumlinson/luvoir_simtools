@@ -30,7 +30,7 @@ hist_source = ColumnDataSource(data={'cos':[1.], 'coscolor':['blue'], 'lumos':[1
 
 image1 = "http://www.stsci.edu/~tumlinso/cenA-Fermi-noLabel.jpg" 
 p1 = figure(x_range=[0, 586], y_range=[-786, 0], title='Cen A', \
-    tools="pan,tap,resize,save,box_zoom,wheel_zoom,reset",toolbar_location='right') 
+    tools="pan,tap,save,box_zoom,wheel_zoom,reset",toolbar_location='right') 
     
 p1.background_fill_color = "white"
 p1.image_url(url=[image1], x=[0], y=[0], w=586, h=795, global_alpha=0.95)
@@ -44,7 +44,7 @@ galaxy, qso = g.gal_model('M51')
 qso_catalog = ColumnDataSource(data={'ra_qso':qso['RA'][0,:], 'dec_qso':qso['DEC'][0,:], 'ra':qso['RA'][0,:], 'dec':qso['DEC'][0,:], \
                                  'redshift':qso['Z'][0,:], 'name':qso['NAME'][0,:], 'fuvmag':qso['FUV_MAG'][0,:], 'nuvmag':qso['NUV_MAG'][0,:] }) 
 p2 = figure(x_range=[galaxy['ra'].value-2, galaxy['ra'].value+2.], y_range=[galaxy['dec'].value-2., galaxy['dec'].value+2], title=galaxy['name'], \
-    tools="pan,resize,tap,save,box_zoom,wheel_zoom,reset",toolbar_location='right') 
+    tools="pan,tap,save,box_zoom,wheel_zoom,reset",toolbar_location='right') 
 p2.image_url(url=[galaxy['url']], x=[galaxy['ra'].value-2.], y=[galaxy['dec'].value+2], w=4, h=4, global_alpha=0.95)
 
 p2.circle(qso['RA'][0,:], qso['DEC'][0,:], fill_color='#FFCC66', size=8) 

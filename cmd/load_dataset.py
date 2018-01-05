@@ -5,8 +5,8 @@ import numpy as np
 def convert_to_catalog(table, initial_mass): # takes in astropy table containing the CMD 
     
     number_of_stars = 10000  
-    out_table = Table([[0], [0], [0.], [0.], [0.], [0.], [0.], [0.], [0.]], 
-                          names=('ageindex', 'metalindex', 'logage', 'logz', 'Mass','gmag','rmag', 'grcolor', 'noise_basis')) 
+    out_table = Table([[0], [0], [0.], [0.], [0.], [0.], [0.], [0.], [0.], [0.], [0.]], 
+                          names=('ageindex', 'metalindex', 'logage', 'logz', 'Mass','gmag','rmag', 'r_noise', 'g_noise', 'grcolor', 'noise_basis')) 
 
     metallicities = np.unique(table['LOGZ'])  
     print("unique metallicities: ", metallicities) 
@@ -34,26 +34,26 @@ def convert_to_catalog(table, initial_mass): # takes in astropy table containing
             random_masses = np.interp(random_variates, cumimf, ztable['MASS'][iage]) 
         
             interpolated_rmag = np.interp(random_masses, ztable['MASS'][iage], ztable['UVIS_F814W'][iage]) 
-            r_noise = np.random.normal(0.0, 0.01, np.size(random_masses)) * interpolated_rmag # TOTALLY MADE UP NOISE DO NOT RELY ON THIS 
-            interpolated_rmag = interpolated_rmag + r_noise 
             interpolated_gmag = np.interp(random_masses, ztable['MASS'][iage], ztable['UVIS_F606W'][iage]) 
-            g_noise = np.random.normal(0.0, 0.01, np.size(random_masses)) * interpolated_gmag # TOTALLY MADE UP NOISE DO NOT RELY ON THIS 
-            interpolated_gmag = interpolated_gmag + g_noise 
     
-            delta_mag = 30. - interpolated_rmag 
-            noise_basis = 1. / 10.**(delta_mag / 2.5 / 2.) # this is a scale factor that we will use to derive noise later on 
-        
+            # this is a mag-based scale factor that we will use to derive noise later on 
+            noise_basis = 10. / 10.**((30.-interpolated_rmag) / 2.5 / 2.) # mind the 10! 
+
+            r_noise = np.random.normal(0.0, 1.00, np.size(random_masses)) * noise_basis 
+            interpolated_rmag = interpolated_rmag # + r_noise 
+            g_noise = np.random.normal(0.0, 1.00, np.size(random_masses)) * noise_basis 
+            interpolated_gmag = interpolated_gmag # + g_noise 
+
             index = np.full(np.size(random_masses), age_index, dtype=int)
             ages_for_table = random_masses * 0.0 + unique_age 
             metallicities_for_table = ages_for_table * 0.0 + metallicity 
             metal_indices_for_table = index * 0 + metal_index 
             age_table = Table([index, metal_indices_for_table, ages_for_table, metallicities_for_table, random_masses,  
-                                interpolated_gmag, interpolated_rmag, interpolated_gmag-interpolated_rmag, noise_basis], 
-                                names=('ageindex', 'metalindex', 'logage', 'logz', 'Mass','gmag','rmag', 'grcolor', 'noise_basis')) 
+                                interpolated_gmag, interpolated_rmag, r_noise, g_noise, interpolated_gmag-interpolated_rmag, noise_basis], 
+                                names=('ageindex', 'metalindex', 'logage', 'logz', 'Mass','gmag','rmag', 'rnoise', 'gnoise', 'grcolor', 'noise_basis')) 
        
             out_table = vstack([out_table, age_table]) 
 
-    out_table.write('out_table.fits') 
     return out_table
    
 

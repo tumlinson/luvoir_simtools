@@ -27,23 +27,41 @@ pars = curdoc().session_context.request.arguments # how to get paramters in off 
 hv.extension('bokeh')
 renderer = hv.renderer('bokeh').instance(mode='server')
 
-cmd_frame = l.load_datasets()                                # this is the CMD dataset, returned from load_datasets as a pandas dataframe 
-#cmd_frame.to_pickle('cmd/cmd_frame_large.pkl') 
-cmd_frame = pd.read_pickle(cwd+'data/cmd_frame_large.pkl') 
+
+#cmd_frame = l.load_datasets()                                # this is the CMD dataset, returned from load_datasets as a pandas dataframe 
+#cmd_frame.to_pickle('cmd/cmd_frame_large_no_noise.pkl') 
+cmd_frame = pd.read_pickle(cwd+'data/cmd_frame_large.pkl') # this one has noise in it 
+cmd_frame = pd.read_pickle(cwd+'data/cmd_frame_large_no_noise.pkl') 
 
 cmd_points = hv.Points(cmd_frame, kdims=['grcolor', 'rmag']) # this is the inital creation of the HV "Points" object that will be shaded 
 							     # by default this will shade all ages and metallicities 
 
-def select_stars(obj, age, metallicity):               # received "obj" of type "Points" and "age" of type ordinary float 
-    print("age / metallicity inside select_stars", age, metallicity) 
-    new_frame = cmd_frame.loc[lambda cmd_frame: (cmd_frame.metalindex == metallicity) & (cmd_frame.ageindex == age)]   
-    cmd_points = hv.Points(new_frame, kdims=['grcolor', 'rmag']) 
+
+def add_noise(new_frame, noise_scale): 
+    noise_basis = 10. / 10.**((30.-(-1.*new_frame.rmag)) / 2.5 / 2.) # mind the 10! 
+    r_noise = np.random.normal(0.0, noise_scale, np.size(new_frame.rmag)) * noise_basis 
+    g_noise = np.random.normal(0.0, noise_scale, np.size(new_frame.rmag)) * noise_basis 
+    new_frame.rmag = new_frame.rmag + r_noise 
+    new_frame.gmag = new_frame.gmag + g_noise 
+    new_frame.grcolor = -1. * (new_frame.gmag - new_frame.rmag) 
+    new_frame.grcolor[new_frame.grcolor > 4.2] = 4.2
+    new_frame.grcolor[new_frame.grcolor < -1.2] = -1.2 
+    return new_frame 
+
+def select_stars(obj, age, metallicity, noise):               # received "obj" of type "Points" and "age" of type ordinary float 
+    #"obj" incoming is the points object 
+    print("age / metallicity / noise inside select_stars", age, metallicity, noise) 
+    new_frame = cmd_frame.loc[lambda cmd_frame: (cmd_frame.metalindex == metallicity) & (cmd_frame.ageindex == age)]
+    noise_frame = add_noise(new_frame, 1.0 * noise) 
+    noise_frame.to_pickle('noise_frame.pkl') 
+    cmd_points = hv.Points(noise_frame, kdims=['grcolor', 'rmag']) 
     return cmd_points 
 
 age_stream = hv.streams.Stream.define('AgeSelect', age=80)()
 metallicity_stream = hv.streams.Stream.define('MetallicitySelect', metallicity=0)()
+noise_stream = hv.streams.Stream.define('NoiseScale', noise=0)() 			# will be used to scale noise 
 dmap = hv.util.Dynamic(cmd_points, operation=select_stars,    # select_stars is the function that will take cmd_points and munge it 
-           streams=[age_stream, metallicity_stream])   # unsurprisingly, dmap has type "Dynamic Map" 
+           streams=[age_stream, metallicity_stream, noise_stream])   # unsurprisingly, dmap has type "Dynamic Map" 
 
 class ColormapPicker(hv.streams.Stream):                      # set up the colormap picker 
     colormap=param.ObjectSelector(default=cm["kbc"],objects=[cm[k] for k in cm.keys() if not '_' in k])
@@ -52,11 +70,16 @@ cmap_picker = ColormapPicker(rename={'colormap': 'cmap'}, name='')
 widget = parambokeh.Widgets(cmap_picker, mode='raw') # the color picker 
 
 shaded=datashade(dmap, streams=[hv.streams.RangeXY,cmap_picker],y_range=(-13,7), 
-                 y_sampling=0.05,x_sampling=0.025,height=1000) # "sampling" parameters control "pixel size" 
+                 y_sampling=0.10,x_sampling=0.050,height=1000) # "sampling" parameters control "pixel size" 
 hv.opts("RGB [width=400 height=800 xaxis=bottom yaxis=left fontsize={'title': '14pt'}]")
 hv.opts("Points [tools=['box_select']]")
 
 plot = renderer.get_plot(shaded, doc=curdoc())     ### Pass the HoloViews object to the renderer
+
+plot.state.quad(top=[-10.5], bottom=[-9.8], left=[2.7], right=[3.9], fill_color='white', fill_alpha=0.8, line_alpha=0.) 
+plot.state.quad(top=[-5.5], bottom=[-4.8], left=[2.7], right=[3.9], fill_color='white', fill_alpha=0.8, line_alpha=0.) 
+plot.state.quad(top=[-0.5], bottom=[0.8], left=[2.7], right=[3.9], fill_color='white', fill_alpha=0.8, line_alpha=0.) 
+plot.state.quad(top=[4.5], bottom=[5.8], left=[2.7], right=[3.9], fill_color='white', fill_alpha=0.8, line_alpha=0.) 
 
 mag_label_source = ColumnDataSource(data={'x': [3.8,3.8,3.8,3.8,3.8], # a data source for the apparent magnitudes displayed on the plot 
                         'y': [-10-0.4,-5-0.4,0-0.4,5-0.4,10-0.4], 
@@ -102,8 +125,9 @@ plot.state.text('x_sn','mags','sn', source=limiting_mag_source, text_font_size='
 ###########################################
 #         CONTROLS AND CALLBACKS          #
 ###########################################
+
 def age_slider_update(attrname, old, new):             
-    # this is necessary because the table of values often have non-exact age values, e.g. 9.45000001 
+    # this dictionary is necessary because the table of values often have non-exact age values, e.g. 9.45000001 
     age_slider_dict = {'9.1':72,'9.15':73, '9.2':74, '9.25':75, '6':10, '7':30,'8':50,'9':70,'10':90} 
     age_list = np.arange(94) * 0.05 + 5.5
     for entry, integer in zip(age_list, np.arange(94)): 
@@ -115,16 +139,22 @@ def metallicity_slider_update(attrname, old, new):
     print('metallicity selected by slider = ', metallicity_slider_dict[str(metallicity_slider.value)]) 
     metallicity_stream.event(metallicity=metallicity_slider_dict[str(metallicity_slider.value)])
 
+def noise_slider_update(attrname, old, new):             
+    print("Inside noise_slider, will scale to: ", noise_slider.value) 
+    noise_stream.event(noise=int(noise_slider.value))
+
 def distance_slider_update(attrname, old, new):             
     distmod = 5. * np.log10((new+1e-5) * 1e6) - 5. 
     mag_label_source.data['mags'] = distmod+np.array([10.,5.,0.,-5.,-10.])
     mag_label_source.data['text'] = mag_label_source.data['mags'].astype('|S4')
 
+    print('calling noise_stream in distance slider') 
+    noise_stream.event(noise=int(new * 40.))
+
 def crowding_slider_update(attrname, old, new):             
 
     metallicity_slider_dict = {'-2.0':0, '-2':0, '-1.5':1, '-1.0':2, '-1':2, '-0.5':3, '0.0':4, '0':4} 
     metallicity_index_to_select = metallicity_slider_dict[str(metallicity_slider.value)]
-
  
     age_slider_dict = {'9.1':72,'9.15':73, '9.2':74, '9.25':75, '6':10, '7':30,'8':50,'9':70,'10':90} 
     age_list = np.arange(94) * 0.05 + 5.5
@@ -153,6 +183,7 @@ def exposure_update(attrname, old, new):
                              'snr_label': new_snrs.astype('|S4'), 
 			     'x': map(lambda n: 3.2, range(5)), 				
 			     'y': [-10-0.4,-5-0.4,0-0.4,5-0.4,10-0.4]  }  		        
+    noise_stream.event(noise=int(noise_slider.value))
 
 def sn_slider_update(attrname, old, new):             
     print("calling sn_updater with sn= ", sn_slider.value, '   and exptime = ', exptime_slider.value) 
@@ -163,19 +194,22 @@ def sn_slider_update(attrname, old, new):
     vmag = e.magnitude[1]['value'][4]
     distmod = 5. * np.log10((distance_slider.value+1e-5) * 1e6) - 5. 
     limiting_mag_source.data = {'mags':[distmod-vmag-0.4],'maglabel':[str(vmag)[0:4]],'sn':[str(sn_slider.value)],'x_mag':[3.8],'x_sn':[3.2]} # the 0.4 is just for display purposes (text alignment) 
-
+    
 fake_callback_source1 = ColumnDataSource(data=dict(value=[]))
 fake_callback_source1.on_change('data', exposure_update)
 fake_callback_source1.on_change('data', sn_slider_update)
 
-fake_callback_source2 = ColumnDataSource(data=dict(value=[]))
+fake_callback_source2 = ColumnDataSource(data=dict(value=[])) # for S/N 
 fake_callback_source2.on_change('data', sn_slider_update)
+
+fake_callback_source3 = ColumnDataSource(data=dict(value=[])) 
+fake_callback_source3.on_change('data', noise_slider_update)
 
 astro_controls = [] 
 exposure_controls = [] 
 visual_controls = [widget] 
 
-age_slider = Slider(start=5.5, end=10.15, value=10., step=0.05, title="Log(Age in Gyr)")
+age_slider = Slider(start=5.5, end=10.15, value=10., step=0.05, title="Log(Age in Gyr)", callback_policy='mouseup')
 age_slider.on_change('value', age_slider_update)
 astro_controls.append(age_slider) 
 
@@ -209,6 +243,12 @@ sn_slider.callback = CustomJS(args=dict(source=fake_callback_source2), code="""
     source.data = { value: [cb_obj.value] }
 """)
 exposure_controls.append(sn_slider) 
+
+noise_slider = Slider(title="Noise to Add In", value=500, start=0.0, end=1000.0, step=50.0, callback_policy='mouseup') 
+noise_slider.callback = CustomJS(args=dict(source=fake_callback_source3), code="""
+    source.data = { value: [cb_obj.value] }
+""")
+exposure_controls.append(noise_slider) 
 
 sp.set_plot_options(plot.state) # plot.state has bokeh type Figure, so can be manipulated in the usual way 
 

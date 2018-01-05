@@ -24,5 +24,7 @@ def set_plot_options(plot):
                                         'y': [-13.5-0.2,-13.5-0.2,-13.5-0.2,-13.5-0.2,-13.5-0.2], 'text':['-1','0','1','2','3']})
     plot.text('x','y','text', source=x_label_source, text_align='center', text_font_size='15pt', text_color='black')
     plot.text('x','y','text', source=y_label_source, text_font_size='15pt', text_color='black', text_align='right')
+
+    plot.quad(top=[0], bottom=[-13.0], left=[4.0], right=[4.4], fill_alpha=1, fill_color='white', line_width=1, line_color='orange') 
     plot.quad(top=[7], bottom=[-13.0], left=[-1.2], right=[4.0], fill_alpha=0, line_width=1, line_color='black') 
 

@@ -229,7 +229,10 @@ crowding_slider.on_change('value', crowding_slider_update)
 astro_controls.append(crowding_slider) 
 
 aperture_slider = Slider(start=1, end=20, value=15, step=1, title="Aperture [meters]")
-aperture_slider.on_change('value', exposure_update)
+aperture_slider.callback = CustomJS(args=dict(source=fake_callback_source1), code="""
+    source.data = { value: [cb_obj.value] }
+""")
+#aperture_slider.on_change('value', exposure_update)
 exposure_controls.append(aperture_slider) 
 
 exptime_slider = Slider(title="Exptime [hours]", value=1., start=0.1, end=50.0, step=0.1, callback_policy='mouseup') 

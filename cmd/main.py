@@ -233,6 +233,7 @@ aperture_slider.callback = CustomJS(args=dict(source=fake_callback_source1), cod
     source.data = { value: [cb_obj.value] }
 """)
 #aperture_slider.on_change('value', exposure_update)
+# here is a comment  
 exposure_controls.append(aperture_slider) 
 
 exptime_slider = Slider(title="Exptime [hours]", value=1., start=0.1, end=50.0, step=0.1, callback_policy='mouseup') 

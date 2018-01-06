@@ -54,7 +54,7 @@ def select_stars(obj, age, metallicity, noise):               # received "obj" o
     print("age / metallicity / noise inside select_stars", age, metallicity, noise) 
     new_frame = cmd_frame.loc[lambda cmd_frame: (cmd_frame.metalindex == metallicity) & (cmd_frame.ageindex == age)]
     noise_frame = add_noise(new_frame, 1.0 * noise) 
-    noise_frame.to_pickle('noise_frame.pkl') 
+    #noise_frame.to_pickle('noise_frame.pkl') 
     cmd_points = hv.Points(noise_frame, kdims=['grcolor', 'rmag']) 
     return cmd_points 
 
@@ -186,9 +186,8 @@ def exposure_update(attrname, old, new):
 			     'y': [-10-0.4,-5-0.4,0-0.4,5-0.4,10-0.4]  }  		        
     print("mag_values in exposure_update",  etc_label_source.data['y']) 
     print("new_snrs in exposure_update", etc_label_source.data['snr']) 
-    fake_noise_factor = int(10000. / etc_label_source.data['snr'][1]) # divide an arbitrary number by the S/N at AB = 5 absolute 
-    noise_stream.event(noise=int(fake_noise_factor))
-    #noise_stream.event(noise=int(noise_slider.value))
+    noise_scale_factor = int(10000. / etc_label_source.data['snr'][1]) # divide an number by the S/N at AB = 5 absolute - set up to make it come out right 
+    noise_stream.event(noise=int(noise_scale_factor))
 
 def sn_slider_update(attrname, old, new):             
     print("calling sn_updater with sn= ", sn_slider.value, '   and exptime = ', exptime_slider.value) 

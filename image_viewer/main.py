@@ -45,7 +45,7 @@ section = hv.util.Dynamic(aggregated, operation=lambda obj, x: obj.sample(dropof
 vline = hv.DynamicMap(lambda x: hv.VLine(x), streams=[pointer])
 
 # Define options
-hv.opts("RGB [width=800 height=400 xaxis=None yaxis=None fontsize={'title': '14pt'}] VLine (color='white' line_width=2)")
+hv.opts("RGB [width=600 height=600 xaxis=None yaxis=None fontsize={'title': '14pt'}] VLine (color='white' line_width=2)")
 hv.opts("Curve [width=150 yaxis=None show_frame=False] (color='black') {+framewise}") 
 
 hvobj = (panel1 * shaded) + (panel2 * shaded) 

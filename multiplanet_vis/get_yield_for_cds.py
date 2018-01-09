@@ -3,6 +3,7 @@ from numpy import where
 from astropy.table import Table 
 import copy 
 import os 
+import numpy as np 
 
 def get_yield(aperture_in, contrast_in): 
     # this helper routine takes in an aperture, contrast combination and 
@@ -33,8 +34,14 @@ def get_yield(aperture_in, contrast_in):
     # x0,y0 = original positons; x,y = positions that will be modified to hide C = 0 stars in view 
     xx = copy.deepcopy(targets['X'][0]) 
     xx[col == 'black'] = xx[col == 'black'] + 2000. 
+  
+    random_seed = int(float(aperture_in)) + int(-1.0 * float(contrast_in)) # derive an arbitrary random seed from the aperture and contrast inputs 
+    np.random.seed(random_seed) 
+    random_variates = np.random.random(np.size(targets['COMPLETENESS']))
 
-    return  dict(x0 = targets['X'][0], \
+    print(random_variates) 
+
+    yield_dict = dict(x0 = targets['X'][0], \
                 y0 = targets['Y'][0], \
                 x  = xx, \
                 y  = targets['Y'][0], \
@@ -60,5 +67,7 @@ def get_yield(aperture_in, contrast_in):
                 complete12=targets['COMPLETE12'][0], \
                 complete13=targets['COMPLETE13'][0], \
                 complete14=targets['COMPLETE14'][0], \
-                random_variates=xx * 0. # it will sometimes be useful to carry the random variates around, so make room for them here 
+                random_variates=random_variates # it will sometimes be useful to carry the random variates around, so make room for them here 
                 ) 
+
+    return yield_dict 

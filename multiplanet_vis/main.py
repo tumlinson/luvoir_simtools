@@ -156,12 +156,14 @@ yield_hover = HoverTool(names=["total_yield_label_hover"], mode='mouse', tooltip
               """) 
 hist_plot.add_tools(yield_hover) 
 
-def update_data(attrname, old, new):
 
-    print('APERTURE A = ', aperture.value, ' CONTRAST C = ', contrast.value, ' IWA I = ', iwa.value, "Eta_life = ", eta_life.value) 
-    yields = gy.get_yield(aperture.value, contrast.value) 
+
+def helper_func(aperture, contrast, eta_life, method_switch): 
+
+    print('APERTURE A = ', aperture, ' CONTRAST C = ', contrast, 'Eta_life = ', eta_life) 
+    yields = gy.get_yield(aperture, contrast) 
     star_points.data = yields 
-
+    
     total_yield_label.data['yields'] = [np.sum(yields['complete0'][:]), np.sum(yields['complete1'][:]), 
                                         np.sum(yields['complete2'][:]), np.sum(yields['complete3'][:]), 
                                         np.sum(yields['complete4'][:]), np.sum(yields['complete5'][:]), 
@@ -190,27 +192,77 @@ def update_data(attrname, old, new):
     n_stars = np.size(yields['eec_complete'])  
     random_numbers = np.random.random(n_stars) 
     indices = np.arange(n_stars) 
-    iearth = indices[ random_numbers < yields['eec_complete'] ] 
-    print('ETA LIFE IN UPDATE DATA', eta_life.value) 
-    iliving = indices[ random_numbers < eta_life.value * yields['eec_complete'] ]
+    #three cases
+    if ('nothing' in method_switch): 
+        iearth = indices[ yields['random_variates'] < yields['eec_complete'] ] # use the random variates that come with this yield dictionary instead of a new one 
+        iliving = indices[ yields['random_variates'] < eta_life * yields['eec_complete'] ]
+    if ('shuffle'): 
+        iearth = indices[ random_numbers  < yields['eec_complete'] ] # use the random variates that come with this yield dictionary instead of a new one 
+        iliving = indices[ random_numbers < eta_life * yields['eec_complete'] ]
+        yields['random_variates'] = random_numbers 
+    if ('eta'): 
+        iearth = indices[ yields['random_variates'] < yields['eec_complete'] ] # use the random variates that come with this yield dictionary instead of a new one 
+        iliving = indices[ random_numbers < eta_life * yields['eec_complete'] ]
     new_dict = {'x': yields['x'][iearth], 'y':yields['y'][iearth], 'r':0.8+0.0*yields['y'][iearth], 'color':col[iearth], 'alpha':np.array(alph)[iearth]} 
     newer_dict = {'x': yields['x'][iliving], 'y':yields['y'][iliving], 'r':0.8+0.0*yields['y'][iliving], 'color':life_col[iliving], 'alpha':np.array(alph)[iliving]} 
     earth_points.data = new_dict  
     life_points.data = newer_dict 
+
+def update_data(attrname, old, new):
+    helper_func(aperture.value, contrast.value, eta_life.value, 'nothing') 
+
+def recalc_data(): 
+    helper_func(aperture.value, contrast.value, eta_life.value, 'shuffle') 
 
 def update_eta(attrname, old, new):
-    # HERE WE WILL RESAMPLE BASED ON ETA LIFE WITHOUT CHANGING THE ETA_EARTH 
-    print('ETA LIFE IN UPDATE ETA', eta_life.value) 
-    indices = np.arange(n_stars) 
-    iearth = indices[ yields['random_variates'] < yields['eec_complete'] ] 
-    iliving = indices[ random_numbers < eta_life.value * yields['eec_complete'] ]
-    new_dict = {'x': yields['x'][iearth], 'y':yields['y'][iearth], 'r':0.8+0.0*yields['y'][iearth], 'color':col[iearth], 'alpha':np.array(alph)[iearth]} 
-    newer_dict = {'x': yields['x'][iliving], 'y':yields['y'][iliving], 'r':0.8+0.0*yields['y'][iliving], 'color':life_col[iliving], 'alpha':np.array(alph)[iliving]} 
-    earth_points.data = new_dict  
-    life_points.data = newer_dict 
+    helper_func(aperture.value, contrast.value, eta_life.value, 'eta') 
 
-def recalc(): 
-    update_data('barf', 0.0, 0.0) 
+   
+
+
+
+if(False): 
+    def update_dead(attrname, old, new):
+    
+        print('APERTURE A = ', aperture.value, ' CONTRAST C = ', contrast.value, ' IWA I = ', iwa.value, "Eta_life = ", eta_life.value) 
+        yields = gy.get_yield(aperture.value, contrast.value) 
+        star_points.data = yields 
+    
+        total_yield_label.data['yields'] = [np.sum(yields['complete0'][:]), np.sum(yields['complete1'][:]), 
+                                            np.sum(yields['complete2'][:]), np.sum(yields['complete3'][:]), 
+                                            np.sum(yields['complete4'][:]), np.sum(yields['complete5'][:]), 
+                                            np.sum(yields['complete6'][:]), np.sum(yields['complete7'][:]), 
+                                            np.sum(yields['complete8'][:]), np.sum(yields['complete9'][:]), 
+                                            np.sum(yields['complete10'][:]), np.sum(yields['complete11'][:]), 
+                                            np.sum(yields['complete12'][:]), np.sum(yields['complete12'][:]), 
+                                            np.sum(yields['complete14'][:])] 
+        total_yield_label.data['labels'] = [str(int(np.sum(yields['complete0'][:]))), str(int(np.sum(yields['complete1'][:]))), 
+                                            str(int(np.sum(yields['complete2'][:]))), str(int(np.sum(yields['complete3'][:]))), 
+                                            str(int(np.sum(yields['complete4'][:]))), str(int(np.sum(yields['complete5'][:]))), 
+                                            str(int(np.sum(yields['complete6'][:]))), str(int(np.sum(yields['complete7'][:]))), 
+                                            str(int(np.sum(yields['complete8'][:]))), str(int(np.sum(yields['complete9'][:]))),
+                                            str(int(np.sum(yields['complete10'][:]))), str(int(np.sum(yields['complete11'][:]))),
+                                            str(int(np.sum(yields['complete12'][:]))), str(int(np.sum(yields['complete13'][:]))),
+                                            str(int(np.sum(yields['complete14'][:])))] 
+    
+    
+    def update_eta(attrname, old, new):
+        # HERE WE WILL RESAMPLE BASED ON ETA LIFE WITHOUT CHANGING THE ETA_EARTH 
+        # OOPS - FOR SOME REASON THIS ALWYAS USES THE 12 M yield until it is regenerate!!! 
+    
+        #FIX THIS HERE SO AS NOT TO RESAMPLE ALL THE YIELDS WITH ETA CHANGES!!!!! 
+    
+        print('ETA LIFE IN UPDATE ETA', eta_life.value) 
+        indices = np.arange(n_stars) 
+        iearth = indices[ yields['random_variates'] < yields['eec_complete'] ] 
+        iliving = indices[ random_numbers < eta_life.value * yields['eec_complete'] ]
+        new_dict = {'x': yields['x'][iearth], 'y':yields['y'][iearth], 'r':0.8+0.0*yields['y'][iearth], 'color':col[iearth], 'alpha':np.array(alph)[iearth]} 
+        newer_dict = {'x': yields['x'][iliving], 'y':yields['y'][iliving], 'r':0.8+0.0*yields['y'][iliving], 'color':life_col[iliving], 'alpha':np.array(alph)[iliving]} 
+        earth_points.data = new_dict  
+        life_points.data = newer_dict 
+    
+    def recalc(): 
+        update_data('barf', 0.0, 0.0) 
 
 
 # Make the blue stars pulse 
@@ -241,7 +293,7 @@ eta_life.callback = CustomJS(args=dict(source=fake_callback_source2), code="""
     source.data = { value: [cb_obj.value] }
 """)
 regenerate = Button(label='Regenerate the Sample of Detected Candidates', width=400, button_type='success') 
-regenerate.on_click(recalc) 
+regenerate.on_click(recalc_data) 
 
 # create the table of planet bins
 eta_table_source = ColumnDataSource(et.eta_table())

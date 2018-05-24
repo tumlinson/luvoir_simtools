@@ -30,8 +30,7 @@ box_select = BoxSelectTool()
 plot1 = Figure(plot_height=500, plot_width=770, x_axis_type=None, y_axis_type=None,
                tools=["pan,reset,tap,wheel_zoom,save", box_select],
                x_range=[-75, 75], y_range=[-50, 50], toolbar_location='left')
-plot1.image_url(url=["http://www.jt-astro.science/hs-2014-04-a-print.jpg"], x=[-75], y=[50], w=150, h=100)
-#plot1.image_url(url=["http://farm9.staticflickr.com/8238/8416833561_a5e096d251_o.jpg"], x=[-50], y=[50], w=100, h=100)
+plot1.image_url(url=["http://luvoir.stsci.edu/M83.jpeg"], x=[-75], y=[50], w=150, h=100)
 plot1.x_range = Range1d(-75, 75, bounds=(-75, 75))
 plot1.y_range = Range1d(-50, 50, bounds=(-50, 50))
 shutters = plot1.square('x', 'y', source=shutter_positions,

@@ -1,44 +1,50 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
-Created on Mon Feb 20 14:05:03 2017
+Created on Tue Apr 24 17:48:52 2018
 
 @author: gkanarek
 """
 
-from bokeh.layouts import column, row, widgetbox, gridplot
-from bokeh.plotting import figure as Figure
-from bokeh.models.tools import HoverTool
-from bokeh.models.ranges import Range1d
-from bokeh.models.sources import ColumnDataSource
-from bokeh.models.callbacks import CustomJS
-from bokeh.models.widgets import (Slider, Tabs, Div, Panel, Select, TextInput,
-                                  Button, Toggle, RadioButtonGroup)
+from __future__ import absolute_import
+
+
+import holoviews as hv
+from holoviews.operation.datashader import datashade
+import parambokeh
 from bokeh.io import curdoc
 
-mappings = {'CustomJS': CustomJS,
-            'Range1d': Range1d,
-            'ColumnDataSource': ColumnDataSource,
-            'HoverTool': HoverTool,
-            'Slider': Slider,
-            'Panel': Panel,
-            'Div': Div,
-            'Select': Select,
-            'Tabs': Tabs,
-            'widgetbox': widgetbox,
-            'TextInput': TextInput,
-            'Button': Button,
-            'gridplot': gridplot,
-            'Toggle': Toggle,
-            'RadioButtonGroup': RadioButtonGroup
-            }
+hv.extension('bokeh')
+_renderer = hv.renderer('bokeh').instance(mode='server')
 
-sequences = {'column': column,
-             'row': row,
-            }
+from ._std_factory import (mappings as std_mappings, 
+                           sequences as std_sequences, 
+                           scalars as std_scalars, 
+                           mapping_factory as std_mapping_factory, 
+                           scalar_factory as std_scalar_factory,
+                           sequence_factory,
+                           figure_constructor,
+                           document_constructor)
 
-scalars = {}
+mappings = std_mappings.copy()
+sequences = std_sequences.copy()
+scalars = std_scalars.copy()
+
+_hv_mappings = {'HVPoints': hv.Points,
+                'HVStream': hv.streams.Stream.define,
+                'HVDynamic': hv.util.Dynamic,
+                'PWidget': parambokeh.Widgets,
+                'Datashader': datashade}
+
+mappings.update(_hv_mappings)
+
+_hv_scalars = {'HVRangeXY': hv.streams.RangeXY}
+
+scalars.update(_hv_scalars)
 
 def mapping_factory(tool, element_type):
+    if element_type not in _hv_mappings:
+        return std_mapping_factory(tool, element_type)
     def mapping_constructor(loader, node):
         fmt = tool.formats.get(element_type, {})
         value = loader.construct_mapping(node, deep=True)
@@ -46,9 +52,13 @@ def mapping_factory(tool, element_type):
         callback = value.pop("on_change", [])
         onclick = value.pop("on_click", None)
         fmt.update(value)
-        if element_type == "Slider":
-            fmt["start"], fmt["end"], fmt["step"] = fmt.pop("range", [0, 1, 0.1])
-        obj = mappings[element_type](**fmt)
+        arg = fmt.pop("arg", None)
+        if element_type == "HVStream":
+            obj = mappings[element_type](arg, **fmt)()
+        elif arg is not None:
+            obj = mappings[element_type](arg, **fmt)
+        else:
+            obj = mappings[element_type](**fmt)
         if ref:
             tool.refs[ref] = obj
         if callback:
@@ -60,57 +70,51 @@ def mapping_factory(tool, element_type):
     mapping_constructor.__name__ = element_type.lower() + '_' + mapping_constructor.__name__
     return mapping_constructor
 
-def sequence_factory(tool, element_type):
-    def sequence_constructor(loader, node):
-        fmt = tool.formats.get(element_type, {})
-        value = loader.construct_sequence(node, deep=True)
-        #ref = value.pop("ref", "") #can't have these in a sequence
-        #callback = value.pop("on_change", []) #can't have these in a sequence
-        obj = sequences[element_type](*value, **fmt)
-        #if ref:
-        #    tool.refs[ref] = obj
-        #if callback:
-        #    obj.on_change(*callback)
-        yield obj
-        
-    sequence_constructor.__name__ = element_type.lower() + '_' + sequence_constructor.__name__
-    return sequence_constructor
-
 def scalar_factory(tool, element_type):
+    if element_type not in _hv_scalars:
+        return std_scalar_factory(tool, element_type)
     def scalar_constructor(loader, node):
         fmt = tool.formats.get(element_type, {})
-        value = loader.construct_scalar(node, deep=True)
-        ref = value.pop("ref", "")
-        callback = value.pop("on_change", [])
-        obj = scalars[element_type](value, **fmt)
-        if ref:
-            tool.refs[ref] = obj
-        if callback:
-            obj.on_change(*callback)
-        yield obj
+        value = loader.construct_scalar(node)
+        #ref = value.pop("ref", "")
+        #callback = value.pop("on_change", [])
+        if not value:
+            yield scalars[element_type]
+        else:
+            obj = scalars[element_type](value, **fmt)
+            #if ref:
+            #    tool.refs[ref] = obj
+            #if callback:
+            #    obj.on_change(*callback)
+            yield obj
         
     scalar_constructor.__name__ = element_type.lower() + '_' + scalar_constructor.__name__
     return scalar_constructor
 
-#These constructors need more specialized treatment
+def renderer_constructor(tool, loader, node):
+    opts = loader.construct_mapping(node, deep=True)
+    ref = opts.pop("ref", "")
+    opts.update(tool.formats.get("renderer", {}))
+    for o in opts["opts"]:
+        hv.opts(o)
+    if ref:
+        tool.refs[ref] = _renderer
+    yield _renderer
 
-def document_constructor(tool, loader, node):
-    layout = loader.construct_sequence(node, deep=True)
-    for element in layout:
-        curdoc().add_root(element)
-    tool.document = curdoc()
-    yield tool.document
-
-def figure_constructor(tool, loader, node):
-    
+def hvfigure_constructor(tool, loader, node):
+    #Grab all of the formatting
     fig = loader.construct_mapping(node, deep=True)
-    fmt = tool.formats.get('Figure', {})
+    fmt = tool.formats.get('HVFigure', {})
     
     elements = fig.pop('elements', [])
     cmds = []
     ref = fig.pop("ref", "")
     callback = fig.pop("on_change", [])
     axis = tool.formats.get("Axis", {})
+    xaxis = fig.pop("xaxis", {})
+    yaxis = fig.pop("yaxis", {})
+
+    data = fig.pop("source", None)
     
     for key in fig:
         val = fig[key]
@@ -119,7 +123,14 @@ def figure_constructor(tool, loader, node):
         else:
             fmt[key] = val
     
-    figure = Figure(**fmt)
+    #Create plot object and the figure itself
+    plot_obj = _renderer.get_plot(data, doc=curdoc())
+    figure = plot_obj.state
+    
+    #Since we can't just use the keyword dictionary with get_plot, we have to 
+    #use setattr for all the formatting
+    for key, val in fmt.items():
+        setattr(figure, key, val)
     
     for key, cmd in cmds:
         if key == 'add_tools':
@@ -137,10 +148,18 @@ def figure_constructor(tool, loader, node):
             circle_fmt = tool.formats.get('Circle', {})
             circle_fmt.update(element)
             figure.circle('x', 'y', **circle_fmt)
-            
-    for attr, val in axis.items():
-        #change axis attributes, hopefully
-        setattr(figure.axis, attr, val)
+        elif key == 'quad':
+            quad_fmt = tool.formats.get('Quad', {})
+            quad_fmt.update(element)
+            figure.quad(**quad_fmt)
+        
+    for attr, val in xaxis.items() + axis.items():
+        #change x-axis attributes, hopefully
+        setattr(figure.xaxis, attr, val)
+    
+    for attr, val in yaxis.items() + axis.items():
+        #change y-axis attributes, hopefully
+        setattr(figure.yaxis, attr, val)
     
     if ref:
         tool.refs[ref] = figure
@@ -148,4 +167,3 @@ def figure_constructor(tool, loader, node):
         figure.on_change(*callback)
 
     yield figure
-        

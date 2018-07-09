@@ -1,0 +1,8 @@
+c	File csp.dec
+
+c	Array declarations for program CSP_GALAXEV
+	include 'SSP_0.dec'
+	parameter (its=221,jts=2*its)
+	common /csp/ fl(imw,0:jts),bflx(0:jts),evfl(0:jts),snbr(0:jts),
+     &pnbr(0:jts),bhtn(0:jts),sntn(0:jts),wdtn(0:jts),rmtm(0:jts),tb(0:jts)
+

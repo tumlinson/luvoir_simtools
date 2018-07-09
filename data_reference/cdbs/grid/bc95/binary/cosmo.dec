@@ -1,0 +1,4 @@
+c	FILE cosmo.dec
+
+	common /cosmol/ h,q,tg
+

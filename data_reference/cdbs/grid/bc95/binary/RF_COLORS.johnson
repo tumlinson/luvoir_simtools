@@ -1,0 +1,23 @@
+RF_COLORS: Johnson R & I
+ 1 = 14- V = STFOC 1400(22) - Buser   V (15) in filter file
+ 2 = 17- V = STFOC 1700(23) - Buser   V (15) in filter file
+ 3 = 22- V = STFOC 2200(24) - Buser   V (15) in filter file
+ 4 = 27- V = STFOC 2700(25) - Buser   V (15) in filter file
+ 5 = U - J = KooKron U ( 1) - KooKron J ( 2) in filter file
+ 6 = J - F = KooKron J ( 2) - KooKron F ( 3) in filter file
+ 7 = F - N = KooKron F ( 3) - KooKron N ( 4) in filter file
+ 8 = U - B = Buser   U (12) - Buser   B (13) in filter file
+ 9 = B - V = Buser   B (14) - Buser   V (15) in filter file
+10 = V - R = Buser   V (15) - Johnson R (32) in filter file
+11 = V - I = Buser   V (15) - Johnson I (33) in filter file
+12 = V - J = Buser   V (15) - Palomar J (55) in filter file
+13 = V - K = Buser   V (15) - Palomar K (57) in filter file
+14 = R - I = Johnson R (32) - Johnson I (33) in filter file
+15 = J - H = Palomar J (55) - Palomar H (56) in filter file
+16 = H - K = Palomar H (56) - Palomar K (57) in filter file
+17 = B - K = Buser   B (14) - Palomar K (57) in filter file
+18 = B - K'= Buser   B (14) - Cowie   K'(86) in filter file
+ 1, 2, 3, 4,12,13,14,15,22,23,24,25,32,33,55,56,57,86
+22,23,24,25, 1, 2, 3,12,14,15,15,15,15,32,55,56,14,14
+15,15,15,15, 2, 3, 4,13,15,32,33,55,57,33,56,57,57,86
+

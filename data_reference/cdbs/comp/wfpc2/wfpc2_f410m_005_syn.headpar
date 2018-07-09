@@ -1,0 +1,20 @@
+XTENSION t 'BINTABLE'  binary table extension
+BITPIX   i 8  8-bit bytes
+NAXIS    i 2  2-dimensional binary table
+NAXIS1   i 12  width of table in bytes
+NAXIS2   i 1035
+PCOUNT   i 0  size of special data area
+GCOUNT   i 1  one data group (required keyword)
+TFIELDS  i 3
+TTYPE1   t 'WAVELENGTH'  label for field   1
+TFORM1   t '1E'  data format of field: 4-byte REAL
+TUNIT1   t 'ANGSTROMS'  physical unit of field
+TTYPE2   t 'THROUGHPUT'  label for field   2
+TFORM2   t '1E'  data format of field: 4-byte REAL
+TUNIT2   t 'TRANSMISSION'  physical unit of field
+TTYPE3   t 'error'  label for field   3
+TFORM3   t '1E'  data format of field: 4-byte REAL
+TUNIT3   t 'TRANSMISSION'  physical unit of field
+TDISP1   t 'F10.1'  display format
+TDISP2   t 'G12.5'  display format
+TDISP3   t 'G12.5'  display format

@@ -1,0 +1,22 @@
+DESCRIP  t WFPC2 TIME-VARIABLE PHOTOMETRIC THROUGHPUT TABLE
+DBTABLE  t CRTHROUGHPUT
+COMPNAME t wfpc2_contwf3
+INSTRUME t wfpc2
+HISTORY  t PRECOOLDOWN (<Apr 23,1994) DATA NORMALIZED TO POSTCOOLDOWN DATA
+HISTORY  t CONT=THROUGHPUT; ERR=ERROR IN THROUGHPUT
+COMMENT  t none
+GENERATI i 2
+HISTORY  t Contamination corrections for monthly & longterm throughput changes.
+HISTORY  t Details are documented in WFPC2 ISR 98-03.
+HISTORY  t Values used (post-Apr 94) are listed in Table 2 & 3 of ISR98-03
+HISTORY  t Values used (pre-Apr 94) are given in WFPC2 ISR 96-02.
+HISTORY  t WF2/WF4: if corrections were unavailable, WF3 values were used
+HISTORY  t Formatted for CDBS by S.Baggett, Dec 1998
+USEAFTER t Dec 01 1993 00:00:00
+PEDIGREE t INFLIGHT
+FILE_NAM t wfpc2_contwf3.tab
+COMPARIS t wfpc2_contwf3_005.tab
+OPUS_FLA t Y
+CHANGE_L t severe
+REFERENC t throughput
+HISTORY  t wfpc2_contwf3.tab renamed to wfpc2_contwf3_006.tab on Jan 12 1999

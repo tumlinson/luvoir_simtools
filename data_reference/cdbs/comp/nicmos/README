@@ -1,0 +1,20 @@
+
+Here's a summary of the origin of the throughput data for NICMOS that
+was delivered to CDBS back in February:
+
+Filters (including polarizers): Manufacturer's pre-fabrication specs
+                                received from Ball Aerospace, Dec. 1994.
+
+Grisms: No data available at this time; filled with 1's for now.
+
+Detector DQE's: Data received from Rodger Thompson (NICMOS PI; Univ. of Arizona)
+                in January 1995 that was measured in the lab for 3 candidate
+                flight detectors.
+
+Mirrors and dewar windows: No measured data available at this time.
+                           Wavelength-independent values of 0.90 and 0.95
+                           used for now, taken from Rodger Thompson's
+                           "Scientist's Guide to NICMOS", Table 2.
+
+
+

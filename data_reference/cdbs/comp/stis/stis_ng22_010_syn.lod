@@ -1,0 +1,29 @@
+FILE_NAME = stis_ng22_010_syn.fits
+INSTRUMENT = synphot
+REFERENCE_FILE_TYPE = throughput
+USEAFTER_DATE = April 16 2004
+COMPARISON_FILE = stis_ng22_009_syn.fits
+OPUS_FLAG = N
+COMMENT = stis_ng22.tab
+Created Wed Apr  7 14:29:21 2004                                      
+The THROUGHPUT column of the table contains the default values and    
+is used when no MJD# option is specified for SYNPHOT.                 
+The last column of the table contains extrapolated values, since      
+SYNPHOT does not do extrapolation.                                    
+Defaults to throughput at Jul 01, 2004                                
+Refer to 2004 ISR describing the Time Dependent Sensitivity (TDS) of  
+STIS first-order modes.                                               
+Calibration programs:                                                 
+7673,8424,8857,8919,9628,10033,7672,8418,8856,8914,9627,10030         
+L-mode sensitivites applied to M-modes and imaging modes.             
+ENDHEADER
+
+CHANGE_LEVEL = SEVERE
+PEDIGREE = inflight
+OBSERVATION_BEGIN_DATE = 
+OBSERVATION_END_DATE = 
+COMPNAME = stis_ng22
+COMMENT =
+ENDROW
+
+ENDFILE

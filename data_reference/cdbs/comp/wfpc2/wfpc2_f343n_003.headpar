@@ -1,0 +1,14 @@
+DESCRIP  t wfpc2_f343n.tab
+DBTABLE  t CRTHROUGHPUT
+COMPNAME t wfpc2_f343n
+INSTRUME t wfpc2
+HISTORY  t WFPC2 FILTERS - TRANSMISSIONS
+HISTORY  t FROM ORIGINAL DATA
+HISTORY  t ENTERED INTO CDBS FORMAT BY JOHN KRIST, AUGUST 1992
+COMMENT  t 21-AUG-92 17:55:09 JEK - mandatory no comment.
+HISTORY  t Created Mon 12:15:24 03-May-93
+USEAFTER t 19930101:00000000
+GENERATI i 2
+HISTORY  t May 1997: optics, dqe, selected filter tables updated
+HISTORY  t (S.Baggett, S.Casertano)
+HISTORY  t wfpc2_f343n_002.tab renamed to wfpc2_f343n_003.tab on May 12 1997

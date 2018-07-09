@@ -1,0 +1,11 @@
+c	filter.dec
+
+c	Array and common declarations for FUNCTION FILTER
+
+c	mxft = 100 = maximum number of filters
+c	mxwf = 200 = maximum number of wavelengths/filter
+c	mxwf = 250 = (modified 27/08/93)
+	parameter (mxft=100,mxwf=250)
+	common /c_filter/ iread,jread,nf,np(mxft),r(mxwf,mxft,2)
+c	external filter_0
+

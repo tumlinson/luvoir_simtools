@@ -1,0 +1,9 @@
+HISTORY  t Created Thu 10:31:31 16-Jun-94
+DESCRIP  t 
+DBTABLE  t crthroughput
+INSTRUME t wfpc2
+COMPNAME t wfpc2_contwf2
+COMMENT  t 
+HISTORY  t Created Thu 12:59:11 28-Jul-94
+USEAFTER t 19900101:00000000
+GENERATI i 2

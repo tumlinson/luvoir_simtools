@@ -1,0 +1,56 @@
+
+
+BRUZUAL-CHARLOT ATLAS is a library of galaxy spectra computed by Bruzual 
+and Charlot using their Isochrone Synthesis Spectral Evolutionary Code.
+The December 1995 version of the Bruzual-Charlot atlas consists of 21
+instantaneous bursts characterized by different IMF slope functions, and
+mass limits. Each instantaneous burst contains 221 spectral energy 
+distributions (SEDs) corresponding to 221 time steps from 0 to 20 Gyr.<p>
+
+To get to the original and complete Bruzual & Charlot library, i.e. set of
+binary data files and decoding programs, go to BRUZUAL-CHARLOT ATLAS. 
+To learn all details about the content of this library and how to generate
+specific spectral templates, read first the postcript version of the README
+file you will find in the directory.<p>
+
+The on-line library of SEDs consists of 84 STSDAS binary files. All SEDs have
+been obtained using the original binary bc95*.ised files and the program
+galaxevpl as explained in the readme file of the Bruzual-Charlot library. <p>
+
+The on-line SEDs represent bursts characterized by a Salpeter initial mass
+function (IMF) with different ranges in lower and upper mass limits, and at
+several ages (10E5, 25E5, 50E5, 76E5, 10E6, 25E6, 50E6, 10E7, 50E7, 10E8, 50E8,
+10E9 years) after the burst. SEDs for instantaneous and composite bursts are
+available. Each SED has 1187 wavelength points covering the 100 angstroms to 100
+microns wavelength range, and the fluxes are given in units of solar luminosity per Angstrom. The nebular contribution to the spectral energy distribution, 
+i.e. emission lines and nebular continuum, is not include in the SEDs. <p> 
+
+A list of the on-line SEDs, and corresponding file names, is given in the 
+table below. In the file name, the "XXXX" indicate the age of the burst. For
+example, the file bc95_d_50E5.tab contains the SED for a five million years old
+instantaneous burst characterized by a Salpeter IMF with lower and upper mass
+limits of 2.5 and 125 solar masses. Should ASCII files be preferred, please
+use the "tdump" task within the ttools package of IRAF to convert the
+STSDAS binary table format into an ASCII file. <p>
+
+
+
+     Table: Characteristics of the on-line Bruzual-Charlot SEDs
+
+  File name       IMF    Lower Mass    Upper Mass       Notes 
+                        (solar mass)  (solar mass)
+
+bc95_a_XXXX   Salpeter      0.1           125       instantaneous
+bc95_b_XXXX   Salpeter      0.1            65       instantaneous
+bc95_c_XXXX   Salpeter      0.1            30       instantaneous
+bc95_d_XXXX   Salpeter      2.5           125       instantaneous
+bc95_e_XXXX   Salpeter      0.1           125       burst lasting 1Gyr
+bc95_f_XXXX   Salpeter      0.1           125       exp. decreasing SFR with
+                                                       e-folding time of 1Gyr
+bc95_g_XXXX   Salpeter      0.1           125       constant SFR of
+                                                       1E-10 M_solar/yr
+                                                            
+                                                       
+
+
+

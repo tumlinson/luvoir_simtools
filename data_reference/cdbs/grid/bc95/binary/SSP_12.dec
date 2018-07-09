@@ -1,0 +1,4 @@
+c	JTSS = Maximum number of time steps.
+	PARAMETER (jtss=220)
+	COMMON /SSP_12/ tb(0:jtss)
+

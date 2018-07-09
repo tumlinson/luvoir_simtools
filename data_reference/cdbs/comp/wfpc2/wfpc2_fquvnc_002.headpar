@@ -1,0 +1,13 @@
+DESCRIP  t wfpc2_fquvnc.tab
+DBTABLE  t CRTHROUGHPUT
+COMPNAME t wfpc2_fquvnc
+INSTRUME t wfpc2
+HISTORY  t WFPC2 FILTERS - TRANSMISSIONS
+HISTORY  t FROM ORIGINAL DATA
+HISTORY  t ENTERED INTO CDBS FORMAT BY JOHN KRIST, AUGUST 1992
+COMMENT  t 21-AUG-92 17:55:09 JEK - mandatory no comment.
+HISTORY  t Created Mon 12:16:18 03-May-93
+USEAFTER t 19930101:00000000
+GENERATI i 2
+HISTORY  t 20-Jun-96 version 2 table delivered to CDBS (SMB)
+HISTORY  t throughput scaled, based on std star observation results

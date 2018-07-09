@@ -1,0 +1,6 @@
+c	ITSS = Maximum number of time steps.
+c	MAXB = Maximum number of SF bursts.
+	PARAMETER (itss=220)
+	character*80 id,name1,name2
+	COMMON /SSP_13/ io,tau,last,strm(0:2*itss),id,t0(2),s(2),name1,name2,tcut
+

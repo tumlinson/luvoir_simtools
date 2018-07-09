@@ -1,0 +1,166 @@
+
+
+This document contains a list of all component tables and wavelength files 
+currently used for STIS Synphot.  All of the files are available in CDBS.  
+It is important to note that throughput curves are not available for all the
+individual components.  The throughput for each Mode is given as total predicted
+system throughput.  The throughput for the OTA is included in these total, so 
+it is important to include the keyword "NOOTA" in the obsmode to get the proper
+throughput.  (See Using Synphot for STIS: An Addendum to the Synphot Users 
+Manual.)  Components for which there is no throughput information currently have 
+the value 1.0 or "INDEF" in their component tables.  Slit throughputs are based 
+on the Effective Areas of the apertures and do not currently contain any 
+wavelength information.
+
+			COMPONENT TABLES
+
+USEAFTER	COMPONENT TABLE		DESCRIPTION			COMMENT
+
+19950101	stis_0054x29		slit 0.054x29.0 		Effective area;  No wavelength information	
+19950101	stis_005x31nd24		slit 0.05x31.0 w/2.4 ND filter	Effective area;  No wavelength information		
+19950101	stis_005x31nd29		slit 0.05x31.0 w/2.9 ND filter	Effective area;  No wavelength information		
+19950101	stis_009x29		slit 0.09x29.0			Effective area;  No wavelength information		
+19950101	stis_01x0025		slit 0.1x0.025			Effective area;  No wavelength information		
+19950101	stis_01x0063		slit 0.1x0.063			Effective area;  No wavelength information		
+19950101	stis_01x009		slit 0.1x0.09			Effective area;  No wavelength information		
+19950101	stis_01x02		slit 0.1x0.2			Effective area;  No wavelength information		
+19950101	stis_02			slit 0.2x0.2			Effective area;  No wavelength information		
+19950101	stis_02a_e		slit 0.2x0.2 a-e		Effective area;  No wavelength information		
+19950101	stis_02x005nd06		slit 0.2x0.05 w/0.6 ND filter	Effective area;  No wavelength information		
+19950101	stis_02x0063		slit 0.2x0.063			Effective area;  No wavelength information		
+19950101	stis_02x0063a_e		slit 0.2x0.063 a-e		Effective area;  No wavelength information		
+19950101	stis_02x009		slit 0.2x0.09			Effective area;  No wavelength information		
+19950101	stis_02x05		slit 0.2x0.05			Effective area;  No wavelength information		
+19950101	stis_02x29		slit 0.2x29.0			Effective area;  No wavelength information		
+19950101	stis_033x005nd12	slit 0.33x0.05 w/1.2 ND filter	Effective area;  No wavelength information		
+19950101	stis_033x0063		slit 0.33x0.063			Effective area;  No wavelength information		
+19950101	stis_033x009		slit 0.33x0.09			Effective area;  No wavelength information		
+19950101	stis_033x02		slit 0.33x0.2			Effective area;  No wavelength information		
+19950101	stis_05x05		slit 0.5x0.5			Effective area;  No wavelength information		
+19950101	stis_10x0063		slit 1.0x0.063			Effective area;  No wavelength information		
+19950101	stis_10x02		slit 1.0x0.2			Effective area;  No wavelength information		
+19950101	stis_2			slit 2.0x2.0			Effective area;  No wavelength information		
+19950101	stis_247		slit 24.7x24.7			Effective area;  No wavelength information		
+19950101	stis_247step1		slit 24.7x24.7			Effective area;  No wavelength information		
+19950101	stis_247step2		slit 24.7x24.7			Effective area;  No wavelength information		
+19950101	stis_247step3		slit 24.7x24.7			Effective area;  No wavelength information		
+19950101	stis_247step4		slit 24.7x24.7			Effective area;  No wavelength information		
+19950101	stis_28x50lwp		slit 28.0x50.0 long pass filter	Effective area;  No wavelength information		
+19950101	stis_28x50oii		slit 28.0x50.0 OII filter	Effective area;  No wavelength information		
+19950101	stis_28x50oiii		slit 28.0x50.0 OIII filter 	Effective area;  No wavelength information		
+19950101	stis_31x005nd19		slit 31.0x0.05 w/1.9 ND filter	Effective area;  No wavelength information		
+19950101	stis_31x005nd25		slit 31.0x0.05 w/2.4 ND filter	Effective area;  No wavelength information		
+19950101	stis_31x005nd29		slit 31.0x0.05 w/2.9 ND filter	Effective area;  No wavelength information		
+19950101	stis_357x005n		slit 35.7x0.05 negative tilt	Effective area;  No wavelength information		
+19950101	stis_357x005p		slit 35.7x0.05 positive tilt	Effective area;  No wavelength information		
+19950101	stis_357x06n		slit 35.7x0.6 negative tilt	Effective area;  No wavelength information		
+19950101	stis_357x06p		slit 35.7x0.6 positive tilt	Effective area;  No wavelength information		
+19950101	stis_50			slit 50.0x50.0			Effective area;  No wavelength information		
+19950101	stis_50wedge		slit 50.0x50.0 w/occulting bars	Effective area;  No wavelength information		
+19950101	stis_52x0049		slit 52.0x0.049			Effective area;  No wavelength information		
+19950101	stis_52x01		slit 52.0x0.1			Effective area;  No wavelength information		
+19950101	stis_52x02		slit 52.0x0.2 			Effective area;  No wavelength information		
+19950101	stis_6x02		slit 6.0x0.2			Effective area;  No wavelength information		
+19950101	stis_6x05		slit 6.0x0.5			Effective area;  No wavelength information		
+19950101	stis_6x6		slit 6.0x6.0			Effective area;  No wavelength information		
+19950101	stis_247ciii		filter CIII			Effective area;  No wavelength information
+19950101	stis_247cn182		filter CN 182			Throughput from STIS GTO Observers Handbook
+19950101	stis_247cn270		filter CN 270			Throughput from STIS GTO Observers Handbook
+19950101	stis_247lya		filter Lyman Alpha		Throughput from STIS GTO Observers Handbook
+19950101	stis_247mgii		filter MGII			Throughput from STIS GTO Observers Handbook
+19950101	stis_247nd5		filter Neutral Density		Effective area;  No wavelength information
+19950101	stis_247nd6		filter Neutral Density		Effective area;  No wavelength information
+19950101	stis_247qtz		filter Quartz			Effective area;  No wavelength information
+19950101	stis_247srf2		filter SrF2			Throughput from STIS GTO Observers Handbook
+19950101	stis_ccd		STIS detector CCD		INDEF  	
+19950101	stis_cm1		STIS first corrector mirror	INDEF
+19950101	stis_cm2		STIS second corrector mirror	INDEF	
+19950101	stis_dw1		STIS detector window (MAMA1)	INDEF  
+19950101	stis_dw2		STIS detector window (MAMA2)	INDEF  
+19950101	stis_dw3		STIS detector window (CCD)	INDEF  
+19950101	stis_eg13		STIS echelle grating		INDEF	
+19950101	stis_eg14		STIS echelle grating		INDEF	
+19950101	stis_eg23		STIS echelle grating		INDEF	
+19950101	stis_eg24		STIS echelle grating		INDEF	
+19950101	stis_k1a		STIS camera mirror		INDEF  
+19950101	stis_k1b		STIS camera mirror		INDEF  
+19950101	stis_k2a		STIS camera mirror		INDEF  
+19950101	stis_k2b		STIS camera mirror		INDEF  
+19950101	stis_k3			STIS camera mirror		INDEF  
+19950101	stis_m1			STIS fold mirror		INDEF  
+19950101	stis_m2			STIS fold mirror		INDEF  
+19950101	stis_m3			STIS fold mirror		INDEF  
+19950101	stis_m4			STIS fold mirror		INDEF  
+19950101	stis_mama1		STIS detector MAMA1		INDEF
+19950101	stis_mama2		STIS detector MAMA2		INDEF  
+19950101	stis_ng11		STIS parabolic grating		Total system throughput (including OTA); Provided by Chuck Bowers 	
+19950101	stis_ng12		STIS plane grating		Total system throughput (including OTA); Provided by Chuck Bowers 	
+19950101	stis_ng13		STIS cross-dispersing plane gra	Total system throughput (including OTA); Provided by Chuck Bowers 
+19950101	stis_ng14		STIS cross-dispersing plane gra	Total system throughput (including OTA); Provided by Chuck Bowers 
+19950101	stis_ng21		STIS parabolic grating		Total system throughput (including OTA); Provided by Chuck Bowers 	
+19950101	stis_ng22		STIS plane grating		INDEF	
+19950101	stis_ng23		STIS cross-dispersing plane gra INDEF	
+19950101	stis_ng24		STIS cross-dispersing plane gra	INDEF
+19950101	stis_ng31		STIS plane grating		INDEF	
+19950101	stis_ng32		STIS plane grating		INDEF	
+19950101	stis_ng41		STIS plane grating		INDEF	
+19950101	stis_ng42		STIS plane grating		INDEF	
+19950101	stis_nm16		STIS parabolic mirror		Total system throughput (including OTA); Provided by Chuck Bowers 	
+19950101	stis_nm26		STIS parabolic mirror		Total system throughput (including OTA); Provided by Chuck Bowers 
+19950101	stis_nm36		STIS parabolic mirror		Total system throughput (including OTA); Provided by Chuck Bowers 
+19950101	stis_nm46		STIS parabolic mirror		Total system throughput (including OTA); Provided by Chuck Bowers 
+19950101	stis_os21		STIS order sorter		Total system throughput (including OTA); Provided by Chuck Bowers 	
+19950101	stis_os22		STIS order sorter		Total system throughput (including OTA); Provided by Chuck Bowers 	
+19950101	stis_os23		STIS order sorter		Total system throughput (including OTA); Provided by Chuck Bowers 	
+19950101	stis_os24		STIS order sorter		Total system throughput (including OTA); Provided by Chuck Bowers 	
+19950101	stis_os31		STIS order sorter		Total system throughput (including OTA); Provided by Chuck Bowers 	
+19950101	stis_os32		STIS order sorter		Total system throughput (including OTA); Provided by Chuck Bowers 	
+19950101	stis_os41		STIS order sorter		Total system throughput (including OTA); Provided by Chuck Bowers 	
+19950101	stis_os42		STIS order sorter		Total system throughput (including OTA); Provided by Chuck Bowers 	
+19950101	stis_prism		STIS objective prism		INDEF	
+19950101	stis_1p2_scan_01-11	STIS scans Mode 1.2		Wavelength ranges for STIS scan area; 
+19950101	stis_1p3_scan_01	STIS scans Mode 1.3		Wavelength ranges for STIS scan area; 
+19950101	stis_1p4_scan_01-03	STIS scans Mode 1.4		Wavelength ranges for STIS scan area; 
+19950101	stis_2p2_scan_01-18	STIS scans Mode 2.2		Wavelength ranges for STIS scan area; 
+19950101	stis_2p3_scan_01-02	STIS scans Mode 2.3		Wavelength ranges for STIS scan area; 
+19950101	stis_2p4_scan_01-06	STIS scans Mode 2.4		Wavelength ranges for STIS scan area; 
+19950101	stis_3p2_scan_01-10	STIS scans Mode 3.2		Wavelength ranges for STIS scan area; 
+19950101	stis_4p2_scan_01-09	STIS scans Mode 4.2		Wavelength ranges for STIS scan area; 
+19950101	stis_1p3_ech_001-033	STIS echelle orders  Mode 1.3	Wavelength ranges for STIS echelle orders; 
+19950101	stis_1p4_ech_001-121	STIS echelle orders  Mode 1.4	Wavelength ranges for STIS echelle orders; 
+19950101	stis_2p3_ech_001-059	STIS echelle orders  Mode 2.3	Wavelength ranges for STIS echelle orders; 
+19950101	stis_2p4_ech_001-219	STIS echelle orders  Mode 2.4	Wavelength ranges for STIS echelle orders; 
+
+			WAVELENGTH FILES
+
+USEAFTER	FILENAME			DESCRIPTION
+
+19950101	stis_g140l_high.dat		Dispersion 0.299 A/pix  (from IDT)
+19950101	stis_g140l_low.dat		Dispersion 0.597 A/pix  (from IDT)
+19950101	stis_g230l_high.dat		Dispersion 0.790 A/pix  (from IDT)
+19950101	stis_g230l_low.dat		Dispersion 1.580 A/pix  (from IDT)
+19950101	stis_g430l_low.dat		Dispersion 2.730 A/pix  (from IDT)
+19950101	stis_g750l_low.dat		Dispersion 4.920 A/pix  (from IDT)
+19950101	stis_g140m_scan_1-11_high.dat	Dispersion 0.0267 A/pix  (from IDT)	
+19950101	stis_g140m_scan_1-11low.dat	Dispersion 0.0534 A/pix  (from IDT)	
+19950101	stis_g230m_scan_1-18_high.dat	Dispersion 0.0438 A/pix  (from IDT)
+19950101	stis_g230m_scan_1-18_low.dat	Dispersion 0.0875 A/pix  (from IDT)
+19950101	stis_g430m_scan_1-10_low.dat	Dispersion 0.2790 A/pix  (from IDT)
+19950101	stis_g750m_scan_1-9_low.dat	Dispersion 0.5590 A/pix  (from IDT)
+19950101	stis_e140m_scan_1_high.dat	Dispersion lam/120000 A/pix  (from IDT)
+19950101	stis_e140m_scan_1_low.dat	Dispersion lam/60000 A/pix  (from IDT)
+19950101	stis_e230m_scan_1-2_high.dat	Dispersion lam/120000 A/pix  (from IDT)
+19950101	stis_e230m_scan_1-2_low.dat	Dispersion lam/60000 A/pix  (from IDT)
+19950101	stis_e140h_scan_1-3_high.dat	Dispersion lam/456000 A/pix  (from IDT)
+19950101	stis_e140h_scan_1-3_low.dat	Dispersion lam/228000 A/pix  (from IDT)
+19950101	stis_e230h_scan_1-6_high.dat	Dispersion lam/456000 A/pix  (from IDT)
+19950101	stis_e230h_scan_1-6_low.dat	Dispersion lam/228000 A/pix  (from IDT)
+19950101	stis_e140m_ech_1-33_high.dat	Dispersion lam/120000 A/pix  (from IDT)
+19950101	stis_e140m_ech_1-33_low.dat	Dispersion lam/60000 A/pix  (from IDT)
+19950101	stis_e230m_ech_1-59_high.dat	Dispersion lam/120000 A/pix  (from IDT)
+19950101	stis_e230m_ech_1-59_low.dat	Dispersion lam/60000 A/pix  (from IDT)
+19950101	stis_e140h_ech_1-119_high.dat	Dispersion lam/456000 A/pix  (from IDT)
+19950101	stis_e140h_ech_1-119_low.dat	Dispersion lam/228000 A/pix  (from IDT)
+19950101	stis_e230h_ech_1-219_high.dat	Dispersion lam/456000 A/pix  (from IDT)
+19950101	stis_e230h_ech_1-219_low.dat	Dispersion lam/228000 A/pix  (from IDT)
+

@@ -1,0 +1,92 @@
+         1 Koo-Kron U+ filter (Koo's thesis)                                   121
+         2 Koo-Kron J+ filter (Koo's thesis)                                   221
+         3 Koo-Kron F+ filter (Koo's thesis)                                   241
+         4 Koo-Kron N+ filter (Koo's thesis)                                   217
+         5 Koo-Kron R band (=127+RG610, data from Koo, Durham).                141
+         6 Couch and Newell (1980, PASP, 92, 746) BJ (photographic) filter.    211
+         7 Couch and Newell (1980, PASP, 92, 746) RF (photographic) filter.    111
+         8 Koo-Kron U+ filter (Bruzual's thesis)                               121
+         9 Koo-Kron J+ filter (Bruzual's thesis)                               216
+        10 Koo-Kron F+ filter (Bruzual's thesis)                               241
+        11 Koo-Kron N+ filter (Bruzual's thesis)                               223
+        12 Buser's U filter (R. Buser)                                         116
+        13 Buser's B2 filter (R. Buser)                                        196
+        14 Buser's B3 filter (R. Buser)                                        196
+        15 Buser's V filter (R. Buser)                                         213
+        16 Matthews and Sandage U filter                                       121
+        17 Matthews and Sandage B filter                                       211
+        18 Matthews and Sandage V filter                                       241
+        19 Sandage and Smith B filter                                          241
+        20 Sandage and Smith V filter                                          212
+        21 Sandage and Smith R filter                                          241
+        22 ST-UV14 filter (STFOC)                                               81
+        23 ST-UV17 filter (STFOC)                                              103
+        24 ST-UV22 filter (STFOC)                                              131
+        25 ST-UV27 filter (STFOC)                                              158
+        26 OAO-UV1 filter (OAO-2 Observatory)                                   65
+        27 OAO-UV2 filter (OAO-2 Observatory)                                   93
+        28 OAO-UV3 filter (OAO-2 Observatory)                                  117
+        29 OAO-UV4 filter (OAO-2 Observatory)                                  135
+        30 OAO-UV5 filter (OAO-2 Observatory)                                  115
+        31 OAO-UV6 filter (OAO-2 Observatory)                                  139
+        32 Johnson's R filter                                                  221
+        33 Johnson's I filter                                                  209
+        34 Johnson's J filter                                                  241
+        35 Johnson's K filter                                                  161
+        36 Johnson's L filter                                                  174
+        37 Butcher's r filter                                                  201
+        38 Butcher's i filter                                                  176
+        39 Butcher-Oemler R filter (10/75 1978, data from Koo, Durham).        241
+        40 Butcher-Oemler R filter ( 5/76 1978, data from Koo, Durham).        241
+        41 Bassel u filter (R. Buser)                                          111
+        42 Bassel g filter (R. Buser)                                          226
+        43 Bassel r filter (R. Buser)                                          106
+        44 UKIRT H FILTER (Leiden, 1983)                                       242
+        45 R. S. Ellis U(PE) filter                                            105
+        46 R. S. Ellis J filter                                                209
+        47 R. S. Ellis R filter                                                113
+        48 R. S. Ellis N filter                                                221
+        49 C. MacKay and P. Hall KG3 filter (Cambridge)                        236
+        50 C. MacKay and P. Hall I filter (Cambridge)                          209
+        51 Gunn g filter + four-shooter Ti CCD + Palomar 200" atmosphere.51    225
+        52 Gunn r filter + four-shooter Ti CCD + Palomar 200" atmosphere.52    231
+        53 Gunn i filter + four-shooter Ti CCD + Palomar 200" atmosphere.53    247
+        54 Gunn z filter + four-shooter Ti CCD + Palomar 200" atmosphere.54    229
+        55 IR J filter + Palomar 200 IR detectors + atmosphere.55              229
+        56 IR H filter + Palomar 200 IR detectors + atmosphere.56              209
+        57 IR K filter + Palomar 200 IR detectors + atmosphere.57              129
+        58 IR K filter + Palomar 200 IR detectors + atmosphere.58              129
+        59 IR K filter + Palomar 200 IR detectors + atmosphere.59              129
+        60 IR K filter + Palomar 200 IR detectors + atmosphere.60              129
+        61 A. Tyson J filter                                                   196
+        62 A. Tyson R filter                                                   201
+        63 A. Tyson I filter                                                   214
+        64 ANS 1550 Wide Filter (J. Koorneef)                                   16
+        65 ANS 1800 Filter (J. Koorneef)                                        18
+        66 ANS 2200 Filter (J. Koorneef)                                        21
+        67 ANS 2500 Filter (J. Koorneef)                                        16
+        68 ANS 3300 Filter (J. Koorneef)                                        23
+        69 Approximate U band for Lilly and Cowie                               31
+        70 Approximate I band for Lilly and Cowie                              151
+        71 IRAS  12 micron, Neugebauer etal 1984,ApJL,278,L1                    35
+        72 IRAS  25 micron, Neugebauer etal 1984,ApJL,278,L1                    28
+        73 IRAS  60 micron, Neugebauer etal 1984,ApJL,278,L1                    46
+        74 IRAS 100 micron, Neugebauer etal 1984,ApJL,278,L1                    32
+        75 H filter Bessell and Brett PASP 100, 1134, 1988                     218
+        76 J filter Bessell and Brett PASP 100, 1134, 1988                     229
+        77 K filter Bessell and Brett PASP 100, 1134, 1988                     217
+        78 L (3.5 microns) filter Bessell and Brett PASP 100, 1134, 1988       161
+        79 L' (3.8 microns) filter Bessell and Brett PASP 100, 1134, 1988      153
+        80 M filter Bessell and Brett PASP 100, 1134, 1988                     129
+        81 KPNO narrow band IR filter Lambda eff = 11.1 microns FWHM=1.72      200
+        82 KPNO narrow band IR filter Lambda eff = 8.4 microns FWHM=1.7        200
+        83 Burstein et al. 1550 normalized square filter: (1250 to 1850 A).     61
+        84 Cousins R filter (Bessell 1983, PASP, 95,480). Use with V = 15.     214
+        85 Cousins I filter (Bessell 1983, PASP, 95,480). Use with V = 15.     191
+        86 Wainscoat and Cowie K' filter (1992, AJ, 103-1, 332)                129
+        87 Wainscoat and Cowie I filter (Close to Cousins I)                   225
+        88 Washington C filter (Geisler & Kapranidis 1983, AJ88,461)           181
+        89 Washington M filter (Geisler & Kapranidis 1983, AJ88,461)           171
+        90 Washington T1 filter (Geisler & Kapranidis 1983, AJ88,461)          211
+        91 Washington T2 filter (Geisler & Kapranidis 1983, AJ88,461)          171
+

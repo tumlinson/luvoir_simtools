@@ -1,0 +1,4000 @@
+XTENSION t 'BINTABLE'  binary table extension
+BITPIX   i 8  8-bit bytes
+NAXIS    i 2  2-dimensional binary table
+NAXIS1   i 3992  width of table in bytes
+NAXIS2   i 2776
+PCOUNT   i 0  size of special data area
+GCOUNT   i 1  one data group (required keyword)
+TFIELDS  i 998
+TTYPE1   t 'WAVELENGTH'  label for field   1
+TFORM1   t '1E'  data format of field: 4-byte REAL
+TUNIT1   t 'ANGSTROMS'  physical unit of field
+TTYPE2   t 'WAVE#3709.999'  label for field   2
+TFORM2   t '1E'  data format of field: 4-byte REAL
+TUNIT2   t 'TRANSMISSION'  physical unit of field
+TTYPE3   t 'WAVE#3714.162'  label for field   3
+TFORM3   t '1E'  data format of field: 4-byte REAL
+TUNIT3   t 'TRANSMISSION'  physical unit of field
+TTYPE4   t 'WAVE#3718.329'  label for field   4
+TFORM4   t '1E'  data format of field: 4-byte REAL
+TUNIT4   t 'TRANSMISSION'  physical unit of field
+TTYPE5   t 'WAVE#3722.501'  label for field   5
+TFORM5   t '1E'  data format of field: 4-byte REAL
+TUNIT5   t 'TRANSMISSION'  physical unit of field
+TTYPE6   t 'WAVE#3726.678'  label for field   6
+TFORM6   t '1E'  data format of field: 4-byte REAL
+TUNIT6   t 'TRANSMISSION'  physical unit of field
+TTYPE7   t 'WAVE#3730.859'  label for field   7
+TFORM7   t '1E'  data format of field: 4-byte REAL
+TUNIT7   t 'TRANSMISSION'  physical unit of field
+TTYPE8   t 'WAVE#3735.045'  label for field   8
+TFORM8   t '1E'  data format of field: 4-byte REAL
+TUNIT8   t 'TRANSMISSION'  physical unit of field
+TTYPE9   t 'WAVE#3739.236'  label for field   9
+TFORM9   t '1E'  data format of field: 4-byte REAL
+TUNIT9   t 'TRANSMISSION'  physical unit of field
+TTYPE10  t 'WAVE#3743.431'  label for field  10
+TFORM10  t '1E'  data format of field: 4-byte REAL
+TUNIT10  t 'TRANSMISSION'  physical unit of field
+TTYPE11  t 'WAVE#3747.631'  label for field  11
+TFORM11  t '1E'  data format of field: 4-byte REAL
+TUNIT11  t 'TRANSMISSION'  physical unit of field
+TTYPE12  t 'WAVE#3751.836'  label for field  12
+TFORM12  t '1E'  data format of field: 4-byte REAL
+TUNIT12  t 'TRANSMISSION'  physical unit of field
+TTYPE13  t 'WAVE#3756.046'  label for field  13
+TFORM13  t '1E'  data format of field: 4-byte REAL
+TUNIT13  t 'TRANSMISSION'  physical unit of field
+TTYPE14  t 'WAVE#3760.260'  label for field  14
+TFORM14  t '1E'  data format of field: 4-byte REAL
+TUNIT14  t 'TRANSMISSION'  physical unit of field
+TTYPE15  t 'WAVE#3764.479'  label for field  15
+TFORM15  t '1E'  data format of field: 4-byte REAL
+TUNIT15  t 'TRANSMISSION'  physical unit of field
+TTYPE16  t 'WAVE#3768.703'  label for field  16
+TFORM16  t '1E'  data format of field: 4-byte REAL
+TUNIT16  t 'TRANSMISSION'  physical unit of field
+TTYPE17  t 'WAVE#3772.931'  label for field  17
+TFORM17  t '1E'  data format of field: 4-byte REAL
+TUNIT17  t 'TRANSMISSION'  physical unit of field
+TTYPE18  t 'WAVE#3777.164'  label for field  18
+TFORM18  t '1E'  data format of field: 4-byte REAL
+TUNIT18  t 'TRANSMISSION'  physical unit of field
+TTYPE19  t 'WAVE#3781.402'  label for field  19
+TFORM19  t '1E'  data format of field: 4-byte REAL
+TUNIT19  t 'TRANSMISSION'  physical unit of field
+TTYPE20  t 'WAVE#3785.645'  label for field  20
+TFORM20  t '1E'  data format of field: 4-byte REAL
+TUNIT20  t 'TRANSMISSION'  physical unit of field
+TTYPE21  t 'WAVE#3789.893'  label for field  21
+TFORM21  t '1E'  data format of field: 4-byte REAL
+TUNIT21  t 'TRANSMISSION'  physical unit of field
+TTYPE22  t 'WAVE#3794.145'  label for field  22
+TFORM22  t '1E'  data format of field: 4-byte REAL
+TUNIT22  t 'TRANSMISSION'  physical unit of field
+TTYPE23  t 'WAVE#3798.402'  label for field  23
+TFORM23  t '1E'  data format of field: 4-byte REAL
+TUNIT23  t 'TRANSMISSION'  physical unit of field
+TTYPE24  t 'WAVE#3800.000'  label for field  24
+TFORM24  t '1E'  data format of field: 4-byte REAL
+TUNIT24  t 'TRANSMISSION'  physical unit of field
+TTYPE25  t 'WAVE#3800.001'  label for field  25
+TFORM25  t '1E'  data format of field: 4-byte REAL
+TUNIT25  t 'TRANSMISSION'  physical unit of field
+TTYPE26  t 'WAVE#3804.265'  label for field  26
+TFORM26  t '1E'  data format of field: 4-byte REAL
+TUNIT26  t 'TRANSMISSION'  physical unit of field
+TTYPE27  t 'WAVE#3808.533'  label for field  27
+TFORM27  t '1E'  data format of field: 4-byte REAL
+TUNIT27  t 'TRANSMISSION'  physical unit of field
+TTYPE28  t 'WAVE#3812.806'  label for field  28
+TFORM28  t '1E'  data format of field: 4-byte REAL
+TUNIT28  t 'TRANSMISSION'  physical unit of field
+TTYPE29  t 'WAVE#3817.084'  label for field  29
+TFORM29  t '1E'  data format of field: 4-byte REAL
+TUNIT29  t 'TRANSMISSION'  physical unit of field
+TTYPE30  t 'WAVE#3821.367'  label for field  30
+TFORM30  t '1E'  data format of field: 4-byte REAL
+TUNIT30  t 'TRANSMISSION'  physical unit of field
+TTYPE31  t 'WAVE#3825.654'  label for field  31
+TFORM31  t '1E'  data format of field: 4-byte REAL
+TUNIT31  t 'TRANSMISSION'  physical unit of field
+TTYPE32  t 'WAVE#3829.947'  label for field  32
+TFORM32  t '1E'  data format of field: 4-byte REAL
+TUNIT32  t 'TRANSMISSION'  physical unit of field
+TTYPE33  t 'WAVE#3834.244'  label for field  33
+TFORM33  t '1E'  data format of field: 4-byte REAL
+TUNIT33  t 'TRANSMISSION'  physical unit of field
+TTYPE34  t 'WAVE#3838.546'  label for field  34
+TFORM34  t '1E'  data format of field: 4-byte REAL
+TUNIT34  t 'TRANSMISSION'  physical unit of field
+TTYPE35  t 'WAVE#3842.853'  label for field  35
+TFORM35  t '1E'  data format of field: 4-byte REAL
+TUNIT35  t 'TRANSMISSION'  physical unit of field
+TTYPE36  t 'WAVE#3847.165'  label for field  36
+TFORM36  t '1E'  data format of field: 4-byte REAL
+TUNIT36  t 'TRANSMISSION'  physical unit of field
+TTYPE37  t 'WAVE#3851.481'  label for field  37
+TFORM37  t '1E'  data format of field: 4-byte REAL
+TUNIT37  t 'TRANSMISSION'  physical unit of field
+TTYPE38  t 'WAVE#3855.802'  label for field  38
+TFORM38  t '1E'  data format of field: 4-byte REAL
+TUNIT38  t 'TRANSMISSION'  physical unit of field
+TTYPE39  t 'WAVE#3860.129'  label for field  39
+TFORM39  t '1E'  data format of field: 4-byte REAL
+TUNIT39  t 'TRANSMISSION'  physical unit of field
+TTYPE40  t 'WAVE#3864.460'  label for field  40
+TFORM40  t '1E'  data format of field: 4-byte REAL
+TUNIT40  t 'TRANSMISSION'  physical unit of field
+TTYPE41  t 'WAVE#3868.796'  label for field  41
+TFORM41  t '1E'  data format of field: 4-byte REAL
+TUNIT41  t 'TRANSMISSION'  physical unit of field
+TTYPE42  t 'WAVE#3873.136'  label for field  42
+TFORM42  t '1E'  data format of field: 4-byte REAL
+TUNIT42  t 'TRANSMISSION'  physical unit of field
+TTYPE43  t 'WAVE#3877.482'  label for field  43
+TFORM43  t '1E'  data format of field: 4-byte REAL
+TUNIT43  t 'TRANSMISSION'  physical unit of field
+TTYPE44  t 'WAVE#3878.000'  label for field  44
+TFORM44  t '1E'  data format of field: 4-byte REAL
+TUNIT44  t 'TRANSMISSION'  physical unit of field
+TTYPE45  t 'WAVE#3878.001'  label for field  45
+TFORM45  t '1E'  data format of field: 4-byte REAL
+TUNIT45  t 'TRANSMISSION'  physical unit of field
+TTYPE46  t 'WAVE#3881.000'  label for field  46
+TFORM46  t '1E'  data format of field: 4-byte REAL
+TUNIT46  t 'TRANSMISSION'  physical unit of field
+TTYPE47  t 'WAVE#3881.001'  label for field  47
+TFORM47  t '1E'  data format of field: 4-byte REAL
+TUNIT47  t 'TRANSMISSION'  physical unit of field
+TTYPE48  t 'WAVE#3885.355'  label for field  48
+TFORM48  t '1E'  data format of field: 4-byte REAL
+TUNIT48  t 'TRANSMISSION'  physical unit of field
+TTYPE49  t 'WAVE#3889.715'  label for field  49
+TFORM49  t '1E'  data format of field: 4-byte REAL
+TUNIT49  t 'TRANSMISSION'  physical unit of field
+TTYPE50  t 'WAVE#3894.079'  label for field  50
+TFORM50  t '1E'  data format of field: 4-byte REAL
+TUNIT50  t 'TRANSMISSION'  physical unit of field
+TTYPE51  t 'WAVE#3898.448'  label for field  51
+TFORM51  t '1E'  data format of field: 4-byte REAL
+TUNIT51  t 'TRANSMISSION'  physical unit of field
+TTYPE52  t 'WAVE#3902.822'  label for field  52
+TFORM52  t '1E'  data format of field: 4-byte REAL
+TUNIT52  t 'TRANSMISSION'  physical unit of field
+TTYPE53  t 'WAVE#3907.000'  label for field  53
+TFORM53  t '1E'  data format of field: 4-byte REAL
+TUNIT53  t 'TRANSMISSION'  physical unit of field
+TTYPE54  t 'WAVE#3907.001'  label for field  54
+TFORM54  t '1E'  data format of field: 4-byte REAL
+TUNIT54  t 'TRANSMISSION'  physical unit of field
+TTYPE55  t 'WAVE#3911.385'  label for field  55
+TFORM55  t '1E'  data format of field: 4-byte REAL
+TUNIT55  t 'TRANSMISSION'  physical unit of field
+TTYPE56  t 'WAVE#3915.773'  label for field  56
+TFORM56  t '1E'  data format of field: 4-byte REAL
+TUNIT56  t 'TRANSMISSION'  physical unit of field
+TTYPE57  t 'WAVE#3920.167'  label for field  57
+TFORM57  t '1E'  data format of field: 4-byte REAL
+TUNIT57  t 'TRANSMISSION'  physical unit of field
+TTYPE58  t 'WAVE#3924.565'  label for field  58
+TFORM58  t '1E'  data format of field: 4-byte REAL
+TUNIT58  t 'TRANSMISSION'  physical unit of field
+TTYPE59  t 'WAVE#3928.969'  label for field  59
+TFORM59  t '1E'  data format of field: 4-byte REAL
+TUNIT59  t 'TRANSMISSION'  physical unit of field
+TTYPE60  t 'WAVE#3929.000'  label for field  60
+TFORM60  t '1E'  data format of field: 4-byte REAL
+TUNIT60  t 'TRANSMISSION'  physical unit of field
+TTYPE61  t 'WAVE#3929.001'  label for field  61
+TFORM61  t '1E'  data format of field: 4-byte REAL
+TUNIT61  t 'TRANSMISSION'  physical unit of field
+TTYPE62  t 'WAVE#3933.409'  label for field  62
+TFORM62  t '1E'  data format of field: 4-byte REAL
+TUNIT62  t 'TRANSMISSION'  physical unit of field
+TTYPE63  t 'WAVE#3937.823'  label for field  63
+TFORM63  t '1E'  data format of field: 4-byte REAL
+TUNIT63  t 'TRANSMISSION'  physical unit of field
+TTYPE64  t 'WAVE#3942.241'  label for field  64
+TFORM64  t '1E'  data format of field: 4-byte REAL
+TUNIT64  t 'TRANSMISSION'  physical unit of field
+TTYPE65  t 'WAVE#3946.664'  label for field  65
+TFORM65  t '1E'  data format of field: 4-byte REAL
+TUNIT65  t 'TRANSMISSION'  physical unit of field
+TTYPE66  t 'WAVE#3951.092'  label for field  66
+TFORM66  t '1E'  data format of field: 4-byte REAL
+TUNIT66  t 'TRANSMISSION'  physical unit of field
+TTYPE67  t 'WAVE#3955.525'  label for field  67
+TFORM67  t '1E'  data format of field: 4-byte REAL
+TUNIT67  t 'TRANSMISSION'  physical unit of field
+TTYPE68  t 'WAVE#3959.963'  label for field  68
+TFORM68  t '1E'  data format of field: 4-byte REAL
+TUNIT68  t 'TRANSMISSION'  physical unit of field
+TTYPE69  t 'WAVE#3964.407'  label for field  69
+TFORM69  t '1E'  data format of field: 4-byte REAL
+TUNIT69  t 'TRANSMISSION'  physical unit of field
+TTYPE70  t 'WAVE#3968.855'  label for field  70
+TFORM70  t '1E'  data format of field: 4-byte REAL
+TUNIT70  t 'TRANSMISSION'  physical unit of field
+TTYPE71  t 'WAVE#3973.308'  label for field  71
+TFORM71  t '1E'  data format of field: 4-byte REAL
+TUNIT71  t 'TRANSMISSION'  physical unit of field
+TTYPE72  t 'WAVE#3977.766'  label for field  72
+TFORM72  t '1E'  data format of field: 4-byte REAL
+TUNIT72  t 'TRANSMISSION'  physical unit of field
+TTYPE73  t 'WAVE#3982.229'  label for field  73
+TFORM73  t '1E'  data format of field: 4-byte REAL
+TUNIT73  t 'TRANSMISSION'  physical unit of field
+TTYPE74  t 'WAVE#3986.697'  label for field  74
+TFORM74  t '1E'  data format of field: 4-byte REAL
+TUNIT74  t 'TRANSMISSION'  physical unit of field
+TTYPE75  t 'WAVE#3991.170'  label for field  75
+TFORM75  t '1E'  data format of field: 4-byte REAL
+TUNIT75  t 'TRANSMISSION'  physical unit of field
+TTYPE76  t 'WAVE#3995.648'  label for field  76
+TFORM76  t '1E'  data format of field: 4-byte REAL
+TUNIT76  t 'TRANSMISSION'  physical unit of field
+TTYPE77  t 'WAVE#4000.131'  label for field  77
+TFORM77  t '1E'  data format of field: 4-byte REAL
+TUNIT77  t 'TRANSMISSION'  physical unit of field
+TTYPE78  t 'WAVE#4004.619'  label for field  78
+TFORM78  t '1E'  data format of field: 4-byte REAL
+TUNIT78  t 'TRANSMISSION'  physical unit of field
+TTYPE79  t 'WAVE#4008.000'  label for field  79
+TFORM79  t '1E'  data format of field: 4-byte REAL
+TUNIT79  t 'TRANSMISSION'  physical unit of field
+TTYPE80  t 'WAVE#4008.001'  label for field  80
+TFORM80  t '1E'  data format of field: 4-byte REAL
+TUNIT80  t 'TRANSMISSION'  physical unit of field
+TTYPE81  t 'WAVE#4012.498'  label for field  81
+TFORM81  t '1E'  data format of field: 4-byte REAL
+TUNIT81  t 'TRANSMISSION'  physical unit of field
+TTYPE82  t 'WAVE#4017.000'  label for field  82
+TFORM82  t '1E'  data format of field: 4-byte REAL
+TUNIT82  t 'TRANSMISSION'  physical unit of field
+TTYPE83  t 'WAVE#4021.507'  label for field  83
+TFORM83  t '1E'  data format of field: 4-byte REAL
+TUNIT83  t 'TRANSMISSION'  physical unit of field
+TTYPE84  t 'WAVE#4026.019'  label for field  84
+TFORM84  t '1E'  data format of field: 4-byte REAL
+TUNIT84  t 'TRANSMISSION'  physical unit of field
+TTYPE85  t 'WAVE#4030.536'  label for field  85
+TFORM85  t '1E'  data format of field: 4-byte REAL
+TUNIT85  t 'TRANSMISSION'  physical unit of field
+TTYPE86  t 'WAVE#4035.059'  label for field  86
+TFORM86  t '1E'  data format of field: 4-byte REAL
+TUNIT86  t 'TRANSMISSION'  physical unit of field
+TTYPE87  t 'WAVE#4038.000'  label for field  87
+TFORM87  t '1E'  data format of field: 4-byte REAL
+TUNIT87  t 'TRANSMISSION'  physical unit of field
+TTYPE88  t 'WAVE#4038.001'  label for field  88
+TFORM88  t '1E'  data format of field: 4-byte REAL
+TUNIT88  t 'TRANSMISSION'  physical unit of field
+TTYPE89  t 'WAVE#4042.532'  label for field  89
+TFORM89  t '1E'  data format of field: 4-byte REAL
+TUNIT89  t 'TRANSMISSION'  physical unit of field
+TTYPE90  t 'WAVE#4047.067'  label for field  90
+TFORM90  t '1E'  data format of field: 4-byte REAL
+TUNIT90  t 'TRANSMISSION'  physical unit of field
+TTYPE91  t 'WAVE#4051.608'  label for field  91
+TFORM91  t '1E'  data format of field: 4-byte REAL
+TUNIT91  t 'TRANSMISSION'  physical unit of field
+TTYPE92  t 'WAVE#4056.154'  label for field  92
+TFORM92  t '1E'  data format of field: 4-byte REAL
+TUNIT92  t 'TRANSMISSION'  physical unit of field
+TTYPE93  t 'WAVE#4060.705'  label for field  93
+TFORM93  t '1E'  data format of field: 4-byte REAL
+TUNIT93  t 'TRANSMISSION'  physical unit of field
+TTYPE94  t 'WAVE#4065.261'  label for field  94
+TFORM94  t '1E'  data format of field: 4-byte REAL
+TUNIT94  t 'TRANSMISSION'  physical unit of field
+TTYPE95  t 'WAVE#4069.822'  label for field  95
+TFORM95  t '1E'  data format of field: 4-byte REAL
+TUNIT95  t 'TRANSMISSION'  physical unit of field
+TTYPE96  t 'WAVE#4074.389'  label for field  96
+TFORM96  t '1E'  data format of field: 4-byte REAL
+TUNIT96  t 'TRANSMISSION'  physical unit of field
+TTYPE97  t 'WAVE#4078.960'  label for field  97
+TFORM97  t '1E'  data format of field: 4-byte REAL
+TUNIT97  t 'TRANSMISSION'  physical unit of field
+TTYPE98  t 'WAVE#4083.537'  label for field  98
+TFORM98  t '1E'  data format of field: 4-byte REAL
+TUNIT98  t 'TRANSMISSION'  physical unit of field
+TTYPE99  t 'WAVE#4088.119'  label for field  99
+TFORM99  t '1E'  data format of field: 4-byte REAL
+TUNIT99  t 'TRANSMISSION'  physical unit of field
+TTYPE100 t 'WAVE#4092.705'  label for field 100
+TFORM100 t '1E'  data format of field: 4-byte REAL
+TUNIT100 t 'TRANSMISSION'  physical unit of field
+TTYPE101 t 'WAVE#4097.297'  label for field 101
+TFORM101 t '1E'  data format of field: 4-byte REAL
+TUNIT101 t 'TRANSMISSION'  physical unit of field
+TTYPE102 t 'WAVE#4100.000'  label for field 102
+TFORM102 t '1E'  data format of field: 4-byte REAL
+TUNIT102 t 'TRANSMISSION'  physical unit of field
+TTYPE103 t 'WAVE#4100.001'  label for field 103
+TFORM103 t '1E'  data format of field: 4-byte REAL
+TUNIT103 t 'TRANSMISSION'  physical unit of field
+TTYPE104 t 'WAVE#4104.601'  label for field 104
+TFORM104 t '1E'  data format of field: 4-byte REAL
+TUNIT104 t 'TRANSMISSION'  physical unit of field
+TTYPE105 t 'WAVE#4109.207'  label for field 105
+TFORM105 t '1E'  data format of field: 4-byte REAL
+TUNIT105 t 'TRANSMISSION'  physical unit of field
+TTYPE106 t 'WAVE#4113.817'  label for field 106
+TFORM106 t '1E'  data format of field: 4-byte REAL
+TUNIT106 t 'TRANSMISSION'  physical unit of field
+TTYPE107 t 'WAVE#4118.433'  label for field 107
+TFORM107 t '1E'  data format of field: 4-byte REAL
+TUNIT107 t 'TRANSMISSION'  physical unit of field
+TTYPE108 t 'WAVE#4123.054'  label for field 108
+TFORM108 t '1E'  data format of field: 4-byte REAL
+TUNIT108 t 'TRANSMISSION'  physical unit of field
+TTYPE109 t 'WAVE#4127.680'  label for field 109
+TFORM109 t '1E'  data format of field: 4-byte REAL
+TUNIT109 t 'TRANSMISSION'  physical unit of field
+TTYPE110 t 'WAVE#4132.311'  label for field 110
+TFORM110 t '1E'  data format of field: 4-byte REAL
+TUNIT110 t 'TRANSMISSION'  physical unit of field
+TTYPE111 t 'WAVE#4136.947'  label for field 111
+TFORM111 t '1E'  data format of field: 4-byte REAL
+TUNIT111 t 'TRANSMISSION'  physical unit of field
+TTYPE112 t 'WAVE#4141.589'  label for field 112
+TFORM112 t '1E'  data format of field: 4-byte REAL
+TUNIT112 t 'TRANSMISSION'  physical unit of field
+TTYPE113 t 'WAVE#4146.236'  label for field 113
+TFORM113 t '1E'  data format of field: 4-byte REAL
+TUNIT113 t 'TRANSMISSION'  physical unit of field
+TTYPE114 t 'WAVE#4150.888'  label for field 114
+TFORM114 t '1E'  data format of field: 4-byte REAL
+TUNIT114 t 'TRANSMISSION'  physical unit of field
+TTYPE115 t 'WAVE#4155.545'  label for field 115
+TFORM115 t '1E'  data format of field: 4-byte REAL
+TUNIT115 t 'TRANSMISSION'  physical unit of field
+TTYPE116 t 'WAVE#4160.208'  label for field 116
+TFORM116 t '1E'  data format of field: 4-byte REAL
+TUNIT116 t 'TRANSMISSION'  physical unit of field
+TTYPE117 t 'WAVE#4164.876'  label for field 117
+TFORM117 t '1E'  data format of field: 4-byte REAL
+TUNIT117 t 'TRANSMISSION'  physical unit of field
+TTYPE118 t 'WAVE#4169.549'  label for field 118
+TFORM118 t '1E'  data format of field: 4-byte REAL
+TUNIT118 t 'TRANSMISSION'  physical unit of field
+TTYPE119 t 'WAVE#4174.227'  label for field 119
+TFORM119 t '1E'  data format of field: 4-byte REAL
+TUNIT119 t 'TRANSMISSION'  physical unit of field
+TTYPE120 t 'WAVE#4177.000'  label for field 120
+TFORM120 t '1E'  data format of field: 4-byte REAL
+TUNIT120 t 'TRANSMISSION'  physical unit of field
+TTYPE121 t 'WAVE#4177.001'  label for field 121
+TFORM121 t '1E'  data format of field: 4-byte REAL
+TUNIT121 t 'TRANSMISSION'  physical unit of field
+TTYPE122 t 'WAVE#4181.688'  label for field 122
+TFORM122 t '1E'  data format of field: 4-byte REAL
+TUNIT122 t 'TRANSMISSION'  physical unit of field
+TTYPE123 t 'WAVE#4182.000'  label for field 123
+TFORM123 t '1E'  data format of field: 4-byte REAL
+TUNIT123 t 'TRANSMISSION'  physical unit of field
+TTYPE124 t 'WAVE#4182.001'  label for field 124
+TFORM124 t '1E'  data format of field: 4-byte REAL
+TUNIT124 t 'TRANSMISSION'  physical unit of field
+TTYPE125 t 'WAVE#4186.000'  label for field 125
+TFORM125 t '1E'  data format of field: 4-byte REAL
+TUNIT125 t 'TRANSMISSION'  physical unit of field
+TTYPE126 t 'WAVE#4186.001'  label for field 126
+TFORM126 t '1E'  data format of field: 4-byte REAL
+TUNIT126 t 'TRANSMISSION'  physical unit of field
+TTYPE127 t 'WAVE#4190.698'  label for field 127
+TFORM127 t '1E'  data format of field: 4-byte REAL
+TUNIT127 t 'TRANSMISSION'  physical unit of field
+TTYPE128 t 'WAVE#4195.400'  label for field 128
+TFORM128 t '1E'  data format of field: 4-byte REAL
+TUNIT128 t 'TRANSMISSION'  physical unit of field
+TTYPE129 t 'WAVE#4200.107'  label for field 129
+TFORM129 t '1E'  data format of field: 4-byte REAL
+TUNIT129 t 'TRANSMISSION'  physical unit of field
+TTYPE130 t 'WAVE#4204.819'  label for field 130
+TFORM130 t '1E'  data format of field: 4-byte REAL
+TUNIT130 t 'TRANSMISSION'  physical unit of field
+TTYPE131 t 'WAVE#4209.537'  label for field 131
+TFORM131 t '1E'  data format of field: 4-byte REAL
+TUNIT131 t 'TRANSMISSION'  physical unit of field
+TTYPE132 t 'WAVE#4210.000'  label for field 132
+TFORM132 t '1E'  data format of field: 4-byte REAL
+TUNIT132 t 'TRANSMISSION'  physical unit of field
+TTYPE133 t 'WAVE#4210.001'  label for field 133
+TFORM133 t '1E'  data format of field: 4-byte REAL
+TUNIT133 t 'TRANSMISSION'  physical unit of field
+TTYPE134 t 'WAVE#4214.725'  label for field 134
+TFORM134 t '1E'  data format of field: 4-byte REAL
+TUNIT134 t 'TRANSMISSION'  physical unit of field
+TTYPE135 t 'WAVE#4219.454'  label for field 135
+TFORM135 t '1E'  data format of field: 4-byte REAL
+TUNIT135 t 'TRANSMISSION'  physical unit of field
+TTYPE136 t 'WAVE#4224.188'  label for field 136
+TFORM136 t '1E'  data format of field: 4-byte REAL
+TUNIT136 t 'TRANSMISSION'  physical unit of field
+TTYPE137 t 'WAVE#4228.927'  label for field 137
+TFORM137 t '1E'  data format of field: 4-byte REAL
+TUNIT137 t 'TRANSMISSION'  physical unit of field
+TTYPE138 t 'WAVE#4233.672'  label for field 138
+TFORM138 t '1E'  data format of field: 4-byte REAL
+TUNIT138 t 'TRANSMISSION'  physical unit of field
+TTYPE139 t 'WAVE#4238.422'  label for field 139
+TFORM139 t '1E'  data format of field: 4-byte REAL
+TUNIT139 t 'TRANSMISSION'  physical unit of field
+TTYPE140 t 'WAVE#4243.178'  label for field 140
+TFORM140 t '1E'  data format of field: 4-byte REAL
+TUNIT140 t 'TRANSMISSION'  physical unit of field
+TTYPE141 t 'WAVE#4247.939'  label for field 141
+TFORM141 t '1E'  data format of field: 4-byte REAL
+TUNIT141 t 'TRANSMISSION'  physical unit of field
+TTYPE142 t 'WAVE#4252.705'  label for field 142
+TFORM142 t '1E'  data format of field: 4-byte REAL
+TUNIT142 t 'TRANSMISSION'  physical unit of field
+TTYPE143 t 'WAVE#4257.476'  label for field 143
+TFORM143 t '1E'  data format of field: 4-byte REAL
+TUNIT143 t 'TRANSMISSION'  physical unit of field
+TTYPE144 t 'WAVE#4262.253'  label for field 144
+TFORM144 t '1E'  data format of field: 4-byte REAL
+TUNIT144 t 'TRANSMISSION'  physical unit of field
+TTYPE145 t 'WAVE#4267.036'  label for field 145
+TFORM145 t '1E'  data format of field: 4-byte REAL
+TUNIT145 t 'TRANSMISSION'  physical unit of field
+TTYPE146 t 'WAVE#4271.823'  label for field 146
+TFORM146 t '1E'  data format of field: 4-byte REAL
+TUNIT146 t 'TRANSMISSION'  physical unit of field
+TTYPE147 t 'WAVE#4276.616'  label for field 147
+TFORM147 t '1E'  data format of field: 4-byte REAL
+TUNIT147 t 'TRANSMISSION'  physical unit of field
+TTYPE148 t 'WAVE#4281.415'  label for field 148
+TFORM148 t '1E'  data format of field: 4-byte REAL
+TUNIT148 t 'TRANSMISSION'  physical unit of field
+TTYPE149 t 'WAVE#4286.218'  label for field 149
+TFORM149 t '1E'  data format of field: 4-byte REAL
+TUNIT149 t 'TRANSMISSION'  physical unit of field
+TTYPE150 t 'WAVE#4291.027'  label for field 150
+TFORM150 t '1E'  data format of field: 4-byte REAL
+TUNIT150 t 'TRANSMISSION'  physical unit of field
+TTYPE151 t 'WAVE#4295.842'  label for field 151
+TFORM151 t '1E'  data format of field: 4-byte REAL
+TUNIT151 t 'TRANSMISSION'  physical unit of field
+TTYPE152 t 'WAVE#4300.662'  label for field 152
+TFORM152 t '1E'  data format of field: 4-byte REAL
+TUNIT152 t 'TRANSMISSION'  physical unit of field
+TTYPE153 t 'WAVE#4305.487'  label for field 153
+TFORM153 t '1E'  data format of field: 4-byte REAL
+TUNIT153 t 'TRANSMISSION'  physical unit of field
+TTYPE154 t 'WAVE#4308.000'  label for field 154
+TFORM154 t '1E'  data format of field: 4-byte REAL
+TUNIT154 t 'TRANSMISSION'  physical unit of field
+TTYPE155 t 'WAVE#4308.001'  label for field 155
+TFORM155 t '1E'  data format of field: 4-byte REAL
+TUNIT155 t 'TRANSMISSION'  physical unit of field
+TTYPE156 t 'WAVE#4312.835'  label for field 156
+TFORM156 t '1E'  data format of field: 4-byte REAL
+TUNIT156 t 'TRANSMISSION'  physical unit of field
+TTYPE157 t 'WAVE#4317.674'  label for field 157
+TFORM157 t '1E'  data format of field: 4-byte REAL
+TUNIT157 t 'TRANSMISSION'  physical unit of field
+TTYPE158 t 'WAVE#4322.518'  label for field 158
+TFORM158 t '1E'  data format of field: 4-byte REAL
+TUNIT158 t 'TRANSMISSION'  physical unit of field
+TTYPE159 t 'WAVE#4327.368'  label for field 159
+TFORM159 t '1E'  data format of field: 4-byte REAL
+TUNIT159 t 'TRANSMISSION'  physical unit of field
+TTYPE160 t 'WAVE#4332.223'  label for field 160
+TFORM160 t '1E'  data format of field: 4-byte REAL
+TUNIT160 t 'TRANSMISSION'  physical unit of field
+TTYPE161 t 'WAVE#4337.000'  label for field 161
+TFORM161 t '1E'  data format of field: 4-byte REAL
+TUNIT161 t 'TRANSMISSION'  physical unit of field
+TTYPE162 t 'WAVE#4337.001'  label for field 162
+TFORM162 t '1E'  data format of field: 4-byte REAL
+TUNIT162 t 'TRANSMISSION'  physical unit of field
+TTYPE163 t 'WAVE#4341.867'  label for field 163
+TFORM163 t '1E'  data format of field: 4-byte REAL
+TUNIT163 t 'TRANSMISSION'  physical unit of field
+TTYPE164 t 'WAVE#4346.739'  label for field 164
+TFORM164 t '1E'  data format of field: 4-byte REAL
+TUNIT164 t 'TRANSMISSION'  physical unit of field
+TTYPE165 t 'WAVE#4351.616'  label for field 165
+TFORM165 t '1E'  data format of field: 4-byte REAL
+TUNIT165 t 'TRANSMISSION'  physical unit of field
+TTYPE166 t 'WAVE#4356.498'  label for field 166
+TFORM166 t '1E'  data format of field: 4-byte REAL
+TUNIT166 t 'TRANSMISSION'  physical unit of field
+TTYPE167 t 'WAVE#4361.386'  label for field 167
+TFORM167 t '1E'  data format of field: 4-byte REAL
+TUNIT167 t 'TRANSMISSION'  physical unit of field
+TTYPE168 t 'WAVE#4366.280'  label for field 168
+TFORM168 t '1E'  data format of field: 4-byte REAL
+TUNIT168 t 'TRANSMISSION'  physical unit of field
+TTYPE169 t 'WAVE#4371.179'  label for field 169
+TFORM169 t '1E'  data format of field: 4-byte REAL
+TUNIT169 t 'TRANSMISSION'  physical unit of field
+TTYPE170 t 'WAVE#4376.083'  label for field 170
+TFORM170 t '1E'  data format of field: 4-byte REAL
+TUNIT170 t 'TRANSMISSION'  physical unit of field
+TTYPE171 t 'WAVE#4380.993'  label for field 171
+TFORM171 t '1E'  data format of field: 4-byte REAL
+TUNIT171 t 'TRANSMISSION'  physical unit of field
+TTYPE172 t 'WAVE#4385.909'  label for field 172
+TFORM172 t '1E'  data format of field: 4-byte REAL
+TUNIT172 t 'TRANSMISSION'  physical unit of field
+TTYPE173 t 'WAVE#4390.830'  label for field 173
+TFORM173 t '1E'  data format of field: 4-byte REAL
+TUNIT173 t 'TRANSMISSION'  physical unit of field
+TTYPE174 t 'WAVE#4395.756'  label for field 174
+TFORM174 t '1E'  data format of field: 4-byte REAL
+TUNIT174 t 'TRANSMISSION'  physical unit of field
+TTYPE175 t 'WAVE#4400.688'  label for field 175
+TFORM175 t '1E'  data format of field: 4-byte REAL
+TUNIT175 t 'TRANSMISSION'  physical unit of field
+TTYPE176 t 'WAVE#4405.626'  label for field 176
+TFORM176 t '1E'  data format of field: 4-byte REAL
+TUNIT176 t 'TRANSMISSION'  physical unit of field
+TTYPE177 t 'WAVE#4410.569'  label for field 177
+TFORM177 t '1E'  data format of field: 4-byte REAL
+TUNIT177 t 'TRANSMISSION'  physical unit of field
+TTYPE178 t 'WAVE#4415.517'  label for field 178
+TFORM178 t '1E'  data format of field: 4-byte REAL
+TUNIT178 t 'TRANSMISSION'  physical unit of field
+TTYPE179 t 'WAVE#4420.472'  label for field 179
+TFORM179 t '1E'  data format of field: 4-byte REAL
+TUNIT179 t 'TRANSMISSION'  physical unit of field
+TTYPE180 t 'WAVE#4425.431'  label for field 180
+TFORM180 t '1E'  data format of field: 4-byte REAL
+TUNIT180 t 'TRANSMISSION'  physical unit of field
+TTYPE181 t 'WAVE#4430.397'  label for field 181
+TFORM181 t '1E'  data format of field: 4-byte REAL
+TUNIT181 t 'TRANSMISSION'  physical unit of field
+TTYPE182 t 'WAVE#4435.368'  label for field 182
+TFORM182 t '1E'  data format of field: 4-byte REAL
+TUNIT182 t 'TRANSMISSION'  physical unit of field
+TTYPE183 t 'WAVE#4440.344'  label for field 183
+TFORM183 t '1E'  data format of field: 4-byte REAL
+TUNIT183 t 'TRANSMISSION'  physical unit of field
+TTYPE184 t 'WAVE#4445.326'  label for field 184
+TFORM184 t '1E'  data format of field: 4-byte REAL
+TUNIT184 t 'TRANSMISSION'  physical unit of field
+TTYPE185 t 'WAVE#4446.000'  label for field 185
+TFORM185 t '1E'  data format of field: 4-byte REAL
+TUNIT185 t 'TRANSMISSION'  physical unit of field
+TTYPE186 t 'WAVE#4446.001'  label for field 186
+TFORM186 t '1E'  data format of field: 4-byte REAL
+TUNIT186 t 'TRANSMISSION'  physical unit of field
+TTYPE187 t 'WAVE#4450.989'  label for field 187
+TFORM187 t '1E'  data format of field: 4-byte REAL
+TUNIT187 t 'TRANSMISSION'  physical unit of field
+TTYPE188 t 'WAVE#4455.983'  label for field 188
+TFORM188 t '1E'  data format of field: 4-byte REAL
+TUNIT188 t 'TRANSMISSION'  physical unit of field
+TTYPE189 t 'WAVE#4460.983'  label for field 189
+TFORM189 t '1E'  data format of field: 4-byte REAL
+TUNIT189 t 'TRANSMISSION'  physical unit of field
+TTYPE190 t 'WAVE#4465.988'  label for field 190
+TFORM190 t '1E'  data format of field: 4-byte REAL
+TUNIT190 t 'TRANSMISSION'  physical unit of field
+TTYPE191 t 'WAVE#4470.999'  label for field 191
+TFORM191 t '1E'  data format of field: 4-byte REAL
+TUNIT191 t 'TRANSMISSION'  physical unit of field
+TTYPE192 t 'WAVE#4476.016'  label for field 192
+TFORM192 t '1E'  data format of field: 4-byte REAL
+TUNIT192 t 'TRANSMISSION'  physical unit of field
+TTYPE193 t 'WAVE#4481.038'  label for field 193
+TFORM193 t '1E'  data format of field: 4-byte REAL
+TUNIT193 t 'TRANSMISSION'  physical unit of field
+TTYPE194 t 'WAVE#4486.065'  label for field 194
+TFORM194 t '1E'  data format of field: 4-byte REAL
+TUNIT194 t 'TRANSMISSION'  physical unit of field
+TTYPE195 t 'WAVE#4491.099'  label for field 195
+TFORM195 t '1E'  data format of field: 4-byte REAL
+TUNIT195 t 'TRANSMISSION'  physical unit of field
+TTYPE196 t 'WAVE#4496.138'  label for field 196
+TFORM196 t '1E'  data format of field: 4-byte REAL
+TUNIT196 t 'TRANSMISSION'  physical unit of field
+TTYPE197 t 'WAVE#4501.182'  label for field 197
+TFORM197 t '1E'  data format of field: 4-byte REAL
+TUNIT197 t 'TRANSMISSION'  physical unit of field
+TTYPE198 t 'WAVE#4506.233'  label for field 198
+TFORM198 t '1E'  data format of field: 4-byte REAL
+TUNIT198 t 'TRANSMISSION'  physical unit of field
+TTYPE199 t 'WAVE#4511.289'  label for field 199
+TFORM199 t '1E'  data format of field: 4-byte REAL
+TUNIT199 t 'TRANSMISSION'  physical unit of field
+TTYPE200 t 'WAVE#4516.350'  label for field 200
+TFORM200 t '1E'  data format of field: 4-byte REAL
+TUNIT200 t 'TRANSMISSION'  physical unit of field
+TTYPE201 t 'WAVE#4521.418'  label for field 201
+TFORM201 t '1E'  data format of field: 4-byte REAL
+TUNIT201 t 'TRANSMISSION'  physical unit of field
+TTYPE202 t 'WAVE#4526.491'  label for field 202
+TFORM202 t '1E'  data format of field: 4-byte REAL
+TUNIT202 t 'TRANSMISSION'  physical unit of field
+TTYPE203 t 'WAVE#4531.570'  label for field 203
+TFORM203 t '1E'  data format of field: 4-byte REAL
+TUNIT203 t 'TRANSMISSION'  physical unit of field
+TTYPE204 t 'WAVE#4536.654'  label for field 204
+TFORM204 t '1E'  data format of field: 4-byte REAL
+TUNIT204 t 'TRANSMISSION'  physical unit of field
+TTYPE205 t 'WAVE#4541.744'  label for field 205
+TFORM205 t '1E'  data format of field: 4-byte REAL
+TUNIT205 t 'TRANSMISSION'  physical unit of field
+TTYPE206 t 'WAVE#4546.840'  label for field 206
+TFORM206 t '1E'  data format of field: 4-byte REAL
+TUNIT206 t 'TRANSMISSION'  physical unit of field
+TTYPE207 t 'WAVE#4550.000'  label for field 207
+TFORM207 t '1E'  data format of field: 4-byte REAL
+TUNIT207 t 'TRANSMISSION'  physical unit of field
+TTYPE208 t 'WAVE#4550.001'  label for field 208
+TFORM208 t '1E'  data format of field: 4-byte REAL
+TUNIT208 t 'TRANSMISSION'  physical unit of field
+TTYPE209 t 'WAVE#4555.106'  label for field 209
+TFORM209 t '1E'  data format of field: 4-byte REAL
+TUNIT209 t 'TRANSMISSION'  physical unit of field
+TTYPE210 t 'WAVE#4560.217'  label for field 210
+TFORM210 t '1E'  data format of field: 4-byte REAL
+TUNIT210 t 'TRANSMISSION'  physical unit of field
+TTYPE211 t 'WAVE#4565.333'  label for field 211
+TFORM211 t '1E'  data format of field: 4-byte REAL
+TUNIT211 t 'TRANSMISSION'  physical unit of field
+TTYPE212 t 'WAVE#4570.456'  label for field 212
+TFORM212 t '1E'  data format of field: 4-byte REAL
+TUNIT212 t 'TRANSMISSION'  physical unit of field
+TTYPE213 t 'WAVE#4571.000'  label for field 213
+TFORM213 t '1E'  data format of field: 4-byte REAL
+TUNIT213 t 'TRANSMISSION'  physical unit of field
+TTYPE214 t 'WAVE#4571.001'  label for field 214
+TFORM214 t '1E'  data format of field: 4-byte REAL
+TUNIT214 t 'TRANSMISSION'  physical unit of field
+TTYPE215 t 'WAVE#4576.130'  label for field 215
+TFORM215 t '1E'  data format of field: 4-byte REAL
+TUNIT215 t 'TRANSMISSION'  physical unit of field
+TTYPE216 t 'WAVE#4581.264'  label for field 216
+TFORM216 t '1E'  data format of field: 4-byte REAL
+TUNIT216 t 'TRANSMISSION'  physical unit of field
+TTYPE217 t 'WAVE#4582.000'  label for field 217
+TFORM217 t '1E'  data format of field: 4-byte REAL
+TUNIT217 t 'TRANSMISSION'  physical unit of field
+TTYPE218 t 'WAVE#4582.001'  label for field 218
+TFORM218 t '1E'  data format of field: 4-byte REAL
+TUNIT218 t 'TRANSMISSION'  physical unit of field
+TTYPE219 t 'WAVE#4587.142'  label for field 219
+TFORM219 t '1E'  data format of field: 4-byte REAL
+TUNIT219 t 'TRANSMISSION'  physical unit of field
+TTYPE220 t 'WAVE#4592.289'  label for field 220
+TFORM220 t '1E'  data format of field: 4-byte REAL
+TUNIT220 t 'TRANSMISSION'  physical unit of field
+TTYPE221 t 'WAVE#4593.000'  label for field 221
+TFORM221 t '1E'  data format of field: 4-byte REAL
+TUNIT221 t 'TRANSMISSION'  physical unit of field
+TTYPE222 t 'WAVE#4593.001'  label for field 222
+TFORM222 t '1E'  data format of field: 4-byte REAL
+TUNIT222 t 'TRANSMISSION'  physical unit of field
+TTYPE223 t 'WAVE#4598.154'  label for field 223
+TFORM223 t '1E'  data format of field: 4-byte REAL
+TUNIT223 t 'TRANSMISSION'  physical unit of field
+TTYPE224 t 'WAVE#4603.313'  label for field 224
+TFORM224 t '1E'  data format of field: 4-byte REAL
+TUNIT224 t 'TRANSMISSION'  physical unit of field
+TTYPE225 t 'WAVE#4608.478'  label for field 225
+TFORM225 t '1E'  data format of field: 4-byte REAL
+TUNIT225 t 'TRANSMISSION'  physical unit of field
+TTYPE226 t 'WAVE#4613.649'  label for field 226
+TFORM226 t '1E'  data format of field: 4-byte REAL
+TUNIT226 t 'TRANSMISSION'  physical unit of field
+TTYPE227 t 'WAVE#4618.826'  label for field 227
+TFORM227 t '1E'  data format of field: 4-byte REAL
+TUNIT227 t 'TRANSMISSION'  physical unit of field
+TTYPE228 t 'WAVE#4624.008'  label for field 228
+TFORM228 t '1E'  data format of field: 4-byte REAL
+TUNIT228 t 'TRANSMISSION'  physical unit of field
+TTYPE229 t 'WAVE#4629.196'  label for field 229
+TFORM229 t '1E'  data format of field: 4-byte REAL
+TUNIT229 t 'TRANSMISSION'  physical unit of field
+TTYPE230 t 'WAVE#4634.390'  label for field 230
+TFORM230 t '1E'  data format of field: 4-byte REAL
+TUNIT230 t 'TRANSMISSION'  physical unit of field
+TTYPE231 t 'WAVE#4639.590'  label for field 231
+TFORM231 t '1E'  data format of field: 4-byte REAL
+TUNIT231 t 'TRANSMISSION'  physical unit of field
+TTYPE232 t 'WAVE#4644.795'  label for field 232
+TFORM232 t '1E'  data format of field: 4-byte REAL
+TUNIT232 t 'TRANSMISSION'  physical unit of field
+TTYPE233 t 'WAVE#4650.007'  label for field 233
+TFORM233 t '1E'  data format of field: 4-byte REAL
+TUNIT233 t 'TRANSMISSION'  physical unit of field
+TTYPE234 t 'WAVE#4655.224'  label for field 234
+TFORM234 t '1E'  data format of field: 4-byte REAL
+TUNIT234 t 'TRANSMISSION'  physical unit of field
+TTYPE235 t 'WAVE#4660.447'  label for field 235
+TFORM235 t '1E'  data format of field: 4-byte REAL
+TUNIT235 t 'TRANSMISSION'  physical unit of field
+TTYPE236 t 'WAVE#4665.676'  label for field 236
+TFORM236 t '1E'  data format of field: 4-byte REAL
+TUNIT236 t 'TRANSMISSION'  physical unit of field
+TTYPE237 t 'WAVE#4670.911'  label for field 237
+TFORM237 t '1E'  data format of field: 4-byte REAL
+TUNIT237 t 'TRANSMISSION'  physical unit of field
+TTYPE238 t 'WAVE#4676.152'  label for field 238
+TFORM238 t '1E'  data format of field: 4-byte REAL
+TUNIT238 t 'TRANSMISSION'  physical unit of field
+TTYPE239 t 'WAVE#4681.399'  label for field 239
+TFORM239 t '1E'  data format of field: 4-byte REAL
+TUNIT239 t 'TRANSMISSION'  physical unit of field
+TTYPE240 t 'WAVE#4686.651'  label for field 240
+TFORM240 t '1E'  data format of field: 4-byte REAL
+TUNIT240 t 'TRANSMISSION'  physical unit of field
+TTYPE241 t 'WAVE#4691.910'  label for field 241
+TFORM241 t '1E'  data format of field: 4-byte REAL
+TUNIT241 t 'TRANSMISSION'  physical unit of field
+TTYPE242 t 'WAVE#4697.174'  label for field 242
+TFORM242 t '1E'  data format of field: 4-byte REAL
+TUNIT242 t 'TRANSMISSION'  physical unit of field
+TTYPE243 t 'WAVE#4702.444'  label for field 243
+TFORM243 t '1E'  data format of field: 4-byte REAL
+TUNIT243 t 'TRANSMISSION'  physical unit of field
+TTYPE244 t 'WAVE#4707.720'  label for field 244
+TFORM244 t '1E'  data format of field: 4-byte REAL
+TUNIT244 t 'TRANSMISSION'  physical unit of field
+TTYPE245 t 'WAVE#4713.002'  label for field 245
+TFORM245 t '1E'  data format of field: 4-byte REAL
+TUNIT245 t 'TRANSMISSION'  physical unit of field
+TTYPE246 t 'WAVE#4718.290'  label for field 246
+TFORM246 t '1E'  data format of field: 4-byte REAL
+TUNIT246 t 'TRANSMISSION'  physical unit of field
+TTYPE247 t 'WAVE#4720.000'  label for field 247
+TFORM247 t '1E'  data format of field: 4-byte REAL
+TUNIT247 t 'TRANSMISSION'  physical unit of field
+TTYPE248 t 'WAVE#4720.001'  label for field 248
+TFORM248 t '1E'  data format of field: 4-byte REAL
+TUNIT248 t 'TRANSMISSION'  physical unit of field
+TTYPE249 t 'WAVE#4725.297'  label for field 249
+TFORM249 t '1E'  data format of field: 4-byte REAL
+TUNIT249 t 'TRANSMISSION'  physical unit of field
+TTYPE250 t 'WAVE#4730.599'  label for field 250
+TFORM250 t '1E'  data format of field: 4-byte REAL
+TUNIT250 t 'TRANSMISSION'  physical unit of field
+TTYPE251 t 'WAVE#4733.000'  label for field 251
+TFORM251 t '1E'  data format of field: 4-byte REAL
+TUNIT251 t 'TRANSMISSION'  physical unit of field
+TTYPE252 t 'WAVE#4733.001'  label for field 252
+TFORM252 t '1E'  data format of field: 4-byte REAL
+TUNIT252 t 'TRANSMISSION'  physical unit of field
+TTYPE253 t 'WAVE#4738.311'  label for field 253
+TFORM253 t '1E'  data format of field: 4-byte REAL
+TUNIT253 t 'TRANSMISSION'  physical unit of field
+TTYPE254 t 'WAVE#4743.628'  label for field 254
+TFORM254 t '1E'  data format of field: 4-byte REAL
+TUNIT254 t 'TRANSMISSION'  physical unit of field
+TTYPE255 t 'WAVE#4746.000'  label for field 255
+TFORM255 t '1E'  data format of field: 4-byte REAL
+TUNIT255 t 'TRANSMISSION'  physical unit of field
+TTYPE256 t 'WAVE#4746.001'  label for field 256
+TFORM256 t '1E'  data format of field: 4-byte REAL
+TUNIT256 t 'TRANSMISSION'  physical unit of field
+TTYPE257 t 'WAVE#4751.326'  label for field 257
+TFORM257 t '1E'  data format of field: 4-byte REAL
+TUNIT257 t 'TRANSMISSION'  physical unit of field
+TTYPE258 t 'WAVE#4756.657'  label for field 258
+TFORM258 t '1E'  data format of field: 4-byte REAL
+TUNIT258 t 'TRANSMISSION'  physical unit of field
+TTYPE259 t 'WAVE#4761.994'  label for field 259
+TFORM259 t '1E'  data format of field: 4-byte REAL
+TUNIT259 t 'TRANSMISSION'  physical unit of field
+TTYPE260 t 'WAVE#4767.337'  label for field 260
+TFORM260 t '1E'  data format of field: 4-byte REAL
+TUNIT260 t 'TRANSMISSION'  physical unit of field
+TTYPE261 t 'WAVE#4772.686'  label for field 261
+TFORM261 t '1E'  data format of field: 4-byte REAL
+TUNIT261 t 'TRANSMISSION'  physical unit of field
+TTYPE262 t 'WAVE#4778.041'  label for field 262
+TFORM262 t '1E'  data format of field: 4-byte REAL
+TUNIT262 t 'TRANSMISSION'  physical unit of field
+TTYPE263 t 'WAVE#4783.402'  label for field 263
+TFORM263 t '1E'  data format of field: 4-byte REAL
+TUNIT263 t 'TRANSMISSION'  physical unit of field
+TTYPE264 t 'WAVE#4788.769'  label for field 264
+TFORM264 t '1E'  data format of field: 4-byte REAL
+TUNIT264 t 'TRANSMISSION'  physical unit of field
+TTYPE265 t 'WAVE#4794.142'  label for field 265
+TFORM265 t '1E'  data format of field: 4-byte REAL
+TUNIT265 t 'TRANSMISSION'  physical unit of field
+TTYPE266 t 'WAVE#4799.521'  label for field 266
+TFORM266 t '1E'  data format of field: 4-byte REAL
+TUNIT266 t 'TRANSMISSION'  physical unit of field
+TTYPE267 t 'WAVE#4804.906'  label for field 267
+TFORM267 t '1E'  data format of field: 4-byte REAL
+TUNIT267 t 'TRANSMISSION'  physical unit of field
+TTYPE268 t 'WAVE#4810.297'  label for field 268
+TFORM268 t '1E'  data format of field: 4-byte REAL
+TUNIT268 t 'TRANSMISSION'  physical unit of field
+TTYPE269 t 'WAVE#4815.694'  label for field 269
+TFORM269 t '1E'  data format of field: 4-byte REAL
+TUNIT269 t 'TRANSMISSION'  physical unit of field
+TTYPE270 t 'WAVE#4821.097'  label for field 270
+TFORM270 t '1E'  data format of field: 4-byte REAL
+TUNIT270 t 'TRANSMISSION'  physical unit of field
+TTYPE271 t 'WAVE#4826.507'  label for field 271
+TFORM271 t '1E'  data format of field: 4-byte REAL
+TUNIT271 t 'TRANSMISSION'  physical unit of field
+TTYPE272 t 'WAVE#4831.922'  label for field 272
+TFORM272 t '1E'  data format of field: 4-byte REAL
+TUNIT272 t 'TRANSMISSION'  physical unit of field
+TTYPE273 t 'WAVE#4837.343'  label for field 273
+TFORM273 t '1E'  data format of field: 4-byte REAL
+TUNIT273 t 'TRANSMISSION'  physical unit of field
+TTYPE274 t 'WAVE#4842.771'  label for field 274
+TFORM274 t '1E'  data format of field: 4-byte REAL
+TUNIT274 t 'TRANSMISSION'  physical unit of field
+TTYPE275 t 'WAVE#4848.204'  label for field 275
+TFORM275 t '1E'  data format of field: 4-byte REAL
+TUNIT275 t 'TRANSMISSION'  physical unit of field
+TTYPE276 t 'WAVE#4853.644'  label for field 276
+TFORM276 t '1E'  data format of field: 4-byte REAL
+TUNIT276 t 'TRANSMISSION'  physical unit of field
+TTYPE277 t 'WAVE#4859.090'  label for field 277
+TFORM277 t '1E'  data format of field: 4-byte REAL
+TUNIT277 t 'TRANSMISSION'  physical unit of field
+TTYPE278 t 'WAVE#4863.000'  label for field 278
+TFORM278 t '1E'  data format of field: 4-byte REAL
+TUNIT278 t 'TRANSMISSION'  physical unit of field
+TTYPE279 t 'WAVE#4863.001'  label for field 279
+TFORM279 t '1E'  data format of field: 4-byte REAL
+TUNIT279 t 'TRANSMISSION'  physical unit of field
+TTYPE280 t 'WAVE#4868.457'  label for field 280
+TFORM280 t '1E'  data format of field: 4-byte REAL
+TUNIT280 t 'TRANSMISSION'  physical unit of field
+TTYPE281 t 'WAVE#4873.000'  label for field 281
+TFORM281 t '1E'  data format of field: 4-byte REAL
+TUNIT281 t 'TRANSMISSION'  physical unit of field
+TTYPE282 t 'WAVE#4873.001'  label for field 282
+TFORM282 t '1E'  data format of field: 4-byte REAL
+TUNIT282 t 'TRANSMISSION'  physical unit of field
+TTYPE283 t 'WAVE#4878.469'  label for field 283
+TFORM283 t '1E'  data format of field: 4-byte REAL
+TUNIT283 t 'TRANSMISSION'  physical unit of field
+TTYPE284 t 'WAVE#4883.942'  label for field 284
+TFORM284 t '1E'  data format of field: 4-byte REAL
+TUNIT284 t 'TRANSMISSION'  physical unit of field
+TTYPE285 t 'WAVE#4884.000'  label for field 285
+TFORM285 t '1E'  data format of field: 4-byte REAL
+TUNIT285 t 'TRANSMISSION'  physical unit of field
+TTYPE286 t 'WAVE#4884.001'  label for field 286
+TFORM286 t '1E'  data format of field: 4-byte REAL
+TUNIT286 t 'TRANSMISSION'  physical unit of field
+TTYPE287 t 'WAVE#4889.481'  label for field 287
+TFORM287 t '1E'  data format of field: 4-byte REAL
+TUNIT287 t 'TRANSMISSION'  physical unit of field
+TTYPE288 t 'WAVE#4894.967'  label for field 288
+TFORM288 t '1E'  data format of field: 4-byte REAL
+TUNIT288 t 'TRANSMISSION'  physical unit of field
+TTYPE289 t 'WAVE#4900.000'  label for field 289
+TFORM289 t '1E'  data format of field: 4-byte REAL
+TUNIT289 t 'TRANSMISSION'  physical unit of field
+TTYPE290 t 'WAVE#4900.001'  label for field 290
+TFORM290 t '1E'  data format of field: 4-byte REAL
+TUNIT290 t 'TRANSMISSION'  physical unit of field
+TTYPE291 t 'WAVE#4905.499'  label for field 291
+TFORM291 t '1E'  data format of field: 4-byte REAL
+TUNIT291 t 'TRANSMISSION'  physical unit of field
+TTYPE292 t 'WAVE#4911.003'  label for field 292
+TFORM292 t '1E'  data format of field: 4-byte REAL
+TUNIT292 t 'TRANSMISSION'  physical unit of field
+TTYPE293 t 'WAVE#4916.513'  label for field 293
+TFORM293 t '1E'  data format of field: 4-byte REAL
+TUNIT293 t 'TRANSMISSION'  physical unit of field
+TTYPE294 t 'WAVE#4922.029'  label for field 294
+TFORM294 t '1E'  data format of field: 4-byte REAL
+TUNIT294 t 'TRANSMISSION'  physical unit of field
+TTYPE295 t 'WAVE#4927.552'  label for field 295
+TFORM295 t '1E'  data format of field: 4-byte REAL
+TUNIT295 t 'TRANSMISSION'  physical unit of field
+TTYPE296 t 'WAVE#4933.080'  label for field 296
+TFORM296 t '1E'  data format of field: 4-byte REAL
+TUNIT296 t 'TRANSMISSION'  physical unit of field
+TTYPE297 t 'WAVE#4938.615'  label for field 297
+TFORM297 t '1E'  data format of field: 4-byte REAL
+TUNIT297 t 'TRANSMISSION'  physical unit of field
+TTYPE298 t 'WAVE#4944.157'  label for field 298
+TFORM298 t '1E'  data format of field: 4-byte REAL
+TUNIT298 t 'TRANSMISSION'  physical unit of field
+TTYPE299 t 'WAVE#4949.704'  label for field 299
+TFORM299 t '1E'  data format of field: 4-byte REAL
+TUNIT299 t 'TRANSMISSION'  physical unit of field
+TTYPE300 t 'WAVE#4955.257'  label for field 300
+TFORM300 t '1E'  data format of field: 4-byte REAL
+TUNIT300 t 'TRANSMISSION'  physical unit of field
+TTYPE301 t 'WAVE#4960.817'  label for field 301
+TFORM301 t '1E'  data format of field: 4-byte REAL
+TUNIT301 t 'TRANSMISSION'  physical unit of field
+TTYPE302 t 'WAVE#4966.383'  label for field 302
+TFORM302 t '1E'  data format of field: 4-byte REAL
+TUNIT302 t 'TRANSMISSION'  physical unit of field
+TTYPE303 t 'WAVE#4971.956'  label for field 303
+TFORM303 t '1E'  data format of field: 4-byte REAL
+TUNIT303 t 'TRANSMISSION'  physical unit of field
+TTYPE304 t 'WAVE#4977.534'  label for field 304
+TFORM304 t '1E'  data format of field: 4-byte REAL
+TUNIT304 t 'TRANSMISSION'  physical unit of field
+TTYPE305 t 'WAVE#4983.119'  label for field 305
+TFORM305 t '1E'  data format of field: 4-byte REAL
+TUNIT305 t 'TRANSMISSION'  physical unit of field
+TTYPE306 t 'WAVE#4988.710'  label for field 306
+TFORM306 t '1E'  data format of field: 4-byte REAL
+TUNIT306 t 'TRANSMISSION'  physical unit of field
+TTYPE307 t 'WAVE#4994.307'  label for field 307
+TFORM307 t '1E'  data format of field: 4-byte REAL
+TUNIT307 t 'TRANSMISSION'  physical unit of field
+TTYPE308 t 'WAVE#4999.911'  label for field 308
+TFORM308 t '1E'  data format of field: 4-byte REAL
+TUNIT308 t 'TRANSMISSION'  physical unit of field
+TTYPE309 t 'WAVE#5005.521'  label for field 309
+TFORM309 t '1E'  data format of field: 4-byte REAL
+TUNIT309 t 'TRANSMISSION'  physical unit of field
+TTYPE310 t 'WAVE#5011.137'  label for field 310
+TFORM310 t '1E'  data format of field: 4-byte REAL
+TUNIT310 t 'TRANSMISSION'  physical unit of field
+TTYPE311 t 'WAVE#5013.000'  label for field 311
+TFORM311 t '1E'  data format of field: 4-byte REAL
+TUNIT311 t 'TRANSMISSION'  physical unit of field
+TTYPE312 t 'WAVE#5013.001'  label for field 312
+TFORM312 t '1E'  data format of field: 4-byte REAL
+TUNIT312 t 'TRANSMISSION'  physical unit of field
+TTYPE313 t 'WAVE#5018.626'  label for field 313
+TFORM313 t '1E'  data format of field: 4-byte REAL
+TUNIT313 t 'TRANSMISSION'  physical unit of field
+TTYPE314 t 'WAVE#5020.000'  label for field 314
+TFORM314 t '1E'  data format of field: 4-byte REAL
+TUNIT314 t 'TRANSMISSION'  physical unit of field
+TTYPE315 t 'WAVE#5020.001'  label for field 315
+TFORM315 t '1E'  data format of field: 4-byte REAL
+TUNIT315 t 'TRANSMISSION'  physical unit of field
+TTYPE316 t 'WAVE#5025.633'  label for field 316
+TFORM316 t '1E'  data format of field: 4-byte REAL
+TUNIT316 t 'TRANSMISSION'  physical unit of field
+TTYPE317 t 'WAVE#5031.272'  label for field 317
+TFORM317 t '1E'  data format of field: 4-byte REAL
+TUNIT317 t 'TRANSMISSION'  physical unit of field
+TTYPE318 t 'WAVE#5036.917'  label for field 318
+TFORM318 t '1E'  data format of field: 4-byte REAL
+TUNIT318 t 'TRANSMISSION'  physical unit of field
+TTYPE319 t 'WAVE#5042.569'  label for field 319
+TFORM319 t '1E'  data format of field: 4-byte REAL
+TUNIT319 t 'TRANSMISSION'  physical unit of field
+TTYPE320 t 'WAVE#5048.226'  label for field 320
+TFORM320 t '1E'  data format of field: 4-byte REAL
+TUNIT320 t 'TRANSMISSION'  physical unit of field
+TTYPE321 t 'WAVE#5053.891'  label for field 321
+TFORM321 t '1E'  data format of field: 4-byte REAL
+TUNIT321 t 'TRANSMISSION'  physical unit of field
+TTYPE322 t 'WAVE#5059.561'  label for field 322
+TFORM322 t '1E'  data format of field: 4-byte REAL
+TUNIT322 t 'TRANSMISSION'  physical unit of field
+TTYPE323 t 'WAVE#5065.238'  label for field 323
+TFORM323 t '1E'  data format of field: 4-byte REAL
+TUNIT323 t 'TRANSMISSION'  physical unit of field
+TTYPE324 t 'WAVE#5070.921'  label for field 324
+TFORM324 t '1E'  data format of field: 4-byte REAL
+TUNIT324 t 'TRANSMISSION'  physical unit of field
+TTYPE325 t 'WAVE#5076.611'  label for field 325
+TFORM325 t '1E'  data format of field: 4-byte REAL
+TUNIT325 t 'TRANSMISSION'  physical unit of field
+TTYPE326 t 'WAVE#5082.307'  label for field 326
+TFORM326 t '1E'  data format of field: 4-byte REAL
+TUNIT326 t 'TRANSMISSION'  physical unit of field
+TTYPE327 t 'WAVE#5088.009'  label for field 327
+TFORM327 t '1E'  data format of field: 4-byte REAL
+TUNIT327 t 'TRANSMISSION'  physical unit of field
+TTYPE328 t 'WAVE#5093.718'  label for field 328
+TFORM328 t '1E'  data format of field: 4-byte REAL
+TUNIT328 t 'TRANSMISSION'  physical unit of field
+TTYPE329 t 'WAVE#5099.433'  label for field 329
+TFORM329 t '1E'  data format of field: 4-byte REAL
+TUNIT329 t 'TRANSMISSION'  physical unit of field
+TTYPE330 t 'WAVE#5105.154'  label for field 330
+TFORM330 t '1E'  data format of field: 4-byte REAL
+TUNIT330 t 'TRANSMISSION'  physical unit of field
+TTYPE331 t 'WAVE#5110.882'  label for field 331
+TFORM331 t '1E'  data format of field: 4-byte REAL
+TUNIT331 t 'TRANSMISSION'  physical unit of field
+TTYPE332 t 'WAVE#5116.617'  label for field 332
+TFORM332 t '1E'  data format of field: 4-byte REAL
+TUNIT332 t 'TRANSMISSION'  physical unit of field
+TTYPE333 t 'WAVE#5122.358'  label for field 333
+TFORM333 t '1E'  data format of field: 4-byte REAL
+TUNIT333 t 'TRANSMISSION'  physical unit of field
+TTYPE334 t 'WAVE#5128.105'  label for field 334
+TFORM334 t '1E'  data format of field: 4-byte REAL
+TUNIT334 t 'TRANSMISSION'  physical unit of field
+TTYPE335 t 'WAVE#5133.859'  label for field 335
+TFORM335 t '1E'  data format of field: 4-byte REAL
+TUNIT335 t 'TRANSMISSION'  physical unit of field
+TTYPE336 t 'WAVE#5139.619'  label for field 336
+TFORM336 t '1E'  data format of field: 4-byte REAL
+TUNIT336 t 'TRANSMISSION'  physical unit of field
+TTYPE337 t 'WAVE#5145.386'  label for field 337
+TFORM337 t '1E'  data format of field: 4-byte REAL
+TUNIT337 t 'TRANSMISSION'  physical unit of field
+TTYPE338 t 'WAVE#5151.159'  label for field 338
+TFORM338 t '1E'  data format of field: 4-byte REAL
+TUNIT338 t 'TRANSMISSION'  physical unit of field
+TTYPE339 t 'WAVE#5153.000'  label for field 339
+TFORM339 t '1E'  data format of field: 4-byte REAL
+TUNIT339 t 'TRANSMISSION'  physical unit of field
+TTYPE340 t 'WAVE#5153.001'  label for field 340
+TFORM340 t '1E'  data format of field: 4-byte REAL
+TUNIT340 t 'TRANSMISSION'  physical unit of field
+TTYPE341 t 'WAVE#5158.783'  label for field 341
+TFORM341 t '1E'  data format of field: 4-byte REAL
+TUNIT341 t 'TRANSMISSION'  physical unit of field
+TTYPE342 t 'WAVE#5164.571'  label for field 342
+TFORM342 t '1E'  data format of field: 4-byte REAL
+TUNIT342 t 'TRANSMISSION'  physical unit of field
+TTYPE343 t 'WAVE#5170.365'  label for field 343
+TFORM343 t '1E'  data format of field: 4-byte REAL
+TUNIT343 t 'TRANSMISSION'  physical unit of field
+TTYPE344 t 'WAVE#5176.000'  label for field 344
+TFORM344 t '1E'  data format of field: 4-byte REAL
+TUNIT344 t 'TRANSMISSION'  physical unit of field
+TTYPE345 t 'WAVE#5176.001'  label for field 345
+TFORM345 t '1E'  data format of field: 4-byte REAL
+TUNIT345 t 'TRANSMISSION'  physical unit of field
+TTYPE346 t 'WAVE#5181.808'  label for field 346
+TFORM346 t '1E'  data format of field: 4-byte REAL
+TUNIT346 t 'TRANSMISSION'  physical unit of field
+TTYPE347 t 'WAVE#5183.000'  label for field 347
+TFORM347 t '1E'  data format of field: 4-byte REAL
+TUNIT347 t 'TRANSMISSION'  physical unit of field
+TTYPE348 t 'WAVE#5183.001'  label for field 348
+TFORM348 t '1E'  data format of field: 4-byte REAL
+TUNIT348 t 'TRANSMISSION'  physical unit of field
+TTYPE349 t 'WAVE#5188.000'  label for field 349
+TFORM349 t '1E'  data format of field: 4-byte REAL
+TUNIT349 t 'TRANSMISSION'  physical unit of field
+TTYPE350 t 'WAVE#5188.001'  label for field 350
+TFORM350 t '1E'  data format of field: 4-byte REAL
+TUNIT350 t 'TRANSMISSION'  physical unit of field
+TTYPE351 t 'WAVE#5193.822'  label for field 351
+TFORM351 t '1E'  data format of field: 4-byte REAL
+TUNIT351 t 'TRANSMISSION'  physical unit of field
+TTYPE352 t 'WAVE#5199.649'  label for field 352
+TFORM352 t '1E'  data format of field: 4-byte REAL
+TUNIT352 t 'TRANSMISSION'  physical unit of field
+TTYPE353 t 'WAVE#5205.483'  label for field 353
+TFORM353 t '1E'  data format of field: 4-byte REAL
+TUNIT353 t 'TRANSMISSION'  physical unit of field
+TTYPE354 t 'WAVE#5211.324'  label for field 354
+TFORM354 t '1E'  data format of field: 4-byte REAL
+TUNIT354 t 'TRANSMISSION'  physical unit of field
+TTYPE355 t 'WAVE#5217.171'  label for field 355
+TFORM355 t '1E'  data format of field: 4-byte REAL
+TUNIT355 t 'TRANSMISSION'  physical unit of field
+TTYPE356 t 'WAVE#5223.025'  label for field 356
+TFORM356 t '1E'  data format of field: 4-byte REAL
+TUNIT356 t 'TRANSMISSION'  physical unit of field
+TTYPE357 t 'WAVE#5228.885'  label for field 357
+TFORM357 t '1E'  data format of field: 4-byte REAL
+TUNIT357 t 'TRANSMISSION'  physical unit of field
+TTYPE358 t 'WAVE#5234.752'  label for field 358
+TFORM358 t '1E'  data format of field: 4-byte REAL
+TUNIT358 t 'TRANSMISSION'  physical unit of field
+TTYPE359 t 'WAVE#5240.625'  label for field 359
+TFORM359 t '1E'  data format of field: 4-byte REAL
+TUNIT359 t 'TRANSMISSION'  physical unit of field
+TTYPE360 t 'WAVE#5246.505'  label for field 360
+TFORM360 t '1E'  data format of field: 4-byte REAL
+TUNIT360 t 'TRANSMISSION'  physical unit of field
+TTYPE361 t 'WAVE#5252.392'  label for field 361
+TFORM361 t '1E'  data format of field: 4-byte REAL
+TUNIT361 t 'TRANSMISSION'  physical unit of field
+TTYPE362 t 'WAVE#5258.285'  label for field 362
+TFORM362 t '1E'  data format of field: 4-byte REAL
+TUNIT362 t 'TRANSMISSION'  physical unit of field
+TTYPE363 t 'WAVE#5264.185'  label for field 363
+TFORM363 t '1E'  data format of field: 4-byte REAL
+TUNIT363 t 'TRANSMISSION'  physical unit of field
+TTYPE364 t 'WAVE#5270.091'  label for field 364
+TFORM364 t '1E'  data format of field: 4-byte REAL
+TUNIT364 t 'TRANSMISSION'  physical unit of field
+TTYPE365 t 'WAVE#5276.004'  label for field 365
+TFORM365 t '1E'  data format of field: 4-byte REAL
+TUNIT365 t 'TRANSMISSION'  physical unit of field
+TTYPE366 t 'WAVE#5281.924'  label for field 366
+TFORM366 t '1E'  data format of field: 4-byte REAL
+TUNIT366 t 'TRANSMISSION'  physical unit of field
+TTYPE367 t 'WAVE#5287.850'  label for field 367
+TFORM367 t '1E'  data format of field: 4-byte REAL
+TUNIT367 t 'TRANSMISSION'  physical unit of field
+TTYPE368 t 'WAVE#5293.783'  label for field 368
+TFORM368 t '1E'  data format of field: 4-byte REAL
+TUNIT368 t 'TRANSMISSION'  physical unit of field
+TTYPE369 t 'WAVE#5299.723'  label for field 369
+TFORM369 t '1E'  data format of field: 4-byte REAL
+TUNIT369 t 'TRANSMISSION'  physical unit of field
+TTYPE370 t 'WAVE#5305.669'  label for field 370
+TFORM370 t '1E'  data format of field: 4-byte REAL
+TUNIT370 t 'TRANSMISSION'  physical unit of field
+TTYPE371 t 'WAVE#5310.000'  label for field 371
+TFORM371 t '1E'  data format of field: 4-byte REAL
+TUNIT371 t 'TRANSMISSION'  physical unit of field
+TTYPE372 t 'WAVE#5310.001'  label for field 372
+TFORM372 t '1E'  data format of field: 4-byte REAL
+TUNIT372 t 'TRANSMISSION'  physical unit of field
+TTYPE373 t 'WAVE#5315.959'  label for field 373
+TFORM373 t '1E'  data format of field: 4-byte REAL
+TUNIT373 t 'TRANSMISSION'  physical unit of field
+TTYPE374 t 'WAVE#5321.923'  label for field 374
+TFORM374 t '1E'  data format of field: 4-byte REAL
+TUNIT374 t 'TRANSMISSION'  physical unit of field
+TTYPE375 t 'WAVE#5327.895'  label for field 375
+TFORM375 t '1E'  data format of field: 4-byte REAL
+TUNIT375 t 'TRANSMISSION'  physical unit of field
+TTYPE376 t 'WAVE#5333.872'  label for field 376
+TFORM376 t '1E'  data format of field: 4-byte REAL
+TUNIT376 t 'TRANSMISSION'  physical unit of field
+TTYPE377 t 'WAVE#5335.000'  label for field 377
+TFORM377 t '1E'  data format of field: 4-byte REAL
+TUNIT377 t 'TRANSMISSION'  physical unit of field
+TTYPE378 t 'WAVE#5335.001'  label for field 378
+TFORM378 t '1E'  data format of field: 4-byte REAL
+TUNIT378 t 'TRANSMISSION'  physical unit of field
+TTYPE379 t 'WAVE#5337.000'  label for field 379
+TFORM379 t '1E'  data format of field: 4-byte REAL
+TUNIT379 t 'TRANSMISSION'  physical unit of field
+TTYPE380 t 'WAVE#5337.001'  label for field 380
+TFORM380 t '1E'  data format of field: 4-byte REAL
+TUNIT380 t 'TRANSMISSION'  physical unit of field
+TTYPE381 t 'WAVE#5339.000'  label for field 381
+TFORM381 t '1E'  data format of field: 4-byte REAL
+TUNIT381 t 'TRANSMISSION'  physical unit of field
+TTYPE382 t 'WAVE#5339.001'  label for field 382
+TFORM382 t '1E'  data format of field: 4-byte REAL
+TUNIT382 t 'TRANSMISSION'  physical unit of field
+TTYPE383 t 'WAVE#5344.991'  label for field 383
+TFORM383 t '1E'  data format of field: 4-byte REAL
+TUNIT383 t 'TRANSMISSION'  physical unit of field
+TTYPE384 t 'WAVE#5350.988'  label for field 384
+TFORM384 t '1E'  data format of field: 4-byte REAL
+TUNIT384 t 'TRANSMISSION'  physical unit of field
+TTYPE385 t 'WAVE#5356.992'  label for field 385
+TFORM385 t '1E'  data format of field: 4-byte REAL
+TUNIT385 t 'TRANSMISSION'  physical unit of field
+TTYPE386 t 'WAVE#5363.003'  label for field 386
+TFORM386 t '1E'  data format of field: 4-byte REAL
+TUNIT386 t 'TRANSMISSION'  physical unit of field
+TTYPE387 t 'WAVE#5369.020'  label for field 387
+TFORM387 t '1E'  data format of field: 4-byte REAL
+TUNIT387 t 'TRANSMISSION'  physical unit of field
+TTYPE388 t 'WAVE#5375.044'  label for field 388
+TFORM388 t '1E'  data format of field: 4-byte REAL
+TUNIT388 t 'TRANSMISSION'  physical unit of field
+TTYPE389 t 'WAVE#5381.075'  label for field 389
+TFORM389 t '1E'  data format of field: 4-byte REAL
+TUNIT389 t 'TRANSMISSION'  physical unit of field
+TTYPE390 t 'WAVE#5387.112'  label for field 390
+TFORM390 t '1E'  data format of field: 4-byte REAL
+TUNIT390 t 'TRANSMISSION'  physical unit of field
+TTYPE391 t 'WAVE#5393.157'  label for field 391
+TFORM391 t '1E'  data format of field: 4-byte REAL
+TUNIT391 t 'TRANSMISSION'  physical unit of field
+TTYPE392 t 'WAVE#5399.208'  label for field 392
+TFORM392 t '1E'  data format of field: 4-byte REAL
+TUNIT392 t 'TRANSMISSION'  physical unit of field
+TTYPE393 t 'WAVE#5405.266'  label for field 393
+TFORM393 t '1E'  data format of field: 4-byte REAL
+TUNIT393 t 'TRANSMISSION'  physical unit of field
+TTYPE394 t 'WAVE#5411.331'  label for field 394
+TFORM394 t '1E'  data format of field: 4-byte REAL
+TUNIT394 t 'TRANSMISSION'  physical unit of field
+TTYPE395 t 'WAVE#5417.402'  label for field 395
+TFORM395 t '1E'  data format of field: 4-byte REAL
+TUNIT395 t 'TRANSMISSION'  physical unit of field
+TTYPE396 t 'WAVE#5423.480'  label for field 396
+TFORM396 t '1E'  data format of field: 4-byte REAL
+TUNIT396 t 'TRANSMISSION'  physical unit of field
+TTYPE397 t 'WAVE#5429.566'  label for field 397
+TFORM397 t '1E'  data format of field: 4-byte REAL
+TUNIT397 t 'TRANSMISSION'  physical unit of field
+TTYPE398 t 'WAVE#5435.658'  label for field 398
+TFORM398 t '1E'  data format of field: 4-byte REAL
+TUNIT398 t 'TRANSMISSION'  physical unit of field
+TTYPE399 t 'WAVE#5441.756'  label for field 399
+TFORM399 t '1E'  data format of field: 4-byte REAL
+TUNIT399 t 'TRANSMISSION'  physical unit of field
+TTYPE400 t 'WAVE#5447.862'  label for field 400
+TFORM400 t '1E'  data format of field: 4-byte REAL
+TUNIT400 t 'TRANSMISSION'  physical unit of field
+TTYPE401 t 'WAVE#5450.000'  label for field 401
+TFORM401 t '1E'  data format of field: 4-byte REAL
+TUNIT401 t 'TRANSMISSION'  physical unit of field
+TTYPE402 t 'WAVE#5450.001'  label for field 402
+TFORM402 t '1E'  data format of field: 4-byte REAL
+TUNIT402 t 'TRANSMISSION'  physical unit of field
+TTYPE403 t 'WAVE#5456.116'  label for field 403
+TFORM403 t '1E'  data format of field: 4-byte REAL
+TUNIT403 t 'TRANSMISSION'  physical unit of field
+TTYPE404 t 'WAVE#5462.238'  label for field 404
+TFORM404 t '1E'  data format of field: 4-byte REAL
+TUNIT404 t 'TRANSMISSION'  physical unit of field
+TTYPE405 t 'WAVE#5468.366'  label for field 405
+TFORM405 t '1E'  data format of field: 4-byte REAL
+TUNIT405 t 'TRANSMISSION'  physical unit of field
+TTYPE406 t 'WAVE#5474.502'  label for field 406
+TFORM406 t '1E'  data format of field: 4-byte REAL
+TUNIT406 t 'TRANSMISSION'  physical unit of field
+TTYPE407 t 'WAVE#5480.644'  label for field 407
+TFORM407 t '1E'  data format of field: 4-byte REAL
+TUNIT407 t 'TRANSMISSION'  physical unit of field
+TTYPE408 t 'WAVE#5486.793'  label for field 408
+TFORM408 t '1E'  data format of field: 4-byte REAL
+TUNIT408 t 'TRANSMISSION'  physical unit of field
+TTYPE409 t 'WAVE#5492.950'  label for field 409
+TFORM409 t '1E'  data format of field: 4-byte REAL
+TUNIT409 t 'TRANSMISSION'  physical unit of field
+TTYPE410 t 'WAVE#5499.113'  label for field 410
+TFORM410 t '1E'  data format of field: 4-byte REAL
+TUNIT410 t 'TRANSMISSION'  physical unit of field
+TTYPE411 t 'WAVE#5505.283'  label for field 411
+TFORM411 t '1E'  data format of field: 4-byte REAL
+TUNIT411 t 'TRANSMISSION'  physical unit of field
+TTYPE412 t 'WAVE#5511.460'  label for field 412
+TFORM412 t '1E'  data format of field: 4-byte REAL
+TUNIT412 t 'TRANSMISSION'  physical unit of field
+TTYPE413 t 'WAVE#5517.644'  label for field 413
+TFORM413 t '1E'  data format of field: 4-byte REAL
+TUNIT413 t 'TRANSMISSION'  physical unit of field
+TTYPE414 t 'WAVE#5523.834'  label for field 414
+TFORM414 t '1E'  data format of field: 4-byte REAL
+TUNIT414 t 'TRANSMISSION'  physical unit of field
+TTYPE415 t 'WAVE#5528.000'  label for field 415
+TFORM415 t '1E'  data format of field: 4-byte REAL
+TUNIT415 t 'TRANSMISSION'  physical unit of field
+TTYPE416 t 'WAVE#5528.001'  label for field 416
+TFORM416 t '1E'  data format of field: 4-byte REAL
+TUNIT416 t 'TRANSMISSION'  physical unit of field
+TTYPE417 t 'WAVE#5534.203'  label for field 417
+TFORM417 t '1E'  data format of field: 4-byte REAL
+TUNIT417 t 'TRANSMISSION'  physical unit of field
+TTYPE418 t 'WAVE#5540.413'  label for field 418
+TFORM418 t '1E'  data format of field: 4-byte REAL
+TUNIT418 t 'TRANSMISSION'  physical unit of field
+TTYPE419 t 'WAVE#5546.629'  label for field 419
+TFORM419 t '1E'  data format of field: 4-byte REAL
+TUNIT419 t 'TRANSMISSION'  physical unit of field
+TTYPE420 t 'WAVE#5552.852'  label for field 420
+TFORM420 t '1E'  data format of field: 4-byte REAL
+TUNIT420 t 'TRANSMISSION'  physical unit of field
+TTYPE421 t 'WAVE#5559.083'  label for field 421
+TFORM421 t '1E'  data format of field: 4-byte REAL
+TUNIT421 t 'TRANSMISSION'  physical unit of field
+TTYPE422 t 'WAVE#5565.320'  label for field 422
+TFORM422 t '1E'  data format of field: 4-byte REAL
+TUNIT422 t 'TRANSMISSION'  physical unit of field
+TTYPE423 t 'WAVE#5566.000'  label for field 423
+TFORM423 t '1E'  data format of field: 4-byte REAL
+TUNIT423 t 'TRANSMISSION'  physical unit of field
+TTYPE424 t 'WAVE#5566.001'  label for field 424
+TFORM424 t '1E'  data format of field: 4-byte REAL
+TUNIT424 t 'TRANSMISSION'  physical unit of field
+TTYPE425 t 'WAVE#5572.246'  label for field 425
+TFORM425 t '1E'  data format of field: 4-byte REAL
+TUNIT425 t 'TRANSMISSION'  physical unit of field
+TTYPE426 t 'WAVE#5578.498'  label for field 426
+TFORM426 t '1E'  data format of field: 4-byte REAL
+TUNIT426 t 'TRANSMISSION'  physical unit of field
+TTYPE427 t 'WAVE#5584.757'  label for field 427
+TFORM427 t '1E'  data format of field: 4-byte REAL
+TUNIT427 t 'TRANSMISSION'  physical unit of field
+TTYPE428 t 'WAVE#5591.023'  label for field 428
+TFORM428 t '1E'  data format of field: 4-byte REAL
+TUNIT428 t 'TRANSMISSION'  physical unit of field
+TTYPE429 t 'WAVE#5597.296'  label for field 429
+TFORM429 t '1E'  data format of field: 4-byte REAL
+TUNIT429 t 'TRANSMISSION'  physical unit of field
+TTYPE430 t 'WAVE#5603.577'  label for field 430
+TFORM430 t '1E'  data format of field: 4-byte REAL
+TUNIT430 t 'TRANSMISSION'  physical unit of field
+TTYPE431 t 'WAVE#5609.864'  label for field 431
+TFORM431 t '1E'  data format of field: 4-byte REAL
+TUNIT431 t 'TRANSMISSION'  physical unit of field
+TTYPE432 t 'WAVE#5616.158'  label for field 432
+TFORM432 t '1E'  data format of field: 4-byte REAL
+TUNIT432 t 'TRANSMISSION'  physical unit of field
+TTYPE433 t 'WAVE#5622.459'  label for field 433
+TFORM433 t '1E'  data format of field: 4-byte REAL
+TUNIT433 t 'TRANSMISSION'  physical unit of field
+TTYPE434 t 'WAVE#5628.768'  label for field 434
+TFORM434 t '1E'  data format of field: 4-byte REAL
+TUNIT434 t 'TRANSMISSION'  physical unit of field
+TTYPE435 t 'WAVE#5635.083'  label for field 435
+TFORM435 t '1E'  data format of field: 4-byte REAL
+TUNIT435 t 'TRANSMISSION'  physical unit of field
+TTYPE436 t 'WAVE#5641.406'  label for field 436
+TFORM436 t '1E'  data format of field: 4-byte REAL
+TUNIT436 t 'TRANSMISSION'  physical unit of field
+TTYPE437 t 'WAVE#5647.735'  label for field 437
+TFORM437 t '1E'  data format of field: 4-byte REAL
+TUNIT437 t 'TRANSMISSION'  physical unit of field
+TTYPE438 t 'WAVE#5654.072'  label for field 438
+TFORM438 t '1E'  data format of field: 4-byte REAL
+TUNIT438 t 'TRANSMISSION'  physical unit of field
+TTYPE439 t 'WAVE#5660.416'  label for field 439
+TFORM439 t '1E'  data format of field: 4-byte REAL
+TUNIT439 t 'TRANSMISSION'  physical unit of field
+TTYPE440 t 'WAVE#5666.767'  label for field 440
+TFORM440 t '1E'  data format of field: 4-byte REAL
+TUNIT440 t 'TRANSMISSION'  physical unit of field
+TTYPE441 t 'WAVE#5671.000'  label for field 441
+TFORM441 t '1E'  data format of field: 4-byte REAL
+TUNIT441 t 'TRANSMISSION'  physical unit of field
+TTYPE442 t 'WAVE#5671.001'  label for field 442
+TFORM442 t '1E'  data format of field: 4-byte REAL
+TUNIT442 t 'TRANSMISSION'  physical unit of field
+TTYPE443 t 'WAVE#5677.364'  label for field 443
+TFORM443 t '1E'  data format of field: 4-byte REAL
+TUNIT443 t 'TRANSMISSION'  physical unit of field
+TTYPE444 t 'WAVE#5683.734'  label for field 444
+TFORM444 t '1E'  data format of field: 4-byte REAL
+TUNIT444 t 'TRANSMISSION'  physical unit of field
+TTYPE445 t 'WAVE#5690.111'  label for field 445
+TFORM445 t '1E'  data format of field: 4-byte REAL
+TUNIT445 t 'TRANSMISSION'  physical unit of field
+TTYPE446 t 'WAVE#5696.495'  label for field 446
+TFORM446 t '1E'  data format of field: 4-byte REAL
+TUNIT446 t 'TRANSMISSION'  physical unit of field
+TTYPE447 t 'WAVE#5700.000'  label for field 447
+TFORM447 t '1E'  data format of field: 4-byte REAL
+TUNIT447 t 'TRANSMISSION'  physical unit of field
+TTYPE448 t 'WAVE#5700.001'  label for field 448
+TFORM448 t '1E'  data format of field: 4-byte REAL
+TUNIT448 t 'TRANSMISSION'  physical unit of field
+TTYPE449 t 'WAVE#5706.396'  label for field 449
+TFORM449 t '1E'  data format of field: 4-byte REAL
+TUNIT449 t 'TRANSMISSION'  physical unit of field
+TTYPE450 t 'WAVE#5712.799'  label for field 450
+TFORM450 t '1E'  data format of field: 4-byte REAL
+TUNIT450 t 'TRANSMISSION'  physical unit of field
+TTYPE451 t 'WAVE#5719.209'  label for field 451
+TFORM451 t '1E'  data format of field: 4-byte REAL
+TUNIT451 t 'TRANSMISSION'  physical unit of field
+TTYPE452 t 'WAVE#5725.626'  label for field 452
+TFORM452 t '1E'  data format of field: 4-byte REAL
+TUNIT452 t 'TRANSMISSION'  physical unit of field
+TTYPE453 t 'WAVE#5732.050'  label for field 453
+TFORM453 t '1E'  data format of field: 4-byte REAL
+TUNIT453 t 'TRANSMISSION'  physical unit of field
+TTYPE454 t 'WAVE#5738.481'  label for field 454
+TFORM454 t '1E'  data format of field: 4-byte REAL
+TUNIT454 t 'TRANSMISSION'  physical unit of field
+TTYPE455 t 'WAVE#5741.000'  label for field 455
+TFORM455 t '1E'  data format of field: 4-byte REAL
+TUNIT455 t 'TRANSMISSION'  physical unit of field
+TTYPE456 t 'WAVE#5741.001'  label for field 456
+TFORM456 t '1E'  data format of field: 4-byte REAL
+TUNIT456 t 'TRANSMISSION'  physical unit of field
+TTYPE457 t 'WAVE#5743.000'  label for field 457
+TFORM457 t '1E'  data format of field: 4-byte REAL
+TUNIT457 t 'TRANSMISSION'  physical unit of field
+TTYPE458 t 'WAVE#5743.001'  label for field 458
+TFORM458 t '1E'  data format of field: 4-byte REAL
+TUNIT458 t 'TRANSMISSION'  physical unit of field
+TTYPE459 t 'WAVE#5749.445'  label for field 459
+TFORM459 t '1E'  data format of field: 4-byte REAL
+TUNIT459 t 'TRANSMISSION'  physical unit of field
+TTYPE460 t 'WAVE#5755.896'  label for field 460
+TFORM460 t '1E'  data format of field: 4-byte REAL
+TUNIT460 t 'TRANSMISSION'  physical unit of field
+TTYPE461 t 'WAVE#5762.354'  label for field 461
+TFORM461 t '1E'  data format of field: 4-byte REAL
+TUNIT461 t 'TRANSMISSION'  physical unit of field
+TTYPE462 t 'WAVE#5768.819'  label for field 462
+TFORM462 t '1E'  data format of field: 4-byte REAL
+TUNIT462 t 'TRANSMISSION'  physical unit of field
+TTYPE463 t 'WAVE#5775.292'  label for field 463
+TFORM463 t '1E'  data format of field: 4-byte REAL
+TUNIT463 t 'TRANSMISSION'  physical unit of field
+TTYPE464 t 'WAVE#5781.771'  label for field 464
+TFORM464 t '1E'  data format of field: 4-byte REAL
+TUNIT464 t 'TRANSMISSION'  physical unit of field
+TTYPE465 t 'WAVE#5788.259'  label for field 465
+TFORM465 t '1E'  data format of field: 4-byte REAL
+TUNIT465 t 'TRANSMISSION'  physical unit of field
+TTYPE466 t 'WAVE#5794.753'  label for field 466
+TFORM466 t '1E'  data format of field: 4-byte REAL
+TUNIT466 t 'TRANSMISSION'  physical unit of field
+TTYPE467 t 'WAVE#5801.255'  label for field 467
+TFORM467 t '1E'  data format of field: 4-byte REAL
+TUNIT467 t 'TRANSMISSION'  physical unit of field
+TTYPE468 t 'WAVE#5807.764'  label for field 468
+TFORM468 t '1E'  data format of field: 4-byte REAL
+TUNIT468 t 'TRANSMISSION'  physical unit of field
+TTYPE469 t 'WAVE#5814.280'  label for field 469
+TFORM469 t '1E'  data format of field: 4-byte REAL
+TUNIT469 t 'TRANSMISSION'  physical unit of field
+TTYPE470 t 'WAVE#5820.804'  label for field 470
+TFORM470 t '1E'  data format of field: 4-byte REAL
+TUNIT470 t 'TRANSMISSION'  physical unit of field
+TTYPE471 t 'WAVE#5827.335'  label for field 471
+TFORM471 t '1E'  data format of field: 4-byte REAL
+TUNIT471 t 'TRANSMISSION'  physical unit of field
+TTYPE472 t 'WAVE#5833.873'  label for field 472
+TFORM472 t '1E'  data format of field: 4-byte REAL
+TUNIT472 t 'TRANSMISSION'  physical unit of field
+TTYPE473 t 'WAVE#5840.419'  label for field 473
+TFORM473 t '1E'  data format of field: 4-byte REAL
+TUNIT473 t 'TRANSMISSION'  physical unit of field
+TTYPE474 t 'WAVE#5846.971'  label for field 474
+TFORM474 t '1E'  data format of field: 4-byte REAL
+TUNIT474 t 'TRANSMISSION'  physical unit of field
+TTYPE475 t 'WAVE#5853.532'  label for field 475
+TFORM475 t '1E'  data format of field: 4-byte REAL
+TUNIT475 t 'TRANSMISSION'  physical unit of field
+TTYPE476 t 'WAVE#5860.099'  label for field 476
+TFORM476 t '1E'  data format of field: 4-byte REAL
+TUNIT476 t 'TRANSMISSION'  physical unit of field
+TTYPE477 t 'WAVE#5866.674'  label for field 477
+TFORM477 t '1E'  data format of field: 4-byte REAL
+TUNIT477 t 'TRANSMISSION'  physical unit of field
+TTYPE478 t 'WAVE#5873.257'  label for field 478
+TFORM478 t '1E'  data format of field: 4-byte REAL
+TUNIT478 t 'TRANSMISSION'  physical unit of field
+TTYPE479 t 'WAVE#5879.847'  label for field 479
+TFORM479 t '1E'  data format of field: 4-byte REAL
+TUNIT479 t 'TRANSMISSION'  physical unit of field
+TTYPE480 t 'WAVE#5886.444'  label for field 480
+TFORM480 t '1E'  data format of field: 4-byte REAL
+TUNIT480 t 'TRANSMISSION'  physical unit of field
+TTYPE481 t 'WAVE#5893.048'  label for field 481
+TFORM481 t '1E'  data format of field: 4-byte REAL
+TUNIT481 t 'TRANSMISSION'  physical unit of field
+TTYPE482 t 'WAVE#5899.660'  label for field 482
+TFORM482 t '1E'  data format of field: 4-byte REAL
+TUNIT482 t 'TRANSMISSION'  physical unit of field
+TTYPE483 t 'WAVE#5906.280'  label for field 483
+TFORM483 t '1E'  data format of field: 4-byte REAL
+TUNIT483 t 'TRANSMISSION'  physical unit of field
+TTYPE484 t 'WAVE#5910.000'  label for field 484
+TFORM484 t '1E'  data format of field: 4-byte REAL
+TUNIT484 t 'TRANSMISSION'  physical unit of field
+TTYPE485 t 'WAVE#5910.001'  label for field 485
+TFORM485 t '1E'  data format of field: 4-byte REAL
+TUNIT485 t 'TRANSMISSION'  physical unit of field
+TTYPE486 t 'WAVE#5916.632'  label for field 486
+TFORM486 t '1E'  data format of field: 4-byte REAL
+TUNIT486 t 'TRANSMISSION'  physical unit of field
+TTYPE487 t 'WAVE#5923.270'  label for field 487
+TFORM487 t '1E'  data format of field: 4-byte REAL
+TUNIT487 t 'TRANSMISSION'  physical unit of field
+TTYPE488 t 'WAVE#5929.916'  label for field 488
+TFORM488 t '1E'  data format of field: 4-byte REAL
+TUNIT488 t 'TRANSMISSION'  physical unit of field
+TTYPE489 t 'WAVE#5936.570'  label for field 489
+TFORM489 t '1E'  data format of field: 4-byte REAL
+TUNIT489 t 'TRANSMISSION'  physical unit of field
+TTYPE490 t 'WAVE#5943.231'  label for field 490
+TFORM490 t '1E'  data format of field: 4-byte REAL
+TUNIT490 t 'TRANSMISSION'  physical unit of field
+TTYPE491 t 'WAVE#5949.899'  label for field 491
+TFORM491 t '1E'  data format of field: 4-byte REAL
+TUNIT491 t 'TRANSMISSION'  physical unit of field
+TTYPE492 t 'WAVE#5956.575'  label for field 492
+TFORM492 t '1E'  data format of field: 4-byte REAL
+TUNIT492 t 'TRANSMISSION'  physical unit of field
+TTYPE493 t 'WAVE#5963.258'  label for field 493
+TFORM493 t '1E'  data format of field: 4-byte REAL
+TUNIT493 t 'TRANSMISSION'  physical unit of field
+TTYPE494 t 'WAVE#5969.949'  label for field 494
+TFORM494 t '1E'  data format of field: 4-byte REAL
+TUNIT494 t 'TRANSMISSION'  physical unit of field
+TTYPE495 t 'WAVE#5976.647'  label for field 495
+TFORM495 t '1E'  data format of field: 4-byte REAL
+TUNIT495 t 'TRANSMISSION'  physical unit of field
+TTYPE496 t 'WAVE#5983.353'  label for field 496
+TFORM496 t '1E'  data format of field: 4-byte REAL
+TUNIT496 t 'TRANSMISSION'  physical unit of field
+TTYPE497 t 'WAVE#5990.066'  label for field 497
+TFORM497 t '1E'  data format of field: 4-byte REAL
+TUNIT497 t 'TRANSMISSION'  physical unit of field
+TTYPE498 t 'WAVE#5996.787'  label for field 498
+TFORM498 t '1E'  data format of field: 4-byte REAL
+TUNIT498 t 'TRANSMISSION'  physical unit of field
+TTYPE499 t 'WAVE#6003.515'  label for field 499
+TFORM499 t '1E'  data format of field: 4-byte REAL
+TUNIT499 t 'TRANSMISSION'  physical unit of field
+TTYPE500 t 'WAVE#6007.000'  label for field 500
+TFORM500 t '1E'  data format of field: 4-byte REAL
+TUNIT500 t 'TRANSMISSION'  physical unit of field
+TTYPE501 t 'WAVE#6007.001'  label for field 501
+TFORM501 t '1E'  data format of field: 4-byte REAL
+TUNIT501 t 'TRANSMISSION'  physical unit of field
+TTYPE502 t 'WAVE#6013.741'  label for field 502
+TFORM502 t '1E'  data format of field: 4-byte REAL
+TUNIT502 t 'TRANSMISSION'  physical unit of field
+TTYPE503 t 'WAVE#6020.488'  label for field 503
+TFORM503 t '1E'  data format of field: 4-byte REAL
+TUNIT503 t 'TRANSMISSION'  physical unit of field
+TTYPE504 t 'WAVE#6027.243'  label for field 504
+TFORM504 t '1E'  data format of field: 4-byte REAL
+TUNIT504 t 'TRANSMISSION'  physical unit of field
+TTYPE505 t 'WAVE#6034.006'  label for field 505
+TFORM505 t '1E'  data format of field: 4-byte REAL
+TUNIT505 t 'TRANSMISSION'  physical unit of field
+TTYPE506 t 'WAVE#6040.776'  label for field 506
+TFORM506 t '1E'  data format of field: 4-byte REAL
+TUNIT506 t 'TRANSMISSION'  physical unit of field
+TTYPE507 t 'WAVE#6047.554'  label for field 507
+TFORM507 t '1E'  data format of field: 4-byte REAL
+TUNIT507 t 'TRANSMISSION'  physical unit of field
+TTYPE508 t 'WAVE#6054.339'  label for field 508
+TFORM508 t '1E'  data format of field: 4-byte REAL
+TUNIT508 t 'TRANSMISSION'  physical unit of field
+TTYPE509 t 'WAVE#6061.132'  label for field 509
+TFORM509 t '1E'  data format of field: 4-byte REAL
+TUNIT509 t 'TRANSMISSION'  physical unit of field
+TTYPE510 t 'WAVE#6067.933'  label for field 510
+TFORM510 t '1E'  data format of field: 4-byte REAL
+TUNIT510 t 'TRANSMISSION'  physical unit of field
+TTYPE511 t 'WAVE#6074.741'  label for field 511
+TFORM511 t '1E'  data format of field: 4-byte REAL
+TUNIT511 t 'TRANSMISSION'  physical unit of field
+TTYPE512 t 'WAVE#6081.557'  label for field 512
+TFORM512 t '1E'  data format of field: 4-byte REAL
+TUNIT512 t 'TRANSMISSION'  physical unit of field
+TTYPE513 t 'WAVE#6088.380'  label for field 513
+TFORM513 t '1E'  data format of field: 4-byte REAL
+TUNIT513 t 'TRANSMISSION'  physical unit of field
+TTYPE514 t 'WAVE#6095.211'  label for field 514
+TFORM514 t '1E'  data format of field: 4-byte REAL
+TUNIT514 t 'TRANSMISSION'  physical unit of field
+TTYPE515 t 'WAVE#6102.050'  label for field 515
+TFORM515 t '1E'  data format of field: 4-byte REAL
+TUNIT515 t 'TRANSMISSION'  physical unit of field
+TTYPE516 t 'WAVE#6108.897'  label for field 516
+TFORM516 t '1E'  data format of field: 4-byte REAL
+TUNIT516 t 'TRANSMISSION'  physical unit of field
+TTYPE517 t 'WAVE#6115.751'  label for field 517
+TFORM517 t '1E'  data format of field: 4-byte REAL
+TUNIT517 t 'TRANSMISSION'  physical unit of field
+TTYPE518 t 'WAVE#6122.613'  label for field 518
+TFORM518 t '1E'  data format of field: 4-byte REAL
+TUNIT518 t 'TRANSMISSION'  physical unit of field
+TTYPE519 t 'WAVE#6129.482'  label for field 519
+TFORM519 t '1E'  data format of field: 4-byte REAL
+TUNIT519 t 'TRANSMISSION'  physical unit of field
+TTYPE520 t 'WAVE#6136.360'  label for field 520
+TFORM520 t '1E'  data format of field: 4-byte REAL
+TUNIT520 t 'TRANSMISSION'  physical unit of field
+TTYPE521 t 'WAVE#6143.245'  label for field 521
+TFORM521 t '1E'  data format of field: 4-byte REAL
+TUNIT521 t 'TRANSMISSION'  physical unit of field
+TTYPE522 t 'WAVE#6150.137'  label for field 522
+TFORM522 t '1E'  data format of field: 4-byte REAL
+TUNIT522 t 'TRANSMISSION'  physical unit of field
+TTYPE523 t 'WAVE#6157.038'  label for field 523
+TFORM523 t '1E'  data format of field: 4-byte REAL
+TUNIT523 t 'TRANSMISSION'  physical unit of field
+TTYPE524 t 'WAVE#6163.946'  label for field 524
+TFORM524 t '1E'  data format of field: 4-byte REAL
+TUNIT524 t 'TRANSMISSION'  physical unit of field
+TTYPE525 t 'WAVE#6170.862'  label for field 525
+TFORM525 t '1E'  data format of field: 4-byte REAL
+TUNIT525 t 'TRANSMISSION'  physical unit of field
+TTYPE526 t 'WAVE#6177.786'  label for field 526
+TFORM526 t '1E'  data format of field: 4-byte REAL
+TUNIT526 t 'TRANSMISSION'  physical unit of field
+TTYPE527 t 'WAVE#6184.717'  label for field 527
+TFORM527 t '1E'  data format of field: 4-byte REAL
+TUNIT527 t 'TRANSMISSION'  physical unit of field
+TTYPE528 t 'WAVE#6191.656'  label for field 528
+TFORM528 t '1E'  data format of field: 4-byte REAL
+TUNIT528 t 'TRANSMISSION'  physical unit of field
+TTYPE529 t 'WAVE#6192.000'  label for field 529
+TFORM529 t '1E'  data format of field: 4-byte REAL
+TUNIT529 t 'TRANSMISSION'  physical unit of field
+TTYPE530 t 'WAVE#6192.001'  label for field 530
+TFORM530 t '1E'  data format of field: 4-byte REAL
+TUNIT530 t 'TRANSMISSION'  physical unit of field
+TTYPE531 t 'WAVE#6198.948'  label for field 531
+TFORM531 t '1E'  data format of field: 4-byte REAL
+TUNIT531 t 'TRANSMISSION'  physical unit of field
+TTYPE532 t 'WAVE#6205.904'  label for field 532
+TFORM532 t '1E'  data format of field: 4-byte REAL
+TUNIT532 t 'TRANSMISSION'  physical unit of field
+TTYPE533 t 'WAVE#6208.000'  label for field 533
+TFORM533 t '1E'  data format of field: 4-byte REAL
+TUNIT533 t 'TRANSMISSION'  physical unit of field
+TTYPE534 t 'WAVE#6208.001'  label for field 534
+TFORM534 t '1E'  data format of field: 4-byte REAL
+TUNIT534 t 'TRANSMISSION'  physical unit of field
+TTYPE535 t 'WAVE#6214.966'  label for field 535
+TFORM535 t '1E'  data format of field: 4-byte REAL
+TUNIT535 t 'TRANSMISSION'  physical unit of field
+TTYPE536 t 'WAVE#6221.000'  label for field 536
+TFORM536 t '1E'  data format of field: 4-byte REAL
+TUNIT536 t 'TRANSMISSION'  physical unit of field
+TTYPE537 t 'WAVE#6221.001'  label for field 537
+TFORM537 t '1E'  data format of field: 4-byte REAL
+TUNIT537 t 'TRANSMISSION'  physical unit of field
+TTYPE538 t 'WAVE#6227.981'  label for field 538
+TFORM538 t '1E'  data format of field: 4-byte REAL
+TUNIT538 t 'TRANSMISSION'  physical unit of field
+TTYPE539 t 'WAVE#6234.969'  label for field 539
+TFORM539 t '1E'  data format of field: 4-byte REAL
+TUNIT539 t 'TRANSMISSION'  physical unit of field
+TTYPE540 t 'WAVE#6238.000'  label for field 540
+TFORM540 t '1E'  data format of field: 4-byte REAL
+TUNIT540 t 'TRANSMISSION'  physical unit of field
+TTYPE541 t 'WAVE#6238.001'  label for field 541
+TFORM541 t '1E'  data format of field: 4-byte REAL
+TUNIT541 t 'TRANSMISSION'  physical unit of field
+TTYPE542 t 'WAVE#6245.000'  label for field 542
+TFORM542 t '1E'  data format of field: 4-byte REAL
+TUNIT542 t 'TRANSMISSION'  physical unit of field
+TTYPE543 t 'WAVE#6252.007'  label for field 543
+TFORM543 t '1E'  data format of field: 4-byte REAL
+TUNIT543 t 'TRANSMISSION'  physical unit of field
+TTYPE544 t 'WAVE#6259.022'  label for field 544
+TFORM544 t '1E'  data format of field: 4-byte REAL
+TUNIT544 t 'TRANSMISSION'  physical unit of field
+TTYPE545 t 'WAVE#6266.044'  label for field 545
+TFORM545 t '1E'  data format of field: 4-byte REAL
+TUNIT545 t 'TRANSMISSION'  physical unit of field
+TTYPE546 t 'WAVE#6273.075'  label for field 546
+TFORM546 t '1E'  data format of field: 4-byte REAL
+TUNIT546 t 'TRANSMISSION'  physical unit of field
+TTYPE547 t 'WAVE#6280.113'  label for field 547
+TFORM547 t '1E'  data format of field: 4-byte REAL
+TUNIT547 t 'TRANSMISSION'  physical unit of field
+TTYPE548 t 'WAVE#6287.159'  label for field 548
+TFORM548 t '1E'  data format of field: 4-byte REAL
+TUNIT548 t 'TRANSMISSION'  physical unit of field
+TTYPE549 t 'WAVE#6294.214'  label for field 549
+TFORM549 t '1E'  data format of field: 4-byte REAL
+TUNIT549 t 'TRANSMISSION'  physical unit of field
+TTYPE550 t 'WAVE#6301.276'  label for field 550
+TFORM550 t '1E'  data format of field: 4-byte REAL
+TUNIT550 t 'TRANSMISSION'  physical unit of field
+TTYPE551 t 'WAVE#6308.346'  label for field 551
+TFORM551 t '1E'  data format of field: 4-byte REAL
+TUNIT551 t 'TRANSMISSION'  physical unit of field
+TTYPE552 t 'WAVE#6315.424'  label for field 552
+TFORM552 t '1E'  data format of field: 4-byte REAL
+TUNIT552 t 'TRANSMISSION'  physical unit of field
+TTYPE553 t 'WAVE#6322.510'  label for field 553
+TFORM553 t '1E'  data format of field: 4-byte REAL
+TUNIT553 t 'TRANSMISSION'  physical unit of field
+TTYPE554 t 'WAVE#6329.604'  label for field 554
+TFORM554 t '1E'  data format of field: 4-byte REAL
+TUNIT554 t 'TRANSMISSION'  physical unit of field
+TTYPE555 t 'WAVE#6336.705'  label for field 555
+TFORM555 t '1E'  data format of field: 4-byte REAL
+TUNIT555 t 'TRANSMISSION'  physical unit of field
+TTYPE556 t 'WAVE#6343.815'  label for field 556
+TFORM556 t '1E'  data format of field: 4-byte REAL
+TUNIT556 t 'TRANSMISSION'  physical unit of field
+TTYPE557 t 'WAVE#6350.933'  label for field 557
+TFORM557 t '1E'  data format of field: 4-byte REAL
+TUNIT557 t 'TRANSMISSION'  physical unit of field
+TTYPE558 t 'WAVE#6358.059'  label for field 558
+TFORM558 t '1E'  data format of field: 4-byte REAL
+TUNIT558 t 'TRANSMISSION'  physical unit of field
+TTYPE559 t 'WAVE#6365.192'  label for field 559
+TFORM559 t '1E'  data format of field: 4-byte REAL
+TUNIT559 t 'TRANSMISSION'  physical unit of field
+TTYPE560 t 'WAVE#6372.334'  label for field 560
+TFORM560 t '1E'  data format of field: 4-byte REAL
+TUNIT560 t 'TRANSMISSION'  physical unit of field
+TTYPE561 t 'WAVE#6379.484'  label for field 561
+TFORM561 t '1E'  data format of field: 4-byte REAL
+TUNIT561 t 'TRANSMISSION'  physical unit of field
+TTYPE562 t 'WAVE#6386.642'  label for field 562
+TFORM562 t '1E'  data format of field: 4-byte REAL
+TUNIT562 t 'TRANSMISSION'  physical unit of field
+TTYPE563 t 'WAVE#6393.807'  label for field 563
+TFORM563 t '1E'  data format of field: 4-byte REAL
+TUNIT563 t 'TRANSMISSION'  physical unit of field
+TTYPE564 t 'WAVE#6400.981'  label for field 564
+TFORM564 t '1E'  data format of field: 4-byte REAL
+TUNIT564 t 'TRANSMISSION'  physical unit of field
+TTYPE565 t 'WAVE#6408.163'  label for field 565
+TFORM565 t '1E'  data format of field: 4-byte REAL
+TUNIT565 t 'TRANSMISSION'  physical unit of field
+TTYPE566 t 'WAVE#6409.000'  label for field 566
+TFORM566 t '1E'  data format of field: 4-byte REAL
+TUNIT566 t 'TRANSMISSION'  physical unit of field
+TTYPE567 t 'WAVE#6409.001'  label for field 567
+TFORM567 t '1E'  data format of field: 4-byte REAL
+TUNIT567 t 'TRANSMISSION'  physical unit of field
+TTYPE568 t 'WAVE#6416.192'  label for field 568
+TFORM568 t '1E'  data format of field: 4-byte REAL
+TUNIT568 t 'TRANSMISSION'  physical unit of field
+TTYPE569 t 'WAVE#6423.391'  label for field 569
+TFORM569 t '1E'  data format of field: 4-byte REAL
+TUNIT569 t 'TRANSMISSION'  physical unit of field
+TTYPE570 t 'WAVE#6430.598'  label for field 570
+TFORM570 t '1E'  data format of field: 4-byte REAL
+TUNIT570 t 'TRANSMISSION'  physical unit of field
+TTYPE571 t 'WAVE#6437.813'  label for field 571
+TFORM571 t '1E'  data format of field: 4-byte REAL
+TUNIT571 t 'TRANSMISSION'  physical unit of field
+TTYPE572 t 'WAVE#6445.036'  label for field 572
+TFORM572 t '1E'  data format of field: 4-byte REAL
+TUNIT572 t 'TRANSMISSION'  physical unit of field
+TTYPE573 t 'WAVE#6452.268'  label for field 573
+TFORM573 t '1E'  data format of field: 4-byte REAL
+TUNIT573 t 'TRANSMISSION'  physical unit of field
+TTYPE574 t 'WAVE#6459.507'  label for field 574
+TFORM574 t '1E'  data format of field: 4-byte REAL
+TUNIT574 t 'TRANSMISSION'  physical unit of field
+TTYPE575 t 'WAVE#6466.755'  label for field 575
+TFORM575 t '1E'  data format of field: 4-byte REAL
+TUNIT575 t 'TRANSMISSION'  physical unit of field
+TTYPE576 t 'WAVE#6474.010'  label for field 576
+TFORM576 t '1E'  data format of field: 4-byte REAL
+TUNIT576 t 'TRANSMISSION'  physical unit of field
+TTYPE577 t 'WAVE#6481.274'  label for field 577
+TFORM577 t '1E'  data format of field: 4-byte REAL
+TUNIT577 t 'TRANSMISSION'  physical unit of field
+TTYPE578 t 'WAVE#6488.546'  label for field 578
+TFORM578 t '1E'  data format of field: 4-byte REAL
+TUNIT578 t 'TRANSMISSION'  physical unit of field
+TTYPE579 t 'WAVE#6495.826'  label for field 579
+TFORM579 t '1E'  data format of field: 4-byte REAL
+TUNIT579 t 'TRANSMISSION'  physical unit of field
+TTYPE580 t 'WAVE#6503.115'  label for field 580
+TFORM580 t '1E'  data format of field: 4-byte REAL
+TUNIT580 t 'TRANSMISSION'  physical unit of field
+TTYPE581 t 'WAVE#6510.411'  label for field 581
+TFORM581 t '1E'  data format of field: 4-byte REAL
+TUNIT581 t 'TRANSMISSION'  physical unit of field
+TTYPE582 t 'WAVE#6517.716'  label for field 582
+TFORM582 t '1E'  data format of field: 4-byte REAL
+TUNIT582 t 'TRANSMISSION'  physical unit of field
+TTYPE583 t 'WAVE#6525.029'  label for field 583
+TFORM583 t '1E'  data format of field: 4-byte REAL
+TUNIT583 t 'TRANSMISSION'  physical unit of field
+TTYPE584 t 'WAVE#6532.350'  label for field 584
+TFORM584 t '1E'  data format of field: 4-byte REAL
+TUNIT584 t 'TRANSMISSION'  physical unit of field
+TTYPE585 t 'WAVE#6539.679'  label for field 585
+TFORM585 t '1E'  data format of field: 4-byte REAL
+TUNIT585 t 'TRANSMISSION'  physical unit of field
+TTYPE586 t 'WAVE#6547.017'  label for field 586
+TFORM586 t '1E'  data format of field: 4-byte REAL
+TUNIT586 t 'TRANSMISSION'  physical unit of field
+TTYPE587 t 'WAVE#6554.362'  label for field 587
+TFORM587 t '1E'  data format of field: 4-byte REAL
+TUNIT587 t 'TRANSMISSION'  physical unit of field
+TTYPE588 t 'WAVE#6561.716'  label for field 588
+TFORM588 t '1E'  data format of field: 4-byte REAL
+TUNIT588 t 'TRANSMISSION'  physical unit of field
+TTYPE589 t 'WAVE#6569.079'  label for field 589
+TFORM589 t '1E'  data format of field: 4-byte REAL
+TUNIT589 t 'TRANSMISSION'  physical unit of field
+TTYPE590 t 'WAVE#6576.449'  label for field 590
+TFORM590 t '1E'  data format of field: 4-byte REAL
+TUNIT590 t 'TRANSMISSION'  physical unit of field
+TTYPE591 t 'WAVE#6583.828'  label for field 591
+TFORM591 t '1E'  data format of field: 4-byte REAL
+TUNIT591 t 'TRANSMISSION'  physical unit of field
+TTYPE592 t 'WAVE#6584.000'  label for field 592
+TFORM592 t '1E'  data format of field: 4-byte REAL
+TUNIT592 t 'TRANSMISSION'  physical unit of field
+TTYPE593 t 'WAVE#6584.001'  label for field 593
+TFORM593 t '1E'  data format of field: 4-byte REAL
+TUNIT593 t 'TRANSMISSION'  physical unit of field
+TTYPE594 t 'WAVE#6587.000'  label for field 594
+TFORM594 t '1E'  data format of field: 4-byte REAL
+TUNIT594 t 'TRANSMISSION'  physical unit of field
+TTYPE595 t 'WAVE#6587.001'  label for field 595
+TFORM595 t '1E'  data format of field: 4-byte REAL
+TUNIT595 t 'TRANSMISSION'  physical unit of field
+TTYPE596 t 'WAVE#6590.000'  label for field 596
+TFORM596 t '1E'  data format of field: 4-byte REAL
+TUNIT596 t 'TRANSMISSION'  physical unit of field
+TTYPE597 t 'WAVE#6590.001'  label for field 597
+TFORM597 t '1E'  data format of field: 4-byte REAL
+TUNIT597 t 'TRANSMISSION'  physical unit of field
+TTYPE598 t 'WAVE#6597.395'  label for field 598
+TFORM598 t '1E'  data format of field: 4-byte REAL
+TUNIT598 t 'TRANSMISSION'  physical unit of field
+TTYPE599 t 'WAVE#6604.797'  label for field 599
+TFORM599 t '1E'  data format of field: 4-byte REAL
+TUNIT599 t 'TRANSMISSION'  physical unit of field
+TTYPE600 t 'WAVE#6612.208'  label for field 600
+TFORM600 t '1E'  data format of field: 4-byte REAL
+TUNIT600 t 'TRANSMISSION'  physical unit of field
+TTYPE601 t 'WAVE#6619.627'  label for field 601
+TFORM601 t '1E'  data format of field: 4-byte REAL
+TUNIT601 t 'TRANSMISSION'  physical unit of field
+TTYPE602 t 'WAVE#6627.054'  label for field 602
+TFORM602 t '1E'  data format of field: 4-byte REAL
+TUNIT602 t 'TRANSMISSION'  physical unit of field
+TTYPE603 t 'WAVE#6631.000'  label for field 603
+TFORM603 t '1E'  data format of field: 4-byte REAL
+TUNIT603 t 'TRANSMISSION'  physical unit of field
+TTYPE604 t 'WAVE#6631.001'  label for field 604
+TFORM604 t '1E'  data format of field: 4-byte REAL
+TUNIT604 t 'TRANSMISSION'  physical unit of field
+TTYPE605 t 'WAVE#6638.441'  label for field 605
+TFORM605 t '1E'  data format of field: 4-byte REAL
+TUNIT605 t 'TRANSMISSION'  physical unit of field
+TTYPE606 t 'WAVE#6645.889'  label for field 606
+TFORM606 t '1E'  data format of field: 4-byte REAL
+TUNIT606 t 'TRANSMISSION'  physical unit of field
+TTYPE607 t 'WAVE#6653.346'  label for field 607
+TFORM607 t '1E'  data format of field: 4-byte REAL
+TUNIT607 t 'TRANSMISSION'  physical unit of field
+TTYPE608 t 'WAVE#6660.811'  label for field 608
+TFORM608 t '1E'  data format of field: 4-byte REAL
+TUNIT608 t 'TRANSMISSION'  physical unit of field
+TTYPE609 t 'WAVE#6668.284'  label for field 609
+TFORM609 t '1E'  data format of field: 4-byte REAL
+TUNIT609 t 'TRANSMISSION'  physical unit of field
+TTYPE610 t 'WAVE#6675.766'  label for field 610
+TFORM610 t '1E'  data format of field: 4-byte REAL
+TUNIT610 t 'TRANSMISSION'  physical unit of field
+TTYPE611 t 'WAVE#6683.257'  label for field 611
+TFORM611 t '1E'  data format of field: 4-byte REAL
+TUNIT611 t 'TRANSMISSION'  physical unit of field
+TTYPE612 t 'WAVE#6690.755'  label for field 612
+TFORM612 t '1E'  data format of field: 4-byte REAL
+TUNIT612 t 'TRANSMISSION'  physical unit of field
+TTYPE613 t 'WAVE#6698.262'  label for field 613
+TFORM613 t '1E'  data format of field: 4-byte REAL
+TUNIT613 t 'TRANSMISSION'  physical unit of field
+TTYPE614 t 'WAVE#6705.778'  label for field 614
+TFORM614 t '1E'  data format of field: 4-byte REAL
+TUNIT614 t 'TRANSMISSION'  physical unit of field
+TTYPE615 t 'WAVE#6713.301'  label for field 615
+TFORM615 t '1E'  data format of field: 4-byte REAL
+TUNIT615 t 'TRANSMISSION'  physical unit of field
+TTYPE616 t 'WAVE#6720.834'  label for field 616
+TFORM616 t '1E'  data format of field: 4-byte REAL
+TUNIT616 t 'TRANSMISSION'  physical unit of field
+TTYPE617 t 'WAVE#6728.375'  label for field 617
+TFORM617 t '1E'  data format of field: 4-byte REAL
+TUNIT617 t 'TRANSMISSION'  physical unit of field
+TTYPE618 t 'WAVE#6735.924'  label for field 618
+TFORM618 t '1E'  data format of field: 4-byte REAL
+TUNIT618 t 'TRANSMISSION'  physical unit of field
+TTYPE619 t 'WAVE#6743.482'  label for field 619
+TFORM619 t '1E'  data format of field: 4-byte REAL
+TUNIT619 t 'TRANSMISSION'  physical unit of field
+TTYPE620 t 'WAVE#6751.048'  label for field 620
+TFORM620 t '1E'  data format of field: 4-byte REAL
+TUNIT620 t 'TRANSMISSION'  physical unit of field
+TTYPE621 t 'WAVE#6758.622'  label for field 621
+TFORM621 t '1E'  data format of field: 4-byte REAL
+TUNIT621 t 'TRANSMISSION'  physical unit of field
+TTYPE622 t 'WAVE#6766.206'  label for field 622
+TFORM622 t '1E'  data format of field: 4-byte REAL
+TUNIT622 t 'TRANSMISSION'  physical unit of field
+TTYPE623 t 'WAVE#6773.797'  label for field 623
+TFORM623 t '1E'  data format of field: 4-byte REAL
+TUNIT623 t 'TRANSMISSION'  physical unit of field
+TTYPE624 t 'WAVE#6781.397'  label for field 624
+TFORM624 t '1E'  data format of field: 4-byte REAL
+TUNIT624 t 'TRANSMISSION'  physical unit of field
+TTYPE625 t 'WAVE#6789.006'  label for field 625
+TFORM625 t '1E'  data format of field: 4-byte REAL
+TUNIT625 t 'TRANSMISSION'  physical unit of field
+TTYPE626 t 'WAVE#6796.623'  label for field 626
+TFORM626 t '1E'  data format of field: 4-byte REAL
+TUNIT626 t 'TRANSMISSION'  physical unit of field
+TTYPE627 t 'WAVE#6800.000'  label for field 627
+TFORM627 t '1E'  data format of field: 4-byte REAL
+TUNIT627 t 'TRANSMISSION'  physical unit of field
+TTYPE628 t 'WAVE#6800.001'  label for field 628
+TFORM628 t '1E'  data format of field: 4-byte REAL
+TUNIT628 t 'TRANSMISSION'  physical unit of field
+TTYPE629 t 'WAVE#6807.631'  label for field 629
+TFORM629 t '1E'  data format of field: 4-byte REAL
+TUNIT629 t 'TRANSMISSION'  physical unit of field
+TTYPE630 t 'WAVE#6815.269'  label for field 630
+TFORM630 t '1E'  data format of field: 4-byte REAL
+TUNIT630 t 'TRANSMISSION'  physical unit of field
+TTYPE631 t 'WAVE#6822.915'  label for field 631
+TFORM631 t '1E'  data format of field: 4-byte REAL
+TUNIT631 t 'TRANSMISSION'  physical unit of field
+TTYPE632 t 'WAVE#6830.571'  label for field 632
+TFORM632 t '1E'  data format of field: 4-byte REAL
+TUNIT632 t 'TRANSMISSION'  physical unit of field
+TTYPE633 t 'WAVE#6838.235'  label for field 633
+TFORM633 t '1E'  data format of field: 4-byte REAL
+TUNIT633 t 'TRANSMISSION'  physical unit of field
+TTYPE634 t 'WAVE#6845.907'  label for field 634
+TFORM634 t '1E'  data format of field: 4-byte REAL
+TUNIT634 t 'TRANSMISSION'  physical unit of field
+TTYPE635 t 'WAVE#6853.588'  label for field 635
+TFORM635 t '1E'  data format of field: 4-byte REAL
+TUNIT635 t 'TRANSMISSION'  physical unit of field
+TTYPE636 t 'WAVE#6861.278'  label for field 636
+TFORM636 t '1E'  data format of field: 4-byte REAL
+TUNIT636 t 'TRANSMISSION'  physical unit of field
+TTYPE637 t 'WAVE#6868.976'  label for field 637
+TFORM637 t '1E'  data format of field: 4-byte REAL
+TUNIT637 t 'TRANSMISSION'  physical unit of field
+TTYPE638 t 'WAVE#6876.683'  label for field 638
+TFORM638 t '1E'  data format of field: 4-byte REAL
+TUNIT638 t 'TRANSMISSION'  physical unit of field
+TTYPE639 t 'WAVE#6884.399'  label for field 639
+TFORM639 t '1E'  data format of field: 4-byte REAL
+TUNIT639 t 'TRANSMISSION'  physical unit of field
+TTYPE640 t 'WAVE#6892.123'  label for field 640
+TFORM640 t '1E'  data format of field: 4-byte REAL
+TUNIT640 t 'TRANSMISSION'  physical unit of field
+TTYPE641 t 'WAVE#6899.856'  label for field 641
+TFORM641 t '1E'  data format of field: 4-byte REAL
+TUNIT641 t 'TRANSMISSION'  physical unit of field
+TTYPE642 t 'WAVE#6907.598'  label for field 642
+TFORM642 t '1E'  data format of field: 4-byte REAL
+TUNIT642 t 'TRANSMISSION'  physical unit of field
+TTYPE643 t 'WAVE#6915.348'  label for field 643
+TFORM643 t '1E'  data format of field: 4-byte REAL
+TUNIT643 t 'TRANSMISSION'  physical unit of field
+TTYPE644 t 'WAVE#6921.000'  label for field 644
+TFORM644 t '1E'  data format of field: 4-byte REAL
+TUNIT644 t 'TRANSMISSION'  physical unit of field
+TTYPE645 t 'WAVE#6921.001'  label for field 645
+TFORM645 t '1E'  data format of field: 4-byte REAL
+TUNIT645 t 'TRANSMISSION'  physical unit of field
+TTYPE646 t 'WAVE#6928.766'  label for field 646
+TFORM646 t '1E'  data format of field: 4-byte REAL
+TUNIT646 t 'TRANSMISSION'  physical unit of field
+TTYPE647 t 'WAVE#6936.540'  label for field 647
+TFORM647 t '1E'  data format of field: 4-byte REAL
+TUNIT647 t 'TRANSMISSION'  physical unit of field
+TTYPE648 t 'WAVE#6944.323'  label for field 648
+TFORM648 t '1E'  data format of field: 4-byte REAL
+TUNIT648 t 'TRANSMISSION'  physical unit of field
+TTYPE649 t 'WAVE#6952.115'  label for field 649
+TFORM649 t '1E'  data format of field: 4-byte REAL
+TUNIT649 t 'TRANSMISSION'  physical unit of field
+TTYPE650 t 'WAVE#6959.915'  label for field 650
+TFORM650 t '1E'  data format of field: 4-byte REAL
+TUNIT650 t 'TRANSMISSION'  physical unit of field
+TTYPE651 t 'WAVE#6967.724'  label for field 651
+TFORM651 t '1E'  data format of field: 4-byte REAL
+TUNIT651 t 'TRANSMISSION'  physical unit of field
+TTYPE652 t 'WAVE#6975.542'  label for field 652
+TFORM652 t '1E'  data format of field: 4-byte REAL
+TUNIT652 t 'TRANSMISSION'  physical unit of field
+TTYPE653 t 'WAVE#6976.000'  label for field 653
+TFORM653 t '1E'  data format of field: 4-byte REAL
+TUNIT653 t 'TRANSMISSION'  physical unit of field
+TTYPE654 t 'WAVE#6976.001'  label for field 654
+TFORM654 t '1E'  data format of field: 4-byte REAL
+TUNIT654 t 'TRANSMISSION'  physical unit of field
+TTYPE655 t 'WAVE#6983.828'  label for field 655
+TFORM655 t '1E'  data format of field: 4-byte REAL
+TUNIT655 t 'TRANSMISSION'  physical unit of field
+TTYPE656 t 'WAVE#6991.664'  label for field 656
+TFORM656 t '1E'  data format of field: 4-byte REAL
+TUNIT656 t 'TRANSMISSION'  physical unit of field
+TTYPE657 t 'WAVE#6999.509'  label for field 657
+TFORM657 t '1E'  data format of field: 4-byte REAL
+TUNIT657 t 'TRANSMISSION'  physical unit of field
+TTYPE658 t 'WAVE#7007.362'  label for field 658
+TFORM658 t '1E'  data format of field: 4-byte REAL
+TUNIT658 t 'TRANSMISSION'  physical unit of field
+TTYPE659 t 'WAVE#7015.224'  label for field 659
+TFORM659 t '1E'  data format of field: 4-byte REAL
+TUNIT659 t 'TRANSMISSION'  physical unit of field
+TTYPE660 t 'WAVE#7023.095'  label for field 660
+TFORM660 t '1E'  data format of field: 4-byte REAL
+TUNIT660 t 'TRANSMISSION'  physical unit of field
+TTYPE661 t 'WAVE#7030.975'  label for field 661
+TFORM661 t '1E'  data format of field: 4-byte REAL
+TUNIT661 t 'TRANSMISSION'  physical unit of field
+TTYPE662 t 'WAVE#7038.864'  label for field 662
+TFORM662 t '1E'  data format of field: 4-byte REAL
+TUNIT662 t 'TRANSMISSION'  physical unit of field
+TTYPE663 t 'WAVE#7046.762'  label for field 663
+TFORM663 t '1E'  data format of field: 4-byte REAL
+TUNIT663 t 'TRANSMISSION'  physical unit of field
+TTYPE664 t 'WAVE#7054.668'  label for field 664
+TFORM664 t '1E'  data format of field: 4-byte REAL
+TUNIT664 t 'TRANSMISSION'  physical unit of field
+TTYPE665 t 'WAVE#7061.000'  label for field 665
+TFORM665 t '1E'  data format of field: 4-byte REAL
+TUNIT665 t 'TRANSMISSION'  physical unit of field
+TTYPE666 t 'WAVE#7061.001'  label for field 666
+TFORM666 t '1E'  data format of field: 4-byte REAL
+TUNIT666 t 'TRANSMISSION'  physical unit of field
+TTYPE667 t 'WAVE#7068.923'  label for field 667
+TFORM667 t '1E'  data format of field: 4-byte REAL
+TUNIT667 t 'TRANSMISSION'  physical unit of field
+TTYPE668 t 'WAVE#7076.855'  label for field 668
+TFORM668 t '1E'  data format of field: 4-byte REAL
+TUNIT668 t 'TRANSMISSION'  physical unit of field
+TTYPE669 t 'WAVE#7084.795'  label for field 669
+TFORM669 t '1E'  data format of field: 4-byte REAL
+TUNIT669 t 'TRANSMISSION'  physical unit of field
+TTYPE670 t 'WAVE#7092.744'  label for field 670
+TFORM670 t '1E'  data format of field: 4-byte REAL
+TUNIT670 t 'TRANSMISSION'  physical unit of field
+TTYPE671 t 'WAVE#7100.702'  label for field 671
+TFORM671 t '1E'  data format of field: 4-byte REAL
+TUNIT671 t 'TRANSMISSION'  physical unit of field
+TTYPE672 t 'WAVE#7108.669'  label for field 672
+TFORM672 t '1E'  data format of field: 4-byte REAL
+TUNIT672 t 'TRANSMISSION'  physical unit of field
+TTYPE673 t 'WAVE#7116.645'  label for field 673
+TFORM673 t '1E'  data format of field: 4-byte REAL
+TUNIT673 t 'TRANSMISSION'  physical unit of field
+TTYPE674 t 'WAVE#7124.630'  label for field 674
+TFORM674 t '1E'  data format of field: 4-byte REAL
+TUNIT674 t 'TRANSMISSION'  physical unit of field
+TTYPE675 t 'WAVE#7132.624'  label for field 675
+TFORM675 t '1E'  data format of field: 4-byte REAL
+TUNIT675 t 'TRANSMISSION'  physical unit of field
+TTYPE676 t 'WAVE#7140.627'  label for field 676
+TFORM676 t '1E'  data format of field: 4-byte REAL
+TUNIT676 t 'TRANSMISSION'  physical unit of field
+TTYPE677 t 'WAVE#7148.638'  label for field 677
+TFORM677 t '1E'  data format of field: 4-byte REAL
+TUNIT677 t 'TRANSMISSION'  physical unit of field
+TTYPE678 t 'WAVE#7156.659'  label for field 678
+TFORM678 t '1E'  data format of field: 4-byte REAL
+TUNIT678 t 'TRANSMISSION'  physical unit of field
+TTYPE679 t 'WAVE#7164.689'  label for field 679
+TFORM679 t '1E'  data format of field: 4-byte REAL
+TUNIT679 t 'TRANSMISSION'  physical unit of field
+TTYPE680 t 'WAVE#7172.728'  label for field 680
+TFORM680 t '1E'  data format of field: 4-byte REAL
+TUNIT680 t 'TRANSMISSION'  physical unit of field
+TTYPE681 t 'WAVE#7180.776'  label for field 681
+TFORM681 t '1E'  data format of field: 4-byte REAL
+TUNIT681 t 'TRANSMISSION'  physical unit of field
+TTYPE682 t 'WAVE#7188.832'  label for field 682
+TFORM682 t '1E'  data format of field: 4-byte REAL
+TUNIT682 t 'TRANSMISSION'  physical unit of field
+TTYPE683 t 'WAVE#7196.898'  label for field 683
+TFORM683 t '1E'  data format of field: 4-byte REAL
+TUNIT683 t 'TRANSMISSION'  physical unit of field
+TTYPE684 t 'WAVE#7204.973'  label for field 684
+TFORM684 t '1E'  data format of field: 4-byte REAL
+TUNIT684 t 'TRANSMISSION'  physical unit of field
+TTYPE685 t 'WAVE#7213.057'  label for field 685
+TFORM685 t '1E'  data format of field: 4-byte REAL
+TUNIT685 t 'TRANSMISSION'  physical unit of field
+TTYPE686 t 'WAVE#7221.150'  label for field 686
+TFORM686 t '1E'  data format of field: 4-byte REAL
+TUNIT686 t 'TRANSMISSION'  physical unit of field
+TTYPE687 t 'WAVE#7229.252'  label for field 687
+TFORM687 t '1E'  data format of field: 4-byte REAL
+TUNIT687 t 'TRANSMISSION'  physical unit of field
+TTYPE688 t 'WAVE#7237.364'  label for field 688
+TFORM688 t '1E'  data format of field: 4-byte REAL
+TUNIT688 t 'TRANSMISSION'  physical unit of field
+TTYPE689 t 'WAVE#7241.000'  label for field 689
+TFORM689 t '1E'  data format of field: 4-byte REAL
+TUNIT689 t 'TRANSMISSION'  physical unit of field
+TTYPE690 t 'WAVE#7241.001'  label for field 690
+TFORM690 t '1E'  data format of field: 4-byte REAL
+TUNIT690 t 'TRANSMISSION'  physical unit of field
+TTYPE691 t 'WAVE#7246.000'  label for field 691
+TFORM691 t '1E'  data format of field: 4-byte REAL
+TUNIT691 t 'TRANSMISSION'  physical unit of field
+TTYPE692 t 'WAVE#7246.001'  label for field 692
+TFORM692 t '1E'  data format of field: 4-byte REAL
+TUNIT692 t 'TRANSMISSION'  physical unit of field
+TTYPE693 t 'WAVE#7251.000'  label for field 693
+TFORM693 t '1E'  data format of field: 4-byte REAL
+TUNIT693 t 'TRANSMISSION'  physical unit of field
+TTYPE694 t 'WAVE#7251.001'  label for field 694
+TFORM694 t '1E'  data format of field: 4-byte REAL
+TUNIT694 t 'TRANSMISSION'  physical unit of field
+TTYPE695 t 'WAVE#7259.137'  label for field 695
+TFORM695 t '1E'  data format of field: 4-byte REAL
+TUNIT695 t 'TRANSMISSION'  physical unit of field
+TTYPE696 t 'WAVE#7267.281'  label for field 696
+TFORM696 t '1E'  data format of field: 4-byte REAL
+TUNIT696 t 'TRANSMISSION'  physical unit of field
+TTYPE697 t 'WAVE#7275.435'  label for field 697
+TFORM697 t '1E'  data format of field: 4-byte REAL
+TUNIT697 t 'TRANSMISSION'  physical unit of field
+TTYPE698 t 'WAVE#7283.598'  label for field 698
+TFORM698 t '1E'  data format of field: 4-byte REAL
+TUNIT698 t 'TRANSMISSION'  physical unit of field
+TTYPE699 t 'WAVE#7291.770'  label for field 699
+TFORM699 t '1E'  data format of field: 4-byte REAL
+TUNIT699 t 'TRANSMISSION'  physical unit of field
+TTYPE700 t 'WAVE#7299.952'  label for field 700
+TFORM700 t '1E'  data format of field: 4-byte REAL
+TUNIT700 t 'TRANSMISSION'  physical unit of field
+TTYPE701 t 'WAVE#7308.142'  label for field 701
+TFORM701 t '1E'  data format of field: 4-byte REAL
+TUNIT701 t 'TRANSMISSION'  physical unit of field
+TTYPE702 t 'WAVE#7316.342'  label for field 702
+TFORM702 t '1E'  data format of field: 4-byte REAL
+TUNIT702 t 'TRANSMISSION'  physical unit of field
+TTYPE703 t 'WAVE#7324.551'  label for field 703
+TFORM703 t '1E'  data format of field: 4-byte REAL
+TUNIT703 t 'TRANSMISSION'  physical unit of field
+TTYPE704 t 'WAVE#7332.769'  label for field 704
+TFORM704 t '1E'  data format of field: 4-byte REAL
+TUNIT704 t 'TRANSMISSION'  physical unit of field
+TTYPE705 t 'WAVE#7340.997'  label for field 705
+TFORM705 t '1E'  data format of field: 4-byte REAL
+TUNIT705 t 'TRANSMISSION'  physical unit of field
+TTYPE706 t 'WAVE#7349.233'  label for field 706
+TFORM706 t '1E'  data format of field: 4-byte REAL
+TUNIT706 t 'TRANSMISSION'  physical unit of field
+TTYPE707 t 'WAVE#7357.479'  label for field 707
+TFORM707 t '1E'  data format of field: 4-byte REAL
+TUNIT707 t 'TRANSMISSION'  physical unit of field
+TTYPE708 t 'WAVE#7365.734'  label for field 708
+TFORM708 t '1E'  data format of field: 4-byte REAL
+TUNIT708 t 'TRANSMISSION'  physical unit of field
+TTYPE709 t 'WAVE#7373.998'  label for field 709
+TFORM709 t '1E'  data format of field: 4-byte REAL
+TUNIT709 t 'TRANSMISSION'  physical unit of field
+TTYPE710 t 'WAVE#7382.272'  label for field 710
+TFORM710 t '1E'  data format of field: 4-byte REAL
+TUNIT710 t 'TRANSMISSION'  physical unit of field
+TTYPE711 t 'WAVE#7390.555'  label for field 711
+TFORM711 t '1E'  data format of field: 4-byte REAL
+TUNIT711 t 'TRANSMISSION'  physical unit of field
+TTYPE712 t 'WAVE#7398.847'  label for field 712
+TFORM712 t '1E'  data format of field: 4-byte REAL
+TUNIT712 t 'TRANSMISSION'  physical unit of field
+TTYPE713 t 'WAVE#7407.149'  label for field 713
+TFORM713 t '1E'  data format of field: 4-byte REAL
+TUNIT713 t 'TRANSMISSION'  physical unit of field
+TTYPE714 t 'WAVE#7415.460'  label for field 714
+TFORM714 t '1E'  data format of field: 4-byte REAL
+TUNIT714 t 'TRANSMISSION'  physical unit of field
+TTYPE715 t 'WAVE#7420.000'  label for field 715
+TFORM715 t '1E'  data format of field: 4-byte REAL
+TUNIT715 t 'TRANSMISSION'  physical unit of field
+TTYPE716 t 'WAVE#7420.001'  label for field 716
+TFORM716 t '1E'  data format of field: 4-byte REAL
+TUNIT716 t 'TRANSMISSION'  physical unit of field
+TTYPE717 t 'WAVE#7428.326'  label for field 717
+TFORM717 t '1E'  data format of field: 4-byte REAL
+TUNIT717 t 'TRANSMISSION'  physical unit of field
+TTYPE718 t 'WAVE#7436.661'  label for field 718
+TFORM718 t '1E'  data format of field: 4-byte REAL
+TUNIT718 t 'TRANSMISSION'  physical unit of field
+TTYPE719 t 'WAVE#7445.005'  label for field 719
+TFORM719 t '1E'  data format of field: 4-byte REAL
+TUNIT719 t 'TRANSMISSION'  physical unit of field
+TTYPE720 t 'WAVE#7453.358'  label for field 720
+TFORM720 t '1E'  data format of field: 4-byte REAL
+TUNIT720 t 'TRANSMISSION'  physical unit of field
+TTYPE721 t 'WAVE#7461.721'  label for field 721
+TFORM721 t '1E'  data format of field: 4-byte REAL
+TUNIT721 t 'TRANSMISSION'  physical unit of field
+TTYPE722 t 'WAVE#7470.093'  label for field 722
+TFORM722 t '1E'  data format of field: 4-byte REAL
+TUNIT722 t 'TRANSMISSION'  physical unit of field
+TTYPE723 t 'WAVE#7478.474'  label for field 723
+TFORM723 t '1E'  data format of field: 4-byte REAL
+TUNIT723 t 'TRANSMISSION'  physical unit of field
+TTYPE724 t 'WAVE#7486.865'  label for field 724
+TFORM724 t '1E'  data format of field: 4-byte REAL
+TUNIT724 t 'TRANSMISSION'  physical unit of field
+TTYPE725 t 'WAVE#7495.265'  label for field 725
+TFORM725 t '1E'  data format of field: 4-byte REAL
+TUNIT725 t 'TRANSMISSION'  physical unit of field
+TTYPE726 t 'WAVE#7503.675'  label for field 726
+TFORM726 t '1E'  data format of field: 4-byte REAL
+TUNIT726 t 'TRANSMISSION'  physical unit of field
+TTYPE727 t 'WAVE#7512.094'  label for field 727
+TFORM727 t '1E'  data format of field: 4-byte REAL
+TUNIT727 t 'TRANSMISSION'  physical unit of field
+TTYPE728 t 'WAVE#7520.523'  label for field 728
+TFORM728 t '1E'  data format of field: 4-byte REAL
+TUNIT728 t 'TRANSMISSION'  physical unit of field
+TTYPE729 t 'WAVE#7528.961'  label for field 729
+TFORM729 t '1E'  data format of field: 4-byte REAL
+TUNIT729 t 'TRANSMISSION'  physical unit of field
+TTYPE730 t 'WAVE#7537.408'  label for field 730
+TFORM730 t '1E'  data format of field: 4-byte REAL
+TUNIT730 t 'TRANSMISSION'  physical unit of field
+TTYPE731 t 'WAVE#7545.865'  label for field 731
+TFORM731 t '1E'  data format of field: 4-byte REAL
+TUNIT731 t 'TRANSMISSION'  physical unit of field
+TTYPE732 t 'WAVE#7554.332'  label for field 732
+TFORM732 t '1E'  data format of field: 4-byte REAL
+TUNIT732 t 'TRANSMISSION'  physical unit of field
+TTYPE733 t 'WAVE#7562.808'  label for field 733
+TFORM733 t '1E'  data format of field: 4-byte REAL
+TUNIT733 t 'TRANSMISSION'  physical unit of field
+TTYPE734 t 'WAVE#7571.293'  label for field 734
+TFORM734 t '1E'  data format of field: 4-byte REAL
+TUNIT734 t 'TRANSMISSION'  physical unit of field
+TTYPE735 t 'WAVE#7579.788'  label for field 735
+TFORM735 t '1E'  data format of field: 4-byte REAL
+TUNIT735 t 'TRANSMISSION'  physical unit of field
+TTYPE736 t 'WAVE#7588.293'  label for field 736
+TFORM736 t '1E'  data format of field: 4-byte REAL
+TUNIT736 t 'TRANSMISSION'  physical unit of field
+TTYPE737 t 'WAVE#7596.807'  label for field 737
+TFORM737 t '1E'  data format of field: 4-byte REAL
+TUNIT737 t 'TRANSMISSION'  physical unit of field
+TTYPE738 t 'WAVE#7600.000'  label for field 738
+TFORM738 t '1E'  data format of field: 4-byte REAL
+TUNIT738 t 'TRANSMISSION'  physical unit of field
+TTYPE739 t 'WAVE#7600.001'  label for field 739
+TFORM739 t '1E'  data format of field: 4-byte REAL
+TUNIT739 t 'TRANSMISSION'  physical unit of field
+TTYPE740 t 'WAVE#7602.000'  label for field 740
+TFORM740 t '1E'  data format of field: 4-byte REAL
+TUNIT740 t 'TRANSMISSION'  physical unit of field
+TTYPE741 t 'WAVE#7602.001'  label for field 741
+TFORM741 t '1E'  data format of field: 4-byte REAL
+TUNIT741 t 'TRANSMISSION'  physical unit of field
+TTYPE742 t 'WAVE#7605.000'  label for field 742
+TFORM742 t '1E'  data format of field: 4-byte REAL
+TUNIT742 t 'TRANSMISSION'  physical unit of field
+TTYPE743 t 'WAVE#7605.001'  label for field 743
+TFORM743 t '1E'  data format of field: 4-byte REAL
+TUNIT743 t 'TRANSMISSION'  physical unit of field
+TTYPE744 t 'WAVE#7613.534'  label for field 744
+TFORM744 t '1E'  data format of field: 4-byte REAL
+TUNIT744 t 'TRANSMISSION'  physical unit of field
+TTYPE745 t 'WAVE#7622.076'  label for field 745
+TFORM745 t '1E'  data format of field: 4-byte REAL
+TUNIT745 t 'TRANSMISSION'  physical unit of field
+TTYPE746 t 'WAVE#7630.628'  label for field 746
+TFORM746 t '1E'  data format of field: 4-byte REAL
+TUNIT746 t 'TRANSMISSION'  physical unit of field
+TTYPE747 t 'WAVE#7639.190'  label for field 747
+TFORM747 t '1E'  data format of field: 4-byte REAL
+TUNIT747 t 'TRANSMISSION'  physical unit of field
+TTYPE748 t 'WAVE#7647.761'  label for field 748
+TFORM748 t '1E'  data format of field: 4-byte REAL
+TUNIT748 t 'TRANSMISSION'  physical unit of field
+TTYPE749 t 'WAVE#7656.342'  label for field 749
+TFORM749 t '1E'  data format of field: 4-byte REAL
+TUNIT749 t 'TRANSMISSION'  physical unit of field
+TTYPE750 t 'WAVE#7658.000'  label for field 750
+TFORM750 t '1E'  data format of field: 4-byte REAL
+TUNIT750 t 'TRANSMISSION'  physical unit of field
+TTYPE751 t 'WAVE#7658.001'  label for field 751
+TFORM751 t '1E'  data format of field: 4-byte REAL
+TUNIT751 t 'TRANSMISSION'  physical unit of field
+TTYPE752 t 'WAVE#7666.593'  label for field 752
+TFORM752 t '1E'  data format of field: 4-byte REAL
+TUNIT752 t 'TRANSMISSION'  physical unit of field
+TTYPE753 t 'WAVE#7675.195'  label for field 753
+TFORM753 t '1E'  data format of field: 4-byte REAL
+TUNIT753 t 'TRANSMISSION'  physical unit of field
+TTYPE754 t 'WAVE#7683.807'  label for field 754
+TFORM754 t '1E'  data format of field: 4-byte REAL
+TUNIT754 t 'TRANSMISSION'  physical unit of field
+TTYPE755 t 'WAVE#7690.000'  label for field 755
+TFORM755 t '1E'  data format of field: 4-byte REAL
+TUNIT755 t 'TRANSMISSION'  physical unit of field
+TTYPE756 t 'WAVE#7690.001'  label for field 756
+TFORM756 t '1E'  data format of field: 4-byte REAL
+TUNIT756 t 'TRANSMISSION'  physical unit of field
+TTYPE757 t 'WAVE#7698.629'  label for field 757
+TFORM757 t '1E'  data format of field: 4-byte REAL
+TUNIT757 t 'TRANSMISSION'  physical unit of field
+TTYPE758 t 'WAVE#7707.267'  label for field 758
+TFORM758 t '1E'  data format of field: 4-byte REAL
+TUNIT758 t 'TRANSMISSION'  physical unit of field
+TTYPE759 t 'WAVE#7715.915'  label for field 759
+TFORM759 t '1E'  data format of field: 4-byte REAL
+TUNIT759 t 'TRANSMISSION'  physical unit of field
+TTYPE760 t 'WAVE#7724.572'  label for field 760
+TFORM760 t '1E'  data format of field: 4-byte REAL
+TUNIT760 t 'TRANSMISSION'  physical unit of field
+TTYPE761 t 'WAVE#7733.239'  label for field 761
+TFORM761 t '1E'  data format of field: 4-byte REAL
+TUNIT761 t 'TRANSMISSION'  physical unit of field
+TTYPE762 t 'WAVE#7741.916'  label for field 762
+TFORM762 t '1E'  data format of field: 4-byte REAL
+TUNIT762 t 'TRANSMISSION'  physical unit of field
+TTYPE763 t 'WAVE#7750.602'  label for field 763
+TFORM763 t '1E'  data format of field: 4-byte REAL
+TUNIT763 t 'TRANSMISSION'  physical unit of field
+TTYPE764 t 'WAVE#7759.298'  label for field 764
+TFORM764 t '1E'  data format of field: 4-byte REAL
+TUNIT764 t 'TRANSMISSION'  physical unit of field
+TTYPE765 t 'WAVE#7768.004'  label for field 765
+TFORM765 t '1E'  data format of field: 4-byte REAL
+TUNIT765 t 'TRANSMISSION'  physical unit of field
+TTYPE766 t 'WAVE#7776.720'  label for field 766
+TFORM766 t '1E'  data format of field: 4-byte REAL
+TUNIT766 t 'TRANSMISSION'  physical unit of field
+TTYPE767 t 'WAVE#7785.445'  label for field 767
+TFORM767 t '1E'  data format of field: 4-byte REAL
+TUNIT767 t 'TRANSMISSION'  physical unit of field
+TTYPE768 t 'WAVE#7794.181'  label for field 768
+TFORM768 t '1E'  data format of field: 4-byte REAL
+TUNIT768 t 'TRANSMISSION'  physical unit of field
+TTYPE769 t 'WAVE#7802.926'  label for field 769
+TFORM769 t '1E'  data format of field: 4-byte REAL
+TUNIT769 t 'TRANSMISSION'  physical unit of field
+TTYPE770 t 'WAVE#7811.680'  label for field 770
+TFORM770 t '1E'  data format of field: 4-byte REAL
+TUNIT770 t 'TRANSMISSION'  physical unit of field
+TTYPE771 t 'WAVE#7820.445'  label for field 771
+TFORM771 t '1E'  data format of field: 4-byte REAL
+TUNIT771 t 'TRANSMISSION'  physical unit of field
+TTYPE772 t 'WAVE#7829.220'  label for field 772
+TFORM772 t '1E'  data format of field: 4-byte REAL
+TUNIT772 t 'TRANSMISSION'  physical unit of field
+TTYPE773 t 'WAVE#7830.000'  label for field 773
+TFORM773 t '1E'  data format of field: 4-byte REAL
+TUNIT773 t 'TRANSMISSION'  physical unit of field
+TTYPE774 t 'WAVE#7830.001'  label for field 774
+TFORM774 t '1E'  data format of field: 4-byte REAL
+TUNIT774 t 'TRANSMISSION'  physical unit of field
+TTYPE775 t 'WAVE#7838.786'  label for field 775
+TFORM775 t '1E'  data format of field: 4-byte REAL
+TUNIT775 t 'TRANSMISSION'  physical unit of field
+TTYPE776 t 'WAVE#7847.581'  label for field 776
+TFORM776 t '1E'  data format of field: 4-byte REAL
+TUNIT776 t 'TRANSMISSION'  physical unit of field
+TTYPE777 t 'WAVE#7856.386'  label for field 777
+TFORM777 t '1E'  data format of field: 4-byte REAL
+TUNIT777 t 'TRANSMISSION'  physical unit of field
+TTYPE778 t 'WAVE#7865.201'  label for field 778
+TFORM778 t '1E'  data format of field: 4-byte REAL
+TUNIT778 t 'TRANSMISSION'  physical unit of field
+TTYPE779 t 'WAVE#7874.026'  label for field 779
+TFORM779 t '1E'  data format of field: 4-byte REAL
+TUNIT779 t 'TRANSMISSION'  physical unit of field
+TTYPE780 t 'WAVE#7882.861'  label for field 780
+TFORM780 t '1E'  data format of field: 4-byte REAL
+TUNIT780 t 'TRANSMISSION'  physical unit of field
+TTYPE781 t 'WAVE#7891.705'  label for field 781
+TFORM781 t '1E'  data format of field: 4-byte REAL
+TUNIT781 t 'TRANSMISSION'  physical unit of field
+TTYPE782 t 'WAVE#7900.560'  label for field 782
+TFORM782 t '1E'  data format of field: 4-byte REAL
+TUNIT782 t 'TRANSMISSION'  physical unit of field
+TTYPE783 t 'WAVE#7909.424'  label for field 783
+TFORM783 t '1E'  data format of field: 4-byte REAL
+TUNIT783 t 'TRANSMISSION'  physical unit of field
+TTYPE784 t 'WAVE#7918.299'  label for field 784
+TFORM784 t '1E'  data format of field: 4-byte REAL
+TUNIT784 t 'TRANSMISSION'  physical unit of field
+TTYPE785 t 'WAVE#7927.183'  label for field 785
+TFORM785 t '1E'  data format of field: 4-byte REAL
+TUNIT785 t 'TRANSMISSION'  physical unit of field
+TTYPE786 t 'WAVE#7936.077'  label for field 786
+TFORM786 t '1E'  data format of field: 4-byte REAL
+TUNIT786 t 'TRANSMISSION'  physical unit of field
+TTYPE787 t 'WAVE#7944.981'  label for field 787
+TFORM787 t '1E'  data format of field: 4-byte REAL
+TUNIT787 t 'TRANSMISSION'  physical unit of field
+TTYPE788 t 'WAVE#7953.896'  label for field 788
+TFORM788 t '1E'  data format of field: 4-byte REAL
+TUNIT788 t 'TRANSMISSION'  physical unit of field
+TTYPE789 t 'WAVE#7962.820'  label for field 789
+TFORM789 t '1E'  data format of field: 4-byte REAL
+TUNIT789 t 'TRANSMISSION'  physical unit of field
+TTYPE790 t 'WAVE#7971.754'  label for field 790
+TFORM790 t '1E'  data format of field: 4-byte REAL
+TUNIT790 t 'TRANSMISSION'  physical unit of field
+TTYPE791 t 'WAVE#7980.699'  label for field 791
+TFORM791 t '1E'  data format of field: 4-byte REAL
+TUNIT791 t 'TRANSMISSION'  physical unit of field
+TTYPE792 t 'WAVE#7989.653'  label for field 792
+TFORM792 t '1E'  data format of field: 4-byte REAL
+TUNIT792 t 'TRANSMISSION'  physical unit of field
+TTYPE793 t 'WAVE#7998.617'  label for field 793
+TFORM793 t '1E'  data format of field: 4-byte REAL
+TUNIT793 t 'TRANSMISSION'  physical unit of field
+TTYPE794 t 'WAVE#8007.592'  label for field 794
+TFORM794 t '1E'  data format of field: 4-byte REAL
+TUNIT794 t 'TRANSMISSION'  physical unit of field
+TTYPE795 t 'WAVE#8016.576'  label for field 795
+TFORM795 t '1E'  data format of field: 4-byte REAL
+TUNIT795 t 'TRANSMISSION'  physical unit of field
+TTYPE796 t 'WAVE#8025.571'  label for field 796
+TFORM796 t '1E'  data format of field: 4-byte REAL
+TUNIT796 t 'TRANSMISSION'  physical unit of field
+TTYPE797 t 'WAVE#8034.576'  label for field 797
+TFORM797 t '1E'  data format of field: 4-byte REAL
+TUNIT797 t 'TRANSMISSION'  physical unit of field
+TTYPE798 t 'WAVE#8043.590'  label for field 798
+TFORM798 t '1E'  data format of field: 4-byte REAL
+TUNIT798 t 'TRANSMISSION'  physical unit of field
+TTYPE799 t 'WAVE#8052.615'  label for field 799
+TFORM799 t '1E'  data format of field: 4-byte REAL
+TUNIT799 t 'TRANSMISSION'  physical unit of field
+TTYPE800 t 'WAVE#8061.650'  label for field 800
+TFORM800 t '1E'  data format of field: 4-byte REAL
+TUNIT800 t 'TRANSMISSION'  physical unit of field
+TTYPE801 t 'WAVE#8070.695'  label for field 801
+TFORM801 t '1E'  data format of field: 4-byte REAL
+TUNIT801 t 'TRANSMISSION'  physical unit of field
+TTYPE802 t 'WAVE#8072.000'  label for field 802
+TFORM802 t '1E'  data format of field: 4-byte REAL
+TUNIT802 t 'TRANSMISSION'  physical unit of field
+TTYPE803 t 'WAVE#8072.001'  label for field 803
+TFORM803 t '1E'  data format of field: 4-byte REAL
+TUNIT803 t 'TRANSMISSION'  physical unit of field
+TTYPE804 t 'WAVE#8074.000'  label for field 804
+TFORM804 t '1E'  data format of field: 4-byte REAL
+TUNIT804 t 'TRANSMISSION'  physical unit of field
+TTYPE805 t 'WAVE#8074.001'  label for field 805
+TFORM805 t '1E'  data format of field: 4-byte REAL
+TUNIT805 t 'TRANSMISSION'  physical unit of field
+TTYPE806 t 'WAVE#8077.000'  label for field 806
+TFORM806 t '1E'  data format of field: 4-byte REAL
+TUNIT806 t 'TRANSMISSION'  physical unit of field
+TTYPE807 t 'WAVE#8077.001'  label for field 807
+TFORM807 t '1E'  data format of field: 4-byte REAL
+TUNIT807 t 'TRANSMISSION'  physical unit of field
+TTYPE808 t 'WAVE#8086.063'  label for field 808
+TFORM808 t '1E'  data format of field: 4-byte REAL
+TUNIT808 t 'TRANSMISSION'  physical unit of field
+TTYPE809 t 'WAVE#8095.136'  label for field 809
+TFORM809 t '1E'  data format of field: 4-byte REAL
+TUNIT809 t 'TRANSMISSION'  physical unit of field
+TTYPE810 t 'WAVE#8104.219'  label for field 810
+TFORM810 t '1E'  data format of field: 4-byte REAL
+TUNIT810 t 'TRANSMISSION'  physical unit of field
+TTYPE811 t 'WAVE#8113.312'  label for field 811
+TFORM811 t '1E'  data format of field: 4-byte REAL
+TUNIT811 t 'TRANSMISSION'  physical unit of field
+TTYPE812 t 'WAVE#8122.415'  label for field 812
+TFORM812 t '1E'  data format of field: 4-byte REAL
+TUNIT812 t 'TRANSMISSION'  physical unit of field
+TTYPE813 t 'WAVE#8131.528'  label for field 813
+TFORM813 t '1E'  data format of field: 4-byte REAL
+TUNIT813 t 'TRANSMISSION'  physical unit of field
+TTYPE814 t 'WAVE#8140.000'  label for field 814
+TFORM814 t '1E'  data format of field: 4-byte REAL
+TUNIT814 t 'TRANSMISSION'  physical unit of field
+TTYPE815 t 'WAVE#8140.001'  label for field 815
+TFORM815 t '1E'  data format of field: 4-byte REAL
+TUNIT815 t 'TRANSMISSION'  physical unit of field
+TTYPE816 t 'WAVE#8149.134'  label for field 816
+TFORM816 t '1E'  data format of field: 4-byte REAL
+TUNIT816 t 'TRANSMISSION'  physical unit of field
+TTYPE817 t 'WAVE#8158.277'  label for field 817
+TFORM817 t '1E'  data format of field: 4-byte REAL
+TUNIT817 t 'TRANSMISSION'  physical unit of field
+TTYPE818 t 'WAVE#8167.431'  label for field 818
+TFORM818 t '1E'  data format of field: 4-byte REAL
+TUNIT818 t 'TRANSMISSION'  physical unit of field
+TTYPE819 t 'WAVE#8176.595'  label for field 819
+TFORM819 t '1E'  data format of field: 4-byte REAL
+TUNIT819 t 'TRANSMISSION'  physical unit of field
+TTYPE820 t 'WAVE#8185.769'  label for field 820
+TFORM820 t '1E'  data format of field: 4-byte REAL
+TUNIT820 t 'TRANSMISSION'  physical unit of field
+TTYPE821 t 'WAVE#8194.953'  label for field 821
+TFORM821 t '1E'  data format of field: 4-byte REAL
+TUNIT821 t 'TRANSMISSION'  physical unit of field
+TTYPE822 t 'WAVE#8204.148'  label for field 822
+TFORM822 t '1E'  data format of field: 4-byte REAL
+TUNIT822 t 'TRANSMISSION'  physical unit of field
+TTYPE823 t 'WAVE#8213.353'  label for field 823
+TFORM823 t '1E'  data format of field: 4-byte REAL
+TUNIT823 t 'TRANSMISSION'  physical unit of field
+TTYPE824 t 'WAVE#8222.569'  label for field 824
+TFORM824 t '1E'  data format of field: 4-byte REAL
+TUNIT824 t 'TRANSMISSION'  physical unit of field
+TTYPE825 t 'WAVE#8231.794'  label for field 825
+TFORM825 t '1E'  data format of field: 4-byte REAL
+TUNIT825 t 'TRANSMISSION'  physical unit of field
+TTYPE826 t 'WAVE#8241.030'  label for field 826
+TFORM826 t '1E'  data format of field: 4-byte REAL
+TUNIT826 t 'TRANSMISSION'  physical unit of field
+TTYPE827 t 'WAVE#8250.277'  label for field 827
+TFORM827 t '1E'  data format of field: 4-byte REAL
+TUNIT827 t 'TRANSMISSION'  physical unit of field
+TTYPE828 t 'WAVE#8259.534'  label for field 828
+TFORM828 t '1E'  data format of field: 4-byte REAL
+TUNIT828 t 'TRANSMISSION'  physical unit of field
+TTYPE829 t 'WAVE#8268.801'  label for field 829
+TFORM829 t '1E'  data format of field: 4-byte REAL
+TUNIT829 t 'TRANSMISSION'  physical unit of field
+TTYPE830 t 'WAVE#8278.078'  label for field 830
+TFORM830 t '1E'  data format of field: 4-byte REAL
+TUNIT830 t 'TRANSMISSION'  physical unit of field
+TTYPE831 t 'WAVE#8287.366'  label for field 831
+TFORM831 t '1E'  data format of field: 4-byte REAL
+TUNIT831 t 'TRANSMISSION'  physical unit of field
+TTYPE832 t 'WAVE#8296.665'  label for field 832
+TFORM832 t '1E'  data format of field: 4-byte REAL
+TUNIT832 t 'TRANSMISSION'  physical unit of field
+TTYPE833 t 'WAVE#8300.000'  label for field 833
+TFORM833 t '1E'  data format of field: 4-byte REAL
+TUNIT833 t 'TRANSMISSION'  physical unit of field
+TTYPE834 t 'WAVE#8300.001'  label for field 834
+TFORM834 t '1E'  data format of field: 4-byte REAL
+TUNIT834 t 'TRANSMISSION'  physical unit of field
+TTYPE835 t 'WAVE#8309.314'  label for field 835
+TFORM835 t '1E'  data format of field: 4-byte REAL
+TUNIT835 t 'TRANSMISSION'  physical unit of field
+TTYPE836 t 'WAVE#8318.637'  label for field 836
+TFORM836 t '1E'  data format of field: 4-byte REAL
+TUNIT836 t 'TRANSMISSION'  physical unit of field
+TTYPE837 t 'WAVE#8327.970'  label for field 837
+TFORM837 t '1E'  data format of field: 4-byte REAL
+TUNIT837 t 'TRANSMISSION'  physical unit of field
+TTYPE838 t 'WAVE#8337.314'  label for field 838
+TFORM838 t '1E'  data format of field: 4-byte REAL
+TUNIT838 t 'TRANSMISSION'  physical unit of field
+TTYPE839 t 'WAVE#8346.669'  label for field 839
+TFORM839 t '1E'  data format of field: 4-byte REAL
+TUNIT839 t 'TRANSMISSION'  physical unit of field
+TTYPE840 t 'WAVE#8356.034'  label for field 840
+TFORM840 t '1E'  data format of field: 4-byte REAL
+TUNIT840 t 'TRANSMISSION'  physical unit of field
+TTYPE841 t 'WAVE#8362.000'  label for field 841
+TFORM841 t '1E'  data format of field: 4-byte REAL
+TUNIT841 t 'TRANSMISSION'  physical unit of field
+TTYPE842 t 'WAVE#8362.001'  label for field 842
+TFORM842 t '1E'  data format of field: 4-byte REAL
+TUNIT842 t 'TRANSMISSION'  physical unit of field
+TTYPE843 t 'WAVE#8371.383'  label for field 843
+TFORM843 t '1E'  data format of field: 4-byte REAL
+TUNIT843 t 'TRANSMISSION'  physical unit of field
+TTYPE844 t 'WAVE#8380.776'  label for field 844
+TFORM844 t '1E'  data format of field: 4-byte REAL
+TUNIT844 t 'TRANSMISSION'  physical unit of field
+TTYPE845 t 'WAVE#8390.179'  label for field 845
+TFORM845 t '1E'  data format of field: 4-byte REAL
+TUNIT845 t 'TRANSMISSION'  physical unit of field
+TTYPE846 t 'WAVE#8399.593'  label for field 846
+TFORM846 t '1E'  data format of field: 4-byte REAL
+TUNIT846 t 'TRANSMISSION'  physical unit of field
+TTYPE847 t 'WAVE#8409.017'  label for field 847
+TFORM847 t '1E'  data format of field: 4-byte REAL
+TUNIT847 t 'TRANSMISSION'  physical unit of field
+TTYPE848 t 'WAVE#8418.452'  label for field 848
+TFORM848 t '1E'  data format of field: 4-byte REAL
+TUNIT848 t 'TRANSMISSION'  physical unit of field
+TTYPE849 t 'WAVE#8427.898'  label for field 849
+TFORM849 t '1E'  data format of field: 4-byte REAL
+TUNIT849 t 'TRANSMISSION'  physical unit of field
+TTYPE850 t 'WAVE#8437.354'  label for field 850
+TFORM850 t '1E'  data format of field: 4-byte REAL
+TUNIT850 t 'TRANSMISSION'  physical unit of field
+TTYPE851 t 'WAVE#8446.820'  label for field 851
+TFORM851 t '1E'  data format of field: 4-byte REAL
+TUNIT851 t 'TRANSMISSION'  physical unit of field
+TTYPE852 t 'WAVE#8456.298'  label for field 852
+TFORM852 t '1E'  data format of field: 4-byte REAL
+TUNIT852 t 'TRANSMISSION'  physical unit of field
+TTYPE853 t 'WAVE#8460.000'  label for field 853
+TFORM853 t '1E'  data format of field: 4-byte REAL
+TUNIT853 t 'TRANSMISSION'  physical unit of field
+TTYPE854 t 'WAVE#8460.001'  label for field 854
+TFORM854 t '1E'  data format of field: 4-byte REAL
+TUNIT854 t 'TRANSMISSION'  physical unit of field
+TTYPE855 t 'WAVE#8469.493'  label for field 855
+TFORM855 t '1E'  data format of field: 4-byte REAL
+TUNIT855 t 'TRANSMISSION'  physical unit of field
+TTYPE856 t 'WAVE#8478.996'  label for field 856
+TFORM856 t '1E'  data format of field: 4-byte REAL
+TUNIT856 t 'TRANSMISSION'  physical unit of field
+TTYPE857 t 'WAVE#8488.509'  label for field 857
+TFORM857 t '1E'  data format of field: 4-byte REAL
+TUNIT857 t 'TRANSMISSION'  physical unit of field
+TTYPE858 t 'WAVE#8498.033'  label for field 858
+TFORM858 t '1E'  data format of field: 4-byte REAL
+TUNIT858 t 'TRANSMISSION'  physical unit of field
+TTYPE859 t 'WAVE#8507.568'  label for field 859
+TFORM859 t '1E'  data format of field: 4-byte REAL
+TUNIT859 t 'TRANSMISSION'  physical unit of field
+TTYPE860 t 'WAVE#8517.114'  label for field 860
+TFORM860 t '1E'  data format of field: 4-byte REAL
+TUNIT860 t 'TRANSMISSION'  physical unit of field
+TTYPE861 t 'WAVE#8526.670'  label for field 861
+TFORM861 t '1E'  data format of field: 4-byte REAL
+TUNIT861 t 'TRANSMISSION'  physical unit of field
+TTYPE862 t 'WAVE#8536.237'  label for field 862
+TFORM862 t '1E'  data format of field: 4-byte REAL
+TUNIT862 t 'TRANSMISSION'  physical unit of field
+TTYPE863 t 'WAVE#8545.815'  label for field 863
+TFORM863 t '1E'  data format of field: 4-byte REAL
+TUNIT863 t 'TRANSMISSION'  physical unit of field
+TTYPE864 t 'WAVE#8555.403'  label for field 864
+TFORM864 t '1E'  data format of field: 4-byte REAL
+TUNIT864 t 'TRANSMISSION'  physical unit of field
+TTYPE865 t 'WAVE#8565.002'  label for field 865
+TFORM865 t '1E'  data format of field: 4-byte REAL
+TUNIT865 t 'TRANSMISSION'  physical unit of field
+TTYPE866 t 'WAVE#8574.612'  label for field 866
+TFORM866 t '1E'  data format of field: 4-byte REAL
+TUNIT866 t 'TRANSMISSION'  physical unit of field
+TTYPE867 t 'WAVE#8584.233'  label for field 867
+TFORM867 t '1E'  data format of field: 4-byte REAL
+TUNIT867 t 'TRANSMISSION'  physical unit of field
+TTYPE868 t 'WAVE#8593.864'  label for field 868
+TFORM868 t '1E'  data format of field: 4-byte REAL
+TUNIT868 t 'TRANSMISSION'  physical unit of field
+TTYPE869 t 'WAVE#8603.507'  label for field 869
+TFORM869 t '1E'  data format of field: 4-byte REAL
+TUNIT869 t 'TRANSMISSION'  physical unit of field
+TTYPE870 t 'WAVE#8613.160'  label for field 870
+TFORM870 t '1E'  data format of field: 4-byte REAL
+TUNIT870 t 'TRANSMISSION'  physical unit of field
+TTYPE871 t 'WAVE#8622.824'  label for field 871
+TFORM871 t '1E'  data format of field: 4-byte REAL
+TUNIT871 t 'TRANSMISSION'  physical unit of field
+TTYPE872 t 'WAVE#8632.498'  label for field 872
+TFORM872 t '1E'  data format of field: 4-byte REAL
+TUNIT872 t 'TRANSMISSION'  physical unit of field
+TTYPE873 t 'WAVE#8642.184'  label for field 873
+TFORM873 t '1E'  data format of field: 4-byte REAL
+TUNIT873 t 'TRANSMISSION'  physical unit of field
+TTYPE874 t 'WAVE#8651.881'  label for field 874
+TFORM874 t '1E'  data format of field: 4-byte REAL
+TUNIT874 t 'TRANSMISSION'  physical unit of field
+TTYPE875 t 'WAVE#8661.000'  label for field 875
+TFORM875 t '1E'  data format of field: 4-byte REAL
+TUNIT875 t 'TRANSMISSION'  physical unit of field
+TTYPE876 t 'WAVE#8661.001'  label for field 876
+TFORM876 t '1E'  data format of field: 4-byte REAL
+TUNIT876 t 'TRANSMISSION'  physical unit of field
+TTYPE877 t 'WAVE#8670.719'  label for field 877
+TFORM877 t '1E'  data format of field: 4-byte REAL
+TUNIT877 t 'TRANSMISSION'  physical unit of field
+TTYPE878 t 'WAVE#8680.447'  label for field 878
+TFORM878 t '1E'  data format of field: 4-byte REAL
+TUNIT878 t 'TRANSMISSION'  physical unit of field
+TTYPE879 t 'WAVE#8690.187'  label for field 879
+TFORM879 t '1E'  data format of field: 4-byte REAL
+TUNIT879 t 'TRANSMISSION'  physical unit of field
+TTYPE880 t 'WAVE#8699.937'  label for field 880
+TFORM880 t '1E'  data format of field: 4-byte REAL
+TUNIT880 t 'TRANSMISSION'  physical unit of field
+TTYPE881 t 'WAVE#8709.698'  label for field 881
+TFORM881 t '1E'  data format of field: 4-byte REAL
+TUNIT881 t 'TRANSMISSION'  physical unit of field
+TTYPE882 t 'WAVE#8719.471'  label for field 882
+TFORM882 t '1E'  data format of field: 4-byte REAL
+TUNIT882 t 'TRANSMISSION'  physical unit of field
+TTYPE883 t 'WAVE#8729.254'  label for field 883
+TFORM883 t '1E'  data format of field: 4-byte REAL
+TUNIT883 t 'TRANSMISSION'  physical unit of field
+TTYPE884 t 'WAVE#8739.048'  label for field 884
+TFORM884 t '1E'  data format of field: 4-byte REAL
+TUNIT884 t 'TRANSMISSION'  physical unit of field
+TTYPE885 t 'WAVE#8748.853'  label for field 885
+TFORM885 t '1E'  data format of field: 4-byte REAL
+TUNIT885 t 'TRANSMISSION'  physical unit of field
+TTYPE886 t 'WAVE#8758.670'  label for field 886
+TFORM886 t '1E'  data format of field: 4-byte REAL
+TUNIT886 t 'TRANSMISSION'  physical unit of field
+TTYPE887 t 'WAVE#8768.497'  label for field 887
+TFORM887 t '1E'  data format of field: 4-byte REAL
+TUNIT887 t 'TRANSMISSION'  physical unit of field
+TTYPE888 t 'WAVE#8778.335'  label for field 888
+TFORM888 t '1E'  data format of field: 4-byte REAL
+TUNIT888 t 'TRANSMISSION'  physical unit of field
+TTYPE889 t 'WAVE#8788.184'  label for field 889
+TFORM889 t '1E'  data format of field: 4-byte REAL
+TUNIT889 t 'TRANSMISSION'  physical unit of field
+TTYPE890 t 'WAVE#8798.045'  label for field 890
+TFORM890 t '1E'  data format of field: 4-byte REAL
+TUNIT890 t 'TRANSMISSION'  physical unit of field
+TTYPE891 t 'WAVE#8807.916'  label for field 891
+TFORM891 t '1E'  data format of field: 4-byte REAL
+TUNIT891 t 'TRANSMISSION'  physical unit of field
+TTYPE892 t 'WAVE#8817.799'  label for field 892
+TFORM892 t '1E'  data format of field: 4-byte REAL
+TUNIT892 t 'TRANSMISSION'  physical unit of field
+TTYPE893 t 'WAVE#8827.692'  label for field 893
+TFORM893 t '1E'  data format of field: 4-byte REAL
+TUNIT893 t 'TRANSMISSION'  physical unit of field
+TTYPE894 t 'WAVE#8837.597'  label for field 894
+TFORM894 t '1E'  data format of field: 4-byte REAL
+TUNIT894 t 'TRANSMISSION'  physical unit of field
+TTYPE895 t 'WAVE#8847.513'  label for field 895
+TFORM895 t '1E'  data format of field: 4-byte REAL
+TUNIT895 t 'TRANSMISSION'  physical unit of field
+TTYPE896 t 'WAVE#8857.439'  label for field 896
+TFORM896 t '1E'  data format of field: 4-byte REAL
+TUNIT896 t 'TRANSMISSION'  physical unit of field
+TTYPE897 t 'WAVE#8867.378'  label for field 897
+TFORM897 t '1E'  data format of field: 4-byte REAL
+TUNIT897 t 'TRANSMISSION'  physical unit of field
+TTYPE898 t 'WAVE#8877.327'  label for field 898
+TFORM898 t '1E'  data format of field: 4-byte REAL
+TUNIT898 t 'TRANSMISSION'  physical unit of field
+TTYPE899 t 'WAVE#8887.287'  label for field 899
+TFORM899 t '1E'  data format of field: 4-byte REAL
+TUNIT899 t 'TRANSMISSION'  physical unit of field
+TTYPE900 t 'WAVE#8897.259'  label for field 900
+TFORM900 t '1E'  data format of field: 4-byte REAL
+TUNIT900 t 'TRANSMISSION'  physical unit of field
+TTYPE901 t 'WAVE#8907.241'  label for field 901
+TFORM901 t '1E'  data format of field: 4-byte REAL
+TUNIT901 t 'TRANSMISSION'  physical unit of field
+TTYPE902 t 'WAVE#8910.000'  label for field 902
+TFORM902 t '1E'  data format of field: 4-byte REAL
+TUNIT902 t 'TRANSMISSION'  physical unit of field
+TTYPE903 t 'WAVE#8910.001'  label for field 903
+TFORM903 t '1E'  data format of field: 4-byte REAL
+TUNIT903 t 'TRANSMISSION'  physical unit of field
+TTYPE904 t 'WAVE#8919.998'  label for field 904
+TFORM904 t '1E'  data format of field: 4-byte REAL
+TUNIT904 t 'TRANSMISSION'  physical unit of field
+TTYPE905 t 'WAVE#8920.000'  label for field 905
+TFORM905 t '1E'  data format of field: 4-byte REAL
+TUNIT905 t 'TRANSMISSION'  physical unit of field
+TTYPE906 t 'WAVE#8920.001'  label for field 906
+TFORM906 t '1E'  data format of field: 4-byte REAL
+TUNIT906 t 'TRANSMISSION'  physical unit of field
+TTYPE907 t 'WAVE#8930.009'  label for field 907
+TFORM907 t '1E'  data format of field: 4-byte REAL
+TUNIT907 t 'TRANSMISSION'  physical unit of field
+TTYPE908 t 'WAVE#8940.029'  label for field 908
+TFORM908 t '1E'  data format of field: 4-byte REAL
+TUNIT908 t 'TRANSMISSION'  physical unit of field
+TTYPE909 t 'WAVE#8945.000'  label for field 909
+TFORM909 t '1E'  data format of field: 4-byte REAL
+TUNIT909 t 'TRANSMISSION'  physical unit of field
+TTYPE910 t 'WAVE#8945.001'  label for field 910
+TFORM910 t '1E'  data format of field: 4-byte REAL
+TUNIT910 t 'TRANSMISSION'  physical unit of field
+TTYPE911 t 'WAVE#8955.037'  label for field 911
+TFORM911 t '1E'  data format of field: 4-byte REAL
+TUNIT911 t 'TRANSMISSION'  physical unit of field
+TTYPE912 t 'WAVE#8965.085'  label for field 912
+TFORM912 t '1E'  data format of field: 4-byte REAL
+TUNIT912 t 'TRANSMISSION'  physical unit of field
+TTYPE913 t 'WAVE#8975.144'  label for field 913
+TFORM913 t '1E'  data format of field: 4-byte REAL
+TUNIT913 t 'TRANSMISSION'  physical unit of field
+TTYPE914 t 'WAVE#8980.000'  label for field 914
+TFORM914 t '1E'  data format of field: 4-byte REAL
+TUNIT914 t 'TRANSMISSION'  physical unit of field
+TTYPE915 t 'WAVE#8980.001'  label for field 915
+TFORM915 t '1E'  data format of field: 4-byte REAL
+TUNIT915 t 'TRANSMISSION'  physical unit of field
+TTYPE916 t 'WAVE#8990.077'  label for field 916
+TFORM916 t '1E'  data format of field: 4-byte REAL
+TUNIT916 t 'TRANSMISSION'  physical unit of field
+TTYPE917 t 'WAVE#9000.163'  label for field 917
+TFORM917 t '1E'  data format of field: 4-byte REAL
+TUNIT917 t 'TRANSMISSION'  physical unit of field
+TTYPE918 t 'WAVE#9010.262'  label for field 918
+TFORM918 t '1E'  data format of field: 4-byte REAL
+TUNIT918 t 'TRANSMISSION'  physical unit of field
+TTYPE919 t 'WAVE#9020.371'  label for field 919
+TFORM919 t '1E'  data format of field: 4-byte REAL
+TUNIT919 t 'TRANSMISSION'  physical unit of field
+TTYPE920 t 'WAVE#9030.492'  label for field 920
+TFORM920 t '1E'  data format of field: 4-byte REAL
+TUNIT920 t 'TRANSMISSION'  physical unit of field
+TTYPE921 t 'WAVE#9040.624'  label for field 921
+TFORM921 t '1E'  data format of field: 4-byte REAL
+TUNIT921 t 'TRANSMISSION'  physical unit of field
+TTYPE922 t 'WAVE#9050.768'  label for field 922
+TFORM922 t '1E'  data format of field: 4-byte REAL
+TUNIT922 t 'TRANSMISSION'  physical unit of field
+TTYPE923 t 'WAVE#9060.923'  label for field 923
+TFORM923 t '1E'  data format of field: 4-byte REAL
+TUNIT923 t 'TRANSMISSION'  physical unit of field
+TTYPE924 t 'WAVE#9071.089'  label for field 924
+TFORM924 t '1E'  data format of field: 4-byte REAL
+TUNIT924 t 'TRANSMISSION'  physical unit of field
+TTYPE925 t 'WAVE#9081.267'  label for field 925
+TFORM925 t '1E'  data format of field: 4-byte REAL
+TUNIT925 t 'TRANSMISSION'  physical unit of field
+TTYPE926 t 'WAVE#9091.456'  label for field 926
+TFORM926 t '1E'  data format of field: 4-byte REAL
+TUNIT926 t 'TRANSMISSION'  physical unit of field
+TTYPE927 t 'WAVE#9101.657'  label for field 927
+TFORM927 t '1E'  data format of field: 4-byte REAL
+TUNIT927 t 'TRANSMISSION'  physical unit of field
+TTYPE928 t 'WAVE#9111.869'  label for field 928
+TFORM928 t '1E'  data format of field: 4-byte REAL
+TUNIT928 t 'TRANSMISSION'  physical unit of field
+TTYPE929 t 'WAVE#9122.092'  label for field 929
+TFORM929 t '1E'  data format of field: 4-byte REAL
+TUNIT929 t 'TRANSMISSION'  physical unit of field
+TTYPE930 t 'WAVE#9132.327'  label for field 930
+TFORM930 t '1E'  data format of field: 4-byte REAL
+TUNIT930 t 'TRANSMISSION'  physical unit of field
+TTYPE931 t 'WAVE#9142.574'  label for field 931
+TFORM931 t '1E'  data format of field: 4-byte REAL
+TUNIT931 t 'TRANSMISSION'  physical unit of field
+TTYPE932 t 'WAVE#9152.832'  label for field 932
+TFORM932 t '1E'  data format of field: 4-byte REAL
+TUNIT932 t 'TRANSMISSION'  physical unit of field
+TTYPE933 t 'WAVE#9163.101'  label for field 933
+TFORM933 t '1E'  data format of field: 4-byte REAL
+TUNIT933 t 'TRANSMISSION'  physical unit of field
+TTYPE934 t 'WAVE#9173.382'  label for field 934
+TFORM934 t '1E'  data format of field: 4-byte REAL
+TUNIT934 t 'TRANSMISSION'  physical unit of field
+TTYPE935 t 'WAVE#9183.675'  label for field 935
+TFORM935 t '1E'  data format of field: 4-byte REAL
+TUNIT935 t 'TRANSMISSION'  physical unit of field
+TTYPE936 t 'WAVE#9193.979'  label for field 936
+TFORM936 t '1E'  data format of field: 4-byte REAL
+TUNIT936 t 'TRANSMISSION'  physical unit of field
+TTYPE937 t 'WAVE#9200.000'  label for field 937
+TFORM937 t '1E'  data format of field: 4-byte REAL
+TUNIT937 t 'TRANSMISSION'  physical unit of field
+TTYPE938 t 'WAVE#9200.001'  label for field 938
+TFORM938 t '1E'  data format of field: 4-byte REAL
+TUNIT938 t 'TRANSMISSION'  physical unit of field
+TTYPE939 t 'WAVE#9210.323'  label for field 939
+TFORM939 t '1E'  data format of field: 4-byte REAL
+TUNIT939 t 'TRANSMISSION'  physical unit of field
+TTYPE940 t 'WAVE#9220.657'  label for field 940
+TFORM940 t '1E'  data format of field: 4-byte REAL
+TUNIT940 t 'TRANSMISSION'  physical unit of field
+TTYPE941 t 'WAVE#9231.003'  label for field 941
+TFORM941 t '1E'  data format of field: 4-byte REAL
+TUNIT941 t 'TRANSMISSION'  physical unit of field
+TTYPE942 t 'WAVE#9241.360'  label for field 942
+TFORM942 t '1E'  data format of field: 4-byte REAL
+TUNIT942 t 'TRANSMISSION'  physical unit of field
+TTYPE943 t 'WAVE#9251.729'  label for field 943
+TFORM943 t '1E'  data format of field: 4-byte REAL
+TUNIT943 t 'TRANSMISSION'  physical unit of field
+TTYPE944 t 'WAVE#9262.109'  label for field 944
+TFORM944 t '1E'  data format of field: 4-byte REAL
+TUNIT944 t 'TRANSMISSION'  physical unit of field
+TTYPE945 t 'WAVE#9272.501'  label for field 945
+TFORM945 t '1E'  data format of field: 4-byte REAL
+TUNIT945 t 'TRANSMISSION'  physical unit of field
+TTYPE946 t 'WAVE#9282.905'  label for field 946
+TFORM946 t '1E'  data format of field: 4-byte REAL
+TUNIT946 t 'TRANSMISSION'  physical unit of field
+TTYPE947 t 'WAVE#9293.321'  label for field 947
+TFORM947 t '1E'  data format of field: 4-byte REAL
+TUNIT947 t 'TRANSMISSION'  physical unit of field
+TTYPE948 t 'WAVE#9303.748'  label for field 948
+TFORM948 t '1E'  data format of field: 4-byte REAL
+TUNIT948 t 'TRANSMISSION'  physical unit of field
+TTYPE949 t 'WAVE#9314.187'  label for field 949
+TFORM949 t '1E'  data format of field: 4-byte REAL
+TUNIT949 t 'TRANSMISSION'  physical unit of field
+TTYPE950 t 'WAVE#9324.637'  label for field 950
+TFORM950 t '1E'  data format of field: 4-byte REAL
+TUNIT950 t 'TRANSMISSION'  physical unit of field
+TTYPE951 t 'WAVE#9335.099'  label for field 951
+TFORM951 t '1E'  data format of field: 4-byte REAL
+TUNIT951 t 'TRANSMISSION'  physical unit of field
+TTYPE952 t 'WAVE#9345.573'  label for field 952
+TFORM952 t '1E'  data format of field: 4-byte REAL
+TUNIT952 t 'TRANSMISSION'  physical unit of field
+TTYPE953 t 'WAVE#9356.059'  label for field 953
+TFORM953 t '1E'  data format of field: 4-byte REAL
+TUNIT953 t 'TRANSMISSION'  physical unit of field
+TTYPE954 t 'WAVE#9366.557'  label for field 954
+TFORM954 t '1E'  data format of field: 4-byte REAL
+TUNIT954 t 'TRANSMISSION'  physical unit of field
+TTYPE955 t 'WAVE#9377.066'  label for field 955
+TFORM955 t '1E'  data format of field: 4-byte REAL
+TUNIT955 t 'TRANSMISSION'  physical unit of field
+TTYPE956 t 'WAVE#9387.587'  label for field 956
+TFORM956 t '1E'  data format of field: 4-byte REAL
+TUNIT956 t 'TRANSMISSION'  physical unit of field
+TTYPE957 t 'WAVE#9398.120'  label for field 957
+TFORM957 t '1E'  data format of field: 4-byte REAL
+TUNIT957 t 'TRANSMISSION'  physical unit of field
+TTYPE958 t 'WAVE#9408.664'  label for field 958
+TFORM958 t '1E'  data format of field: 4-byte REAL
+TUNIT958 t 'TRANSMISSION'  physical unit of field
+TTYPE959 t 'WAVE#9415.000'  label for field 959
+TFORM959 t '1E'  data format of field: 4-byte REAL
+TUNIT959 t 'TRANSMISSION'  physical unit of field
+TTYPE960 t 'WAVE#9415.001'  label for field 960
+TFORM960 t '1E'  data format of field: 4-byte REAL
+TUNIT960 t 'TRANSMISSION'  physical unit of field
+TTYPE961 t 'WAVE#9425.565'  label for field 961
+TFORM961 t '1E'  data format of field: 4-byte REAL
+TUNIT961 t 'TRANSMISSION'  physical unit of field
+TTYPE962 t 'WAVE#9436.140'  label for field 962
+TFORM962 t '1E'  data format of field: 4-byte REAL
+TUNIT962 t 'TRANSMISSION'  physical unit of field
+TTYPE963 t 'WAVE#9446.727'  label for field 963
+TFORM963 t '1E'  data format of field: 4-byte REAL
+TUNIT963 t 'TRANSMISSION'  physical unit of field
+TTYPE964 t 'WAVE#9456.000'  label for field 964
+TFORM964 t '1E'  data format of field: 4-byte REAL
+TUNIT964 t 'TRANSMISSION'  physical unit of field
+TTYPE965 t 'WAVE#9456.001'  label for field 965
+TFORM965 t '1E'  data format of field: 4-byte REAL
+TUNIT965 t 'TRANSMISSION'  physical unit of field
+TTYPE966 t 'WAVE#9466.611'  label for field 966
+TFORM966 t '1E'  data format of field: 4-byte REAL
+TUNIT966 t 'TRANSMISSION'  physical unit of field
+TTYPE967 t 'WAVE#9477.232'  label for field 967
+TFORM967 t '1E'  data format of field: 4-byte REAL
+TUNIT967 t 'TRANSMISSION'  physical unit of field
+TTYPE968 t 'WAVE#9478.000'  label for field 968
+TFORM968 t '1E'  data format of field: 4-byte REAL
+TUNIT968 t 'TRANSMISSION'  physical unit of field
+TTYPE969 t 'WAVE#9478.001'  label for field 969
+TFORM969 t '1E'  data format of field: 4-byte REAL
+TUNIT969 t 'TRANSMISSION'  physical unit of field
+TTYPE970 t 'WAVE#9488.635'  label for field 970
+TFORM970 t '1E'  data format of field: 4-byte REAL
+TUNIT970 t 'TRANSMISSION'  physical unit of field
+TTYPE971 t 'WAVE#9499.282'  label for field 971
+TFORM971 t '1E'  data format of field: 4-byte REAL
+TUNIT971 t 'TRANSMISSION'  physical unit of field
+TTYPE972 t 'WAVE#9501.000'  label for field 972
+TFORM972 t '1E'  data format of field: 4-byte REAL
+TUNIT972 t 'TRANSMISSION'  physical unit of field
+TTYPE973 t 'WAVE#9501.001'  label for field 973
+TFORM973 t '1E'  data format of field: 4-byte REAL
+TUNIT973 t 'TRANSMISSION'  physical unit of field
+TTYPE974 t 'WAVE#9511.661'  label for field 974
+TFORM974 t '1E'  data format of field: 4-byte REAL
+TUNIT974 t 'TRANSMISSION'  physical unit of field
+TTYPE975 t 'WAVE#9522.333'  label for field 975
+TFORM975 t '1E'  data format of field: 4-byte REAL
+TUNIT975 t 'TRANSMISSION'  physical unit of field
+TTYPE976 t 'WAVE#9533.017'  label for field 976
+TFORM976 t '1E'  data format of field: 4-byte REAL
+TUNIT976 t 'TRANSMISSION'  physical unit of field
+TTYPE977 t 'WAVE#9543.713'  label for field 977
+TFORM977 t '1E'  data format of field: 4-byte REAL
+TUNIT977 t 'TRANSMISSION'  physical unit of field
+TTYPE978 t 'WAVE#9554.421'  label for field 978
+TFORM978 t '1E'  data format of field: 4-byte REAL
+TUNIT978 t 'TRANSMISSION'  physical unit of field
+TTYPE979 t 'WAVE#9565.141'  label for field 979
+TFORM979 t '1E'  data format of field: 4-byte REAL
+TUNIT979 t 'TRANSMISSION'  physical unit of field
+TTYPE980 t 'WAVE#9575.874'  label for field 980
+TFORM980 t '1E'  data format of field: 4-byte REAL
+TUNIT980 t 'TRANSMISSION'  physical unit of field
+TTYPE981 t 'WAVE#9586.618'  label for field 981
+TFORM981 t '1E'  data format of field: 4-byte REAL
+TUNIT981 t 'TRANSMISSION'  physical unit of field
+TTYPE982 t 'WAVE#9597.374'  label for field 982
+TFORM982 t '1E'  data format of field: 4-byte REAL
+TUNIT982 t 'TRANSMISSION'  physical unit of field
+TTYPE983 t 'WAVE#9608.142'  label for field 983
+TFORM983 t '1E'  data format of field: 4-byte REAL
+TUNIT983 t 'TRANSMISSION'  physical unit of field
+TTYPE984 t 'WAVE#9618.922'  label for field 984
+TFORM984 t '1E'  data format of field: 4-byte REAL
+TUNIT984 t 'TRANSMISSION'  physical unit of field
+TTYPE985 t 'WAVE#9629.715'  label for field 985
+TFORM985 t '1E'  data format of field: 4-byte REAL
+TUNIT985 t 'TRANSMISSION'  physical unit of field
+TTYPE986 t 'WAVE#9640.519'  label for field 986
+TFORM986 t '1E'  data format of field: 4-byte REAL
+TUNIT986 t 'TRANSMISSION'  physical unit of field
+TTYPE987 t 'WAVE#9651.336'  label for field 987
+TFORM987 t '1E'  data format of field: 4-byte REAL
+TUNIT987 t 'TRANSMISSION'  physical unit of field
+TTYPE988 t 'WAVE#9662.165'  label for field 988
+TFORM988 t '1E'  data format of field: 4-byte REAL
+TUNIT988 t 'TRANSMISSION'  physical unit of field
+TTYPE989 t 'WAVE#9673.006'  label for field 989
+TFORM989 t '1E'  data format of field: 4-byte REAL
+TUNIT989 t 'TRANSMISSION'  physical unit of field
+TTYPE990 t 'WAVE#9683.859'  label for field 990
+TFORM990 t '1E'  data format of field: 4-byte REAL
+TUNIT990 t 'TRANSMISSION'  physical unit of field
+TTYPE991 t 'WAVE#9694.724'  label for field 991
+TFORM991 t '1E'  data format of field: 4-byte REAL
+TUNIT991 t 'TRANSMISSION'  physical unit of field
+TTYPE992 t 'WAVE#9705.602'  label for field 992
+TFORM992 t '1E'  data format of field: 4-byte REAL
+TUNIT992 t 'TRANSMISSION'  physical unit of field
+TTYPE993 t 'WAVE#9716.491'  label for field 993
+TFORM993 t '1E'  data format of field: 4-byte REAL
+TUNIT993 t 'TRANSMISSION'  physical unit of field
+TTYPE994 t 'WAVE#9727.393'  label for field 994
+TFORM994 t '1E'  data format of field: 4-byte REAL
+TUNIT994 t 'TRANSMISSION'  physical unit of field
+TTYPE995 t 'WAVE#9738.307'  label for field 995
+TFORM995 t '1E'  data format of field: 4-byte REAL
+TUNIT995 t 'TRANSMISSION'  physical unit of field
+TTYPE996 t 'WAVE#9749.234'  label for field 996
+TFORM996 t '1E'  data format of field: 4-byte REAL
+TUNIT996 t 'TRANSMISSION'  physical unit of field
+TTYPE997 t 'WAVE#9760.172'  label for field 997
+TFORM997 t '1E'  data format of field: 4-byte REAL
+TUNIT997 t 'TRANSMISSION'  physical unit of field
+TTYPE998 t 'WAVE#9762.001'  label for field 998
+TFORM998 t '1E'  data format of field: 4-byte REAL
+TUNIT998 t 'TRANSMISSION'  physical unit of field
+TDISP1   t 'F10.4'  display format
+TDISP2   t 'G12.5'  display format
+TDISP3   t 'G12.5'  display format
+TDISP4   t 'G12.5'  display format
+TDISP5   t 'G12.5'  display format
+TDISP6   t 'G12.5'  display format
+TDISP7   t 'G12.5'  display format
+TDISP8   t 'G12.5'  display format
+TDISP9   t 'G12.5'  display format
+TDISP10  t 'G12.5'  display format
+TDISP11  t 'G12.5'  display format
+TDISP12  t 'G12.5'  display format
+TDISP13  t 'G12.5'  display format
+TDISP14  t 'G12.5'  display format
+TDISP15  t 'G12.5'  display format
+TDISP16  t 'G12.5'  display format
+TDISP17  t 'G12.5'  display format
+TDISP18  t 'G12.5'  display format
+TDISP19  t 'G12.5'  display format
+TDISP20  t 'G12.5'  display format
+TDISP21  t 'G12.5'  display format
+TDISP22  t 'G12.5'  display format
+TDISP23  t 'G12.5'  display format
+TDISP24  t 'G12.5'  display format
+TDISP25  t 'G12.5'  display format
+TDISP26  t 'G12.5'  display format
+TDISP27  t 'G12.5'  display format
+TDISP28  t 'G12.5'  display format
+TDISP29  t 'G12.5'  display format
+TDISP30  t 'G12.5'  display format
+TDISP31  t 'G12.5'  display format
+TDISP32  t 'G12.5'  display format
+TDISP33  t 'G12.5'  display format
+TDISP34  t 'G12.5'  display format
+TDISP35  t 'G12.5'  display format
+TDISP36  t 'G12.5'  display format
+TDISP37  t 'G12.5'  display format
+TDISP38  t 'G12.5'  display format
+TDISP39  t 'G12.5'  display format
+TDISP40  t 'G12.5'  display format
+TDISP41  t 'G12.5'  display format
+TDISP42  t 'G12.5'  display format
+TDISP43  t 'G12.5'  display format
+TDISP44  t 'G12.5'  display format
+TDISP45  t 'G12.5'  display format
+TDISP46  t 'G12.5'  display format
+TDISP47  t 'G12.5'  display format
+TDISP48  t 'G12.5'  display format
+TDISP49  t 'G12.5'  display format
+TDISP50  t 'G12.5'  display format
+TDISP51  t 'G12.5'  display format
+TDISP52  t 'G12.5'  display format
+TDISP53  t 'G12.5'  display format
+TDISP54  t 'G12.5'  display format
+TDISP55  t 'G12.5'  display format
+TDISP56  t 'G12.5'  display format
+TDISP57  t 'G12.5'  display format
+TDISP58  t 'G12.5'  display format
+TDISP59  t 'G12.5'  display format
+TDISP60  t 'G12.5'  display format
+TDISP61  t 'G12.5'  display format
+TDISP62  t 'G12.5'  display format
+TDISP63  t 'G12.5'  display format
+TDISP64  t 'G12.5'  display format
+TDISP65  t 'G12.5'  display format
+TDISP66  t 'G12.5'  display format
+TDISP67  t 'G12.5'  display format
+TDISP68  t 'G12.5'  display format
+TDISP69  t 'G12.5'  display format
+TDISP70  t 'G12.5'  display format
+TDISP71  t 'G12.5'  display format
+TDISP72  t 'G12.5'  display format
+TDISP73  t 'G12.5'  display format
+TDISP74  t 'G12.5'  display format
+TDISP75  t 'G12.5'  display format
+TDISP76  t 'G12.5'  display format
+TDISP77  t 'G12.5'  display format
+TDISP78  t 'G12.5'  display format
+TDISP79  t 'G12.5'  display format
+TDISP80  t 'G12.5'  display format
+TDISP81  t 'G12.5'  display format
+TDISP82  t 'G12.5'  display format
+TDISP83  t 'G12.5'  display format
+TDISP84  t 'G12.5'  display format
+TDISP85  t 'G12.5'  display format
+TDISP86  t 'G12.5'  display format
+TDISP87  t 'G12.5'  display format
+TDISP88  t 'G12.5'  display format
+TDISP89  t 'G12.5'  display format
+TDISP90  t 'G12.5'  display format
+TDISP91  t 'G12.5'  display format
+TDISP92  t 'G12.5'  display format
+TDISP93  t 'G12.5'  display format
+TDISP94  t 'G12.5'  display format
+TDISP95  t 'G12.5'  display format
+TDISP96  t 'G12.5'  display format
+TDISP97  t 'G12.5'  display format
+TDISP98  t 'G12.5'  display format
+TDISP99  t 'G12.5'  display format
+TDISP100 t 'G12.5'  display format
+TDISP101 t 'G12.5'  display format
+TDISP102 t 'G12.5'  display format
+TDISP103 t 'G12.5'  display format
+TDISP104 t 'G12.5'  display format
+TDISP105 t 'G12.5'  display format
+TDISP106 t 'G12.5'  display format
+TDISP107 t 'G12.5'  display format
+TDISP108 t 'G12.5'  display format
+TDISP109 t 'G12.5'  display format
+TDISP110 t 'G12.5'  display format
+TDISP111 t 'G12.5'  display format
+TDISP112 t 'G12.5'  display format
+TDISP113 t 'G12.5'  display format
+TDISP114 t 'G12.5'  display format
+TDISP115 t 'G12.5'  display format
+TDISP116 t 'G12.5'  display format
+TDISP117 t 'G12.5'  display format
+TDISP118 t 'G12.5'  display format
+TDISP119 t 'G12.5'  display format
+TDISP120 t 'G12.5'  display format
+TDISP121 t 'G12.5'  display format
+TDISP122 t 'G12.5'  display format
+TDISP123 t 'G12.5'  display format
+TDISP124 t 'G12.5'  display format
+TDISP125 t 'G12.5'  display format
+TDISP126 t 'G12.5'  display format
+TDISP127 t 'G12.5'  display format
+TDISP128 t 'G12.5'  display format
+TDISP129 t 'G12.5'  display format
+TDISP130 t 'G12.5'  display format
+TDISP131 t 'G12.5'  display format
+TDISP132 t 'G12.5'  display format
+TDISP133 t 'G12.5'  display format
+TDISP134 t 'G12.5'  display format
+TDISP135 t 'G12.5'  display format
+TDISP136 t 'G12.5'  display format
+TDISP137 t 'G12.5'  display format
+TDISP138 t 'G12.5'  display format
+TDISP139 t 'G12.5'  display format
+TDISP140 t 'G12.5'  display format
+TDISP141 t 'G12.5'  display format
+TDISP142 t 'G12.5'  display format
+TDISP143 t 'G12.5'  display format
+TDISP144 t 'G12.5'  display format
+TDISP145 t 'G12.5'  display format
+TDISP146 t 'G12.5'  display format
+TDISP147 t 'G12.5'  display format
+TDISP148 t 'G12.5'  display format
+TDISP149 t 'G12.5'  display format
+TDISP150 t 'G12.5'  display format
+TDISP151 t 'G12.5'  display format
+TDISP152 t 'G12.5'  display format
+TDISP153 t 'G12.5'  display format
+TDISP154 t 'G12.5'  display format
+TDISP155 t 'G12.5'  display format
+TDISP156 t 'G12.5'  display format
+TDISP157 t 'G12.5'  display format
+TDISP158 t 'G12.5'  display format
+TDISP159 t 'G12.5'  display format
+TDISP160 t 'G12.5'  display format
+TDISP161 t 'G12.5'  display format
+TDISP162 t 'G12.5'  display format
+TDISP163 t 'G12.5'  display format
+TDISP164 t 'G12.5'  display format
+TDISP165 t 'G12.5'  display format
+TDISP166 t 'G12.5'  display format
+TDISP167 t 'G12.5'  display format
+TDISP168 t 'G12.5'  display format
+TDISP169 t 'G12.5'  display format
+TDISP170 t 'G12.5'  display format
+TDISP171 t 'G12.5'  display format
+TDISP172 t 'G12.5'  display format
+TDISP173 t 'G12.5'  display format
+TDISP174 t 'G12.5'  display format
+TDISP175 t 'G12.5'  display format
+TDISP176 t 'G12.5'  display format
+TDISP177 t 'G12.5'  display format
+TDISP178 t 'G12.5'  display format
+TDISP179 t 'G12.5'  display format
+TDISP180 t 'G12.5'  display format
+TDISP181 t 'G12.5'  display format
+TDISP182 t 'G12.5'  display format
+TDISP183 t 'G12.5'  display format
+TDISP184 t 'G12.5'  display format
+TDISP185 t 'G12.5'  display format
+TDISP186 t 'G12.5'  display format
+TDISP187 t 'G12.5'  display format
+TDISP188 t 'G12.5'  display format
+TDISP189 t 'G12.5'  display format
+TDISP190 t 'G12.5'  display format
+TDISP191 t 'G12.5'  display format
+TDISP192 t 'G12.5'  display format
+TDISP193 t 'G12.5'  display format
+TDISP194 t 'G12.5'  display format
+TDISP195 t 'G12.5'  display format
+TDISP196 t 'G12.5'  display format
+TDISP197 t 'G12.5'  display format
+TDISP198 t 'G12.5'  display format
+TDISP199 t 'G12.5'  display format
+TDISP200 t 'G12.5'  display format
+TDISP201 t 'G12.5'  display format
+TDISP202 t 'G12.5'  display format
+TDISP203 t 'G12.5'  display format
+TDISP204 t 'G12.5'  display format
+TDISP205 t 'G12.5'  display format
+TDISP206 t 'G12.5'  display format
+TDISP207 t 'G12.5'  display format
+TDISP208 t 'G12.5'  display format
+TDISP209 t 'G12.5'  display format
+TDISP210 t 'G12.5'  display format
+TDISP211 t 'G12.5'  display format
+TDISP212 t 'G12.5'  display format
+TDISP213 t 'G12.5'  display format
+TDISP214 t 'G12.5'  display format
+TDISP215 t 'G12.5'  display format
+TDISP216 t 'G12.5'  display format
+TDISP217 t 'G12.5'  display format
+TDISP218 t 'G12.5'  display format
+TDISP219 t 'G12.5'  display format
+TDISP220 t 'G12.5'  display format
+TDISP221 t 'G12.5'  display format
+TDISP222 t 'G12.5'  display format
+TDISP223 t 'G12.5'  display format
+TDISP224 t 'G12.5'  display format
+TDISP225 t 'G12.5'  display format
+TDISP226 t 'G12.5'  display format
+TDISP227 t 'G12.5'  display format
+TDISP228 t 'G12.5'  display format
+TDISP229 t 'G12.5'  display format
+TDISP230 t 'G12.5'  display format
+TDISP231 t 'G12.5'  display format
+TDISP232 t 'G12.5'  display format
+TDISP233 t 'G12.5'  display format
+TDISP234 t 'G12.5'  display format
+TDISP235 t 'G12.5'  display format
+TDISP236 t 'G12.5'  display format
+TDISP237 t 'G12.5'  display format
+TDISP238 t 'G12.5'  display format
+TDISP239 t 'G12.5'  display format
+TDISP240 t 'G12.5'  display format
+TDISP241 t 'G12.5'  display format
+TDISP242 t 'G12.5'  display format
+TDISP243 t 'G12.5'  display format
+TDISP244 t 'G12.5'  display format
+TDISP245 t 'G12.5'  display format
+TDISP246 t 'G12.5'  display format
+TDISP247 t 'G12.5'  display format
+TDISP248 t 'G12.5'  display format
+TDISP249 t 'G12.5'  display format
+TDISP250 t 'G12.5'  display format
+TDISP251 t 'G12.5'  display format
+TDISP252 t 'G12.5'  display format
+TDISP253 t 'G12.5'  display format
+TDISP254 t 'G12.5'  display format
+TDISP255 t 'G12.5'  display format
+TDISP256 t 'G12.5'  display format
+TDISP257 t 'G12.5'  display format
+TDISP258 t 'G12.5'  display format
+TDISP259 t 'G12.5'  display format
+TDISP260 t 'G12.5'  display format
+TDISP261 t 'G12.5'  display format
+TDISP262 t 'G12.5'  display format
+TDISP263 t 'G12.5'  display format
+TDISP264 t 'G12.5'  display format
+TDISP265 t 'G12.5'  display format
+TDISP266 t 'G12.5'  display format
+TDISP267 t 'G12.5'  display format
+TDISP268 t 'G12.5'  display format
+TDISP269 t 'G12.5'  display format
+TDISP270 t 'G12.5'  display format
+TDISP271 t 'G12.5'  display format
+TDISP272 t 'G12.5'  display format
+TDISP273 t 'G12.5'  display format
+TDISP274 t 'G12.5'  display format
+TDISP275 t 'G12.5'  display format
+TDISP276 t 'G12.5'  display format
+TDISP277 t 'G12.5'  display format
+TDISP278 t 'G12.5'  display format
+TDISP279 t 'G12.5'  display format
+TDISP280 t 'G12.5'  display format
+TDISP281 t 'G12.5'  display format
+TDISP282 t 'G12.5'  display format
+TDISP283 t 'G12.5'  display format
+TDISP284 t 'G12.5'  display format
+TDISP285 t 'G12.5'  display format
+TDISP286 t 'G12.5'  display format
+TDISP287 t 'G12.5'  display format
+TDISP288 t 'G12.5'  display format
+TDISP289 t 'G12.5'  display format
+TDISP290 t 'G12.5'  display format
+TDISP291 t 'G12.5'  display format
+TDISP292 t 'G12.5'  display format
+TDISP293 t 'G12.5'  display format
+TDISP294 t 'G12.5'  display format
+TDISP295 t 'G12.5'  display format
+TDISP296 t 'G12.5'  display format
+TDISP297 t 'G12.5'  display format
+TDISP298 t 'G12.5'  display format
+TDISP299 t 'G12.5'  display format
+TDISP300 t 'G12.5'  display format
+TDISP301 t 'G12.5'  display format
+TDISP302 t 'G12.5'  display format
+TDISP303 t 'G12.5'  display format
+TDISP304 t 'G12.5'  display format
+TDISP305 t 'G12.5'  display format
+TDISP306 t 'G12.5'  display format
+TDISP307 t 'G12.5'  display format
+TDISP308 t 'G12.5'  display format
+TDISP309 t 'G12.5'  display format
+TDISP310 t 'G12.5'  display format
+TDISP311 t 'G12.5'  display format
+TDISP312 t 'G12.5'  display format
+TDISP313 t 'G12.5'  display format
+TDISP314 t 'G12.5'  display format
+TDISP315 t 'G12.5'  display format
+TDISP316 t 'G12.5'  display format
+TDISP317 t 'G12.5'  display format
+TDISP318 t 'G12.5'  display format
+TDISP319 t 'G12.5'  display format
+TDISP320 t 'G12.5'  display format
+TDISP321 t 'G12.5'  display format
+TDISP322 t 'G12.5'  display format
+TDISP323 t 'G12.5'  display format
+TDISP324 t 'G12.5'  display format
+TDISP325 t 'G12.5'  display format
+TDISP326 t 'G12.5'  display format
+TDISP327 t 'G12.5'  display format
+TDISP328 t 'G12.5'  display format
+TDISP329 t 'G12.5'  display format
+TDISP330 t 'G12.5'  display format
+TDISP331 t 'G12.5'  display format
+TDISP332 t 'G12.5'  display format
+TDISP333 t 'G12.5'  display format
+TDISP334 t 'G12.5'  display format
+TDISP335 t 'G12.5'  display format
+TDISP336 t 'G12.5'  display format
+TDISP337 t 'G12.5'  display format
+TDISP338 t 'G12.5'  display format
+TDISP339 t 'G12.5'  display format
+TDISP340 t 'G12.5'  display format
+TDISP341 t 'G12.5'  display format
+TDISP342 t 'G12.5'  display format
+TDISP343 t 'G12.5'  display format
+TDISP344 t 'G12.5'  display format
+TDISP345 t 'G12.5'  display format
+TDISP346 t 'G12.5'  display format
+TDISP347 t 'G12.5'  display format
+TDISP348 t 'G12.5'  display format
+TDISP349 t 'G12.5'  display format
+TDISP350 t 'G12.5'  display format
+TDISP351 t 'G12.5'  display format
+TDISP352 t 'G12.5'  display format
+TDISP353 t 'G12.5'  display format
+TDISP354 t 'G12.5'  display format
+TDISP355 t 'G12.5'  display format
+TDISP356 t 'G12.5'  display format
+TDISP357 t 'G12.5'  display format
+TDISP358 t 'G12.5'  display format
+TDISP359 t 'G12.5'  display format
+TDISP360 t 'G12.5'  display format
+TDISP361 t 'G12.5'  display format
+TDISP362 t 'G12.5'  display format
+TDISP363 t 'G12.5'  display format
+TDISP364 t 'G12.5'  display format
+TDISP365 t 'G12.5'  display format
+TDISP366 t 'G12.5'  display format
+TDISP367 t 'G12.5'  display format
+TDISP368 t 'G12.5'  display format
+TDISP369 t 'G12.5'  display format
+TDISP370 t 'G12.5'  display format
+TDISP371 t 'G12.5'  display format
+TDISP372 t 'G12.5'  display format
+TDISP373 t 'G12.5'  display format
+TDISP374 t 'G12.5'  display format
+TDISP375 t 'G12.5'  display format
+TDISP376 t 'G12.5'  display format
+TDISP377 t 'G12.5'  display format
+TDISP378 t 'G12.5'  display format
+TDISP379 t 'G12.5'  display format
+TDISP380 t 'G12.5'  display format
+TDISP381 t 'G12.5'  display format
+TDISP382 t 'G12.5'  display format
+TDISP383 t 'G12.5'  display format
+TDISP384 t 'G12.5'  display format
+TDISP385 t 'G12.5'  display format
+TDISP386 t 'G12.5'  display format
+TDISP387 t 'G12.5'  display format
+TDISP388 t 'G12.5'  display format
+TDISP389 t 'G12.5'  display format
+TDISP390 t 'G12.5'  display format
+TDISP391 t 'G12.5'  display format
+TDISP392 t 'G12.5'  display format
+TDISP393 t 'G12.5'  display format
+TDISP394 t 'G12.5'  display format
+TDISP395 t 'G12.5'  display format
+TDISP396 t 'G12.5'  display format
+TDISP397 t 'G12.5'  display format
+TDISP398 t 'G12.5'  display format
+TDISP399 t 'G12.5'  display format
+TDISP400 t 'G12.5'  display format
+TDISP401 t 'G12.5'  display format
+TDISP402 t 'G12.5'  display format
+TDISP403 t 'G12.5'  display format
+TDISP404 t 'G12.5'  display format
+TDISP405 t 'G12.5'  display format
+TDISP406 t 'G12.5'  display format
+TDISP407 t 'G12.5'  display format
+TDISP408 t 'G12.5'  display format
+TDISP409 t 'G12.5'  display format
+TDISP410 t 'G12.5'  display format
+TDISP411 t 'G12.5'  display format
+TDISP412 t 'G12.5'  display format
+TDISP413 t 'G12.5'  display format
+TDISP414 t 'G12.5'  display format
+TDISP415 t 'G12.5'  display format
+TDISP416 t 'G12.5'  display format
+TDISP417 t 'G12.5'  display format
+TDISP418 t 'G12.5'  display format
+TDISP419 t 'G12.5'  display format
+TDISP420 t 'G12.5'  display format
+TDISP421 t 'G12.5'  display format
+TDISP422 t 'G12.5'  display format
+TDISP423 t 'G12.5'  display format
+TDISP424 t 'G12.5'  display format
+TDISP425 t 'G12.5'  display format
+TDISP426 t 'G12.5'  display format
+TDISP427 t 'G12.5'  display format
+TDISP428 t 'G12.5'  display format
+TDISP429 t 'G12.5'  display format
+TDISP430 t 'G12.5'  display format
+TDISP431 t 'G12.5'  display format
+TDISP432 t 'G12.5'  display format
+TDISP433 t 'G12.5'  display format
+TDISP434 t 'G12.5'  display format
+TDISP435 t 'G12.5'  display format
+TDISP436 t 'G12.5'  display format
+TDISP437 t 'G12.5'  display format
+TDISP438 t 'G12.5'  display format
+TDISP439 t 'G12.5'  display format
+TDISP440 t 'G12.5'  display format
+TDISP441 t 'G12.5'  display format
+TDISP442 t 'G12.5'  display format
+TDISP443 t 'G12.5'  display format
+TDISP444 t 'G12.5'  display format
+TDISP445 t 'G12.5'  display format
+TDISP446 t 'G12.5'  display format
+TDISP447 t 'G12.5'  display format
+TDISP448 t 'G12.5'  display format
+TDISP449 t 'G12.5'  display format
+TDISP450 t 'G12.5'  display format
+TDISP451 t 'G12.5'  display format
+TDISP452 t 'G12.5'  display format
+TDISP453 t 'G12.5'  display format
+TDISP454 t 'G12.5'  display format
+TDISP455 t 'G12.5'  display format
+TDISP456 t 'G12.5'  display format
+TDISP457 t 'G12.5'  display format
+TDISP458 t 'G12.5'  display format
+TDISP459 t 'G12.5'  display format
+TDISP460 t 'G12.5'  display format
+TDISP461 t 'G12.5'  display format
+TDISP462 t 'G12.5'  display format
+TDISP463 t 'G12.5'  display format
+TDISP464 t 'G12.5'  display format
+TDISP465 t 'G12.5'  display format
+TDISP466 t 'G12.5'  display format
+TDISP467 t 'G12.5'  display format
+TDISP468 t 'G12.5'  display format
+TDISP469 t 'G12.5'  display format
+TDISP470 t 'G12.5'  display format
+TDISP471 t 'G12.5'  display format
+TDISP472 t 'G12.5'  display format
+TDISP473 t 'G12.5'  display format
+TDISP474 t 'G12.5'  display format
+TDISP475 t 'G12.5'  display format
+TDISP476 t 'G12.5'  display format
+TDISP477 t 'G12.5'  display format
+TDISP478 t 'G12.5'  display format
+TDISP479 t 'G12.5'  display format
+TDISP480 t 'G12.5'  display format
+TDISP481 t 'G12.5'  display format
+TDISP482 t 'G12.5'  display format
+TDISP483 t 'G12.5'  display format
+TDISP484 t 'G12.5'  display format
+TDISP485 t 'G12.5'  display format
+TDISP486 t 'G12.5'  display format
+TDISP487 t 'G12.5'  display format
+TDISP488 t 'G12.5'  display format
+TDISP489 t 'G12.5'  display format
+TDISP490 t 'G12.5'  display format
+TDISP491 t 'G12.5'  display format
+TDISP492 t 'G12.5'  display format
+TDISP493 t 'G12.5'  display format
+TDISP494 t 'G12.5'  display format
+TDISP495 t 'G12.5'  display format
+TDISP496 t 'G12.5'  display format
+TDISP497 t 'G12.5'  display format
+TDISP498 t 'G12.5'  display format
+TDISP499 t 'G12.5'  display format
+TDISP500 t 'G12.5'  display format
+TDISP501 t 'G12.5'  display format
+TDISP502 t 'G12.5'  display format
+TDISP503 t 'G12.5'  display format
+TDISP504 t 'G12.5'  display format
+TDISP505 t 'G12.5'  display format
+TDISP506 t 'G12.5'  display format
+TDISP507 t 'G12.5'  display format
+TDISP508 t 'G12.5'  display format
+TDISP509 t 'G12.5'  display format
+TDISP510 t 'G12.5'  display format
+TDISP511 t 'G12.5'  display format
+TDISP512 t 'G12.5'  display format
+TDISP513 t 'G12.5'  display format
+TDISP514 t 'G12.5'  display format
+TDISP515 t 'G12.5'  display format
+TDISP516 t 'G12.5'  display format
+TDISP517 t 'G12.5'  display format
+TDISP518 t 'G12.5'  display format
+TDISP519 t 'G12.5'  display format
+TDISP520 t 'G12.5'  display format
+TDISP521 t 'G12.5'  display format
+TDISP522 t 'G12.5'  display format
+TDISP523 t 'G12.5'  display format
+TDISP524 t 'G12.5'  display format
+TDISP525 t 'G12.5'  display format
+TDISP526 t 'G12.5'  display format
+TDISP527 t 'G12.5'  display format
+TDISP528 t 'G12.5'  display format
+TDISP529 t 'G12.5'  display format
+TDISP530 t 'G12.5'  display format
+TDISP531 t 'G12.5'  display format
+TDISP532 t 'G12.5'  display format
+TDISP533 t 'G12.5'  display format
+TDISP534 t 'G12.5'  display format
+TDISP535 t 'G12.5'  display format
+TDISP536 t 'G12.5'  display format
+TDISP537 t 'G12.5'  display format
+TDISP538 t 'G12.5'  display format
+TDISP539 t 'G12.5'  display format
+TDISP540 t 'G12.5'  display format
+TDISP541 t 'G12.5'  display format
+TDISP542 t 'G12.5'  display format
+TDISP543 t 'G12.5'  display format
+TDISP544 t 'G12.5'  display format
+TDISP545 t 'G12.5'  display format
+TDISP546 t 'G12.5'  display format
+TDISP547 t 'G12.5'  display format
+TDISP548 t 'G12.5'  display format
+TDISP549 t 'G12.5'  display format
+TDISP550 t 'G12.5'  display format
+TDISP551 t 'G12.5'  display format
+TDISP552 t 'G12.5'  display format
+TDISP553 t 'G12.5'  display format
+TDISP554 t 'G12.5'  display format
+TDISP555 t 'G12.5'  display format
+TDISP556 t 'G12.5'  display format
+TDISP557 t 'G12.5'  display format
+TDISP558 t 'G12.5'  display format
+TDISP559 t 'G12.5'  display format
+TDISP560 t 'G12.5'  display format
+TDISP561 t 'G12.5'  display format
+TDISP562 t 'G12.5'  display format
+TDISP563 t 'G12.5'  display format
+TDISP564 t 'G12.5'  display format
+TDISP565 t 'G12.5'  display format
+TDISP566 t 'G12.5'  display format
+TDISP567 t 'G12.5'  display format
+TDISP568 t 'G12.5'  display format
+TDISP569 t 'G12.5'  display format
+TDISP570 t 'G12.5'  display format
+TDISP571 t 'G12.5'  display format
+TDISP572 t 'G12.5'  display format
+TDISP573 t 'G12.5'  display format
+TDISP574 t 'G12.5'  display format
+TDISP575 t 'G12.5'  display format
+TDISP576 t 'G12.5'  display format
+TDISP577 t 'G12.5'  display format
+TDISP578 t 'G12.5'  display format
+TDISP579 t 'G12.5'  display format
+TDISP580 t 'G12.5'  display format
+TDISP581 t 'G12.5'  display format
+TDISP582 t 'G12.5'  display format
+TDISP583 t 'G12.5'  display format
+TDISP584 t 'G12.5'  display format
+TDISP585 t 'G12.5'  display format
+TDISP586 t 'G12.5'  display format
+TDISP587 t 'G12.5'  display format
+TDISP588 t 'G12.5'  display format
+TDISP589 t 'G12.5'  display format
+TDISP590 t 'G12.5'  display format
+TDISP591 t 'G12.5'  display format
+TDISP592 t 'G12.5'  display format
+TDISP593 t 'G12.5'  display format
+TDISP594 t 'G12.5'  display format
+TDISP595 t 'G12.5'  display format
+TDISP596 t 'G12.5'  display format
+TDISP597 t 'G12.5'  display format
+TDISP598 t 'G12.5'  display format
+TDISP599 t 'G12.5'  display format
+TDISP600 t 'G12.5'  display format
+TDISP601 t 'G12.5'  display format
+TDISP602 t 'G12.5'  display format
+TDISP603 t 'G12.5'  display format
+TDISP604 t 'G12.5'  display format
+TDISP605 t 'G12.5'  display format
+TDISP606 t 'G12.5'  display format
+TDISP607 t 'G12.5'  display format
+TDISP608 t 'G12.5'  display format
+TDISP609 t 'G12.5'  display format
+TDISP610 t 'G12.5'  display format
+TDISP611 t 'G12.5'  display format
+TDISP612 t 'G12.5'  display format
+TDISP613 t 'G12.5'  display format
+TDISP614 t 'G12.5'  display format
+TDISP615 t 'G12.5'  display format
+TDISP616 t 'G12.5'  display format
+TDISP617 t 'G12.5'  display format
+TDISP618 t 'G12.5'  display format
+TDISP619 t 'G12.5'  display format
+TDISP620 t 'G12.5'  display format
+TDISP621 t 'G12.5'  display format
+TDISP622 t 'G12.5'  display format
+TDISP623 t 'G12.5'  display format
+TDISP624 t 'G12.5'  display format
+TDISP625 t 'G12.5'  display format
+TDISP626 t 'G12.5'  display format
+TDISP627 t 'G12.5'  display format
+TDISP628 t 'G12.5'  display format
+TDISP629 t 'G12.5'  display format
+TDISP630 t 'G12.5'  display format
+TDISP631 t 'G12.5'  display format
+TDISP632 t 'G12.5'  display format
+TDISP633 t 'G12.5'  display format
+TDISP634 t 'G12.5'  display format
+TDISP635 t 'G12.5'  display format
+TDISP636 t 'G12.5'  display format
+TDISP637 t 'G12.5'  display format
+TDISP638 t 'G12.5'  display format
+TDISP639 t 'G12.5'  display format
+TDISP640 t 'G12.5'  display format
+TDISP641 t 'G12.5'  display format
+TDISP642 t 'G12.5'  display format
+TDISP643 t 'G12.5'  display format
+TDISP644 t 'G12.5'  display format
+TDISP645 t 'G12.5'  display format
+TDISP646 t 'G12.5'  display format
+TDISP647 t 'G12.5'  display format
+TDISP648 t 'G12.5'  display format
+TDISP649 t 'G12.5'  display format
+TDISP650 t 'G12.5'  display format
+TDISP651 t 'G12.5'  display format
+TDISP652 t 'G12.5'  display format
+TDISP653 t 'G12.5'  display format
+TDISP654 t 'G12.5'  display format
+TDISP655 t 'G12.5'  display format
+TDISP656 t 'G12.5'  display format
+TDISP657 t 'G12.5'  display format
+TDISP658 t 'G12.5'  display format
+TDISP659 t 'G12.5'  display format
+TDISP660 t 'G12.5'  display format
+TDISP661 t 'G12.5'  display format
+TDISP662 t 'G12.5'  display format
+TDISP663 t 'G12.5'  display format
+TDISP664 t 'G12.5'  display format
+TDISP665 t 'G12.5'  display format
+TDISP666 t 'G12.5'  display format
+TDISP667 t 'G12.5'  display format
+TDISP668 t 'G12.5'  display format
+TDISP669 t 'G12.5'  display format
+TDISP670 t 'G12.5'  display format
+TDISP671 t 'G12.5'  display format
+TDISP672 t 'G12.5'  display format
+TDISP673 t 'G12.5'  display format
+TDISP674 t 'G12.5'  display format
+TDISP675 t 'G12.5'  display format
+TDISP676 t 'G12.5'  display format
+TDISP677 t 'G12.5'  display format
+TDISP678 t 'G12.5'  display format
+TDISP679 t 'G12.5'  display format
+TDISP680 t 'G12.5'  display format
+TDISP681 t 'G12.5'  display format
+TDISP682 t 'G12.5'  display format
+TDISP683 t 'G12.5'  display format
+TDISP684 t 'G12.5'  display format
+TDISP685 t 'G12.5'  display format
+TDISP686 t 'G12.5'  display format
+TDISP687 t 'G12.5'  display format
+TDISP688 t 'G12.5'  display format
+TDISP689 t 'G12.5'  display format
+TDISP690 t 'G12.5'  display format
+TDISP691 t 'G12.5'  display format
+TDISP692 t 'G12.5'  display format
+TDISP693 t 'G12.5'  display format
+TDISP694 t 'G12.5'  display format
+TDISP695 t 'G12.5'  display format
+TDISP696 t 'G12.5'  display format
+TDISP697 t 'G12.5'  display format
+TDISP698 t 'G12.5'  display format
+TDISP699 t 'G12.5'  display format
+TDISP700 t 'G12.5'  display format
+TDISP701 t 'G12.5'  display format
+TDISP702 t 'G12.5'  display format
+TDISP703 t 'G12.5'  display format
+TDISP704 t 'G12.5'  display format
+TDISP705 t 'G12.5'  display format
+TDISP706 t 'G12.5'  display format
+TDISP707 t 'G12.5'  display format
+TDISP708 t 'G12.5'  display format
+TDISP709 t 'G12.5'  display format
+TDISP710 t 'G12.5'  display format
+TDISP711 t 'G12.5'  display format
+TDISP712 t 'G12.5'  display format
+TDISP713 t 'G12.5'  display format
+TDISP714 t 'G12.5'  display format
+TDISP715 t 'G12.5'  display format
+TDISP716 t 'G12.5'  display format
+TDISP717 t 'G12.5'  display format
+TDISP718 t 'G12.5'  display format
+TDISP719 t 'G12.5'  display format
+TDISP720 t 'G12.5'  display format
+TDISP721 t 'G12.5'  display format
+TDISP722 t 'G12.5'  display format
+TDISP723 t 'G12.5'  display format
+TDISP724 t 'G12.5'  display format
+TDISP725 t 'G12.5'  display format
+TDISP726 t 'G12.5'  display format
+TDISP727 t 'G12.5'  display format
+TDISP728 t 'G12.5'  display format
+TDISP729 t 'G12.5'  display format
+TDISP730 t 'G12.5'  display format
+TDISP731 t 'G12.5'  display format
+TDISP732 t 'G12.5'  display format
+TDISP733 t 'G12.5'  display format
+TDISP734 t 'G12.5'  display format
+TDISP735 t 'G12.5'  display format
+TDISP736 t 'G12.5'  display format
+TDISP737 t 'G12.5'  display format
+TDISP738 t 'G12.5'  display format
+TDISP739 t 'G12.5'  display format
+TDISP740 t 'G12.5'  display format
+TDISP741 t 'G12.5'  display format
+TDISP742 t 'G12.5'  display format
+TDISP743 t 'G12.5'  display format
+TDISP744 t 'G12.5'  display format
+TDISP745 t 'G12.5'  display format
+TDISP746 t 'G12.5'  display format
+TDISP747 t 'G12.5'  display format
+TDISP748 t 'G12.5'  display format
+TDISP749 t 'G12.5'  display format
+TDISP750 t 'G12.5'  display format
+TDISP751 t 'G12.5'  display format
+TDISP752 t 'G12.5'  display format
+TDISP753 t 'G12.5'  display format
+TDISP754 t 'G12.5'  display format
+TDISP755 t 'G12.5'  display format
+TDISP756 t 'G12.5'  display format
+TDISP757 t 'G12.5'  display format
+TDISP758 t 'G12.5'  display format
+TDISP759 t 'G12.5'  display format
+TDISP760 t 'G12.5'  display format
+TDISP761 t 'G12.5'  display format
+TDISP762 t 'G12.5'  display format
+TDISP763 t 'G12.5'  display format
+TDISP764 t 'G12.5'  display format
+TDISP765 t 'G12.5'  display format
+TDISP766 t 'G12.5'  display format
+TDISP767 t 'G12.5'  display format
+TDISP768 t 'G12.5'  display format
+TDISP769 t 'G12.5'  display format
+TDISP770 t 'G12.5'  display format
+TDISP771 t 'G12.5'  display format
+TDISP772 t 'G12.5'  display format
+TDISP773 t 'G12.5'  display format
+TDISP774 t 'G12.5'  display format
+TDISP775 t 'G12.5'  display format
+TDISP776 t 'G12.5'  display format
+TDISP777 t 'G12.5'  display format
+TDISP778 t 'G12.5'  display format
+TDISP779 t 'G12.5'  display format
+TDISP780 t 'G12.5'  display format
+TDISP781 t 'G12.5'  display format
+TDISP782 t 'G12.5'  display format
+TDISP783 t 'G12.5'  display format
+TDISP784 t 'G12.5'  display format
+TDISP785 t 'G12.5'  display format
+TDISP786 t 'G12.5'  display format
+TDISP787 t 'G12.5'  display format
+TDISP788 t 'G12.5'  display format
+TDISP789 t 'G12.5'  display format
+TDISP790 t 'G12.5'  display format
+TDISP791 t 'G12.5'  display format
+TDISP792 t 'G12.5'  display format
+TDISP793 t 'G12.5'  display format
+TDISP794 t 'G12.5'  display format
+TDISP795 t 'G12.5'  display format
+TDISP796 t 'G12.5'  display format
+TDISP797 t 'G12.5'  display format
+TDISP798 t 'G12.5'  display format
+TDISP799 t 'G12.5'  display format
+TDISP800 t 'G12.5'  display format
+TDISP801 t 'G12.5'  display format
+TDISP802 t 'G12.5'  display format
+TDISP803 t 'G12.5'  display format
+TDISP804 t 'G12.5'  display format
+TDISP805 t 'G12.5'  display format
+TDISP806 t 'G12.5'  display format
+TDISP807 t 'G12.5'  display format
+TDISP808 t 'G12.5'  display format
+TDISP809 t 'G12.5'  display format
+TDISP810 t 'G12.5'  display format
+TDISP811 t 'G12.5'  display format
+TDISP812 t 'G12.5'  display format
+TDISP813 t 'G12.5'  display format
+TDISP814 t 'G12.5'  display format
+TDISP815 t 'G12.5'  display format
+TDISP816 t 'G12.5'  display format
+TDISP817 t 'G12.5'  display format
+TDISP818 t 'G12.5'  display format
+TDISP819 t 'G12.5'  display format
+TDISP820 t 'G12.5'  display format
+TDISP821 t 'G12.5'  display format
+TDISP822 t 'G12.5'  display format
+TDISP823 t 'G12.5'  display format
+TDISP824 t 'G12.5'  display format
+TDISP825 t 'G12.5'  display format
+TDISP826 t 'G12.5'  display format
+TDISP827 t 'G12.5'  display format
+TDISP828 t 'G12.5'  display format
+TDISP829 t 'G12.5'  display format
+TDISP830 t 'G12.5'  display format
+TDISP831 t 'G12.5'  display format
+TDISP832 t 'G12.5'  display format
+TDISP833 t 'G12.5'  display format
+TDISP834 t 'G12.5'  display format
+TDISP835 t 'G12.5'  display format
+TDISP836 t 'G12.5'  display format
+TDISP837 t 'G12.5'  display format
+TDISP838 t 'G12.5'  display format
+TDISP839 t 'G12.5'  display format
+TDISP840 t 'G12.5'  display format
+TDISP841 t 'G12.5'  display format
+TDISP842 t 'G12.5'  display format
+TDISP843 t 'G12.5'  display format
+TDISP844 t 'G12.5'  display format
+TDISP845 t 'G12.5'  display format
+TDISP846 t 'G12.5'  display format
+TDISP847 t 'G12.5'  display format
+TDISP848 t 'G12.5'  display format
+TDISP849 t 'G12.5'  display format
+TDISP850 t 'G12.5'  display format
+TDISP851 t 'G12.5'  display format
+TDISP852 t 'G12.5'  display format
+TDISP853 t 'G12.5'  display format
+TDISP854 t 'G12.5'  display format
+TDISP855 t 'G12.5'  display format
+TDISP856 t 'G12.5'  display format
+TDISP857 t 'G12.5'  display format
+TDISP858 t 'G12.5'  display format
+TDISP859 t 'G12.5'  display format
+TDISP860 t 'G12.5'  display format
+TDISP861 t 'G12.5'  display format
+TDISP862 t 'G12.5'  display format
+TDISP863 t 'G12.5'  display format
+TDISP864 t 'G12.5'  display format
+TDISP865 t 'G12.5'  display format
+TDISP866 t 'G12.5'  display format
+TDISP867 t 'G12.5'  display format
+TDISP868 t 'G12.5'  display format
+TDISP869 t 'G12.5'  display format
+TDISP870 t 'G12.5'  display format
+TDISP871 t 'G12.5'  display format
+TDISP872 t 'G12.5'  display format
+TDISP873 t 'G12.5'  display format
+TDISP874 t 'G12.5'  display format
+TDISP875 t 'G12.5'  display format
+TDISP876 t 'G12.5'  display format
+TDISP877 t 'G12.5'  display format
+TDISP878 t 'G12.5'  display format
+TDISP879 t 'G12.5'  display format
+TDISP880 t 'G12.5'  display format
+TDISP881 t 'G12.5'  display format
+TDISP882 t 'G12.5'  display format
+TDISP883 t 'G12.5'  display format
+TDISP884 t 'G12.5'  display format
+TDISP885 t 'G12.5'  display format
+TDISP886 t 'G12.5'  display format
+TDISP887 t 'G12.5'  display format
+TDISP888 t 'G12.5'  display format
+TDISP889 t 'G12.5'  display format
+TDISP890 t 'G12.5'  display format
+TDISP891 t 'G12.5'  display format
+TDISP892 t 'G12.5'  display format
+TDISP893 t 'G12.5'  display format
+TDISP894 t 'G12.5'  display format
+TDISP895 t 'G12.5'  display format
+TDISP896 t 'G12.5'  display format
+TDISP897 t 'G12.5'  display format
+TDISP898 t 'G12.5'  display format
+TDISP899 t 'G12.5'  display format
+TDISP900 t 'G12.5'  display format
+TDISP901 t 'G12.5'  display format
+TDISP902 t 'G12.5'  display format
+TDISP903 t 'G12.5'  display format
+TDISP904 t 'G12.5'  display format
+TDISP905 t 'G12.5'  display format
+TDISP906 t 'G12.5'  display format
+TDISP907 t 'G12.5'  display format
+TDISP908 t 'G12.5'  display format
+TDISP909 t 'G12.5'  display format
+TDISP910 t 'G12.5'  display format
+TDISP911 t 'G12.5'  display format
+TDISP912 t 'G12.5'  display format
+TDISP913 t 'G12.5'  display format
+TDISP914 t 'G12.5'  display format
+TDISP915 t 'G12.5'  display format
+TDISP916 t 'G12.5'  display format
+TDISP917 t 'G12.5'  display format
+TDISP918 t 'G12.5'  display format
+TDISP919 t 'G12.5'  display format
+TDISP920 t 'G12.5'  display format
+TDISP921 t 'G12.5'  display format
+TDISP922 t 'G12.5'  display format
+TDISP923 t 'G12.5'  display format
+TDISP924 t 'G12.5'  display format
+TDISP925 t 'G12.5'  display format
+TDISP926 t 'G12.5'  display format
+TDISP927 t 'G12.5'  display format
+TDISP928 t 'G12.5'  display format
+TDISP929 t 'G12.5'  display format
+TDISP930 t 'G12.5'  display format
+TDISP931 t 'G12.5'  display format
+TDISP932 t 'G12.5'  display format
+TDISP933 t 'G12.5'  display format
+TDISP934 t 'G12.5'  display format
+TDISP935 t 'G12.5'  display format
+TDISP936 t 'G12.5'  display format
+TDISP937 t 'G12.5'  display format
+TDISP938 t 'G12.5'  display format
+TDISP939 t 'G12.5'  display format
+TDISP940 t 'G12.5'  display format
+TDISP941 t 'G12.5'  display format
+TDISP942 t 'G12.5'  display format
+TDISP943 t 'G12.5'  display format
+TDISP944 t 'G12.5'  display format
+TDISP945 t 'G12.5'  display format
+TDISP946 t 'G12.5'  display format
+TDISP947 t 'G12.5'  display format
+TDISP948 t 'G12.5'  display format
+TDISP949 t 'G12.5'  display format
+TDISP950 t 'G12.5'  display format
+TDISP951 t 'G12.5'  display format
+TDISP952 t 'G12.5'  display format
+TDISP953 t 'G12.5'  display format
+TDISP954 t 'G12.5'  display format
+TDISP955 t 'G12.5'  display format
+TDISP956 t 'G12.5'  display format
+TDISP957 t 'G12.5'  display format
+TDISP958 t 'G12.5'  display format
+TDISP959 t 'G12.5'  display format
+TDISP960 t 'G12.5'  display format
+TDISP961 t 'G12.5'  display format
+TDISP962 t 'G12.5'  display format
+TDISP963 t 'G12.5'  display format
+TDISP964 t 'G12.5'  display format
+TDISP965 t 'G12.5'  display format
+TDISP966 t 'G12.5'  display format
+TDISP967 t 'G12.5'  display format
+TDISP968 t 'G12.5'  display format
+TDISP969 t 'G12.5'  display format
+TDISP970 t 'G12.5'  display format
+TDISP971 t 'G12.5'  display format
+TDISP972 t 'G12.5'  display format
+TDISP973 t 'G12.5'  display format
+TDISP974 t 'G12.5'  display format
+TDISP975 t 'G12.5'  display format
+TDISP976 t 'G12.5'  display format
+TDISP977 t 'G12.5'  display format
+TDISP978 t 'G12.5'  display format
+TDISP979 t 'G12.5'  display format
+TDISP980 t 'G12.5'  display format
+TDISP981 t 'G12.5'  display format
+TDISP982 t 'G12.5'  display format
+TDISP983 t 'G12.5'  display format
+TDISP984 t 'G12.5'  display format
+TDISP985 t 'G12.5'  display format
+TDISP986 t 'G12.5'  display format
+TDISP987 t 'G12.5'  display format
+TDISP988 t 'G12.5'  display format
+TDISP989 t 'G12.5'  display format
+TDISP990 t 'G12.5'  display format
+TDISP991 t 'G12.5'  display format
+TDISP992 t 'G12.5'  display format
+TDISP993 t 'G12.5'  display format
+TDISP994 t 'G12.5'  display format
+TDISP995 t 'G12.5'  display format
+TDISP996 t 'G12.5'  display format
+TDISP997 t 'G12.5'  display format
+TDISP998 t 'G12.5'  display format

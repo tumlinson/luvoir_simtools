@@ -1,0 +1,3 @@
+WAVELENGTH       R          %10.1f  ANGSTROMS
+THROUGHPUT       R          %12.5g  TRANSMISSION
+error            R          %12.5g  TRANSMISSION

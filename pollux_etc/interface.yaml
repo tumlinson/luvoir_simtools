@@ -15,7 +15,7 @@
     ref: "ap_slider"
     title: "Aperture (meters)"
     value: 15.
-    range: !!python/tuple [13.0, 16.0, 1.0]
+    range: !!python/tuple [8.0, 16.0, 1.0]
     tags: [4, 5, 6, 6]
     width: 200 
     callback: *callback
@@ -116,6 +116,7 @@
     y_axis_label: 'Flux [erg / s / cm2 / Ang]'
     x_axis_label: 'Wavelength [Angstrom]'
     border_fill_color: "#1D1B4D"
+    output_backend : "webgl"
     elements:
         - {'kind': 'line', 'source': *spectrum_template, 'line_color': 'firebrick', 'legend': 'Source Flux'}
         - {'kind': 'line', 'source': *instrument_background, 'line_color': 'darksalmon', 'legend': 'Background'}
@@ -145,6 +146,7 @@
     y_axis_label: 'S/N per resel'
     x_axis_label: 'Wavelength [Angstrom]'
     border_fill_color: "#1D1B4D"
+    output_backend : "webgl"
     elements:
         - {'kind': 'line', 'source': *snr_source, 'line_color': 'orange', 'legend': 'S/N per resel'}
 #Document structure

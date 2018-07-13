@@ -55,7 +55,8 @@ help_text = """
           <p>The top controls model the source spectrum with various templates, an optional redshift, and magnitude normalization. All template spectra are normalized to the given magnitude in the GALEX FUV band. 
           <p>The top plot shows the input source spectrum in dark red and the "Background Equivalent Flux" for that mode. 
           
-          <p>The lower panel shows the signal-to-noise ratio for the selected grating, aperture, and exposure time. 
+          <p>The lower panel shows the signal-to-noise ratio for the selected observing mode/channel, aperture, and exposure time. 
+          <p>For any questions regarding this tool please email simona.lombardo@lam.fr
       </div>
 """
 
@@ -101,7 +102,7 @@ class POLLUX_ETC(SYOTool):
         
         #set interface variables
         self.templates = ['flam', 'qso', 's99', 'o5v', 'g2v', 'g191b2b', 
-                          'gd71', 'gd153', 'ctts', 'mdwarf', 'orion', 'nodust',
+                          'gd71', 'gd153', 'ctts2', 'mdwarf', 'mdwarf2','gdwarf','orion', 'nodust',
                           'ebv6', 'hi1hei1', 'hi0hei1']
         self.template_options = [SpectralLibrary[t] for t in self.templates]
         self.help_text = help_text

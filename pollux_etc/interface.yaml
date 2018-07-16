@@ -107,7 +107,7 @@
     ref: "flux_yrange"
     start: 0.0
     end: 4.0e-16
-    bounds: !!python/tuple [0.0, null]
+    bounds: !!python/tuple [null, null]
 #----> Flux ----> Figure
 - !Figure: &flux_figure
     ref: "flux_figure"
@@ -136,7 +136,7 @@
     ref: "snr_yrange"
     start: 0.0
     end: 40.0
-    bounds: !!python/tuple [0.0, null]
+    bounds: !!python/tuple [null, null]
 #----> SNR ----> Figure
 - !Figure: &snr_figure
     ref: "snr_figure"

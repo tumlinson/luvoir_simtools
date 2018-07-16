@@ -103,7 +103,7 @@ class POLLUX_ETC(SYOTool):
         #set interface variables
         self.templates = ['flam', 'qso', 's99', 'o5v', 'g2v', 'g191b2b', 
                           'gd71', 'gd153', 'ctts2', 'mdwarf', 'mdwarf2','gdwarf','orion', 'nodust',
-                          'ebv6', 'hi1hei1', 'hi0hei1']
+                          'ebv6', 'syfrt1','syfrt2','liner']
         self.template_options = [SpectralLibrary[t] for t in self.templates]
         self.help_text = help_text
         self.gratings = self.spectrograph.modes

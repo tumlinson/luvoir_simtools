@@ -1,5 +1,0 @@
-c	File: SSP_0.dec
-c	Maximum number of wavelength points
-c	PARAMETER (imw=1206)
-	PARAMETER (imw=4000)
-	common /lambdapoints/ inw

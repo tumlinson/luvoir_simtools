@@ -101,6 +101,7 @@ class SYOTool(object):
         #Parse tool parameter defaults.
         for param, val in self.tool_defaults.items():
             setattr(self, param, val)
+            
         
         #Allow for pre-init stuff from the tool subclass.
         if self.tool_preinit is not None:

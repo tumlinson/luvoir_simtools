@@ -15,6 +15,7 @@ from astropy.table import QTable
 from syotools.models.base import PersistentModel
 from syotools.models.exposure import SpectrographicExposure
 from syotools.defaults import default_spectrograph
+from syotools.defaults import default_spectropolarimeter
 from syotools.utils import pre_encode
 
 class Spectrograph(PersistentModel):
@@ -77,6 +78,7 @@ class Spectrograph(PersistentModel):
             return
         self._mode = nmode
         table = QTable.read(self._lumos_default_file, nmode)
+                
         self.R = pre_encode(table.meta['R'] * u.pix)
         self.wave = pre_encode(table['Wavelength'])
         self.bef = pre_encode(table['BEF'] / self.recover('delta_lambda'))
@@ -99,3 +101,31 @@ class Spectrograph(PersistentModel):
         exposure.spectrograph = self
         exposure.telescope = self.telescope
         exposure.calculate()
+
+class Spectropolarimeter(Spectrograph):
+    """
+    The basic spectropolarimeter class for POLLUX, which provides parameter storage for 
+    optimization.
+    
+    Attributes: #adapted from the original in Telescope.py
+        telescope    - the Telescope object associated with this spectrograph
+        exposures    - the list of Exposures taken with this spectrograph
+    
+        name         - name of the spectrograph (string)
+        
+        modes        - supported observing modes (list)
+        descriptions - description of supported observing modes (dict)
+        mode         - current observing mode (string)
+        bef          - background emission function in erg/s/cm3/res_element (float array)
+        R            - spectral resolution (float)
+        wrange        - effective wavelength range (2-element float array)
+        wave         - wavelength in Angstroms (float array)
+        aeff         - effective area at given wavelengths in cm^2 (float array)
+        
+        _lumos_default_file - file path to the fits file containing LUMOS values
+        
+        _default_model - used by PersistentModel
+    """
+    
+    _default_model = default_spectropolarimeter
+

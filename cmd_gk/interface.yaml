@@ -1,0 +1,307 @@
+#Dummy sources for input control flow
+- !ColumnDataSource: &dummy_source
+    ref: "dummy_source"
+    data:
+        value: []
+    on_change: ['data', !self.controller ]
+#In-browser callback to allow for on_release updates instead of instantaneous
+- !CustomJS: &callback
+    ref: "js_callback"
+    args:
+        source: *dummy_source
+    code: "\n    source.data = { value: [cb_obj.value] }\n"
+#Inputs (sliders, dropdowns, etc.)
+- !Slider: &exp_slider
+    ref: "exp_slider"
+    title: "Exptime [hours]"
+    value: 1.0
+    range: !!python/tuple [0.1, 50.0, 0.1]
+    callback: *callback
+- !Slider: &age_slider
+    ref: "age_slider"
+    title: "Log(Age in Gyr)"
+    value: 10.0
+    range: !!python/tuple [5.5, 10.15, 0.05]
+    callback: *callback
+- !Slider: &snr_slider
+    ref: "snr_slider"
+    title: "S/N for limiting mag"
+    value: 5.0
+    range: !!python/tuple [1.0, 100.0, 1.0]
+    callback: *callback
+- !Slider: &crowding_slider
+    ref: "crowding_slider"
+    title: "Surface Brightness [AB/asec^2]"
+    value: 20.0
+    range: !!python/tuple [15.0, 35.0, 0.1]
+    callback: *callback
+- !Slider: &distance_slider
+    ref: "distance_slider"
+    title: "Distance [Mpc]"
+    value: 1.0
+    range: !!python/tuple [0.0, 20.0, 0.5]
+    callback: *callback
+- !Slider: &metallicity_slider
+    ref: "metallicity_slider"
+    title: "Log(Z/Zsun)"
+    value: 0.0
+    range: !!python/tuple [-2.0, 0.0, 0.5]
+    callback: *callback
+- !Slider: &noise_slider
+    ref: "noise_slider"
+    title: "Noise to Add In"
+    value: 500.0
+    range: !!python/tuple [0.0, 1000.0, 50.0]
+    callback: *callback
+- !Slider: &ap_slider
+    ref: "ap_slider"
+    title: "Aperture [meters]"
+    value: 15.
+    range: !!python/tuple [1.0, 20.0, 1.0]
+    callback: *callback
+#Set up data streams & shader
+- !renderer:
+    opts:
+        - "RGB [width=400 height=800 xaxis='bottom' yaxis='left' fontsize={'title': '14pt'}]"
+        - "Points [tools=['box_select']]"
+# this is the inital creation of the HV "Points" object that will be shaded;
+# by default this will shade all ages and metallicities
+- !HVPoints: &cmd_points
+    ref: "cmd_points"
+    arg: !self.dataframe
+    kdims: ['grcolor', 'rmag']
+- !HVStream: &age_stream
+    ref: "age_stream"
+    arg: "AgeSelect"
+    age: 80
+- !HVStream: &metallicity_stream
+    ref: "metallicity_stream"
+    arg: 'MetallicitySelect'
+    metallicity: 0
+# will be used to scale noise
+- !HVStream: &noise_stream
+    ref: "noise_stream"
+    arg: "NoiseScale"
+    noise: 800
+# select_stars is the function that will take cmd_points and munge it
+- !HVDynamic: &dynamic_map
+    ref: "dynamic_map"
+    arg: *cmd_points
+    operation: !self.select_stars
+    streams:
+        - *age_stream
+        - *metallicity_stream
+        - *noise_stream
+- !PWidget: &cmap_picker
+    ref: "cmap_picker"
+    arg: !self.cmap_picker
+    mode: "raw"
+# "sampling" parameters control "pixel size" 
+- !Datashader: &shaded
+    ref: "shaded"
+    arg: *dynamic_map
+    streams:
+        - !HVRangeXY:
+        - !self.cmap_picker
+    y_range: !!python/tuple [-13, 7]
+    y_sampling: 0.10
+    x_sampling: 0.050
+    height: 1000
+#Set up sources for the figure
+- !ColumnDataSource: &cmd_mag_source
+    ref: "cmd_mag_source"
+    data:
+        'x': [3.8,3.8,3.8,3.8,3.8]
+        'y': [-10.4, -5.4, -0.4, 4.6, 9.6]
+        'mags': [35., 30., 25., 20., 15.]
+        'text': ['35.0','30.0','25.0','20.0','15.0']
+- !ColumnDataSource: &cmd_conf_source
+    ref: "cmd_conf_source"
+    data:
+        'top': [-12.5]
+        'textx': [-0.8]
+        'texty': [-12.7]
+        'text': ['Crowding: 390 stars (arcsec^2)']
+- !ColumnDataSource: &cmd_etc_source
+    ref: "cmd_etc_source"
+    data:
+        'mags': [35., 30., 25., 20., 15.]
+        'snr': !self._derived_snrs
+        'snr_label': !self._derived_snrs_labels
+        'x': [3.2, 3.2, 3.2, 3.2, 3.2]
+        'y': [-10.4, -5.4, -0.4, 4.6, 9.6]
+- !ColumnDataSource: &cmd_xlabel_source
+    ref: "cmd_xlabel_source"
+    data:
+        'x': [-1.3,-1.3,-1.3,-1.3,-1.3]
+        'y': [-10.4, -5.4, -0.4, 4.6, 9.6]
+        'text': ['10','5','0','-5','-10']
+- !ColumnDataSource: &cmd_ylabel_source
+    ref: "cmd_ylabel_source"
+    data:
+        'x': [-1.0,0.0,1.0,2.0, 3.0]
+        'y': [-13.7,-13.7,-13.7,-13.7,-13.7]
+        'text': ['-1','0','1','2','3']
+- !ColumnDataSource: &cmd_lim_source
+    ref: "cmd_lim_source"
+    data:
+        'mags': [-10.]
+        'maglabel': ["30.0"]
+        'sn': ["5.0"]
+        'x_mag': [3.8]
+        'x_sn': [3.2]
+#And now the figure itself
+- !Range1d: &cmd_xrange
+    ref: "cmd_xrange"
+    start: -2
+    end: 4.0
+    bounds: !!python/tuple [-2, 4.0]
+- !Range1d: &cmd_yrange
+    ref: "cmd_yrange"
+    start: -14
+    end: 7.0
+    bounds: !!python/tuple [-14, 7.0]
+- !HVFigure: &cmd_plot
+    ref: "cmd_plot"
+    source: *shaded
+    x_range: *cmd_xrange
+    y_range: *cmd_yrange
+    xaxis:
+        axis_label: 'F606W - F814W'
+    yaxis:
+        axis_label: 'F814W'
+    text:
+        loc: ['x', 'y']
+        text: ['text']
+        source: *cmd_xlabel_source
+        text_align: 'center'
+        text_font_size: '15pt'
+        text_color: 'black'
+    text:
+        loc: ['x', 'y']
+        text: ['text']
+        source: *cmd_ylabel_source
+        text_align: 'right'
+        text_font_size: '15pt'
+        text_color: 'black'
+    text:
+        loc: ['x', 'y']
+        text: ['text']
+        source: *cmd_mag_source
+        text_align: 'right'
+        text_font_size: '11pt'
+        text_color: 'deepskyblue'
+    text:
+        loc: [3.8, 5.7]
+        text: ['Apparent']
+        text_align: 'right'
+        text_font_size: '11pt'
+        text_color: 'deepskyblue'
+    text:
+        loc: [3.8, 5.2]
+        text: ['Mag']
+        text_align: 'right'
+        text_font_size: '11pt'
+        text_color: 'deepskyblue'
+    text:
+        loc: [3.2, 5.2]
+        text: ['S/N']
+        text_align: 'right'
+        text_font_size: '11pt'
+        text_color: 'red'
+    text:
+        loc: ['x', 'y']
+        text: 'text'
+        source: *cmd_conf_source
+        text_align: 'left'
+        text_color: 'black'
+    text:
+        loc: ['x', 'y']
+        text: 'text'
+        source: *cmd_etc_source
+        text_align: 'right'
+        text_font_size: '11pt'
+        text_color: 'red'
+    text:
+        loc: ['x_mag', 'mags']
+        text: 'maglabel'
+        source: *cmd_lim_source
+        text_font_size: '11pt'
+        text_color: 'deepskyblue'
+        text_align: 'right'
+    text:
+        loc: ['x_sn', 'mags']
+        text: 'sn'
+        source: *cmd_lim_source
+        text_font_size: '11pt'
+        text_color: 'red'
+        text_align: 'right'
+    elements:
+        - {'kind': 'quad', 'top': [-10.5], 'bottom': [-9.8], 'left': [2.7], 'right': [3.9]}
+        - {'kind': 'quad', 'top': [-5.5], 'bottom': [-4.8], 'left': [2.7], 'right': [3.9]}
+        - {'kind': 'quad', 'top': [-0.5], 'bottom': [0.8], 'left': [2.7], 'right': [3.9]}
+        - {'kind': 'quad', 'top': [4.5], 'bottom': [5.8], 'left': [2.7], 'right': [3.9]}
+        - kind: 'quad'
+          top: -12.5
+          bottom: -13.0
+          left: -1.2
+          right: 4.0    
+          fill_alpha: 0.2
+          fill_color: 'black'
+          line_alpha: 0.2
+          line_width: 1
+          line_color: 'black'
+        - kind: 'quad'
+          top: [0]
+          bottom: [-13.0]
+          left: [4.0]
+          right: [4.4]
+          fill_alpha: 1
+          line_width: 1
+          line_color: 'orange'
+          line_alpha: 1
+        - kind: 'quad'
+          top: [7]
+          bottom: [-13.0]
+          left: [-1.2]
+          right: [4.0]
+          fill_alpha: 0
+          line_width: 1
+          line_color: 'black'
+          line_alpha: 1
+#Document structure
+- !Document:
+    - !layout:
+        sizing_mode: 'fixed'
+        arg:
+        - - !Tabs:
+                width: 400
+                tabs:
+                - !Panel:
+                    title: 'Stars'
+                    child:
+                        !column:
+                            - *age_slider
+                            - *metallicity_slider
+                            - *distance_slider
+                            - *crowding_slider
+                - !Panel:
+                    title: 'Exposure'
+                    child:
+                        !column:
+                            - *ap_slider
+                            - *exp_slider
+                            - *snr_slider
+                - !Panel:
+                    title: 'Info'
+                    child:
+                        !Div:
+                            width: 300
+                            text: !self.help_text
+                - !Panel:
+                    title: 'Visuals'
+                    child:
+                        !column:
+                            - *cmap_picker
+        
+          - *cmd_plot

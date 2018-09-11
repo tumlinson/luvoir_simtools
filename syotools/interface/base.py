@@ -16,6 +16,7 @@ from string import digits, ascii_letters
 #Import the constructor function factories
 from syotools.interface import factory
 
+
 class SYOParserError(Exception):
     """
     A custom error for problems with parsing the interface files.
@@ -41,6 +42,9 @@ class SYOTool(object):
     scalar_factory = factory.scalar_factory
     figure_constructor = factory.figure_constructor
     document_constructor = factory.document_constructor
+    
+    hvfigure_constructor = factory.hvfigure_constructor
+    renderer_constructor = factory.renderer_constructor
     
     #Attributes required for saving calculations
     tool_prefix = None #must be set by the subclass
@@ -119,10 +123,13 @@ class SYOTool(object):
         for s in factory.sequences:
             yaml.add_constructor(u"!"+s+":", self.sequence_factory(s))
         for s in factory.scalars:
+            print(s)
             yaml.add_constructor(u"!"+s+":", self.scalar_factory(s))
         
         yaml.add_constructor(u"!Figure:", self.figure_constructor)
         yaml.add_constructor(u"!Document:", self.document_constructor)
+        yaml.add_constructor(u"!renderer:", self.renderer_constructor)
+        yaml.add_constructor(u"!HVFigure:", self.hvfigure_constructor)
         
         yaml.add_multi_constructor(u"!self", self.self_constructor)
         

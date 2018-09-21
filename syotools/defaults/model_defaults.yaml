@@ -86,5 +86,31 @@ Spectrograph:
         - JsonUnit
         - {value: [0.0], unit: "cm2"}
     mode: "G150M"
+Spectropolarimeter:
+    name: "POLLUX"
+    modes: ['NUV_POL', 'MUV_POL', 'FUV_POL','NUV_SPEC', 'MUV_SPEC', 'FUV_SPEC']
+    descriptions:
+        NUV_POL: "NUV_POL (R = 130,440)" 
+        MUV_POL: "MUV_POL (R = 129,732)"
+        FUV_POL: "FUV_POL (R = 127,050)"
+        NUV_SPEC: "NUV_SPEC (R = 130,579)"
+        MUV_SPEC: "MUV_SPEC (R = 137,209)"
+        FUV_SPEC: "FUV_SPEC (R = 127,149)"
+    bef:
+        - JsonUnit
+        - {value: [0.0], unit: "cm-2 erg Angstrom-1 s-1"}
+    R:
+        - JsonUnit
+        - {value: 0.0, unit: "pix"}
+    wrange:
+        - JsonUnit
+        - {value: [0.0, 1.0], unit: "Angstrom"}
+    wave:
+        - JsonUnit
+        - {value: [0.0], unit: "Angstrom"}
+    aeff:
+        - JsonUnit
+        - {value: [0.0], unit: "cm2"}
+    mode: "NUV_POL"
 Coronagraph: {}
     

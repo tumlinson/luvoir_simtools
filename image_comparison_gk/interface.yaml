@@ -1,0 +1,106 @@
+#Dummy source for input control flow
+- !ColumnDataSource: &aperture_source
+    ref: "select_source"
+    data:
+        value: []
+    on_change: ['data', !self.aperture_update ]
+- !ColumnDataSource: &upload_source
+    ref: "upload_source"
+    data:
+        file_name: []
+        file_contents: []
+    on_change: ['data', !self.upload ]
+#In-browser callback to allow for on_release updates instead of instantaneous
+- !CustomJS: &aper_callback
+    ref: "aper_callback"
+    args:
+        source: *aperture_source
+    code: "\n    source.data = { value: [cb_obj.value] }\n"
+- !CustomJS: &upload_callback
+    ref: "upload_callback"
+    args:
+        file_source: *upload_source
+    code: !self.upload_js
+#Inputs (sliders, dropdowns, etc.)
+- !Slider: &ap_slider
+    ref: "ap_slider"
+    title: "Telescope aperture (meters)"
+    value: 12.
+    range: !!python/tuple [10.0, 20.0, 1.0]
+    tags: [4, 5, 6, 6]
+    callback: *aper_callback
+- !Select: &image_select
+    ref: "image_select"
+    title: "Image to See"
+    value: "Pluto"
+    options: !self.image_options
+    width: 200
+    on_change: ['value', !self.image_select ]
+#File upload
+- !Button: &load_button
+    ref: "load_button"
+    label: "Choose File"
+    button_type: "success"
+    callback: *upload_callback
+- !Div: &load_message
+    ref: "load_message"
+    text: " "
+#Luvoir image figure
+- !ColumnDataSource: &luvoir_source
+    ref: "luvoir_source"
+    data: 
+        image: []
+- !Range1d: &luvoir_xrange
+    ref: "luvoir_xrange"
+    start: 0
+    end: 10
+    bounds: !!python/tuple [0, 10]
+- !Range1d: &luvoir_yrange
+    ref: "luvoir_yrange"
+    start: 0
+    end: 10
+    bounds: !!python/tuple [0, 10]
+- !Figure: &luvoir_figure
+    x_range: *luvoir_xrange
+    y_range: *luvoir_yrange
+    tools: "pan,save,box_zoom,wheel_zoom,reset"
+    toolbar_location: 'above'
+    title: 'LUVOIR'
+    elements:
+        - {'kind': 'image', 'image': 'image', 'source': *luvoir_source}
+#Hubble image figure
+- !ColumnDataSource: &hubble_source
+    ref: "hubble_source"
+    data: 
+        image: []
+- !Range1d: &hubble_xrange
+    ref: "hubble_xrange"
+    start: 0
+    end: 10
+    bounds: !!python/tuple [0, 10]
+- !Range1d: &hubble_yrange
+    ref: "hubble_yrange"
+    start: 0
+    end: 10
+    bounds: !!python/tuple [0, 10]
+- !Figure: &hubble_figure
+    x_range: *hubble_xrange
+    y_range: *hubble_yrange
+    tools: "pan,save,box_zoom,wheel_zoom,reset"
+    toolbar_location: 'above'
+    title: 'Hubble'
+    elements:
+        - {'kind': 'image', 'image': 'image', 'source': *hubble_source}
+#Document structure
+- !Document:
+    - !column:
+        - *image_select
+        - !Div:
+            text: "Or, upload your own image:"
+        - *load_button
+        - *load_message
+        - *ap_slider
+        - !gridplot:
+            children:
+                - - *luvoir_figure
+                  - *hubble_figure

@@ -7,6 +7,8 @@ Created on Sat Oct 15 10:59:16 2016
 from __future__ import (print_function, division, absolute_import, with_statement,
                         nested_scopes, generators)
 
+import os 
+
 #pathlib not supported in python 2
 try:
     from pathlib import Path
@@ -18,15 +20,21 @@ except ImportError:
 from collections import OrderedDict
 from syotools.utils import ordered_load
 
+cwd = os.getenv('LUVOIR_SIMTOOLS_DIR')
 
 #Load data from ascii table file (need a better method? maybe a FITS table?)
 #and establish the default file path
 if use_pathlib:
-    spec_default_path = str(Path('data') / 'LUMOS_ETC.fits')
-    yaml_default_path = str(Path('defaults') / 'model_defaults.yaml')
+    #spec_default_path = str(Path('data') / 'LUMOS_ETC.fits')
+    #pol_default_path = str(Path('data') / 'POLLUX_ETC.fits')
+    #yaml_default_path = str(Path('defaults') / 'model_defaults.yaml')
+    spec_default_path = str(cwd+'syotools/'+'data/LUMOS_ETC.fits')
+    pol_default_path = str(cwd+'syotools/'+'data/POLLUX_ETC.fits')
+    yaml_default_path = str(cwd+'syotools/'+'defaults/model_defaults.yaml')
 else:
     current_dir = os.path.dirname(os.path.abspath(__file__))
     spec_default_path = os.path.join(current_dir, '..', 'data', 'LUMOS_ETC.fits')
+    pol_default_path = os.path.join(current_dir, '..', 'data', 'POLLUX_ETC.fits')
     yaml_default_path = os.path.join(current_dir, 'model_defaults.yaml')
 
 #Now we load the defaults from model_defaults.yaml
@@ -44,6 +52,8 @@ default_camera = all_defaults['Camera']
 default_exposure = all_defaults['Exposure']
 default_spectrograph = OrderedDict([("_lumos_default_file", spec_default_path)])
 default_spectrograph.update(all_defaults['Spectrograph'])
+default_spectropolarimeter = OrderedDict([("_lumos_default_file", pol_default_path)])
+default_spectropolarimeter.update(all_defaults['Spectropolarimeter'])
 default_coronagraph = all_defaults['Coronagraph'] #placeholder
 
 """

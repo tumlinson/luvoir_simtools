@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Mon Oct 30 12:31:11 2017
-
 @author: gkanarek
 """
 
@@ -77,6 +76,7 @@ class Exposure(PersistentModel):
     telescope = None
     camera = None
     spectrograph = None
+    spectropolarimeter = None
     
     exp_id = ''
     _sed = pre_encode(np.zeros(1, dtype=float) * u.ABmag) #default is set via sed_id
@@ -495,5 +495,4 @@ class SpectrographicExposure(Exposure):
             print("SNR: {}".format(snr))
         
         self._snr = pre_encode(snr)
-
 

@@ -163,10 +163,10 @@ class ImageComparison(SYOTool):
         self.set_images(self.luv_image)
     
     def set_images(self, l_im):
-        luv_img = self.convert_rgba(l_im)
+        luv_img = np.flipud(self.convert_rgba(l_im))
         self.refs["luvoir_source"].data.update(image=[luv_img])
         h_im = self.create_hst_image(l_im)
-        hst_img = self.convert_rgba(h_im)
+        hst_img = np.flipud(self.convert_rgba(h_im))
         self.refs["hubble_source"].data.update(image=[hst_img])
         
     @staticmethod

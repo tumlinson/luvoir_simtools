@@ -45,24 +45,25 @@
 - !Div: &load_message
     ref: "load_message"
     text: " "
+#Shared axes ranges
+- !Range1d: &shared_xrange
+    ref: "shared_xrange"
+    start: 0
+    end: 10
+    bounds: !!python/tuple [0, 10]
+- !Range1d: &shared_yrange
+    ref: "shared_yrange"
+    start: 0
+    end: 10
+    bounds: !!python/tuple [0, 10]
 #Luvoir image figure
 - !ColumnDataSource: &luvoir_source
     ref: "luvoir_source"
     data: 
         image: []
-- !Range1d: &luvoir_xrange
-    ref: "luvoir_xrange"
-    start: 0
-    end: 10
-    bounds: !!python/tuple [0, 10]
-- !Range1d: &luvoir_yrange
-    ref: "luvoir_yrange"
-    start: 0
-    end: 10
-    bounds: !!python/tuple [0, 10]
 - !Figure: &luvoir_figure
-    x_range: *luvoir_xrange
-    y_range: *luvoir_yrange
+    x_range: *shared_xrange
+    y_range: *shared_yrange
     tools: "pan,save,box_zoom,wheel_zoom,reset"
     toolbar_location: 'above'
     title: 'LUVOIR'
@@ -73,19 +74,9 @@
     ref: "hubble_source"
     data: 
         image: []
-- !Range1d: &hubble_xrange
-    ref: "hubble_xrange"
-    start: 0
-    end: 10
-    bounds: !!python/tuple [0, 10]
-- !Range1d: &hubble_yrange
-    ref: "hubble_yrange"
-    start: 0
-    end: 10
-    bounds: !!python/tuple [0, 10]
 - !Figure: &hubble_figure
-    x_range: *hubble_xrange
-    y_range: *hubble_yrange
+    x_range: *shared_xrange
+    y_range: *shared_yrange
     tools: "pan,save,box_zoom,wheel_zoom,reset"
     toolbar_location: 'above'
     title: 'Hubble'
@@ -100,7 +91,6 @@
         - *load_button
         - *load_message
         - *ap_slider
-        - !gridplot:
-            children:
-                - - *luvoir_figure
-                  - *hubble_figure
+        - !row:
+            - *luvoir_figure
+            - *hubble_figure

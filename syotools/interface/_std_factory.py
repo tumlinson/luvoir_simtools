@@ -142,6 +142,11 @@ def figure_constructor(tool, loader, node):
             circle_fmt = tool.formats.get('Circle', {})
             circle_fmt.update(element)
             figure.circle('x', 'y', **circle_fmt)
+        elif key == 'image':
+            image_fmt = tool.formats.get('Image', {})
+            image_fmt.update(element)
+            arg = image_fmt.pop("image", None)
+            figure.image_rgba(arg, **image_fmt)
             
     for attr, val in axis.items():
         #change axis attributes, hopefully

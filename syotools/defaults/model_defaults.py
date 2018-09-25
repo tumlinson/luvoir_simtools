@@ -17,6 +17,8 @@ except ImportError:
     import os
     use_pathlib = False
 
+use_pathlib = False
+
 from collections import OrderedDict
 from syotools.utils import ordered_load
 

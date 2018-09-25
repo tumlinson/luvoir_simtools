@@ -10,11 +10,17 @@ from __future__ import (print_function, division, absolute_import, with_statemen
                         nested_scopes, generators)
 
 import os
-import StringIO
 import base64
 from six.moves.urllib.request import urlopen
+from six import BytesIO
 
 script_dir = os.path.abspath(os.path.dirname(__file__))
+
+#establish simtools dir
+if 'LUVOIR_SIMTOOLS_DIR' not in os.environ:
+    fdir = os.path.abspath(__file__)
+    basedir = os.path.abspath(os.path.join(fdir, '..'))
+    os.environ['LUVOIR_SIMTOOLS_DIR'] = basedir
 
 
 import astropy.units as u
@@ -28,12 +34,6 @@ from syotools.models import Telescope, Camera
 from syotools.utils import pre_encode#, pre_decode
 
 from numba import njit
-
-#establish simtools dir
-if 'LUVOIR_SIMTOOLS_DIR' not in os.environ:
-    fdir = os.path.abspath(__file__)
-    basedir = os.path.abspath(os.path.join(fdir, '..'))
-    os.environ['LUVOIR_SIMTOOLS_DIR'] = basedir
 
 interface_format = """
 Figure:
@@ -202,7 +202,7 @@ class ImageComparison(SYOTool):
         # remove the prefix that JS adds  
         prefix, b64_contents = raw_contents.split(",", 1)
         file_contents = base64.b64decode(b64_contents)
-        file_io = StringIO.StringIO(file_contents)
+        file_io = BytesIO(file_contents)
         self.luv_image = imread(file_io)
         self.set_images(self.luv_image)
     

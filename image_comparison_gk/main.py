@@ -11,8 +11,11 @@ from __future__ import (print_function, division, absolute_import, with_statemen
 
 import os
 import base64
+from threading import Thread
+from functools import partial
 from six.moves.urllib.request import urlopen
 from six import BytesIO
+from time import sleep
 
 script_dir = os.path.abspath(os.path.dirname(__file__))
 
@@ -27,11 +30,14 @@ import astropy.units as u
 import numpy as np
 from scipy.ndimage import imread
 from skimage.transform import rescale as skrescale
+from astropy.io import fits
 
 from syotools import cdbs
 from syotools.interface import SYOTool
 from syotools.models import Telescope, Camera
 from syotools.utils import pre_encode#, pre_decode
+
+from tornado import gen
 
 from numba import njit
 
@@ -148,27 +154,61 @@ class ImageComparison(SYOTool):
         self.format_string = interface_format
         self.interface_file = os.path.join(script_dir, "interface.yaml")
         
+        thinker = self.read_image_from_file(os.path.join(script_dir, "LUVOIR_Thinker.jpeg"))
+        self.placeholder_image = self.correct_image(thinker)
+        
         self.upload_js = upload_js
     
     def tool_postinit(self):
         self.image_select(None, None, None)
     
     def image_select(self, attr, old, new):
+        self.placeholder_images()
         imsel = self.refs["image_select"].value
         self.default_images(imsel[:3])
     
     def aperture_update(self, attr, old, new):
+        self.placeholder_images()
         self.aperture = pre_encode(new["value"][0] * u.m)
         self.telescope.aperture = self.aperture
-        self.set_images(self.luv_image)
+        self.update_thread()
     
-    def set_images(self, l_im):
-        luv_img = np.flipud(self.convert_rgba(l_im))
+    @gen.coroutine
+    def set_images(self, l_im, h_im):
+        luv_img = self.correct_image(l_im)
+        hst_img = self.correct_image(h_im)
         self.refs["luvoir_source"].data.update(image=[luv_img])
-        h_im = self.create_hst_image(l_im)
-        hst_img = np.flipud(self.convert_rgba(h_im))
         self.refs["hubble_source"].data.update(image=[hst_img])
+        self.refs["ap_slider"].disabled = False
         
+    def correct_image(self, img):
+        #three-step process:
+        #1. pad to square
+        ny, nx, *nz = img.shape
+        if ny > nx:
+            out_img = np.zeros([ny, ny] + nz, dtype=img.dtype)
+            dx = (ny - nx) // 2
+            out_img[:, dx:dx+nx] = img
+        else:
+            out_img = np.zeros([nx, nx] + nz, dtype=img.dtype)
+            dy = (nx - ny) // 2
+            out_img[dy:dy+ny] = img
+        
+        #2. convert rgba images to the correct format
+        out_img = self.convert_rgba(out_img)
+        
+        #3. vertical flip
+        out_img = np.flipud(out_img)
+        
+        return out_img
+            
+        
+    def placeholder_images(self):
+        #return #currently broked
+        print("placeholder")
+        self.refs["luvoir_source"].data.update(image=[self.placeholder_image])
+        self.refs["hubble_source"].data.update(image=[self.placeholder_image])
+    
     @staticmethod
     def convert_rgba(img):
         if img.ndim > 2: # could also be img.dtype == np.uint8
@@ -188,26 +228,35 @@ class ImageComparison(SYOTool):
         return img
     
     def default_images(self, key):
+        self.placeholder_images()
         im1, im2 = builtin_images[key]
         f1 = os.path.join(script_dir, "..", "data", im1)
-        #f2 = os.path.join(script_dir, "..", "data", im2)
         self.luv_image = self.read_image_from_file(f1)
-        #hst_image = self.read_image_from_file(f2)
-        self.set_images(self.luv_image)
+        self.update_thread()
+        
+    def update_thread(self):
+        self.refs["ap_slider"].disabled = True
+        img_update = Thread(target=self.create_hst_image)
+        img_update.start()
         
     def upload(self, attr, old, new):
+        self.placeholder_images()
         file_source = self.refs["upload_source"]
-        print('filename:', file_source.data['file_name'])
+        fn = file_source.data['file_name'][0]
+        print('filename:', fn)
         raw_contents = file_source.data['file_contents'][0]
         # remove the prefix that JS adds  
         prefix, b64_contents = raw_contents.split(",", 1)
         file_contents = base64.b64decode(b64_contents)
         file_io = BytesIO(file_contents)
-        self.luv_image = imread(file_io)
-        self.set_images(self.luv_image)
+        if fn.endswith(".fits"):
+            self.luv_image = fits.getdata(file_io)
+        else:
+            self.luv_image = imread(file_io)
+        self.update_thread()
     
-    def create_hst_image(self, base_image):
-        self.refs["ap_slider"].disabled = True
+    def create_hst_image(self):
+        base_image = self.luv_image
         print("Aperture: {}".format(self.telescope.recover("aperture")))
         ang_fwhm, pixscale, wave = self.camera.recover("fwhm_psf", 
                                                        "pixel_size", 
@@ -242,10 +291,11 @@ class ImageComparison(SYOTool):
             out_image = blur(base_image, fwhm)
             out_image = skrescale(out_image, resize_factor, anti_aliasing=False,
                                   multichannel=False, preserve_range=True)
+            
+        out_image = out_image.astype(base_image.dtype)
         
         if self.verbose:
             print("done")
-        self.refs["ap_slider"].disabled = False
-        return out_image.astype(np.uint8)
+        self.document.add_next_tick_callback(partial(self.set_images, base_image, out_image))
     
 ImageComparison()

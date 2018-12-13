@@ -48,6 +48,8 @@ help_text = """
 
       <div class="container"> 
         <div class="col-lg-6">
+         <p> NOTE: The HDI QE estimates were changed on Dec 13, 2018 in response to new design information. The impact on S/N per time is about 10% but you may want to consider re-doing previous calculations 
+			if that level of precision matters to you. 
          <p>This is the basic ETC for photometry in multiband images. Choose your telescope aperture, exposure time, and magnitude normalization. The normalization is done in the V band (550 nm). 
         <p> Given an aperture and magnitude, choose the exposure time that reaches your desired S/N.  
         <p>To obtain limiting magnitudes given exposure time, set that time and then tune the magnitude to reach your desired limiting S/N.</p>
@@ -93,8 +95,8 @@ class HDI_ETC(SYOTool):
     #must include this to set defaults before the interface is constructed
     tool_defaults = {'exptime': pre_encode(1.0 * u.hour),
                      'snratio': pre_encode(30.0 * u.electron**0.5),
-                     'renorm_magnitude': pre_encode(30.0 * u.mag('AB')),
-                     'aperture': pre_encode(12.0 * u.m),
+                     'renorm_magnitude': pre_encode(31.0 * u.mag('AB')),
+                     'aperture': pre_encode(15.0 * u.m),
                      'spectrum_type': 'fab'}
     
     def tool_preinit(self):

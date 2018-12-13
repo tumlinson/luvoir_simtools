@@ -25,7 +25,7 @@
 - !Slider: &ap_slider
     ref: "ap_slider"
     title: "Aperture (meters)"
-    value: 12.
+    value: 15.
     range: !!python/tuple [2.0, 20.0, 1.0]
     tags: [4, 5, 6, 6]
     callback: *callback
@@ -38,7 +38,7 @@
 - !Slider: &mag_slider
     ref: "mag_slider"
     title: "V Magnitude (AB)"
-    value: 30.0
+    value: 31.0
     range: !!python/tuple [20.0, 35.0, 0.1]
     callback: *callback
 - !Slider: &snr_slider

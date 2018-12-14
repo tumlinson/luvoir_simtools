@@ -1,5 +1,7 @@
+
+from __future__ import print_function 
 import imp, sys
-from types import ModuleType, FunctionType, StringType
+from types import ModuleType, FunctionType # , StringType
 import os
 
 __all__ = ['Input']
@@ -18,7 +20,7 @@ class Input(object):
         if (input_type == 'telescope') or (input_type == 'planet') or (input_type == 'star'):
             pass
         else:
-            print "Error: unrecognized input_type. Please use 'telescope', 'planet', or 'star'."
+            print("Error: unrecognized input_type. Please use 'telescope', 'planet', or 'star'.") 
             return
 
         try:

@@ -9,6 +9,7 @@
 ################################################
 
 # Import some standard python packages
+from __future__ import print_function
 
 import numpy as np
 from astropy.io import fits, ascii 
@@ -29,7 +30,7 @@ from bokeh.layouts import column, row, WidgetBox
 from bokeh.models.widgets import Slider, Panel, Tabs, Div, TextInput, RadioButtonGroup, Select, RadioButtonGroup
 from bokeh.io import curdoc, output_file, show
 from bokeh.models.callbacks import CustomJS
-from bokeh.embed import components, autoload_server
+
 
 import coronagraph as cg  # Import coronagraph model
 
@@ -62,6 +63,7 @@ Rp    = 1.0     # Earth radii - SLIDER
 r     = 1.0     # semi-major axis (AU) - SLIDER 
 
 # Stellar params
+global Teff
 Teff  = 5780.   # Sun-like Teff (K)
 Rs    = 1.      # star radius in solar radii
 
@@ -89,10 +91,9 @@ o_throughput_vis = 0.32
 o_throughput_nir = 0.6
 
 # Template
-template = ''
 global template
+template = ''
 global comparison
-global Teff
 global Ts
 global stargalaxy
 global spec
@@ -141,7 +142,7 @@ lam, dlam, A, q, Cratio, cp, csp, cz, cez, cD, cR, cth, DtSNR = \
     cg.count_rates(Ahr, lamhr, solhr, alpha,  Rp, Teff, Rs, r, d, Nez, lammin=lammin, lammax=lammax, Res=Res, Res_UV = Res_UV, Res_NIR = Res_NIR, diam=diam, Tsys=Tsys, IWA=iwa, OWA=owa,De_UV=De_UV, De_VIS=De_VIS, De_NIR=De_NIR, Re_UV=Re_UV, Re_VIS=Re_VIS, Re_NIR=Re_NIR, Dtmax=Dtmax, GROUND=False, THERMAL=True,  wantsnr=wantsnr, gain=gain, Tput=throughput_vis,  Tput_uv = throughput_uv, Tput_nir = throughput_nir, o_Tput_uv = o_throughput_uv, o_Tput_vis = o_throughput_vis, o_Tput_nir = o_throughput_nir)
 #arg
 
-print 'ran coronagraph model' 
+print('ran coronagraph model')
 
 
 # Calculate background photon count rates
@@ -161,10 +162,10 @@ lastCratio = Cratio
 snr_ymax_ = np.max(Cratio)*1e9
 yrange=[snr_ymax_]
 snr_ymin_ = np.min(Cratio)*1e9
-lamC = lastlam * 0.
-CratioC = lastCratio * 0.
 global lamC
+lamC = lastlam * 0.
 global CratioC
+CratioC = lastCratio * 0.
 
 #blank bandpasses
 x_uv = [0,0,0,0,0,0]
@@ -480,8 +481,8 @@ link_box  = Div(text=""" """, width=300, height=15)
 
 def i_clicked_a_button(new): 
     filename=text_input.value + {0:'.txt', 1:'.fits'}[format_button_group.active]
-    print "Your format is   ", format_button_group.active, {0:'txt', 1:'fits'}[format_button_group.active] 
-    print "Your filename is: ", filename 
+    print("Your format is   ", format_button_group.active, {0:'txt', 1:'fits'}[format_button_group.active]) 
+    print("Your filename is: ", filename)
     fileformat={0:'txt', 1:'fits'}[format_button_group.active]
     link_box.text = """Working""" 
  
@@ -493,7 +494,7 @@ def i_clicked_a_button(new):
  
     os.system('gzip -f ' +filename) 
     os.system('cp -rp '+filename+'.gz /home/jtastro/jt-astro.science/outputs') 
-    print    """Your file is <a href='http://jt-astro.science/outputs/"""+filename+""".gz'>"""+filename+""".gz</a>. """
+    print(  """Your file is <a href='http://jt-astro.science/outputs/"""+filename+""".gz'>"""+filename+""".gz</a>. """) 
 
     link_box.text = """Your file is <a href='http://jt-astro.science/outputs/"""+filename+""".gz'>"""+filename+""".gz</a>. """
 
@@ -503,11 +504,13 @@ def i_clicked_a_button(new):
 #########################################
 
 def update_data(attrname, old, new):
-    print 'Updating model for exptime = ', exptime.value, ' for planet with R = ', radius.value, ' at distance ', distance.value, ' parsec '
-    print '                   exozodi = ', exozodi.value, 'diameter (m) = ', diameter.value, 'resolution = ', resolution.value, 'resolution uv =', resolution_UV.value, 'resolution nir =', resolution_NIR.value,
-    print '                   temperature (K) = ', temperature.value, 'IWA = ', inner.value, 'OWA = ', outer.value
-    print 'You have chosen planet spectrum: ', template.value
-    print 'You have chosen comparison spectrum: ', comparison.value
+    print('Updating model for exptime = ', exptime.value, ' for planet with R = ', radius.value, ' at distance ', distance.value, ' parsec ') 
+    print('                   exozodi = ', exozodi.value, 'diameter (m) = ', diameter.value, 'resolution = ', resolution.value, 'resolution uv =', resolution_UV.value, 'resolution nir =', resolution_NIR.value)
+    print('                   temperature (K) = ', temperature.value, 'IWA = ', inner.value, 'OWA = ', outer.value)
+    print('You have chosen planet spectrum: ', template.value)
+    print('You have chosen comparison spectrum: ', comparison.value)
+    global lasttemplate
+    global lastcomparison
     try:
        lasttemplate
     except NameError:
@@ -516,7 +519,6 @@ def update_data(attrname, old, new):
        lastcomparison
     except NameError:
        lastcomparison = 'none' #default first spectrum
-    global lasttemplate
     global Ahr_
     global lamhr_
     global solhr_
@@ -529,7 +531,6 @@ def update_data(attrname, old, new):
     global Rs_c
     global radius_c
     global semimajor_c
-    global lastcomparison
     global contrast_
     global LUVOIR_A
     stargalaxy = 'false'
@@ -578,8 +579,10 @@ def update_data(attrname, old, new):
        throughput.value = 0.1
        exptime.value = 75.
        
+       global planet_label
+
 # Read-in new spectrum file only if changed
-    print 'lasttemplate is ', lasttemplate
+    print('lasttemplate is ', lasttemplate)
     if template.value != lasttemplate:
        if template.value == 'Earth':
           fn = 'earth_quadrature_radiance_refl.dat'
@@ -631,7 +634,7 @@ def update_data(attrname, old, new):
        if template.value =='Hazy Archean Earth':
           fn = 'Hazy_ArcheanEarth_geo_albedo.txt'
           fn = os.path.join(relpath, fn)
-          print fn
+          print(fn)
           model = np.loadtxt(fn, skiprows=8)
           lamhr_ = model[:,0]
           Ahr_ = model[:,1]
@@ -646,7 +649,7 @@ def update_data(attrname, old, new):
        if template.value =='1% PAL O2 Proterozoic Earth':
           fn = 'proterozoic_hi_o2_geo_albedo.txt'
           fn = os.path.join(relpath, fn)
-          print fn
+          print(fn)
           model = np.loadtxt(fn, skiprows=0)
           lamhr_ = model[:,0]
           Ahr_ = model[:,1]
@@ -1039,7 +1042,6 @@ def update_data(attrname, old, new):
           
        global lammin
        global lammax
-       global planet_label
        lammin=min(lamhr_)
        if lammin <= 0.2:
           lammin = 0.2
@@ -1047,7 +1049,7 @@ def update_data(attrname, old, new):
           
        
 
-    print "ground based = ", ground_based.value
+    print("ground based = ", ground_based.value) 
     if ground_based.value == "No":
        ground_based_ = False
     if ground_based.value == "Yes":
@@ -1057,7 +1059,7 @@ def update_data(attrname, old, new):
     lam, dlam, A, q, Cratio, cp, csp, cz, cez, cD, cR, cth, DtSNR = \
      cg.count_rates(Ahr_, lamhr_, solhr_, alpha,  radius.value, Teff_, Rs_, semimajor.value, distance.value, exozodi.value, diam=diameter.value, collect_area=collect_area, Res=resolution.value, Res_UV = resolution_UV.value, Res_NIR = resolution_NIR.value, Tsys=temperature.value, IWA=inner.value, OWA=outer.value, lammin=lammin, lammax=lammax, De_UV=darkcurrent_uv.value, De_VIS=darkcurrent_vis.value, De_NIR=darkcurrent_nir.value, Re_UV=readnoise_uv.value, Re_VIS=readnoise_vis.value, Re_NIR=readnoise_nir.value, Dtmax = dtmax.value, THERMAL=True, GROUND=ground_based_, wantsnr=want_snr.value, ntherm=ntherm.value, gain=gain.value, Tput=throughput_vis.value,  Tput_uv = throughput_uv.value, Tput_nir = throughput_nir.value, o_Tput_uv = o_throughput_uv.value, o_Tput_vis = o_throughput_vis.value, o_Tput_nir = o_throughput_nir.value, C=contrast_, LUVOIR_A=LUVOIR_A)
 
-    print 'ran coronagraph model'
+    print('ran coronagraph model') 
     # Calculate background photon count rates
     cb = (cz + cez + csp + cD + cR + cth)
     # Convert hours to seconds
@@ -1068,10 +1070,10 @@ def update_data(attrname, old, new):
     sig= Cratio/SNR
     # Add gaussian noise to flux ratio
     spec = Cratio + np.random.randn(len(Cratio))*sig
-    lastlam = lam
-    lastCratio = Cratio
     global lastlam
+    lastlam = lam
     global lastCratio
+    lastCratio = Cratio
 
     #UPDATE DATA
     planet.data = dict(lam=lam, cratio=Cratio*1e9, spec=spec*1e9, downerr=(spec-sig)*1e9, uperr=(spec+sig)*1e9, cz=cz*Dts, cez=cez*Dts, csp=csp*Dts, cD=cD*Dts, cR=cR*Dts, cth=cth*Dts, cp=cp*Dts, planetrate=cp, czrate=cz, cezrate=cez, csprate=csp, cDrate=cD, cRrate=cR, castro=cp+cz+cez+csp, ctherm=cth, ctotal=cp+cz+cez+csp+cD+cR+cth)
@@ -1093,7 +1095,7 @@ def update_data(attrname, old, new):
        vis_bandpasses.data = dict(x=x_vis, y=y_vis, width=x_viswidth)
        nir_bandpasses.data = dict(x=x_nir, y=y_nir, width=x_nirwidth)
 
-       print 'no bandpasses'
+       print('no bandpasses') 
   
     if bandpass.value == "Yes":
        x_vis1 = [0.41, 0.44, 0.525, 0.565, 0.675]
@@ -1125,7 +1127,7 @@ def update_data(attrname, old, new):
        nir_bandpasses.data = dict(x=x_nir, y=y_nir, width=x_nirwidth)
 
 
-       print 'yes bandpasses'
+       print('yes bandpasses') 
       # print x_uvwidth
 
     #pdb.set_trace()
@@ -1136,7 +1138,7 @@ def update_data(attrname, old, new):
     if 'galaxy' in comparison.value: teststar = True
     if 'brown dwarf' in comparison.value: teststar = True
 
-    print 'teststar is', teststar
+    print('teststar is', teststar) 
         
     #IF YOU WANT COMPARISON SPECTRUM:
     if comparison.value != lastcomparison or teststar:
@@ -1834,20 +1836,20 @@ def update_data(attrname, old, new):
          lammin_c = 0.2
       lammax_c=3.
               
-    print 'stargalaxy is ', stargalaxy
-    print 'teststar is', teststar
+    print('stargalaxy is ', stargalaxy) 
+    print('teststar is', teststar) 
 #    import pdb; pdb.set_trace()
     if comparison.value != 'none' and teststar == False:
-      print 'comparison.value =', comparison.value
-      print  'running comparison spectrum'
+      print('comparison.value =', comparison.value)
+      print('running comparison spectrum') 
       try:
          distance_c
       except NameError:
-         print "running comparison"
+         print('running comparison') 
          lamC, dlamC, AC, qC, CratioC, cpC, cspC, czC, cezC, cDC, cRC, cthC, DtSNRC = \
          cg.count_rates(Ahr_c, lamhr_c, solhr_c, alpha,  radius_c, Teff_c, Rs_c, semimajor_c, distance.value, exozodi.value, diam=diameter.value, collect_area=collect_area, Res=resolution.value, Res_UV = resolution_UV.value, Res_NIR = resolution_NIR.value,Tsys=temperature.value, IWA=inner.value, OWA=outer.value, lammin=lammin, lammax=lammax,  De_UV=darkcurrent_uv.value, De_VIS=darkcurrent_vis.value, De_NIR=darkcurrent_nir.value, Re_UV=readnoise_uv.value, Re_VIS=readnoise_vis.value, Re_NIR=readnoise_nir.value, Dtmax = dtmax.value, THERMAL=True, GROUND=ground_based_, wantsnr=want_snr.value, ntherm=ntherm.value, gain = gain.value,  Tput=throughput_vis.value,  Tput_uv = throughput_uv.value, Tput_nir = throughput_nir.value, o_Tput_uv = o_throughput_uv.value, o_Tput_vis = o_throughput_vis.value, o_Tput_nir = o_throughput_nir.value,  C=contrast_, LUVOIR_A=LUVOIR_A)
       else:
-         print "running comparison spectrum"
+         print('running comparison spectrum') 
          lamC, dlamC, AC, qC, CratioC, cpC, cspC, czC, cezC, cDC, cRC, cthC, DtSNRC = \
           cg.count_rates(Ahr_c, lamhr_c, solhr_c, alpha, radius_c, Teff_c, Rs_c, semimajor_c, distance_c, exozodi.value, diam=diameter.value, collect_area=collect_area, Res=resolution.value, Res_UV = resolution_UV.value, Res_NIR = resolution_NIR.value,Tsys=temperature.value, IWA=inner.value, OWA=outer.value, lammin=lammin, lammax=lammax, De_UV=darkcurrent_uv.value, De_VIS=darkcurrent_vis.value, De_NIR=darkcurrent_nir.value, Re_UV=readnoise_uv.value, Re_VIS=readnoise_vis.value, Re_NIR=readnoise_nir.value, Dtmax = dtmax.value, THERMAL=True, GROUND=ground_based_, wantsnr=want_snr.value, ntherm=ntherm.value, gain = gain.value, Tput=throughput_vis.value,  Tput_uv = throughput_uv.value, Tput_nir = throughput_nir.value, o_Tput_uv = o_throughput_uv.value, o_Tput_vis = o_throughput_vis.value, o_Tput_nir = o_throughput_nir.value, C=contrast_, LUVOIR_A=LUVOIR_A)
 
@@ -1889,8 +1891,8 @@ def update_data(attrname, old, new):
     #CratioC_ok = CratioC[iii]
     Cratio_ok = Cratio[~np.isnan(Cratio)]
     CratioC_ok = CratioC[~np.isnan(CratioC)]
-    print 'snr_ymax_',  np.max([np.max(Cratio_ok)*1e9, np.max(CratioC_ok)*1e9])
-    print 'snr_ymin_',  np.min([np.min(Cratio_ok)*1e9, np.min(CratioC_ok)*1e9])
+    print('snr_ymax_',  np.max([np.max(Cratio_ok)*1e9, np.max(CratioC_ok)*1e9])) 
+    print('snr_ymin_',  np.min([np.min(Cratio_ok)*1e9, np.min(CratioC_ok)*1e9])) 
     snr_ymax_ = np.max([np.max(Cratio_ok)*1e9, np.max(CratioC_ok)*1e9])
     snr_ymin_ = np.min([np.min(Cratio_ok)*1e9, np.min(CratioC_ok)*1e9])
     snr_plot.y_range.start = snr_ymin_*0.9

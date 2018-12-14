@@ -65,7 +65,7 @@ def planetzoo_observation(name='earth', telescope=Telescope(), planet=Planet(), 
     try:
         l = os.listdir(planetdir)
     except OSError:
-        print "Error in planetzoo_observation(): planetdir does not exist in current location. \nSet planetdir='location/of/planets/'"
+        print("Error in planetzoo_observation(): planetdir does not exist in current location. \nSet planetdir='location/of/planets/'") 
         return None
 
     whichplanet = name
@@ -236,7 +236,7 @@ def planetzoo_observation(name='earth', telescope=Telescope(), planet=Planet(), 
         data_tag = 'observed_'+tag+'.txt'
         y_sav = np.array([lam,spec,sig])
         np.savetxt(data_tag, y_sav.T)
-        print 'Saved: '+data_tag
+        print('Saved: '+data_tag)
 
     # Return Synthetic data and high-res spec
     return lam, spec, sig
@@ -316,7 +316,7 @@ def generate_observation(wlhr, Ahr, solhr, itime, telescope, planet, star,
         data_tag = 'observed_'+tag+'.txt'
         y_sav = np.array([lam,spec,sig])
         np.savetxt(data_tag, y_sav.T)
-        print 'Saved: '+data_tag
+        print('Saved: '+data_tag)
 
     # Return Synthetic data and high-res spec
 
@@ -372,9 +372,9 @@ def smart_observation(radfile, itime, telescope, planet, star,
     try:
         import readsmart as rs
     except ImportError:
-        print "Module 'readsmart' not found. Please install on your local machine \
+        print("""Module 'readsmart' not found. Please install on your local machine \
         to proceed with this function. The source can be found at: \
-        https://github.com/jlustigy/readsmart"
+        https://github.com/jlustigy/readsmart""") 
         return None, None, None, None, None
 
     # Read-in .rad file
@@ -410,7 +410,7 @@ def smart_observation(radfile, itime, telescope, planet, star,
         data_tag = 'observed_smart_'+tag+'.txt'
         y_sav = np.array([lam,spec,sig])
         np.savetxt(data_tag, y_sav.T)
-        print 'Saved: '+data_tag
+        print('Saved: '+data_tag) 
 
     # Return Synthetic data and high-res spec
 
@@ -469,7 +469,7 @@ def plot_spec():
     # Save plot if saveplot==True
     if saveplot:
         fig.savefig(plot_tag)
-        print 'Saved: '+plot_tag
+        print('Saved: '+plot_tag) 
     fig.show()
 
 def plot_coronagraph_spectrum(wl, ofrat, sig, itime, d, ref_lam, SNR,

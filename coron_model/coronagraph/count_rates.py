@@ -210,7 +210,7 @@ def count_rates(Ahr, lamhr, solhr,
         IMAGE = False
         COMPUTE_LAM = True
     else:
-        print "Invalid telescope observing mode. Select 'IFS', or 'Imaging'."
+        print("Invalid telescope observing mode. Select 'IFS', or 'Imaging'.") 
         sys.exit()
 
     # fraction of planetary signal in Airy pattern
@@ -230,14 +230,14 @@ def count_rates(Ahr, lamhr, solhr,
         pass
     else:
         # Throw error
-        print "Error in make_noise: Not computing wavelength grid or providing filters!"
+        print("Error in make_noise: Not computing wavelength grid or providing filters!") 
         return None
 
     # Set Quantum Efficiency
     q = set_quantum_efficiency(lam, qe, NIR=NIR)
 
     # Set Dark current and Read noise
-    print De_UV, De_VIS, De_NIR
+    print(De_UV, De_VIS, De_NIR) 
     De = set_dark_current(lam, De_UV, De_VIS, De_NIR, lammax, Tdet, NIR=NIR, lammin_uv=lammin_uv, lammin_vis=lammin_vis, lammin_nir=lammin_nir)
     Re = set_read_noise(lam, Re_UV, Re_VIS, Re_NIR, NIR=NIR, lammin_uv=lammin_uv, lammin_vis=lammin_vis, lammin_nir=lammin_nir)
 
@@ -348,6 +348,6 @@ def count_rates(Ahr, lamhr, solhr,
         data_tag = writeoutpath+'output.txt'
         y_sav = np.array([lam,Cratio,A,q,cp,csp,cz,cez,cD,cR,cth,DtSNR])
         np.savetxt(data_tag, y_sav.T)
-        print 'Saved: ' + data_tag
+        print('Saved: ' + data_tag)
 
     return lam, dlam, A, q, Cratio, cp, csp, cz, cez, cD, cR, cth, DtSNR

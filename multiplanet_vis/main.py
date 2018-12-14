@@ -22,7 +22,7 @@ cwd = os.getenv('LUVOIR_SIMTOOLS_DIR')
 
 yields = gy.get_yield('12.0', '-10') # this is the starting yield set, 12 m with contrast = 1e-10, returns a dictionary 
 star_points = ColumnDataSource(data = yields)  
-star_points.data['x'][[star_points.data['color'] == 'black']] += 2000. 	# this line shifts the black points with no yield off the plot 
+#star_points.data['x'][[star_points.data['color'] == 'black']] += 2000. 	# this line shifts the black points with no yield off the plot 
 
 # set up the main plot and do its tweaks 
 bullseye_plot = Figure(plot_height=800, plot_width=800, x_axis_type = None, y_axis_type = None,

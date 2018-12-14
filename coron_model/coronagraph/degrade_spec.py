@@ -62,11 +62,9 @@ def degrade_spec(specHR, lamHR, lamLR, dlam=None):
             # Define short and long wavelength edges of the
             # low res grid, special cases at the edge of the grid
             if i > 0 and i < Nspec-1:
-                #print "loop1"
                 lamS = 0.5*(lamLO[i-1] + lamLO[i])
                 lamL = 0.5*(lamLO[i+1] + lamLO[i])
             elif i == 0:
-                #print "loop2"
                 lamS = lamLO[i] - 0.5*(lamLO[i+1] - lamLO[i])
                 lamL = 0.5*(lamLO[i+1] + lamLO[i])
             else:
@@ -92,7 +90,7 @@ def degrade_spec(specHR, lamHR, lamLR, dlam=None):
         # spectrum over the low-res element, distributing the integrated
         # energey into the low-res element
         if len(lamHI[iss]) == 0:
-            print "No HiRes elements in Low Res bin!"
+            print("No HiRes elements in Low Res bin!") 
             import sys; sys.exit()
         elif len(lamHI[iss]) == 1:
             specs = spec[iss]

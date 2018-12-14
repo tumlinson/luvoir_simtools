@@ -1,6 +1,6 @@
 import numpy as np
-from make_noise import make_noise
-from teleplanstar import Star
+from .make_noise import make_noise
+from .teleplanstar import Star
 import pdb
 
 __all__ = ['call_noise']

@@ -43,7 +43,7 @@ def Fstar(lam, Teff, Rs, d, AU=False):
     Fs    = c1/( (lam**5.)*(np.exp(power)-1.) ) * 1.e-6
     if d != 0: Fs_   =  Fs*(Rs*Rsun/d/ds)**2.
     if d == 0: Fs_   =  Fs*(Rs*Rsun/ds)**2.
-    print "Fs_ = ", Fs_
+    print("Fs_ = ", Fs_) 
     return Fs_
 
 def Fplan(A, Phi, Fstar, Rp, d, AU=False):
@@ -646,7 +646,7 @@ def construct_lam(lammin, lammax, Res, UV=False, NIR=False, lammin_uv = 0.2, lam
 
     # if want separate UV resolution
     if UV:
-        print 'separate UV channel'
+        print('separate UV channel') 
         lam_uv  = lammin_uv #in [um]
         Nlam = 1
         while (lam_uv < lammin_vis):
@@ -675,7 +675,7 @@ def construct_lam(lammin, lammax, Res, UV=False, NIR=False, lammin_uv = 0.2, lam
         
     # if want separate NIR resolution
     if NIR:
-        print 'separate NIR channel'
+        print('separate NIR channel') 
         lam_nir = lammin_nir
         Nlam = 1
         while (lam_nir >= lammin_nir) & (lam_nir < lammax):
@@ -773,9 +773,9 @@ def set_dark_current(lam, De_UV, De_VIS, De_NIR, lammax, Tdet, NIR=False, De_nir
     De[iUV] = De_UV
     De[iVIS] = De_VIS
     De[iNIR] = De_NIR
-    print De_UV, De_VIS, De_NIR
-    print 'De is'
-    print De
+    print(De_UV, De_VIS, De_NIR) 
+    print('De is') 
+    print(De) 
     
   #  if NIR:
    #     iNIR  = (lam > 1.0)
@@ -917,18 +917,18 @@ def set_throughput(lam, Tput, Tput_uv, Tput_nir, o_Tput_vis, o_Tput_uv, o_Tput_n
     if (True if True in iIWA else False):
         T[iIWA] = 0. #zero transmission for points inside IWA have no throughput
         if ~SILENT:
-            print 'WARNING: portions of spectrum inside IWA'
+            print('WARNING: portions of spectrum inside IWA') 
     if FIX_OWA:
         if ( sep > OWA*lammin/diam/1.e6 ):
             T[:] = 0. #planet outside OWA, where there is no throughput
             if ~SILENT:
-                print 'WARNING: planet outside fixed OWA'
+                print('WARNING: planet outside fixed OWA') 
     else:
         iOWA = ( sep > OWA*lam/diam/1.e6 )
         if (True if True in iOWA else False):
             T[iOWA] = 0. #points outside OWA have no throughput
             if ~SILENT:
-                print 'WARNING: portions of spectrum outside OWA'
+                print('WARNING: portions of spectrum outside OWA') 
     #throughputs
     Tuv = Tput_uv * o_Tput_uv
     Tvis = Tput * o_Tput_vis
@@ -1011,7 +1011,7 @@ def set_throughput(lam, Tput, Tput_uv, Tput_nir, o_Tput_vis, o_Tput_uv, o_Tput_n
         T[iVIS] = T[iVIS] * TscaleVIS
         T[iNIR] = T[iNIR] * TscaleNIR
     """        
-    print 'T is:', T
+    print('T is:', T) 
 
     if ssIWArad != -1:
         if sep < ssIWArad:

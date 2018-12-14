@@ -168,7 +168,7 @@ def count_rates_onirs(Fohr, lamhr,
         IMAGE = False
         COMPUTE_LAM = True
     else:
-        print "Invalid telescope observing mode. Select 'IFS', or 'Imaging'."
+        print("Invalid telescope observing mode. Select 'IFS', or 'Imaging'.") 
         sys.exit()
 
     # fraction of planetary signal in Airy pattern
@@ -182,7 +182,7 @@ def count_rates_onirs(Fohr, lamhr,
         pass
     else:
         # Throw error
-        print "Error in make_noise: Not computing wavelength grid or providing filters!"
+        print("Error in make_noise: Not computing wavelength grid or providing filters!") 
         return None
 
     # Set Quantum Efficiency
@@ -278,5 +278,5 @@ def count_rates_onirs(Fohr, lamhr,
 
     # Exposure time to SNR
     DtSNR = exptime_element(lam, co, cnoise, wantsnr)
-    print Fo
+    print(Fo) 
     return lam, dlam, Fo, q, co, cz, cD, cR, cth, DtSNR

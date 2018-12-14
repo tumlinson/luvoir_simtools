@@ -92,7 +92,7 @@ class Wheel(object):
         tdict = sorted(self.__dict__.iteritems(), key=lambda x: x[1].bandcenter)
         for attr, value in tdict:
             string.append(attr)
-        print string 
+        print(string) 
         return ''#str(string)    
 
 

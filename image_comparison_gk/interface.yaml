@@ -26,13 +26,13 @@
     ref: "ap_slider"
     title: "Telescope aperture (meters)"
     value: 12.
-    range: !!python/tuple [10.0, 20.0, 1.0]
+    range: !!python/tuple [4.0, 20.0, 1.0]
     tags: [4, 5, 6, 6]
     callback: *aper_callback
 - !Select: &image_select
     ref: "image_select"
-    title: "Image to See"
-    value: "Pluto"
+    title: "Image"
+    value: "Deep Field"
     options: !self.image_options
     width: 200
     on_change: ['value', !self.image_select ]
@@ -40,6 +40,7 @@
 - !Button: &load_button
     ref: "load_button"
     label: "Choose File"
+    width: 200
     button_type: "success"
     callback: *upload_callback
 - !Div: &load_message
@@ -84,13 +85,22 @@
         - {'kind': 'image', 'image': 'image', 'source': *hubble_source}
 #Document structure
 - !Document:
-    - !column:
-        - *image_select
-        - !Div:
-            text: "Or, upload your own image:"
-        - *load_button
-        - *load_message
-        - *ap_slider
-        - !row:
-            - *luvoir_figure
-            - *hubble_figure
+    - !row:
+        - *luvoir_figure
+        - *hubble_figure
+        - !Tabs: 
+            width: 250 
+            tabs: 
+            - !Panel:
+                title: 'Image'
+                child:
+                    !widgetbox:
+                        children:
+                            - *image_select 
+                            - *load_button 
+            - !Panel:
+                title: 'Aperture'
+                child:
+                    !widgetbox:
+                        children:
+                            - *ap_slider

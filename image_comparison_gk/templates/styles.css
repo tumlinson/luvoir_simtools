@@ -11,7 +11,6 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
 body {
   /*background-color: #000; */ 
   background-color: #1D1B4D; 
-  /* background-image: url(https://image.ibb.co/mPbF7k/background.png); */ 
   background-image: url(http://jt-astro.science/banner-luvoir1.png);
   background-position: top;
   background-repeat: repeat-x;
@@ -87,7 +86,7 @@ h6 {
 }
 .bk-root .bk-bs-nav-tabs> li {
   margin: 0 2px 0 0;
-  font-size:14px;
+  font-size:20px;
 }
 .bk-root .bk-bs-nav-tabs> li > a {
   border: 0;
@@ -128,7 +127,7 @@ h6 {
 }
 .bk-root .bk-slider-parent { 
   background-color: #FF0000;
-  font-size:14px;
+  font-size:20px;
   font-family: Helvetica; 
   color:#f00;
 }
@@ -191,6 +190,11 @@ h6 {
     color: #272727;
 }
 
+.bk-root .bk-bs-btn{
+color: #FFFFFF;
+background-color: #0748FF;
+border-color: #0748FF;
+}
 .bk-root .bk-bs-btn-success {
 color: #FFFFFF;
 background-color: #0748FF;

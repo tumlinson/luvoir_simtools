@@ -101,9 +101,11 @@ class POLLUX_ETC(SYOTool):
         self.spectrograph.add_exposure(self.exposure)
         
         #set interface variables
-        self.templates = ['flam', 'qso', 's99', 'o5v', 'g2v', 'g191b2b', 
-                          'gd71', 'gd153', 'ctts2', 'mdwarf', 'mdwarf2','gdwarf','orion', 'nodust',
-                          'ebv6', 'syfrt1','syfrt2','liner']
+        self.templates = ['o5v','hr1886','alplyr','alpcmi','g2v',
+                          'gamdra','mdwarf', 'mdwarf2','ctts2','g191b2b',
+                          'gd71', 'gd153','qso', 's99','orion', 'nodust',
+                          'ebv6', 'syfrt1','syfrt2','liner','flam']
+
         self.template_options = [SpectralLibrary[t] for t in self.templates]
         self.help_text = help_text
         self.gratings = self.spectrograph.modes
